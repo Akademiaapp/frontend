@@ -10,12 +10,12 @@
 <section>
 	<h1>
 		<span class="welcome">
-			Welcome to Academia
+			Welcome to Akademia
 		</span>
 	</h1>
 
 	<h2>
-		The only asignment editor you'll ever need
+		A new way of leaning, writing and remembering!
 	</h2>
 </section>
 
