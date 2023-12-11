@@ -1,11 +1,19 @@
 <script>
+	import Layout from '../+layout.svelte';
+	import { isThemeChecked } from '../store';
 	import Sidebar from './Sidebar.svelte';
 	export const prerender = false;
+
+	export let checked = false;
+
+	$: isThemeChecked.set(checked);
 </script>
 
 <div class="main">
 	<Sidebar></Sidebar>
-	<div class="editor"></div>
+	<div class="editor">
+		<input type="checkbox" bind:checked />
+	</div>
 </div>
 
 <style>

@@ -1,9 +1,15 @@
 <script>
+	import { isThemeChecked } from './store';
+
 	export const prerender = true;
 	export const ssr = false;
 
 	import './styles.css';
-	let themeName = `dark`;
+	export let themeName = `dark`;
+
+	isThemeChecked.subscribe((it) => {
+		themeName = it ? 'dark' : 'light';
+	});
 </script>
 
 <svelte:head>
