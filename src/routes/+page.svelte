@@ -1,5 +1,4 @@
 <script>
-
 </script>
 
 <svelte:head>
@@ -9,14 +8,13 @@
 
 <section>
 	<h1>
-		<span class="welcome">
-			Welcome to Akademia
-		</span>
+		<span class="welcome"> Welcome to Akademia </span>
 	</h1>
 
-	<h2>
-		A new way of leaning, writing and remembering!
-	</h2>
+	<h2>A new way of leaning, writing and remembering!</h2>
+	<a href="/workspace">
+		<button>Enter workspace</button>
+	</a>
 </section>
 
 <style>
@@ -30,6 +28,10 @@
 
 	h1 {
 		width: 100%;
+	}
+
+	button {
+		margin: 1rem;
 	}
 
 	.welcome {
