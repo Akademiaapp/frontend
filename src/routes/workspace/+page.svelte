@@ -12,6 +12,7 @@
 <div class="main">
 	<Sidebar></Sidebar>
 	<div class="editor">
+		dark theme:
 		<input type="checkbox" bind:checked />
 	</div>
 </div>
