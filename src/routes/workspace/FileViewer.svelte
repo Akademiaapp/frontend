@@ -25,7 +25,7 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		gap: 0.4rem;
+		gap: 0.1rem;
 		font-size: 1.1rem;
 		color: #676767;
 	}
