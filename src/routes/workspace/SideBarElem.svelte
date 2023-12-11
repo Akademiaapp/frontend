@@ -13,10 +13,11 @@
 	}
 
 	div:hover {
-		background-color: rgba(0, 0, 0, 0.1);
+		background-color: color-mix(in srgb, var(--color-text-0) 10%, transparent);
+
 	}
 
 	.active {
-		background-color: rgba(0, 0, 0, 0.05);
+		background-color: color-mix(in srgb, var(--color-text-0) 5%, transparent);
 	}
 </style>
