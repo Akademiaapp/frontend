@@ -1,6 +1,14 @@
 <script>
+	export const prerender = true;
+	export const ssr = false;
+
 	import './styles.css';
+	let themeName = `dark`;
 </script>
+
+<svelte:head>
+	<link rel="stylesheet" href="/themes/{themeName}.css" />
+</svelte:head>
 
 <div class="app">
 	<main>
