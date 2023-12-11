@@ -18,6 +18,10 @@
 	.sideBar {
 		background-color: var(--color-bg-1);
 		width: 300px;
+		resize: horizontal;
+		overflow: auto;
+		min-width: 200px;
+		max-width: 500px;
 	}
 
 	.editor {
