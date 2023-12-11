@@ -1,4 +1,5 @@
 <script>
+	import Tiptap from './Tiptap.svelte';
 	import Layout from '../+layout.svelte';
 	import { isThemeChecked } from '../store';
 	import Sidebar from './Sidebar.svelte';
@@ -14,6 +15,7 @@
 	<div class="editor">
 		dark theme:
 		<input type="checkbox" bind:checked />
+		<Tiptap></Tiptap>
 	</div>
 </div>
 

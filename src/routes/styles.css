@@ -28,14 +28,13 @@ a:hover {
 	text-decoration: underline;
 }
 
-h1 {
+/* h1 {
 	font-size: 2rem;
-	text-align: center;
 }
 
 h2 {
-	font-size: 1rem;
-}
+	font-size: 1.3rem;
+} */
 
 pre {
 	font-size: 16px;

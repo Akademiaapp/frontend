@@ -32,6 +32,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@tiptap/core": "^2.1.13",
+		"@tiptap/pm": "^2.1.13",
+		"@tiptap/starter-kit": "^2.1.13",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1"
 	}
 }
