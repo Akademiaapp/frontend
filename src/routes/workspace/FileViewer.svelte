@@ -1,7 +1,7 @@
 <script>
 	import File from './File.svelte';
 
-	export let files = ['Dansk', 'Matmatik', 'Fransk', 'Fysik/Kemi', 'Biologi'];
+	export let files = ['Dansk', 'Matematik', 'Fransk', 'Fysik/Kemi', 'Biologi'];
 
 	let activeFile = '';
 </script>
@@ -25,8 +25,8 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		gap: 0.1rem;
-		font-size: 1.1rem;
-		color: #676767;
+		gap: 0.2rem;
+		font-size: 1.05rem;
+		color: var(--color-text-2);
 	}
 </style>

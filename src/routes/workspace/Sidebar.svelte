@@ -9,7 +9,7 @@
 <style>
 	.sideBar {
 		background-color: var(--color-bg-1);
-		width: 300px;
+		width: 240px;
 		resize: horizontal;
 		overflow: auto;
 		min-width: 200px;

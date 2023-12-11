@@ -13,7 +13,7 @@
 
 <style>
 	.active {
-		color: black;
+		color: var(--color-text-0);
 	}
 
 	div {

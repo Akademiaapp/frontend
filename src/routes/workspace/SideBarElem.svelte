@@ -8,7 +8,7 @@
 
 <style>
 	div {
-		padding: 0.3rem 0.5rem;
+		padding: 0.25rem 0.5rem;
 		border-radius: 0.3rem;
 	}
 
