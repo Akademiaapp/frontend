@@ -2,12 +2,20 @@
 	import File from './File.svelte';
 
 	export let files = ['Dansk', 'Matmatik', 'Fransk', 'Fysik/Kemi', 'Biologi'];
+
+	let activeFile = '';
 </script>
 
 <div class="container">
 	{#each files as file}
 		<div>
-			<File name={file}></File>
+			<File
+				name={file}
+				onClick={() => {
+					activeFile = file;
+				}}
+				active={file == activeFile}
+			></File>
 		</div>
 		<!-- content here -->
 	{/each}
