@@ -1,9 +1,10 @@
 <script>
+	import Sidebar from './Sidebar.svelte';
 	export const prerender = false;
 </script>
 
 <div class="main">
-	<nav class="sideBar"></nav>
+	<Sidebar></Sidebar>
 	<div class="editor"></div>
 </div>
 
@@ -13,15 +14,6 @@
 		flex: 1;
 		width: 100%;
 		display: flex;
-	}
-
-	.sideBar {
-		background-color: var(--color-bg-1);
-		width: 300px;
-		resize: horizontal;
-		overflow: auto;
-		min-width: 200px;
-		max-width: 500px;
 	}
 
 	.editor {
