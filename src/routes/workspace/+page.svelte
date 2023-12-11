@@ -16,7 +16,7 @@
 	}
 
 	.sideBar {
-		background-color: red;
+		background-color: var(--color-bg-1);
 		width: 300px;
 	}
 
