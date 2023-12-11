@@ -12,4 +12,8 @@
 	.active {
 		color: black;
 	}
+
+	div {
+		cursor: pointer;
+	}
 </style>
