@@ -13,7 +13,7 @@
 
 	<h2>A new way of leaning, writing and remembering!</h2>
 	<a href="/workspace">
-		<button>Enter workspace</button>
+		<button class="colored-button">Enter workspace</button>
 	</a>
 </section>
 

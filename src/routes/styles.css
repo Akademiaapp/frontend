@@ -78,7 +78,7 @@ button {
 	font-family: inherit;
 }
 
-button {
+.colored-button {
 	outline: none;
 	border: none;
 	background-color: var(--color-theme-1);
