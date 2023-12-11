@@ -4,6 +4,9 @@
     import StarterKit from '@tiptap/starter-kit'
   
     let element
+
+    export const resize = () => console.log("resize child");
+
     let editor
   
     onMount(() => {
@@ -51,7 +54,11 @@
   
   <style>
     button.active {
-      background: black;
+      background: rgb(0, 0, 0);
       color: white;
+    }
+
+    :global(.ProseMirror:focus) {
+        outline: none;
     }
   </style>
