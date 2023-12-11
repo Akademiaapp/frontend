@@ -22,6 +22,6 @@
 
 	.editor {
 		flex: 1;
-		background-color: white;
+		background-color: var(--color-bg-0);
 	}
 </style>
