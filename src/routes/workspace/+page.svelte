@@ -1,5 +1,4 @@
 <script>
-	import { EDITOR } from './../../../.svelte-kit/ambient.d.ts';
 	export const prerender = false;
 </script>
 
