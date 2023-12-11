@@ -6,11 +6,10 @@
 	export const prerender = false;
 
 	export let checked = false;
-	let editorAction;
-
-	// I have no clue why we are setting it to false
 
 	$: isThemeChecked.set(checked);
+
+
 	
 </script>
 
@@ -19,7 +18,7 @@
 	<div class="editor">
 		dark theme:
 		<input type="checkbox" bind:checked />
-		<Tiptap bind:resize={editorAction}></Tiptap>
+		<Tiptap></Tiptap>
 	</div>
 </div>
 
