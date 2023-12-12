@@ -6,11 +6,17 @@
 
 	export let checked = false;
 
+	export let activeFile;
+
 	$: isThemeChecked.set(checked);
 </script>
 
 <div id="toolbar">
-	<p>filename</p>
+	<div id="filepath">
+		<div class="color"></div>
+		<p class="filename">{activeFile}</p>
+	</div>
+	<div class="splitter"></div>
 	<div id="style-controls">
 		{#if editor}
 			<button
@@ -44,9 +50,34 @@
 	#toolbar {
 		display: flex;
 		gap: 1rem;
-		padding: 1rem 2rem;
+		padding: 0.75rem 1rem;
 
 		align-items: center;
+
+		border-bottom: solid var(--color-overlay-1) 0.05rem;
+	}
+
+	.color {
+		height: 0.7rem;
+		width: 0.7rem;
+		border-radius: 100%;
+		background-color: #278aff;
+	}
+
+	#filepath {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.filename {
+		color: var(--color-text-2);
+	}
+
+	.splitter {
+		width: 0.1rem;
+		background-color: var(--color-overlay-1);
+		height: 100%;
 	}
 
 	p {
@@ -65,7 +96,9 @@
 			padding: 0.15rem 0.5rem;
 
 			// transition: background-color 100ms;
-
+			&:hover {
+				background-color: var(--color-overlay-0);
+			}
 			&.active {
 				background-color: var(--color-overlay-1);
 			}

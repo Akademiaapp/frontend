@@ -14,7 +14,7 @@
 <div class="main">
 	<Sidebar bind:activeFile></Sidebar>
 	<div class="editor">
-		<Toolbar {editor} />
+		<Toolbar {editor} {activeFile} />
 		<Tiptap {activeFile} bind:editor />
 	</div>
 </div>
