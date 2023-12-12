@@ -2,6 +2,9 @@
     import { onMount, onDestroy } from 'svelte'
     import { Editor } from '@tiptap/core'
     import StarterKit from '@tiptap/starter-kit'
+    import Collaboration from '@tiptap/extension-collaboration'
+    import * as Y from 'yjs'
+    import { HocuspocusProvider } from '@hocuspocus/provider'
   
     let element: Element;
 
@@ -10,10 +13,23 @@
     let editor: Editor;
   
     onMount(() => {
+      const ydoc = new Y.Doc();
+
+      const provider = new HocuspocusProvider({
+        url: "wss://vps.arctix.dev:8091",
+        name: "Akademia",
+        document: ydoc,
+      });
+
       editor = new Editor({
         element: element,
         extensions: [
-          StarterKit,
+          StarterKit.configure({
+            history: false,
+          }),
+          Collaboration.configure({
+            document: ydoc,
+          })
         ],
         content: '<p>Hello World! 🌍️ </p>',
         onTransaction: () => {

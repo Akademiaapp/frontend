@@ -32,9 +32,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@hocuspocus/provider": "^2.8.1",
 		"@tiptap/core": "^2.1.13",
+		"@tiptap/extension-collaboration": "^2.1.13",
 		"@tiptap/pm": "^2.1.13",
 		"@tiptap/starter-kit": "^2.1.13",
-		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1"
+		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
+		"yjs": "^13.6.10"
 	}
 }
