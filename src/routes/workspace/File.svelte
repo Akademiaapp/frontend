@@ -6,7 +6,7 @@
 </script>
 
 <SideBarElem {active}>
-	<div on:click={onClick()} class:active>
+	<div on:click={onClick} class:active>
 		{name}
 	</div>
 </SideBarElem>

@@ -1,26 +1,53 @@
-<script>
+<script lang="ts">
     import { onMount, onDestroy } from 'svelte'
     import { Editor } from '@tiptap/core'
     import StarterKit from '@tiptap/starter-kit'
+    import Collaboration from '@tiptap/extension-collaboration'
+    import * as Y from 'yjs'
+    import { HocuspocusProvider } from '@hocuspocus/provider'
   
-    let element
+    let element: Element;
 
     export const resize = () => console.log("resize child");
 
-    let editor
-  
-    onMount(() => {
-      editor = new Editor({
-        element: element,
-        extensions: [
-          StarterKit,
-        ],
-        content: '<p>Hello World! 🌍️ </p>',
-        onTransaction: () => {
-          // force re-render so `editor.isActive` works as expected
-          editor = editor
+    let editor: Editor;
+    export let activeFile: string;
+    $: activeFile && initializeTiptap(activeFile);
+
+    function initializeTiptap(activeFile: string) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+      if (editor) {
+        editor.destroy();
+      }
+      const ydoc = new Y.Doc();
+      const provider = new HocuspocusProvider({
+        url: "wss://vps.arctix.dev:8091",
+        name: activeFile,
+        document: ydoc,
+        onConnect: () => {
+          editor = new Editor({
+            element: element,
+            extensions: [
+              StarterKit.configure({
+                history: false,
+              }),
+              Collaboration.configure({
+                document: ydoc,
+              })
+            ],
+            content: '<p>Hello World! 🌍️ </p>',
+            onTransaction: () => {
+              editor = editor
+            }
+          })
         },
-      })
+      });
+    }
+
+    onMount(() => {
+      initializeTiptap(activeFile);
     })
   
     onDestroy(() => {
@@ -50,7 +77,7 @@
     </button>
   {/if}
   
-  <div bind:this={element} />
+  <div id="editor" bind:this={element} />
   
   <style>
     button.active {

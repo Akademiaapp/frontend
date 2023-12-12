@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import FileViewer from './FileViewer.svelte';
+	export let activeFile: string;
 </script>
 
 <nav class="sideBar">
-	<FileViewer></FileViewer>
+	<FileViewer bind:activeFile ></FileViewer>
 </nav>
 
 <style>

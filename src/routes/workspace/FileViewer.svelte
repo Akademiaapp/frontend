@@ -3,8 +3,8 @@
 
 	export let files = ['Dansk', 'Matematik', 'Fransk', 'Fysik/Kemi', 'Biologi'];
 
-	let activeFile = '';
-</script>
+	export let activeFile = 'Dansk';
+	</script>
 
 <div class="container">
 	{#each files as file}
