@@ -1,13 +1,13 @@
-<script>
+<script lang="ts">
     import { onMount, onDestroy } from 'svelte'
     import { Editor } from '@tiptap/core'
     import StarterKit from '@tiptap/starter-kit'
   
-    let element
+    let element: Element;
 
     export const resize = () => console.log("resize child");
 
-    let editor
+    let editor: Editor;
   
     onMount(() => {
       editor = new Editor({
