@@ -26,22 +26,24 @@
         url: "wss://vps.arctix.dev:8091",
         name: activeFile,
         document: ydoc,
-      });
-
-      editor = new Editor({
-        element: element,
-        extensions: [
-          StarterKit.configure({
-            history: false,
-          }),
-          Collaboration.configure({
-            document: ydoc,
+        onConnect: () => {
+          editor = new Editor({
+            element: element,
+            extensions: [
+              StarterKit.configure({
+                history: false,
+              }),
+              Collaboration.configure({
+                document: ydoc,
+              })
+            ],
+            content: '<p>Hello World! 🌍️ </p>',
+            onTransaction: () => {
+              editor = editor
+            }
           })
-        ],
-        content: '<p>Hello World! 🌍️ </p>',
-        onTransaction: () => {
-          editor = editor
-        }})
+        },
+      });
     }
 
     onMount(() => {
