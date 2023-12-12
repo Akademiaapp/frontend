@@ -6,6 +6,7 @@
 	--color-overlay-2: color-mix(in srgb, var(--color-text-0) 15%, transparent);
 
 }
+
 body {
 	min-height: 100vh;
 	margin: 0;
@@ -15,14 +16,16 @@ body {
 	color: var(--color-text-1);
 }
 
-h1,
-h2,
-p {
+button {
+	color: var(--color-text-1);
+}
+
+h1, h2, p {
 	font-weight: 400;
 }
 
 p {
-	line-height: 1;
+	line-height: 1.5;
 }
 
 a {

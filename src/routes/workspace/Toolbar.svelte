@@ -61,8 +61,10 @@
 			border: none;
 			background-color: transparent;
 
-			border-radius: 0.15rem;
+			border-radius: 0.2rem;
 			padding: 0.15rem 0.5rem;
+
+			// transition: background-color 100ms;
 
 			&.active {
 				background-color: var(--color-overlay-1);
