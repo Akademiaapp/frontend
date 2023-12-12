@@ -1,5 +1,11 @@
 @import '@fontsource/fira-mono';
 
+:root {
+	--color-overlay-0: color-mix(in srgb, var(--color-text-0) 5%, transparent);
+	--color-overlay-1: color-mix(in srgb, var(--color-text-0) 10%, transparent);
+	--color-overlay-2: color-mix(in srgb, var(--color-text-0) 15%, transparent);
+
+}
 body {
 	min-height: 100vh;
 	margin: 0;
@@ -16,7 +22,7 @@ p {
 }
 
 p {
-	line-height: 1.5;
+	line-height: 1;
 }
 
 a {
@@ -83,6 +89,10 @@ button:focus:not(:focus-visible) {
 
 .flex {
 	display: flex;
+}
+
+.spacer {
+	flex: 1;
 }
 
 .visually-hidden {

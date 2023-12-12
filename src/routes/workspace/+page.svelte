@@ -1,26 +1,21 @@
 <script lang="ts">
+	import Toolbar from './Toolbar.svelte';
 	import Tiptap from './Tiptap.svelte';
 	import Layout from '../+layout.svelte';
 	import { isThemeChecked } from '../store';
 	import Sidebar from './Sidebar.svelte';
+	import type { Editor } from '@tiptap/core';
 
-	export let checked = false;
-	let editorAction: () => void;
-
-	// I have no clue why we are setting it to false
+	let editor: Editor;
 
 	let activeFile: string;
-
-	$: isThemeChecked.set(checked);
-	
 </script>
 
 <div class="main">
-	<Sidebar bind:activeFile ></Sidebar>
+	<Sidebar bind:activeFile></Sidebar>
 	<div class="editor">
-		dark theme:
-		<input type="checkbox" bind:checked />
-		<Tiptap activeFile={activeFile} bind:resize={editorAction}></Tiptap>
+		<Toolbar {editor} />
+		<Tiptap {activeFile} bind:editor />
 	</div>
 </div>
 
@@ -33,7 +28,6 @@
 	}
 
 	.editor {
-		padding: 1rem 4rem;
 		flex: 1;
 		background-color: var(--color-bg-0);
 
