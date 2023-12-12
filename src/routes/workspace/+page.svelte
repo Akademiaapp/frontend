@@ -36,5 +36,8 @@
 		padding: 1rem 4rem;
 		flex: 1;
 		background-color: var(--color-bg-0);
+
+		display: flex;
+		flex-direction: column;
 	}
 </style>

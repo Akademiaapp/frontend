@@ -45,7 +45,7 @@
                 document: ydoc,
               })
             ],
-            content: '<p>Hello World! 🌍️ </p>',
+            content: '',
             onTransaction: () => {
               editor = editor
             }
@@ -68,21 +68,24 @@
   <h1>this is tiptap:</h1>
   
   {#if editor}
-    <button
-      on:click={() => editor.chain().focus().toggleHeading({ level: 1}).run()}
-      class:active={editor.isActive('heading', { level: 1 })}
-    >
-      H1
-    </button>
-    <button
-      on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-      class:active={editor.isActive('heading', { level: 2 })}
-    >
-      H2
-    </button>
-    <button on:click={() => editor.chain().focus().setParagraph().run()} class:active={editor.isActive('paragraph')}>
-      P
-    </button>
+    <div class="flex">
+      <button
+        on:click={() => editor.chain().focus().toggleHeading({ level: 1}).run()}
+        class:active={editor.isActive('heading', { level: 1 })}
+      >
+        H1
+      </button>
+      <button
+        on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        class:active={editor.isActive('heading', { level: 2 })}
+      >
+        H2
+      </button>
+      <button on:click={() => editor.chain().focus().setParagraph().run()} class:active={editor.isActive('paragraph')}>
+        P
+      </button>
+    </div>
+
   {/if}
   
   <div id="editor" bind:this={element} />
@@ -123,4 +126,15 @@
     user-select: none;
     white-space: nowrap;
   }
+
+  #editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #editor :global(.tiptap) {
+    flex: 1;
+  }
+
 </style>
