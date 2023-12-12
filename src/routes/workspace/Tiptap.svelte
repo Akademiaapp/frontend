@@ -11,13 +11,20 @@
     export const resize = () => console.log("resize child");
 
     let editor: Editor;
-  
-    onMount(() => {
-      const ydoc = new Y.Doc();
+    export let activeFile: string;
+    $: activeFile && initializeTiptap(activeFile);
 
+    function initializeTiptap(activeFile: string) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+      if (editor) {
+        editor.destroy();
+      }
+      const ydoc = new Y.Doc();
       const provider = new HocuspocusProvider({
         url: "wss://vps.arctix.dev:8091",
-        name: "Akademia",
+        name: activeFile,
         document: ydoc,
       });
 
@@ -33,10 +40,12 @@
         ],
         content: '<p>Hello World! 🌍️ </p>',
         onTransaction: () => {
-          // force re-render so `editor.isActive` works as expected
           editor = editor
-        },
-      })
+        }})
+    }
+
+    onMount(() => {
+      initializeTiptap(activeFile);
     })
   
     onDestroy(() => {
@@ -66,7 +75,7 @@
     </button>
   {/if}
   
-  <div bind:this={element} />
+  <div id="editor" bind:this={element} />
   
   <style>
     button.active {

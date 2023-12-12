@@ -1,25 +1,26 @@
-<script>
+<script lang="ts">
 	import Tiptap from './Tiptap.svelte';
 	import Layout from '../+layout.svelte';
 	import { isThemeChecked } from '../store';
 	import Sidebar from './Sidebar.svelte';
-	export const prerender = false;
 
 	export let checked = false;
-	let editorAction;
+	let editorAction: () => void;
 
 	// I have no clue why we are setting it to false
+
+	let activeFile: string;
 
 	$: isThemeChecked.set(checked);
 	
 </script>
 
 <div class="main">
-	<Sidebar></Sidebar>
+	<Sidebar bind:activeFile ></Sidebar>
 	<div class="editor">
 		dark theme:
 		<input type="checkbox" bind:checked />
-		<Tiptap bind:resize={editorAction}></Tiptap>
+		<Tiptap activeFile={activeFile} bind:resize={editorAction}></Tiptap>
 	</div>
 </div>
 
