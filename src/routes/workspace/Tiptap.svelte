@@ -63,13 +63,28 @@
 	});
 </script>
 
-<div id="editor">
-	<h1>this is tiptap:</h1>
-
-	<div id="text-editor" bind:this={element} />
+<div id="editor" class="editor_wrapper" >
+	<div id="text-editor" class="editor_content" bind:this={element} />
 </div>
 
 <style>
+	.editor_wrapper {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: 1rem;
+	}
+
+	.editor_content {
+		min-height: 80%;
+		margin-top: 1rem;
+		padding: 1rem;
+		padding-top: 0.2rem;
+		flex: 1;
+		border: var(--color-text-2) 2px solid;
+		border-radius: 0.5rem;
+	}
+
 	button.active {
 		background: rgb(0, 0, 0);
 		color: white;

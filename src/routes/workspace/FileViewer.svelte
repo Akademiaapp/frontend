@@ -1,7 +1,7 @@
 <script>
 	import File from './File.svelte';
 
-	export let files = ['Dansk', 'Matematik', 'Fransk', 'Fysik/Kemi', 'Biologi'];
+	export let files = ['Dansk', 'Matematik', 'Fransk', 'Fysik/Kemi', 'Biologi', "Engelsk", "Kristendom", "Samfundsfag", "Valgfag", "Geografi", "Biologi", "Andet fag"];
 
 	export let activeFile = 'Dansk';
 	</script>
