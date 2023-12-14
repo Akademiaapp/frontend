@@ -1,11 +1,3 @@
-<script>
-</script>
-
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
 <section class="home">
 	<p>
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
