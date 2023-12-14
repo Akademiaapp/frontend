@@ -22,7 +22,7 @@
 		}
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
-			url: 'wss://vps.arctix.dev:8091',
+			url: 'wss://backend.akademia.cc:8091',
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {
