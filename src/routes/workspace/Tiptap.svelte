@@ -1,11 +1,16 @@
 <script lang="ts">
+	import '../../lib/prosemirror.scss';
+
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
 	import Collaboration from '@tiptap/extension-collaboration';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
+	import TaskItem from '@tiptap/extension-task-item'
+	import TaskList from '@tiptap/extension-task-list'
 	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
+	import SlashCommand from '$lib/components/editor/slash-command';
 
 	let element: Element;
 
@@ -29,6 +34,11 @@
 				editor = new Editor({
 					element: element,
 					extensions: [
+						SlashCommand,
+						TaskList,
+						TaskItem.configure({
+							nested: true,
+						}),
 						CollaborationCursor.configure({
 							provider,
 							user: {
@@ -37,7 +47,10 @@
 							}
 						}),
 						StarterKit.configure({
-							history: false
+							history: false,
+							bulletList: {
+								keepMarks: true
+							}
 						}),
 						Collaboration.configure({
 							document: ydoc
@@ -83,11 +96,6 @@
 		flex: 1;
 		border: var(--color-text-2) 2px solid;
 		border-radius: 0.5rem;
-	}
-
-	button.active {
-		background: rgb(0, 0, 0);
-		color: white;
 	}
 
 	:global(.ProseMirror:focus) {

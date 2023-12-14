@@ -37,9 +37,15 @@
 		"@tiptap/core": "^2.1.13",
 		"@tiptap/extension-collaboration": "^2.1.13",
 		"@tiptap/extension-collaboration-cursor": "^2.1.13",
+		"@tiptap/extension-task-item": "^2.1.13",
+		"@tiptap/extension-task-list": "^2.1.13",
 		"@tiptap/pm": "^2.1.13",
 		"@tiptap/starter-kit": "^2.1.13",
+		"@tiptap/suggestion": "^2.1.13",
+		"lucide-svelte": "^0.294.0",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
+		"tippy": "^0.0.0",
+		"tippy.js": "^6.3.7",
 		"yjs": "^13.6.10"
 	}
 }
