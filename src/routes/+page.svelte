@@ -18,6 +18,9 @@
 	<a href="/workspace">
 		<button class="colored-button">Enter workspace</button>
 	</a>
+	<a href="/login">
+		<button class="colored-button">Login?</button>
+	</a>
 </section>
 
 <style>

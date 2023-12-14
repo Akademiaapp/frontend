@@ -20,14 +20,8 @@
 
 {#if state.token}
 	<div>
-		<h1>Hey 👋,</h1>
-		<p>Thank you for joining Authorizer demo app.</p>
-		<p>
-			Your email address is
-			<a href={`mailto:${state.user?.email}`} style="color: #3B82F6;">
-				{state.user?.email}
-			</a>
-		</p>
+		<h1>Hey {state.user?.email}</h1>
+		<p>Thank you for using Akademia! We are still in development..</p>
 		<br />
 		{#if state.loading}
 			<h3>Processing....</h3>
