@@ -22,11 +22,10 @@
 		// 	transition: box-shadow 100ms;
 		// }
 	}
+
 	img {
 		height: 100%;
-	}
 
-	img :global(svg) {
-		color: red;
+		filter: invert(var(--invert-0));
 	}
 </style>
