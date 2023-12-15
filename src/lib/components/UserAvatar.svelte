@@ -20,7 +20,15 @@
 		state = data;
 		console.log(state);
 		console.log(state.user?.preferred_username.split(/[@.]/)[0]);
+		console.log('name: ' + getUserName());
 	});
+
+	function getUserName(): String {
+		console.log(state.user?.given_name);
+		return state.user?.given_name === ''
+			? state.user?.preferred_username.split(/[@.]/)[0]
+			: state.user?.given_name;
+	}
 
 	const userHandler = async () => {
 		if (!state.token) {
@@ -35,7 +43,7 @@
 	<img on:click={userHandler} class="avatar br-2" src={state.user?.picture} alt="User avatar" />
 	{#if name}
 		<p>
-			{state.user?.preferred_username.split(/[@.]/)[0]}
+			{getUserName()}
 		</p>
 	{/if}
 </div>
