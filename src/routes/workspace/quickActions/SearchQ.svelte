@@ -24,7 +24,7 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		class="background"
-		on:click={() => (isSeaching = false)}
+		on:click|self={() => (isSeaching = false)}
 		transition:fade={{ duration: 200, easing: sineInOut }}
 	>
 		<div class="search br-3" transition:fadeScale={{ duration: 100, easing: expoOut }}>
