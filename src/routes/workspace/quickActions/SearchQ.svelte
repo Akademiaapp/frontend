@@ -33,6 +33,10 @@
 			openSearch();
 		}
 
+		if (ev.key == 'Enter') {
+			closeSearch();
+		}
+
 		if (isSeaching && ev.key == 'Escape') {
 			closeSearch();
 		}
