@@ -47,8 +47,6 @@
 		<input type="checkbox" id="mode_toggle" bind:checked />
 		<label for="mode_toggle"></label>
 	</div>
-
-	<div class="splitter"></div>
 </div>
 
 <style lang="scss">
