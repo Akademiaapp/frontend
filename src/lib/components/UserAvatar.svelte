@@ -43,10 +43,12 @@
 <style lang="scss">
 	p {
 		margin: 0;
+		font-weight: bold;
+		color: var(--color-text-1);
 	}
 	.container {
 		display: flex;
-		gap: 1rem;
+		gap: 0.75rem;
 		justify-self: center;
 		align-items: center;
 	}

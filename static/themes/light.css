@@ -12,6 +12,8 @@
 	--color-text-2: #888888;
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
+	--invert: 0;
+	--invert-little: 20%;
 	font-family: var(--font-body);
 	color: var(--color-text-0);
 }

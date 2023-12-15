@@ -50,11 +50,12 @@
 </div>
 
 <style lang="scss">
-	.darkmode_toggle input[type=checkbox] {
+	.darkmode_toggle input[type='checkbox'] {
 		display: none;
 	}
 
 	.darkmode_toggle label {
+		filter: invert(var(--invert-little));
 		border: 2px solid #555;
 		color: var(--color-text-2);
 		border-radius: 50px;
@@ -66,16 +67,16 @@
 		height: 25px;
 	}
 
-	.darkmode_toggle input[type=checkbox] ~ label {
-		background-image: url("/icons/light_mode.svg");
+	.darkmode_toggle input[type='checkbox'] ~ label {
+		background-image: url('/icons/light_mode.svg');
 		background-size: 15px;
-		background-color: var(--color-text-2);
+
 		background-repeat: no-repeat;
 		background-position: center;
 	}
 
-	.darkmode_toggle input[type=checkbox]:checked ~ label {
-		background-image: url("/icons/dark_mode.svg");
+	.darkmode_toggle input[type='checkbox']:checked ~ label {
+		background-image: url('/icons/dark_mode.svg');
 	}
 
 	#toolbar {
