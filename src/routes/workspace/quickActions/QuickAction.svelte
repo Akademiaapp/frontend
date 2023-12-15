@@ -22,9 +22,11 @@
 		// 	transition: box-shadow 100ms;
 		// }
 	}
-
 	img {
 		height: 100%;
-		color: white;
+	}
+
+	img :global(svg) {
+		color: red;
 	}
 </style>
