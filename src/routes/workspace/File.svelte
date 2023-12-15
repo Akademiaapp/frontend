@@ -18,5 +18,6 @@
 
 	div {
 		cursor: pointer;
+		font-weight: bold;
 	}
 </style>
