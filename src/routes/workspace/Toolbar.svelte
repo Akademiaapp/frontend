@@ -6,7 +6,7 @@
 
 	export let checked = false;
 
-	export let activeFile;
+	export let activeFile: string;
 
 	$: isThemeChecked.set(checked);
 </script>
@@ -38,6 +38,7 @@
 				P
 			</button>
 		{/if}
+		<div class="splitter"></div>
 	</div>
 
 	<div class="spacer"></div>
@@ -75,7 +76,7 @@
 	}
 
 	.splitter {
-		width: 0.1rem;
+		width: 0.06rem;
 		background-color: var(--color-overlay-1);
 		height: 100%;
 	}
@@ -87,6 +88,7 @@
 	#style-controls {
 		display: flex;
 		gap: 0.2rem;
+		align-items: stretch;
 
 		button {
 			border: none;
