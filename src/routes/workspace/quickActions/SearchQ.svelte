@@ -13,8 +13,29 @@
 		isSeaching = true;
 		await tick();
 		searchInput.focus();
-		console.log(searchInput.innerHTML);
 	}
+
+	async function closeSearch() {
+		isSeaching = false;
+		searchInput.blur();
+	}
+
+	let isControlPressed = false;
+
+	window.addEventListener('keydown', (ev) => {
+		if (ev.key == 'Control') {
+			isControlPressed = true;
+		}
+		if (ev.key == 'p' && isControlPressed) {
+			openSearch();
+
+			ev.preventDefault();
+		}
+
+		if (isSeaching && ev.key == 'Escape') {
+			closeSearch();
+		}
+	});
 </script>
 
 <QuickAction icon="search.svg" action={openSearch}></QuickAction>
