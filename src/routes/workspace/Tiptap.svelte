@@ -63,7 +63,7 @@
 	});
 </script>
 
-<div id="editor" class="editor_wrapper" >
+<div id="editor" class="editor_wrapper">
 	<div id="text-editor" class="editor_content" bind:this={element} />
 </div>
 
@@ -81,11 +81,7 @@
 		min-height: 110%;
 		overflow-y: scroll;
 		margin-top: 1rem;
-		padding: 1rem;
-		padding-top: 0.2rem;
 		flex: 1;
-		border: var(--color-text-2) 2px solid;
-		border-radius: 0.5rem;
 	}
 
 	button.active {
