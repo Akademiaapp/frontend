@@ -26,7 +26,7 @@
 		if (ev.key == 'Control') {
 			isControlPressed = true;
 		}
-		if (ev.key == 'p' && isControlPressed) {
+		if ((ev.key == 'p' || ev.code == 'Space') && isControlPressed) {
 			openSearch();
 
 			ev.preventDefault();
