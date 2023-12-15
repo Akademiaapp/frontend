@@ -8,10 +8,9 @@
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 
 	import { getContext } from 'svelte';
-	import { goto } from '$app/navigation';
 
 	interface AuthorizerState {
-		token: string;
+		token: { access_token: string };
 		user: any;
 		loading: boolean;
 		logout: Function;
@@ -43,7 +42,7 @@
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc:8091',
-			token: state.token,
+			token: state.token.access_token,
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {
