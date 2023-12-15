@@ -7,6 +7,26 @@
 	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 
+	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	interface AuthorizerState {
+		token: string;
+		user: any;
+		loading: boolean;
+		logout: Function;
+		subscribe: Function;
+	};
+
+	let state: AuthorizerState;
+
+	const store: AuthorizerState = getContext('authorizerContext');
+
+	
+	store.subscribe((data: AuthorizerState) => {
+		state = data;
+	});
+
 	let element: Element;
 
 	export let editor: Editor;
@@ -23,6 +43,7 @@
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc:8091',
+			token: state.token,
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {

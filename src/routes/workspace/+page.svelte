@@ -1,8 +1,27 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	interface AuthorizerState {
+		token: string;
+		user: any;
+		loading: boolean;
+		logout: Function;
+		subscribe: Function;
+	};
+
+	let state: AuthorizerState;
+
+	const store: AuthorizerState = getContext('authorizerContext');
+
+	store.subscribe((data: AuthorizerState) => {
+		state = data;
+		if (!state.user?.preferred_username) {
+			goto('/login');
+		}
+	});
 	import Toolbar from './Toolbar.svelte';
 	import Tiptap from './Tiptap.svelte';
-	import Layout from '../+layout.svelte';
-	import { isThemeChecked } from '../store';
 	import Sidebar from './Sidebar.svelte';
 	import type { Editor } from '@tiptap/core';
 

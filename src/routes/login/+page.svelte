@@ -1,16 +1,25 @@
-<script>
+<script lang="ts">
 	import { getContext } from 'svelte';
 	import { Authorizer } from '@authorizerdev/authorizer-svelte';
+	import { goto } from '$app/navigation';
 
-	/**
-	 * @type {{ token: string; user: any; loading: boolean; logout: Function; }}
-	 */
-	let state;
+	interface AuthorizerState {
+		token: string;
+		user: any;
+		loading: boolean;
+		logout: Function;
+		subscribe: Function;
+	};
 
-	const store = getContext('authorizerContext');
+	let state: AuthorizerState;
 
-	store.subscribe((/** @type {any} */ data) => {
+	const store: AuthorizerState = getContext('authorizerContext');
+
+	store.subscribe((data: AuthorizerState) => {
 		state = data;
+		if (state.user?.preferred_username) {
+			goto('/workspace');
+		}
 	});
 
 	const logoutHandler = async () => {
@@ -20,7 +29,7 @@
 
 {#if state.token}
 	<div>
-		<h1>Hey {state.user?.email}</h1>
+		<h1>Hey {state.user?.preferred_username}</h1>
 		<p>Thank you for using Akademia! We are still in development..</p>
 		<br />
 		{#if state.loading}
@@ -31,7 +40,7 @@
 	</div>
 {:else}
 	<div class="login-container">
-		<h1>Welcome to Authorizer</h1>
+		<h1>Welcome to Akademia</h1>
 		<br />
 		<Authorizer />
 	</div>

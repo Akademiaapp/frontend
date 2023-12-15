@@ -1,3 +1,27 @@
+<script lang="ts">
+	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	interface AuthorizerState {
+		token: string;
+		user: any;
+		loading: boolean;
+		logout: Function;
+		subscribe: Function;
+	};
+
+	let state: AuthorizerState;
+
+	const store: AuthorizerState = getContext('authorizerContext');
+
+	store.subscribe((data: AuthorizerState) => {
+		state = data;
+		if (state.user?.preferred_username) {
+			goto('/workspace');
+		}
+	});
+</script>
+
 <section class="home">
 	<p>
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
@@ -9,9 +33,6 @@
 	<h2>A new way of leaning, writing and remembering!</h2>
 	<a href="/workspace">
 		<button class="colored-button">Enter workspace</button>
-	</a>
-	<a href="/login">
-		<button class="colored-button">Login?</button>
 	</a>
 </section>
 
