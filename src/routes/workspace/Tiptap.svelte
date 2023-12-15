@@ -71,12 +71,15 @@
 	.editor_wrapper {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
 		padding: 1rem;
+		overflow-y: hidden;
 	}
 
 	.editor_content {
-		min-height: 80%;
+		min-height: 110%;
+		overflow-y: scroll;
 		margin-top: 1rem;
 		padding: 1rem;
 		padding-top: 0.2rem;

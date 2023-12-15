@@ -28,5 +28,9 @@
 		gap: 0.2rem;
 		font-size: 1.05rem;
 		color: var(--color-text-2);
+		background-color: var(--color-bg-1);
+		border-radius: 8px;
+		padding: 8px;
+		flex-grow: 1;
 	}
 </style>

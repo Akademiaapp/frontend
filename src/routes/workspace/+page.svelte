@@ -21,16 +21,24 @@
 
 <style>
 	.main {
-		height: 100%;
+		height: 100vh;
 		flex: 1;
-		width: 100%;
+		width: 100vw;
 		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: var(--color-bg-0);
+		flex: 1rem;
+		padding: 0.75rem;
 	}
 
 	.editor {
+		margin: 0.75rem;
 		flex: 1;
-		background-color: var(--color-bg-0);
-
+		background-color: var(--color-bg-1);
+		height: 100%;
+		width: 100%;
+		border-radius: 8px;
 		display: flex;
 		flex-direction: column;
 	}
