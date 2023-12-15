@@ -1,10 +1,11 @@
 <script lang="ts">
 	import FileViewer from './FileViewer.svelte';
+	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	export let activeFile: string;
 </script>
 
 <nav class="sideBar">
-	<div class="settings">Home</div>
+	<div class="settings"><UserAvatar/></div>
 	<FileViewer bind:activeFile></FileViewer>
 </nav>
 
