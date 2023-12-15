@@ -9,6 +9,7 @@
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
+	import { goto } from '$app/navigation';
 
 	let state: AuthorizerState;
 
@@ -31,10 +32,14 @@
 		if (editor) {
 			editor.destroy();
 		}
+		if (state.token == null) {
+			goto('/login');
+			return;
+		}
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc:8091',
-			token: state.token?.access_token,
+			token: state.token.access_token,
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {
@@ -44,8 +49,8 @@
 						CollaborationCursor.configure({
 							provider,
 							user: {
-								name: 'Test user',
-								color: '#f783ac'
+								name: state.user?.preferred_username,
+								color: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
 							}
 						}),
 						StarterKit.configure({
