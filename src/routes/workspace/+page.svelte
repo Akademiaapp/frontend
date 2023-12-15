@@ -21,9 +21,8 @@
 
 <style>
 	.main {
-		height: 100vh;
 		flex: 1;
-		width: 100vw;
+		gap: 0.75rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -33,7 +32,6 @@
 	}
 
 	.editor {
-		margin: 0.75rem;
 		flex: 1;
 		background-color: var(--color-bg-1);
 		height: 100%;
