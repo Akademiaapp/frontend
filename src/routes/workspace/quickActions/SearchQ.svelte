@@ -64,7 +64,7 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background-color: var(--color-overlay-6);
+		background-color: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
 		z-index: 10;
 		display: flex;
