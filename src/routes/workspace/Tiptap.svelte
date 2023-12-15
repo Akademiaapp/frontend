@@ -22,7 +22,7 @@
 		}
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
-			url: 'wss://vps.arctix.dev:8091',
+			url: 'wss://backend.akademia.cc:8091',
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {
@@ -63,13 +63,31 @@
 	});
 </script>
 
-<div id="editor">
-	<h1>this is tiptap:</h1>
-
-	<div id="text-editor" bind:this={element} />
+<div id="editor" class="editor_wrapper" >
+	<div id="text-editor" class="editor_content" bind:this={element} />
 </div>
 
 <style>
+	.editor_wrapper {
+		display: flex;
+		flex-direction: column;
+		max-width: 100%;
+		max-height: 100%;
+		padding: 1rem;
+		overflow-y: hidden;
+	}
+
+	.editor_content {
+		min-height: 110%;
+		overflow-y: scroll;
+		margin-top: 1rem;
+		padding: 1rem;
+		padding-top: 0.2rem;
+		flex: 1;
+		border: var(--color-text-2) 2px solid;
+		border-radius: 0.5rem;
+	}
+
 	button.active {
 		background: rgb(0, 0, 0);
 		color: white;

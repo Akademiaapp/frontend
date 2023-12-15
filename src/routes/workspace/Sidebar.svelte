@@ -4,20 +4,36 @@
 </script>
 
 <nav class="sideBar">
+	<div class="settings">
+		Home
+	</div>
 	<FileViewer bind:activeFile ></FileViewer>
 </nav>
 
 <style>
-	.sideBar {
+	.settings {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
 		background-color: var(--color-bg-1);
-		width: 240px;
+		margin-bottom: 0.75rem;
+		border-radius: 8px;
+		width: 100%;
+		min-height: 5rem;
+	}
+
+	.sideBar {
+		background-color: var(--color-bg-0);
+		height: 100%;
 		resize: horizontal;
 		overflow: auto;
 		min-width: 200px;
 		max-width: 500px;
+		align-items: stretch;
 		display: flex;
 		flex-direction: column;
 		padding: 0.4rem;
-		padding-top: 1rem;
+		border-radius: 8px;
 	}
 </style>

@@ -43,11 +43,41 @@
 
 	<div class="spacer"></div>
 
-	<p>dark theme:</p>
-	<input type="checkbox" bind:checked />
+	<div class="darkmode_toggle">
+		<input type="checkbox" id="mode_toggle" bind:checked />
+		<label for="mode_toggle"></label>
+	</div>
 </div>
 
 <style lang="scss">
+	.darkmode_toggle input[type=checkbox] {
+		display: none;
+	}
+
+	.darkmode_toggle label {
+		border: 2px solid #555;
+		color: var(--color-text-2);
+		border-radius: 50px;
+		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		transition: all ease-in-out 0.5s;
+		width: 25px;
+		height: 25px;
+	}
+
+	.darkmode_toggle input[type=checkbox] ~ label {
+		background-image: url("/icons/light_mode.svg");
+		background-size: 15px;
+		background-color: var(--color-text-2);
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.darkmode_toggle input[type=checkbox]:checked ~ label {
+		background-image: url("/icons/dark_mode.svg");
+	}
+
 	#toolbar {
 		display: flex;
 		gap: 1rem;

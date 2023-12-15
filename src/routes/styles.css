@@ -8,12 +8,13 @@
 }
 
 body {
-	min-height: 100vh;
+	height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
 	background-color: var(--color-bg-1);
 	background-size: 100vw 100vh;
 	color: var(--color-text-1);
+	overflow: hidden;
 }
 
 button {
@@ -78,6 +79,7 @@ button {
 	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;
 	color: white;
+	cursor: pointer;
 }
 
 button:focus:not(:focus-visible) {

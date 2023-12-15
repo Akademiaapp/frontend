@@ -1,19 +1,17 @@
-<script>
-</script>
-
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
+<section class="home">
+	<p>
+		<img src="/favicon.png" class="logo" alt="Akademia logo" />
+	</p>
 	<h1>
-		<span class="welcome"> Welcome to Akademia </span>
+		Welcome to Akademia
 	</h1>
 
 	<h2>A new way of leaning, writing and remembering!</h2>
 	<a href="/workspace">
 		<button class="colored-button">Enter workspace</button>
+	</a>
+	<a href="/login">
+		<button class="colored-button">Login?</button>
 	</a>
 </section>
 
@@ -26,19 +24,16 @@
 		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
+	.logo {
+		width: 20rem;
+		height: 20rem;
 	}
 
-	button {
-		margin: 1rem;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / (2048 * 4)) 0;
+	.home {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 0.6;
 	}
 </style>
