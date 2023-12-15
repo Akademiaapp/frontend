@@ -22,7 +22,6 @@ body {
 }
 
 button {
-	color: var(--color-text-1);
 }
 
 h1,
@@ -76,6 +75,8 @@ input,
 button {
 	font-size: inherit;
 	font-family: inherit;
+	color: var(--color-text-1);
+
 }
 
 .colored-button {

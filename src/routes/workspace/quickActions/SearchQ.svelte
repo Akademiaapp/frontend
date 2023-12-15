@@ -23,17 +23,24 @@
 	let isControlPressed = false;
 
 	window.addEventListener('keydown', (ev) => {
-		if (ev.key == 'Control') {
-			isControlPressed = true;
-		}
-		if ((ev.key == 'p' || ev.code == 'Space') && isControlPressed) {
-			openSearch();
+		if (ev.key == 'Control') isControlPressed = true;
 
+		if (ev.key == 'p' && isControlPressed) {
+			openSearch();
 			ev.preventDefault();
+		}
+		if (ev.key == ' ' && isControlPressed) {
+			openSearch();
 		}
 
 		if (isSeaching && ev.key == 'Escape') {
 			closeSearch();
+		}
+	});
+
+	window.addEventListener('keyup', (ev) => {
+		if (ev.key == 'Control') {
+			isControlPressed = false;
 		}
 	});
 </script>
