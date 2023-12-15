@@ -6,22 +6,14 @@
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
-
 	import { getContext } from 'svelte';
-
-	interface AuthorizerState {
-		token: { access_token: string };
-		user: any;
-		loading: boolean;
-		logout: Function;
-		subscribe: Function;
-	};
+	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { Readable } from 'svelte/store';
 
 	let state: AuthorizerState;
 
-	const store: AuthorizerState = getContext('authorizerContext');
+	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
-	
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
 	});
@@ -42,7 +34,7 @@
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc:8091',
-			token: state.token.access_token,
+			token: state.token?.access_token,
 			name: activeFile,
 			document: ydoc,
 			onConnect: () => {

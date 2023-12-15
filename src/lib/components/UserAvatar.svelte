@@ -1,33 +1,28 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
+	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { Readable } from 'svelte/store';
 
 	export let name = false;
 
-	interface AuthorizerState {
-		token: string;
-		user: any;
-		loading: boolean;
-		logout: Function;
-		subscribe: Function;
-	}
-
 	let state: AuthorizerState;
 
-	const store: AuthorizerState = getContext('authorizerContext');
+	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
-		console.log(state);
-		console.log(state.user?.preferred_username.split(/[@.]/)[0]);
-		console.log('name: ' + getUserName());
 	});
 
-	function getUserName(): String {
-		console.log(state.user?.given_name);
-		return state.user?.given_name === ''
+	function getUserName(): string {
+		let name = state.user?.given_name === ''
 			? state.user?.preferred_username.split(/[@.]/)[0]
 			: state.user?.given_name;
+		if (typeof name === 'string') {
+			return name;
+		} else {
+			return 'User';
+		}
 	}
 
 	const userHandler = async () => {

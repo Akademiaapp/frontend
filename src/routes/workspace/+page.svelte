@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
-
-	interface AuthorizerState {
-		token: string;
-		user: any;
-		loading: boolean;
-		logout: Function;
-		subscribe: Function;
-	};
+	import Toolbar from './Toolbar.svelte';
+	import Tiptap from './Tiptap.svelte';
+	import Sidebar from './Sidebar.svelte';
+	import type { Editor } from '@tiptap/core';
+	import type { Readable } from 'svelte/store';
+	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 
 	let state: AuthorizerState;
 
-	const store: AuthorizerState = getContext('authorizerContext');
+	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
@@ -20,10 +18,6 @@
 			goto('/login');
 		}
 	});
-	import Toolbar from './Toolbar.svelte';
-	import Tiptap from './Tiptap.svelte';
-	import Sidebar from './Sidebar.svelte';
-	import type { Editor } from '@tiptap/core';
 
 	let editor: Editor;
 
