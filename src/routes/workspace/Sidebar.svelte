@@ -5,7 +5,7 @@
 </script>
 
 <nav class="sideBar">
-	<div class="settings"><UserAvatar/></div>
+	<div class="settings br-2"><UserAvatar name /></div>
 	<FileViewer bind:activeFile></FileViewer>
 </nav>
 
@@ -13,13 +13,9 @@
 	.settings {
 		display: flex;
 		justify-content: space-between;
+		padding: 1rem;
 		flex-direction: column;
-		align-items: center;
 		background-color: var(--color-bg-1);
-
-		border-radius: 8px;
-		width: 100%;
-		min-height: 5rem;
 	}
 
 	.sideBar {
@@ -32,6 +28,5 @@
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;
-		border-radius: 8px;
 	}
 </style>
