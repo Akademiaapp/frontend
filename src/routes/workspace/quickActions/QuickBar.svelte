@@ -1,10 +1,11 @@
 <script>
+	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
 </script>
 
 <div class="container">
 	<QuickAction icon="home.svg" />
-	<QuickAction icon="search.svg" />
+	<SearchQ></SearchQ>
 	<QuickAction icon="alarm.svg" />
 </div>
 

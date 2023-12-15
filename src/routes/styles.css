@@ -4,6 +4,11 @@
 	--color-overlay-0: color-mix(in srgb, var(--color-text-0) 5%, transparent);
 	--color-overlay-1: color-mix(in srgb, var(--color-text-0) 10%, transparent);
 	--color-overlay-2: color-mix(in srgb, var(--color-text-0) 15%, transparent);
+	--color-overlay-3: color-mix(in srgb, var(--color-text-0) 20%, transparent);
+	--color-overlay-4: color-mix(in srgb, var(--color-text-0) 25%, transparent);
+	--color-overlay-5: color-mix(in srgb, var(--color-text-0) 30%, transparent);
+	--color-overlay-6: color-mix(in srgb, var(--color-text-0) 35%, transparent);
+	--color-overlay-7: color-mix(in srgb, var(--color-text-0) 40%, transparent);
 }
 
 body {
