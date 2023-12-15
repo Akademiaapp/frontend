@@ -4,7 +4,6 @@
 	--color-overlay-0: color-mix(in srgb, var(--color-text-0) 5%, transparent);
 	--color-overlay-1: color-mix(in srgb, var(--color-text-0) 10%, transparent);
 	--color-overlay-2: color-mix(in srgb, var(--color-text-0) 15%, transparent);
-
 }
 
 body {
@@ -21,7 +20,9 @@ button {
 	color: var(--color-text-1);
 }
 
-h1, h2, p {
+h1,
+h2,
+p {
 	font-weight: 400;
 }
 
@@ -110,4 +111,20 @@ button:focus:not(:focus-visible) {
 	position: absolute;
 	width: 1px;
 	white-space: nowrap;
+}
+
+.br-1 {
+	border-radius: 0.25rem;
+}
+
+.br-2 {
+	border-radius: 0.5rem;
+}
+
+.br-3 {
+	border-radius: 0.75rem;
+}
+
+.br-4 {
+	border-radius: 1rem;
 }

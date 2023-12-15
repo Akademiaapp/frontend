@@ -2,13 +2,15 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 
+	export let name = false;
+
 	interface AuthorizerState {
 		token: string;
 		user: any;
 		loading: boolean;
 		logout: Function;
 		subscribe: Function;
-	};
+	}
 
 	let state: AuthorizerState;
 
@@ -17,6 +19,7 @@
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
 		console.log(state);
+		console.log(state.user?.preferred_username.split(/[@.]/)[0]);
 	});
 
 	const userHandler = async () => {
@@ -28,14 +31,29 @@
 	};
 </script>
 
-<img on:click={userHandler} class="avatar" src={state.user?.picture} alt="User avatar" />
+<div class="container">
+	<img on:click={userHandler} class="avatar br-2" src={state.user?.picture} alt="User avatar" />
+	{#if name}
+		<p>
+			{state.user?.preferred_username.split(/[@.]/)[0]}
+		</p>
+	{/if}
+</div>
 
 <style lang="scss">
+	p {
+		margin: 0;
+	}
+	.container {
+		display: flex;
+		gap: 1rem;
+		justify-self: center;
+		align-items: center;
+	}
 	.avatar {
 		width: 2rem;
 		height: 2rem;
 		cursor: pointer;
-		border-radius: 100%;
 		overflow: hidden;
 	}
 </style>

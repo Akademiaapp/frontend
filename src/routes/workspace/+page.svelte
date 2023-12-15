@@ -32,7 +32,7 @@
 
 <div class="main">
 	<Sidebar bind:activeFile></Sidebar>
-	<div class="editor">
+	<div class="editor br-2">
 		<Toolbar {editor} {activeFile} />
 		<Tiptap {activeFile} bind:editor />
 	</div>
@@ -55,7 +55,6 @@
 		background-color: var(--color-bg-1);
 		height: 100%;
 		width: 100%;
-		border-radius: 8px;
 		display: flex;
 		flex-direction: column;
 	}
