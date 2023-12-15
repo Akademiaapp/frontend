@@ -4,10 +4,8 @@
 </script>
 
 <nav class="sideBar">
-	<div class="settings">
-		Home
-	</div>
-	<FileViewer bind:activeFile ></FileViewer>
+	<div class="settings">Home</div>
+	<FileViewer bind:activeFile></FileViewer>
 </nav>
 
 <style>
@@ -17,14 +15,13 @@
 		flex-direction: column;
 		align-items: center;
 		background-color: var(--color-bg-1);
-		margin-bottom: 0.75rem;
+
 		border-radius: 8px;
 		width: 100%;
 		min-height: 5rem;
 	}
 
 	.sideBar {
-		background-color: var(--color-bg-0);
 		height: 100%;
 		resize: horizontal;
 		overflow: auto;
