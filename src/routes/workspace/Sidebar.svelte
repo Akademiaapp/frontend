@@ -29,8 +29,8 @@
 		max-width: 500px;
 		align-items: stretch;
 		display: flex;
+		gap: 0.75rem;
 		flex-direction: column;
-		padding: 0.4rem;
 		border-radius: 8px;
 	}
 </style>
