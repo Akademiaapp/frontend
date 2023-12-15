@@ -1,11 +1,16 @@
 <script lang="ts">
+	import QuickBar from './quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
+	import QuickAction from './quickActions/QuickAction.svelte';
 	export let activeFile: string;
 </script>
 
 <nav class="sideBar">
-	<div class="settings br-2"><UserAvatar name /></div>
+	<div class="settings br-2">
+		<UserAvatar name />
+		<QuickBar />
+	</div>
 	<FileViewer bind:activeFile></FileViewer>
 </nav>
 
@@ -13,6 +18,7 @@
 	.settings {
 		display: flex;
 		justify-content: space-between;
+		gap: 0.75rem;
 		padding: 1rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);
