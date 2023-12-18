@@ -27,9 +27,9 @@
 	.sideBar {
 		resize: horizontal;
 		overflow: auto;
-		min-width: 200px;
-		max-width: 500px;
-		align-items: stretch;
+		width: 100rem;
+		/* min-width: 200px;
+		max-width: 500px;	 */
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;
