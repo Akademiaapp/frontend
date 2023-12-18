@@ -46,7 +46,6 @@
 	.editor {
 		flex: 1;
 		background-color: var(--color-bg-1);
-		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 	}

@@ -85,20 +85,14 @@
 
 <style>
 	.editor_wrapper {
-		display: flex;
-		flex-direction: column;
 		max-width: 100%;
 		max-height: 100%;
 		padding: 1rem;
-		overflow: hidden;
-		overflow: scroll;
+		overflow-y: scroll;
 	}
 
 	.editor_content {
-		min-height: 110%;
-		overflow-y: scroll;
 		margin-top: 1rem;
-		flex: 1;
 	}
 
 	button.active {
