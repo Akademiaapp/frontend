@@ -35,11 +35,13 @@
 	"dependencies": {
 		"@authorizerdev/authorizer-svelte": "^0.1.8",
 		"@hocuspocus/provider": "^2.8.1",
+		"@tiptap-pro/extension-emoji": "^2.5.1",
 		"@tiptap/core": "^2.1.13",
 		"@tiptap/extension-collaboration": "^2.1.13",
 		"@tiptap/extension-collaboration-cursor": "^2.1.13",
 		"@tiptap/pm": "^2.1.13",
 		"@tiptap/starter-kit": "^2.1.13",
+		"mathlive": "^0.98.4",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
 		"yjs": "^13.6.10"
 	}
