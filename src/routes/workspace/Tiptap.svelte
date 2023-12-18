@@ -49,7 +49,7 @@
 					extensions: [
 						Emoji,
 						CollaborationCursor.configure({
-							provider,
+							provider: provider,
 							user: {
 								name: state.user?.preferred_username,
 								color: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
