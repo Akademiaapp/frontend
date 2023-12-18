@@ -18,6 +18,6 @@
 
 	div {
 		cursor: pointer;
-		font-weight: bold;
+		font-weight: 500;
 	}
 </style>

@@ -34,13 +34,13 @@
 
 <style>
 	.main {
-		flex: 1;
 		gap: 0.75rem;
 		display: flex;
 		background-color: var(--color-bg-0);
 		flex: 1rem;
 		padding: 0.75rem;
-		max-height: 100%;
+		height: 100%;
+		height: calc(100vh - 0.75rem - 0.75rem);
 	}
 
 	.editor {
