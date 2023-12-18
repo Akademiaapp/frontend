@@ -52,7 +52,7 @@
 							provider: provider,
 							user: {
 								name: state.user?.preferred_username,
-								color: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
+								color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 							}
 						}),
 						StarterKit.configure({
@@ -93,7 +93,8 @@
 		max-width: 100%;
 		max-height: 100%;
 		padding: 1rem;
-		overflow-y: hidden;
+		overflow: hidden;
+		overflow: scroll;
 	}
 
 	.editor_content {
