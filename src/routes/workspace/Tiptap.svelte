@@ -3,6 +3,7 @@
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
 	import Collaboration from '@tiptap/extension-collaboration';
+	import Emoji from '@tiptap-pro/extension-emoji';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -46,8 +47,9 @@
 				editor = new Editor({
 					element: element,
 					extensions: [
+						Emoji,
 						CollaborationCursor.configure({
-							provider,
+							provider: provider,
 							user: {
 								name: state.user?.preferred_username,
 								color: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
