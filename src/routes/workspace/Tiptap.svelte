@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor } from '@tiptap/core';
-	import StarterKit from '@tiptap/starter-kit';
 	import Collaboration from '@tiptap/extension-collaboration';
-	import Emoji from '@tiptap-pro/extension-emoji';
+	import { EditorExtensions } from '$lib/editor/extensions';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -11,6 +10,7 @@
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import Page from '../login/+page.svelte';
 
 	let state: AuthorizerState;
 
@@ -47,16 +47,13 @@
 				editor = new Editor({
 					element: element,
 					extensions: [
-						Emoji,
+						...EditorExtensions,
 						CollaborationCursor.configure({
 							provider: provider,
 							user: {
 								name: state.user?.preferred_username,
 								color: '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0'),
 							}
-						}),
-						StarterKit.configure({
-							history: false
 						}),
 						Collaboration.configure({
 							document: ydoc
