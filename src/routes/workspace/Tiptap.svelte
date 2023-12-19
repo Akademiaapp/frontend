@@ -89,12 +89,18 @@
 		max-height: 100%;
 		padding: 1rem;
 		overflow-y: hidden;
-		transition: scrollbar-color 0.5s ease; /* Adding transition for a smooth fade effect */
-		&:hover {
-			overflow-y: scroll;
+		&:hover,
+		:active,
+		:focus {
+			overflow-y: auto;
+			&::-webkit-scrollbar {
+				opacity: 1;
+			}
 		}
 		&::-webkit-scrollbar {
 			width: 10px;
+			opacity: 0;
+			background-color: white;
 		}
 
 		&::webkit-scrollbar-button {
@@ -103,17 +109,17 @@
 
 		/* Track */
 		&::-webkit-scrollbar-track {
-			background: #f1f1f1;
+			background-color: var(--color-bg-2);
 		}
 
 		/* Handle */
 		&::-webkit-scrollbar-thumb {
-			background: #888;
+			background-color: var(--color-text-3);
 		}
 
 		/* Handle on hover */
 		&::-webkit-scrollbar-thumb:hover {
-			background: #555;
+			background: var(--color-text-2);
 		}
 	}
 
