@@ -59,7 +59,7 @@
 		on:click|self={() => (isSeaching = false)}
 		transition:fade={{ duration: 200, easing: sineInOut }}
 	>
-		<div class="search br-3" transition:fadeScale={{ duration: 100, easing: expoOut }}>
+		<div class="search br-3" in:fadeScale={{ duration: 150, easing: expoOut }}>
 			<div class="search-bar">
 				<img src={'icons/search.svg'} alt="" />
 				<input type="text" placeholder="Search" bind:this={searchInput} />
