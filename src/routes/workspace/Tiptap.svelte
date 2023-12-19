@@ -83,12 +83,15 @@
 	<div id="text-editor" class="editor_content" bind:this={element} />
 </div>
 
-<style>
+<style lang="scss">
 	.editor_wrapper {
 		max-width: 100%;
 		max-height: 100%;
 		padding: 1rem;
-		overflow-y: scroll;
+		overflow-y: hidden;
+		&:hover {
+			overflow-y: scroll;
+		}
 	}
 
 	.editor_content {
