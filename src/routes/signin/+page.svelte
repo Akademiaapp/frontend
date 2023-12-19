@@ -6,39 +6,55 @@
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 
 	let state: AuthorizerState;
-
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
-		if (state.user?.preferred_username) {
+		if (state.token) {
 			goto('/workspace');
 		}
 	});
-
-	const logoutHandler = async () => {
-		await state.logout();
-	};
 </script>
 
-{#if state.token}
-	<div>
-		<h1>Hey {state.user?.preferred_username}</h1>
-		<p>Thank you for using Akademia! We are still in development..</p>
-	</div>
-{:else}
+<div class="container">
 	<div class="login-container">
-		<h1>Welcome to Akademia</h1>
+		<img src="/favicon.png" class="logo" alt="Akademia logo" />
+		<h1 class="header">Welcome to Akademia</h1>
+		<p>Choose a signin method</p>
 		<br />
 		<Authorizer />
 	</div>
-{/if}
+</div>
 
 <style>
+	h1, p {
+		cursor: default;
+	}
+	p {
+		margin-top: 1rem;
+		font-size: 1.5rem;
+	}
+	h1 {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	.logo {
+		width: 15vw;
+		height: 15vw;
+	}
+	.container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		width: 100vw;
+	}
 	.login-container {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		width: 22vw;
+		margin-bottom: 25vh;
 	}
 </style>

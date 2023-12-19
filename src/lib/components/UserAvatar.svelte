@@ -27,7 +27,7 @@
 
 	const userHandler = async () => {
 		if (!state.token) {
-			goto('/login');
+			goto('/signin');
 		} else {
 			await state.logout();
 		}

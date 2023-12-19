@@ -15,7 +15,7 @@
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
 		if (!state.user?.preferred_username) {
-			goto('/login');
+			goto('/signin');
 		}
 	});
 

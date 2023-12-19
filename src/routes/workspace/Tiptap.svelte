@@ -10,7 +10,6 @@
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
-	import Page from '../login/+page.svelte';
 
 	let state: AuthorizerState;
 
@@ -34,7 +33,7 @@
 			editor.destroy();
 		}
 		if (state.token == null) {
-			goto('/login');
+			goto('/signin');
 			return;
 		}
 		const ydoc = new Y.Doc();
