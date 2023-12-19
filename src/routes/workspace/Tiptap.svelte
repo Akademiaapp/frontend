@@ -89,8 +89,31 @@
 		max-height: 100%;
 		padding: 1rem;
 		overflow-y: hidden;
+		transition: scrollbar-color 0.5s ease; /* Adding transition for a smooth fade effect */
 		&:hover {
 			overflow-y: scroll;
+		}
+		&::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		&::webkit-scrollbar-button {
+			display: none;
+		}
+
+		/* Track */
+		&::-webkit-scrollbar-track {
+			background: #f1f1f1;
+		}
+
+		/* Handle */
+		&::-webkit-scrollbar-thumb {
+			background: #888;
+		}
+
+		/* Handle on hover */
+		&::-webkit-scrollbar-thumb:hover {
+			background: #555;
 		}
 	}
 
