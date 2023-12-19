@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../store';
+	import Color from '@tiptap/extension-color';
 
 	export let editor: Editor;
 
@@ -9,6 +10,8 @@
 	export let activeFile: string;
 
 	$: isThemeChecked.set(checked);
+
+	let textcolor: string;
 </script>
 
 <div id="toolbar">
@@ -37,11 +40,17 @@
 			>
 				P
 			</button>
-			<input
-			type="color"
-			on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
-			value={editor.getAttributes('textStyle').color}
-		  	>
+			<div class="smal-splitter"></div>
+			<div class="text-color">
+				<input
+					type="color"
+					on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
+					value={editor.getAttributes('textStyle').color}
+					id="text-color"
+				/>
+				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
+				>
+			</div>
 		{/if}
 		<div class="splitter"></div>
 	</div>
@@ -117,6 +126,13 @@
 		height: 100%;
 	}
 
+	.smal-splitter {
+		width: 0.1rem;
+		background-color: var(--color-overlay-1);
+		margin: 0rem 0.5rem;
+		height: 1.5rem;
+	}
+
 	p {
 		margin: 0;
 	}
@@ -124,7 +140,7 @@
 	#style-controls {
 		display: flex;
 		gap: 0.2rem;
-		align-items: stretch;
+		align-items: center;
 
 		button {
 			border: none;
@@ -140,6 +156,16 @@
 			&.active {
 				background-color: var(--color-overlay-1);
 			}
+		}
+	}
+
+	.text-color {
+		input {
+			visibility: hidden;
+			position: absolute;
+		}
+		label {
+			font-weight: bold;
 		}
 	}
 </style>
