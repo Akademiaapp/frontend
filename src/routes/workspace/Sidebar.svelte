@@ -2,7 +2,6 @@
 	import QuickBar from './quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	import QuickAction from './quickActions/QuickAction.svelte';
 	export let activeFile: string;
 </script>
 
@@ -28,8 +27,8 @@
 		resize: horizontal;
 		overflow: auto;
 		width: 18rem;
-		/* min-width: 200px;
-		max-width: 500px;	 */
+		min-width: 10rem;
+		max-width: 16rem;
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;

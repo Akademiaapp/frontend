@@ -35,7 +35,7 @@
 </script>
 
 <div class="container">
-	<img on:click={userHandler} class="avatar br-2" src={state.user?.picture} alt="User avatar" />
+	<img on:click={userHandler} class="avatar br-2" src={state.user?.picture} alt="User avatar" referrerpolicy="no-referrer"/>
 	{#if name}
 		<p>
 			{getUserName()}
