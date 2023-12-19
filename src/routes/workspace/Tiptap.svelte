@@ -109,11 +109,13 @@
 
 		/* Track */
 		&::-webkit-scrollbar-track {
-			background-color: var(--color-bg-2);
+			// background-color: var(--color-bg-2);
+			background-color: transparent;
 		}
 
 		/* Handle */
 		&::-webkit-scrollbar-thumb {
+			border-radius: 100px;
 			background-color: var(--color-text-3);
 		}
 
