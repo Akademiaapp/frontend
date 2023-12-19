@@ -55,7 +55,7 @@
 	}
 
 	.darkmode_toggle label {
-		filter: invert(var(--invert-little));
+		filter: invert(var(--invert-1));
 		border: 2px solid #555;
 		color: var(--color-text-2);
 		border-radius: 50px;
