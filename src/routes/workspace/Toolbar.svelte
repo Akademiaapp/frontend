@@ -37,6 +37,11 @@
 			>
 				P
 			</button>
+			<input
+			type="color"
+			on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
+			value={editor.getAttributes('textStyle').color}
+		  	>
 		{/if}
 		<div class="splitter"></div>
 	</div>

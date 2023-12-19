@@ -20,6 +20,8 @@ import TaskList from '@tiptap/extension-task-list'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import Image from '@tiptap/extension-image'
+import TextStyle from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/extension-color'
 
 export const EditorExtensions = [
   Blockquote,
@@ -43,5 +45,7 @@ export const EditorExtensions = [
   Text,
   Subscript,
   Superscript,
-  Image
+  Image,
+  TextStyle,
+  Color
 ]
