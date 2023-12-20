@@ -44,7 +44,7 @@
 			document: ydoc,
 			onAuthenticationFailed: () => {
 				editor.destroy();
-				element.innerHTML = 'Authentication failed! 🚫⚠️❌⚠️🚫';
+				element.innerHTML = 'Authentication failed! You do not have access to this document!! 🚫⚠️❌⚠️🚫';
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
