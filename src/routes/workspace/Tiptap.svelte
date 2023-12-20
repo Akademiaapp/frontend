@@ -42,6 +42,11 @@
 			token: state.token.access_token,
 			name: activeFile,
 			document: ydoc,
+			onAuthenticationFailed: () => {
+				editor.destroy();
+				element.innerHTML = 'Authentication failed! 🚫⚠️❌⚠️🚫';
+				throw new Error('Authentication failed');
+			},
 			onConnect: () => {
 				editor = new Editor({
 					element: element,
