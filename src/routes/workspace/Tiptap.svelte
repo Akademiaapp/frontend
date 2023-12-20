@@ -38,7 +38,7 @@
 		}
 		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
-			url: 'wss://backend.akademia.cc:8091',
+			url: 'wss://backend.akademia.cc',
 			token: state.token.access_token,
 			name: activeFile,
 			document: ydoc,
