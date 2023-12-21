@@ -2,6 +2,7 @@
 	import File from './File.svelte';
 
 	export let files = [
+		'Test',
 		'Dansk',
 		'Matematik',
 		'Fransk',
