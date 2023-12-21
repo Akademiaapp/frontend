@@ -2,10 +2,23 @@
 	import type { Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../store';
 	import { onMount } from 'svelte';
-	import { getDocuments } from '$lib/api/api';
+	import ApiHandler from '../../lib/api';
 	
+	import { getContext } from 'svelte';
+	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { Readable } from 'svelte/store';
+
+	let state: AuthorizerState;
+
+	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
+
+	store.subscribe((data: AuthorizerState) => {
+		state = data;
+	});
+
 	onMount(async () => {
-		console.log(getDocuments());
+		const api = new ApiHandler(state?.token?.access_token ? state?.token?.access_token : '');
+		console.log(api.getDocuments());
 	});
 
 	export let editor: Editor;
