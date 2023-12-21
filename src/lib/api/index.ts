@@ -1,11 +1,13 @@
 import type { AuthorizerState } from "@authorizerdev/authorizer-svelte/types";
+import { get, type Readable } from 'svelte/store';
 
 export default class ApiHandler {
   static baseUrl = 'https://api.akademia.cc';
-  static state: AuthorizerState;
-  constructor(state: AuthorizerState) {
-    ApiHandler.state = state;
+  static context: Readable<AuthorizerState>;
+  constructor(context: Readable<AuthorizerState>) {
+    ApiHandler.context = context
   }
+
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callApi(endpoint: string, options?: any, method: string = 'GET') {
@@ -13,7 +15,7 @@ export default class ApiHandler {
     // Add bearer token to headers
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${ApiHandler.state.token?.access_token}`,
+      'Authorization': `Bearer ${get(ApiHandler.context)?.token?.access_token || ''}`,
     };
 
     return fetch(url + '?' + new URLSearchParams({

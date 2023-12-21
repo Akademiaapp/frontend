@@ -2,12 +2,12 @@
 	import type { Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../store';
 	import ApiHandler from '../../lib/api';
-	
+
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
-	import { get, type Readable } from 'svelte/store';
+	import type { Readable } from 'svelte/store';
 
-	const api = new ApiHandler(get(<Readable<AuthorizerState>>getContext('authorizerContext')));
+	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let editor: Editor;
 
@@ -59,7 +59,7 @@
 			</div>
 		{/if}
 		<div class="splitter"></div>
-		<button on:click={async () => console.log(await (await api.createDocument('test')).json())}>Test</button>
+		<button on:click={async () => console.log(await (await api.getDocuments()).json())}>Test</button>
 	</div>
 
 	<div class="spacer"></div>
