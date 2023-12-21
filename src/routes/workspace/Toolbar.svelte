@@ -5,6 +5,7 @@
 
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { Readable } from 'svelte/store';
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
