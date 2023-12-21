@@ -37,7 +37,7 @@ export default class ApiHandler {
   createDocument(documentName: string) {
     return this.callApi('/documents', {
       name: documentName,
-      user_id: ApiHandler.state.user?.id,
+      user_id: get(ApiHandler.context).user?.id,
     }, 'POST')
   }
 }
