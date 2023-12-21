@@ -17,6 +17,7 @@
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
+		console.log(state);
 	});
 
 	let element: Element;

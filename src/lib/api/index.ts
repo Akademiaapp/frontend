@@ -1,13 +1,10 @@
+import type { AuthorizerState } from "@authorizerdev/authorizer-svelte/types";
 
 export default class ApiHandler {
   static baseUrl = 'https://api.akademia.cc';
-  static token: string;
-  constructor(token: string) {
-    ApiHandler.token = token;
-  }
-
-  getDocuments() {
-    return this.callApi('/documents/Dansk')
+  static state: AuthorizerState;
+  constructor(state: AuthorizerState) {
+    ApiHandler.state = state;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,13 +13,29 @@ export default class ApiHandler {
     // Add bearer token to headers
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${ApiHandler.token}`,
+      'Authorization': `Bearer ${ApiHandler.state.token?.access_token}`,
     };
 
-    return fetch(url, {
+    return fetch(url + '?' + new URLSearchParams({
+      ...options
+    }), {
       method,
-      ...options,
-      headers,
+      headers
     })
+  }
+
+  getDocument(documentName: string) {
+    return this.callApi('/documents/' + documentName)
+  }
+
+  getUserDocuments() {
+    return this.callApi('/documents')
+  }
+
+  createDocument(documentName: string) {
+    return this.callApi('/documents', {
+      name: documentName,
+      user_id: ApiHandler.state.user?.id,
+    }, 'POST')
   }
 }
