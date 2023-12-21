@@ -1,9 +1,11 @@
+import type { AuthorizerState } from "@authorizerdev/authorizer-svelte/types";
+import { get, type Readable } from 'svelte/store';
 
 export default class ApiHandler {
   static baseUrl = 'https://api.akademia.cc';
-  static token: string;
-  constructor(token: string) {
-    ApiHandler.token = token;
+  static context: Readable<AuthorizerState>;
+  constructor(context: Readable<AuthorizerState>) {
+    ApiHandler.context = context
   }
 
   getDocuments() {
@@ -16,7 +18,7 @@ export default class ApiHandler {
     // Add bearer token to headers
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${ApiHandler.token}`,
+      'Authorization': `Bearer ${get(ApiHandler.context)?.token || ''}`,
     };
 
     return fetch(url, {
