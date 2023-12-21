@@ -1,7 +1,12 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../store';
-	import Color from '@tiptap/extension-color';
+	import { onMount } from 'svelte';
+	import { getDocuments } from '$lib/api/api';
+	
+	onMount(async () => {
+		console.log(getDocuments());
+	});
 
 	export let editor: Editor;
 
