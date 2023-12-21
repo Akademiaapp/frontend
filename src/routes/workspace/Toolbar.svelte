@@ -10,15 +10,15 @@
 
 	let state: AuthorizerState;
 
+	let api: ApiHandler;
+
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
-	});
-
-	onMount(async () => {
-		const api = new ApiHandler(state?.token?.access_token ? state?.token?.access_token : '');
-		console.log(api.getDocuments());
+		let token = state?.token?.access_token || '';
+		console.log(token)
+		api = new ApiHandler(token);
 	});
 
 	export let editor: Editor;
@@ -71,6 +71,7 @@
 			</div>
 		{/if}
 		<div class="splitter"></div>
+		<button on:click={async () => console.log(await (await api.getDocuments()).json())}>Test</button>
 	</div>
 
 	<div class="spacer"></div>

@@ -7,7 +7,7 @@ export default class ApiHandler {
   }
 
   getDocuments() {
-    return this.callApi('/documents')
+    return this.callApi('/documents/Dansk')
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +16,6 @@ export default class ApiHandler {
     // Add bearer token to headers
     const headers = {
       'Content-Type': 'application/json',
-      ...options.headers,
       'Authorization': `Bearer ${ApiHandler.token}`,
     };
 
