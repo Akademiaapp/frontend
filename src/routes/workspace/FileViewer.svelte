@@ -1,23 +1,23 @@
-<script>
+<script lang="ts">
 	import File from './File.svelte';
+	import ApiHandler from '$lib/api';
 
-	export let files = [
-		'Test',
-		'Dansk',
-		'Matematik',
-		'Fransk',
-		'Fysik/Kemi',
-		'Biologi',
-		'Engelsk',
-		'Kristendom',
-		'Samfundsfag',
-		'Valgfag',
-		'Geografi',
-		'Idræt',
-		'Andet fag'
-	];
+	import { getContext, onMount } from 'svelte';
+	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { Readable } from 'svelte/store';
 
-	export let activeFile = 'Dansk';
+	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+
+	export let files: string[] = [];
+	export let activeFile = '';
+
+	onMount(async () => {
+		const userDocuments = await api.getUserDocuments();
+		
+		files = (await userDocuments.json()).map((doc: { name: string }) => doc.name);
+	});
+
+
 </script>
 
 <div class="container br-2">
