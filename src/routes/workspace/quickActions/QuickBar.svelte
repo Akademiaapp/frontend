@@ -9,7 +9,6 @@
 	<QuickAction icon="home" />
 	<SearchQ></SearchQ>
 	<QuickAction icon="alarm" />
-	<span class="material-symbols-rounded"> home </span>
 </div>
 
 <style lang="scss">
@@ -19,8 +18,6 @@
 	}
 
 	span {
-		font-variation-settings: 'FILL' 0;
-
 		font-size: 2rem;
 
 		color: #7f7f7f;
