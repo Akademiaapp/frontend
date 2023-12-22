@@ -1,17 +1,34 @@
 <script>
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
+	import Icon from 'mdi-svelte';
+	import { mdiHome } from '@mdi/js';
 </script>
 
 <div class="container">
-	<QuickAction icon="home.svg" />
+	<QuickAction icon="home" />
 	<SearchQ></SearchQ>
-	<QuickAction icon="alarm.svg" />
+	<QuickAction icon="alarm" />
+	<span class="material-symbols-rounded"> home </span>
 </div>
 
-<style>
+<style lang="scss">
 	.container {
 		display: flex;
 		gap: 0.5rem;
+	}
+
+	span {
+		font-variation-settings: 'FILL' 0;
+
+		font-size: 2rem;
+
+		color: #7f7f7f;
+		transition: color 1s;
+		position: absolute;
+		&:hover {
+			color: black;
+			// font-variation-settings: 'FILL' 1;
+		}
 	}
 </style>

@@ -49,7 +49,7 @@
 	});
 </script>
 
-<QuickAction icon="search.svg" action={openSearch}></QuickAction>
+<QuickAction icon="search" action={openSearch}></QuickAction>
 
 {#if isSeaching}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->

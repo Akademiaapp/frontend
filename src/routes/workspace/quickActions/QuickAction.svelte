@@ -4,7 +4,7 @@
 </script>
 
 <button class="container b2" on:click={action}>
-	<img src={'icons/' + icon} alt="" />
+	<span class="material-symbols-rounded"> {icon} </span>
 </button>
 
 <style lang="scss">
@@ -30,15 +30,13 @@
 		// }
 	}
 
-	img {
-		height: 100%;
+	span {
+		font-size: 2rem;
 
-		filter: invert(var(--invert-0));
-
-		transition: filter 100ms;
-
+		color: #7f7f7f;
+		transition: color 100ms;
 		&:hover {
-			filter: invert(var(--invert-1));
+			color: black;
 		}
 	}
 </style>
