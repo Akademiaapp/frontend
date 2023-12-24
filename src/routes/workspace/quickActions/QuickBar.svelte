@@ -1,8 +1,6 @@
 <script>
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
-	import Icon from 'mdi-svelte';
-	import { mdiHome } from '@mdi/js';
 </script>
 
 <div class="container">
