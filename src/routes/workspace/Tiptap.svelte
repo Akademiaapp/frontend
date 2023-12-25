@@ -131,6 +131,7 @@
 	}
 
 	.editor_content {
+		overflow-wrap: break-word;
 		margin-top: 1rem;
 	}
 
