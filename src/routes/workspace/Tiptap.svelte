@@ -45,7 +45,8 @@
 			document: ydoc,
 			onAuthenticationFailed: () => {
 				editor.destroy();
-				element.innerHTML = 'Authentication failed! You do not have access to this document!! 🚫⚠️❌⚠️🚫';
+				element.innerHTML =
+					'Authentication failed! You do not have access to this document!! 🚫⚠️❌⚠️🚫';
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
@@ -84,12 +85,11 @@
 	});
 </script>
 
-<div id="editor" class="editor_wrapper">
-	<div id="text-editor" class="editor_content" bind:this={element} />
-</div>
+<div id="text-editor" class="editor_content" bind:this={element} />
 
 <style lang="scss">
 	.editor_wrapper {
+		background-color: white;
 		max-width: 100%;
 		max-height: 100%;
 		padding: 1rem;

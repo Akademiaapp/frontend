@@ -20,7 +20,7 @@
 	let textcolor: string;
 </script>
 
-<div id="toolbar">
+<div id="toolbar" class="br-2">
 	<div id="filepath">
 		<div class="color"></div>
 		<p class="filename">{activeFile}</p>
@@ -73,6 +73,27 @@
 </div>
 
 <style lang="scss">
+	#toolbar {
+		z-index: 1;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+
+		display: flex;
+		gap: 1rem;
+		padding: 0 1.25rem;
+
+		cursor: pointer;
+
+		background-color: white;
+
+		box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.05);
+
+		align-items: center;
+
+		border-bottom: solid var(--color-overlay-1) 0.05rem;
+	}
+
 	.darkmode_toggle input[type='checkbox'] {
 		display: none;
 	}
@@ -100,16 +121,6 @@
 
 	.darkmode_toggle input[type='checkbox']:checked ~ label {
 		background-image: url('/icons/dark_mode.svg');
-	}
-
-	#toolbar {
-		display: flex;
-		gap: 1rem;
-		padding: 0.75rem 1rem;
-
-		align-items: center;
-
-		border-bottom: solid var(--color-overlay-1) 0.05rem;
 	}
 
 	.color {

@@ -7,6 +7,7 @@
 	import type { Editor } from '@tiptap/core';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import FileEditor from './FileEditor.svelte';
 
 	let state: AuthorizerState;
 
@@ -24,29 +25,22 @@
 	let activeFile: string;
 </script>
 
+<FileEditor bind:editor {activeFile}></FileEditor>
 <div class="main">
 	<Sidebar bind:activeFile></Sidebar>
-	<div class="editor br-2">
-		<Toolbar {editor} {activeFile} />
-		<Tiptap {activeFile} bind:editor />
-	</div>
+	<Toolbar {editor} {activeFile} />
 </div>
 
 <style>
 	.main {
+		z-index: 1;
+		position: relative;
 		gap: 0.75rem;
 		display: flex;
-		background-color: var(--color-bg-0);
-		flex: 1rem;
-		padding: 0.75rem;
-		height: 100%;
-		height: calc(100vh - 0.75rem - 0.75rem);
-	}
 
-	.editor {
-		flex: 1;
-		background-color: var(--color-bg-1);
-		display: flex;
-		flex-direction: column;
+		flex: 1rem;
+		padding: 1.25rem;
+		height: 100%;
+		height: calc(100vh - 1.25rem - 1.25rem);
 	}
 </style>
