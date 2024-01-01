@@ -37,6 +37,7 @@
 		position: relative;
 		gap: 0.75rem;
 		display: flex;
+		pointer-events: painted;
 
 		flex: 1rem;
 		padding: 1.25rem;
