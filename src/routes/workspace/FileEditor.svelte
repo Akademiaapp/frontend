@@ -23,7 +23,7 @@
 		width: 600px;
 		height: 800px;
 
-		background-color: white;
+		background-color: var(--color-bg-1);
 
 		padding: 2rem 4rem;
 	}

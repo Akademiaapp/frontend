@@ -21,11 +21,11 @@
 </script>
 
 <div id="toolbar" class="br-2">
-	<div id="filepath">
+	<!-- <div id="filepath">
 		<div class="color"></div>
 		<p class="filename">{activeFile}</p>
-	</div>
-	<div class="splitter"></div>
+	</div> -->
+	<!-- <div class="splitter"></div> -->
 	<div id="style-controls">
 		{#if editor}
 			<button
@@ -74,35 +74,30 @@
 
 <style lang="scss">
 	#toolbar {
-		z-index: 1;
+		pointer-events: auto;
+		z-index: 100;
+		width: 400px;
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
 
 		display: flex;
 		gap: 1rem;
-		padding: 0 1.25rem;
+		padding: 0.3rem 1rem;
 
-		cursor: pointer;
+		background-color: var(--color-bg-1);
 
-		background-color: white;
-
-		box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.05);
+		box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.05);
 
 		align-items: center;
+		justify-items: center;
 
 		border-bottom: solid var(--color-overlay-1) 0.05rem;
 	}
 
-	.darkmode_toggle input[type='checkbox'] {
-		display: none;
-	}
-
 	.darkmode_toggle label {
 		filter: invert(var(--invert-1));
-		border: 2px solid #555;
 		color: var(--color-text-2);
-		border-radius: 50px;
 		cursor: pointer;
 		display: inline-block;
 		position: relative;
@@ -111,16 +106,26 @@
 		height: 25px;
 	}
 
-	.darkmode_toggle input[type='checkbox'] ~ label {
-		background-image: url('/icons/light_mode.svg');
-		background-size: 15px;
+	.darkmode_toggle {
+		height: 25px;
 
-		background-repeat: no-repeat;
-		background-position: center;
-	}
+		input[type='checkbox'] {
+			display: none;
+		}
 
-	.darkmode_toggle input[type='checkbox']:checked ~ label {
-		background-image: url('/icons/dark_mode.svg');
+		input[type='checkbox'] {
+			~ label {
+				background-image: url('/icons/light_mode.svg');
+				background-size: 15px;
+
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+
+			&:checked ~ label {
+				background-image: url('/icons/dark_mode.svg');
+			}
+		}
 	}
 
 	.color {
