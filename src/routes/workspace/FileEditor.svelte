@@ -20,8 +20,8 @@
 <style lang="scss">
 	.page {
 		// aspect-ratio: 1.414;
-		width: 600px;
-		height: 800px;
+		width: 750px;
+		height: 1000px;
 
 		background-color: var(--color-bg-1);
 
@@ -29,7 +29,7 @@
 	}
 
 	.pages {
-		padding-top: 4rem;
+		padding-top: 4.5rem;
 		position: absolute;
 
 		left: 50%;
