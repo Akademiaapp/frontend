@@ -24,6 +24,7 @@
 	}
 
 	.sideBar {
+		pointer-events: auto;
 		resize: horizontal;
 		overflow: auto;
 		width: 18rem;
