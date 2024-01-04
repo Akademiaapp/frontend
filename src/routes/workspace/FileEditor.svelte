@@ -15,8 +15,8 @@
 			<Tiptap {activeFile} bind:editor />
 		</div>
 		<div class="page"></div>
+		<Overview tiptap={editor}></Overview>
 	</div>
-	<Overview tiptap={editor}></Overview>
 </div>
 
 <style lang="scss">
@@ -34,14 +34,15 @@
 		padding-top: 4.5rem;
 		position: absolute;
 
-		left: 50%;
-		transform: translateX(-50%);
+		// transform: translateX(-50%);
 		display: flex;
 		flex-direction: column;
 		gap: 5rem;
 	}
 
 	.editor_wrapper {
+		display: flex;
+		justify-content: center;
 		left: 0;
 		right: 0;
 		top: 0;
@@ -52,11 +53,11 @@
 		z-index: 0;
 
 		// flex: 1;
-		overflow-y: scroll;
+		// overflow-y: scroll;
 		&:hover,
 		:active,
 		:focus {
-			overflow-y: auto;
+			// overflow-y: auto;
 			&::-webkit-scrollbar {
 				opacity: 1;
 			}

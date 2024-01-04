@@ -76,7 +76,6 @@ button {
 	font-size: inherit;
 	font-family: inherit;
 	color: var(--color-text-1);
-
 }
 
 .colored-button {
@@ -97,6 +96,14 @@ button:focus:not(:focus-visible) {
 	h1 {
 		font-size: 2.4rem;
 	}
+}
+
+button.reset {
+	border: none;
+	background: transparent;
+	color: var(--color-text-0);
+
+	cursor: pointer;
 }
 
 .flex {

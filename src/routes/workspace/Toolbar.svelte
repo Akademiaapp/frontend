@@ -74,10 +74,10 @@
 
 <style lang="scss">
 	#toolbar {
+		position: fixed;
 		pointer-events: auto;
 		z-index: 1;
 		width: 400px;
-		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
 
