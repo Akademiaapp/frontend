@@ -2,6 +2,7 @@
 	import type { Editor } from '@tiptap/core';
 	import Tiptap from './Tiptap.svelte';
 	import Toolbar from './Toolbar.svelte';
+	import Overview from './Overview.svelte';
 
 	export let editor: Editor;
 
@@ -15,6 +16,7 @@
 		</div>
 		<div class="page"></div>
 	</div>
+	<Overview tiptap={editor}></Overview>
 </div>
 
 <style lang="scss">
