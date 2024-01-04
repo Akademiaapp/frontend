@@ -75,7 +75,7 @@
 <style lang="scss">
 	#toolbar {
 		pointer-events: auto;
-		z-index: 100;
+		z-index: 1;
 		width: 400px;
 		position: absolute;
 		left: 50%;
