@@ -36,7 +36,11 @@
 		color: #7f7f7f;
 		transition: color 100ms;
 		&:hover {
-			color: black;
+			color: var(--color-text-0);
+			transform: translateY(-0.05rem);
+
+			transition: transform 100ms;
 		}
+		transition: transform 400ms;
 	}
 </style>
