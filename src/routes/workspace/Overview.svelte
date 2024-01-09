@@ -16,7 +16,7 @@
 
 	// Eat some cerial (:
 	function cerial(str: String): string {
-		return str.replaceAll('?', '');
+		return str.replaceAll('?', '').replaceAll(' ', '-');
 	}
 
 	type HeadTypes = { text: String; id: String };
