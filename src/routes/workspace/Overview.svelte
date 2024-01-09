@@ -1,15 +1,22 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core';
 	import { onMount } from 'svelte';
+	import Tiptap from './Tiptap.svelte';
 
 	export let tiptap: Editor;
 
-	$: tiptap?.on('update', getHeadings);
+	Tiptap;
+
+	$: {
+		tiptap?.on('create', () => {
+			tiptap?.on('update', getHeadings);
+			console.log('hdehdhd');
+		});
+	}
 
 	type HeadTypes = { text: String; id: String };
 
 	function getHeadings(): HeadTypes[] {
-		console.log('dhhdhd');
 		if (tiptap === undefined) return [];
 		const headings: HeadTypes[] = [];
 		const transaction = tiptap.state.tr;
