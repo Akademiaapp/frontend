@@ -10,6 +10,7 @@
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import TableOfContents from './TableOfContents';
 
 	let state: AuthorizerState;
 
@@ -63,9 +64,11 @@
 						}),
 						Collaboration.configure({
 							document: ydoc
-						})
+						}),
+						TableOfContents
 					],
 					content: '',
+
 					onTransaction: () => {
 						editor = editor;
 					}

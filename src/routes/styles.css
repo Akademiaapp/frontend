@@ -9,6 +9,8 @@
 	--color-overlay-5: color-mix(in srgb, var(--color-text-0) 30%, transparent);
 	--color-overlay-6: color-mix(in srgb, var(--color-text-0) 35%, transparent);
 	--color-overlay-7: color-mix(in srgb, var(--color-text-0) 40%, transparent);
+
+	scroll-behavior: smooth;
 }
 
 body {
@@ -19,6 +21,10 @@ body {
 	background-size: 100vw 100vh;
 	color: var(--color-text-1);
 	background-color: var(--color-bg-0);
+}
+
+h1 {
+	scroll-margin-top: 5rem;
 }
 
 button {
@@ -104,6 +110,11 @@ button.reset {
 	color: var(--color-text-0);
 
 	cursor: pointer;
+}
+
+a.reset {
+	text-decoration: none;
+	color: var(--color-text-0);
 }
 
 .flex {
