@@ -41,7 +41,6 @@
 
 		transaction.setMeta('addToHistory', false);
 		transaction.setMeta('preventUpdate', true);
-		tiptap.commands.setMeta('prevetnUpdate', true);
 		tiptap.view.dispatch(transaction);
 
 		topHeadings = headings;
