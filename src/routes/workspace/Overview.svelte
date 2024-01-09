@@ -14,6 +14,11 @@
 		});
 	}
 
+	// Eat some cerial (:
+	function cerial(str: String): string {
+		return str.replaceAll('?', '');
+	}
+
 	type HeadTypes = { text: String; id: String };
 
 	function getHeadings(): HeadTypes[] {
@@ -22,7 +27,7 @@
 		const transaction = tiptap.state.tr;
 		tiptap.state.doc.descendants((node, pos) => {
 			if (node.type.name === 'heading' && node.attrs.level === 1) {
-				const id = `${encodeURIComponent(node.textContent) + headings.length + 1}`;
+				const id = `${encodeURIComponent(cerial(node.textContent)) + headings.length + 1}`;
 
 				if (node.attrs.id !== id) {
 					transaction.setNodeMarkup(pos, undefined, {
