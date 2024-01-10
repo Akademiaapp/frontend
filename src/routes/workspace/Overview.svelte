@@ -10,15 +10,7 @@
 	export let activeFile: String;
 
 	// hook on update if we change document
-	$: activeFile && hook();
-
-	function hook() {
-		tiptap?.on('update', updateHeadings);
-	}
-	onMount(() => {
-		updateHeadings();
-		console.log('hdehdhd');
-	});
+	$: tiptap && updateHeadings();
 
 	// Eat some cerial (:
 	function cerial(str: String): string {

@@ -69,7 +69,7 @@
 					],
 					content: '',
 
-					onTransaction: () => {
+					onUpdate: () => {
 						editor = editor;
 					}
 				});
