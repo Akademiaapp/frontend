@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Document } from '@tiptap/extension-document';
 	import File from './File.svelte';
 	import ApiHandler from '$lib/api';
 
@@ -34,7 +35,7 @@
 	{/each}
 	<div class="splitter"></div>
 	<SideBarElem active={false}>
-		<button class="reset f-full">
+		<button on:click={() => api.createDocument('vvv')} class="reset f-full">
 			<span class="material-symbols-rounded icon-w-2">add</span>
 			<span>New file</span>
 		</button>
