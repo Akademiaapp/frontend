@@ -34,7 +34,7 @@
 <style>
 	.main {
 		z-index: 1;
-		position: relative;
+		position: fixed;
 		gap: 0.75rem;
 		display: flex;
 		pointer-events: none;
