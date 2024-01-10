@@ -26,8 +26,8 @@ export default class ApiHandler {
     })
   }
 
-  getDocument(documentName: string) {
-    return this.callApi('/documents/' + documentName)
+  getDocument(documentId: string) {
+    return this.callApi('/documents/' + documentId)
   }
 
   getUserDocuments() {
@@ -41,8 +41,8 @@ export default class ApiHandler {
     }, 'POST')
   }
 
-  addUserToDocument(documentName: string, user_email: string) {
-    return this.callApi('/documents/' + documentName + '/users', {
+  addUserToDocument(documentId: string, user_email: string) {
+    return this.callApi('/documents/' + documentId + '/users', {
       user_email
     }, 'PUT')
   }

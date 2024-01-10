@@ -58,10 +58,6 @@
 				>
 			</div>
 		{/if}
-		<div class="splitter"></div>
-		<button on:click={async () => console.log(await (await api.getUserDocuments()).json())}
-			>Test</button
-		>
 	</div>
 
 	<div class="spacer"></div>

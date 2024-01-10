@@ -45,7 +45,6 @@
 
 	function higlight(id: string) {
 		const elem = document.getElementById(id);
-		console.log(elem);
 
 		elem?.classList.add('higlight');
 		setTimeout(() => {

@@ -10,13 +10,19 @@
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
-	export let files: string[] = [];
+	interface File {
+		name: string;
+		id: string;
+	}
+
+	export let files: File[] = [];
 	export let activeFile = '';
 
 	onMount(async () => {
 		const userDocuments = await api.getUserDocuments();
 
-		files = (await userDocuments.json()).map((doc: { name: string }) => doc.name);
+		files = await userDocuments.json();
+		console.log(files);
 	});
 </script>
 
@@ -24,11 +30,13 @@
 	{#each files as file}
 		<div>
 			<File
-				name={file}
+				name={file.name}
 				onClick={() => {
-					activeFile = file;
+					console.log(file);
+					activeFile = file.id;
+					console.log(activeFile)
 				}}
-				active={file == activeFile}
+				active={file.id == activeFile}
 			></File>
 		</div>
 		<!-- content here -->

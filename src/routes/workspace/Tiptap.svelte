@@ -28,6 +28,7 @@
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
+		console.log("Initializing tiptap", activeFile)
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
 		}
