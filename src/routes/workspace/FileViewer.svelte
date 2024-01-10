@@ -13,11 +13,9 @@
 
 	onMount(async () => {
 		const userDocuments = await api.getUserDocuments();
-		
+
 		files = (await userDocuments.json()).map((doc: { name: string }) => doc.name);
 	});
-
-
 </script>
 
 <div class="container br-2">
@@ -43,7 +41,7 @@
 		font-size: 1.05rem;
 		color: var(--color-text-2);
 		background-color: var(--color-bg-1);
-		padding: 8px;
+		padding: 0.2rem;
 		flex-grow: 1;
 	}
 </style>

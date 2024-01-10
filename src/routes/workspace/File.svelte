@@ -7,16 +7,22 @@
 
 <SideBarElem {active}>
 	<div on:click={onClick} class:active>
-		{name}
+		<span class="material-symbols-rounded"> description </span>
+		<span class="name">{name}</span>
 	</div>
 </SideBarElem>
 
 <style>
-	.active {
+	.active .name {
 		color: var(--color-text-0);
 	}
 
 	div {
+		font-size: 1.2rem;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
 		cursor: pointer;
 		font-weight: 500;
 	}
