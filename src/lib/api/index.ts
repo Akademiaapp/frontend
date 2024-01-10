@@ -41,9 +41,9 @@ export default class ApiHandler {
     }, 'POST')
   }
 
-  addUserToDocument(documentName: string, user_id: string) {
+  addUserToDocument(documentName: string, user_email: string) {
     return this.callApi('/documents/' + documentName + '/users', {
-      user_id
+      user_email
     }, 'PUT')
   }
 }
