@@ -10,8 +10,11 @@
 	export let activeFile: String;
 
 	// hook on update if we change document
-	$: activeFile && tiptap?.on('update', updateHeadings);
+	$: activeFile && hook();
 
+	function hook() {
+		tiptap?.on('update', updateHeadings);
+	}
 	onMount(() => {
 		updateHeadings();
 		console.log('hdehdhd');
@@ -22,14 +25,14 @@
 		return str.replaceAll('?', '').replaceAll(' ', '-');
 	}
 
-	type HeadTypes = { text: String; id: String };
+	type HeadTypes = { text: String; level: Number; id: String };
 
 	function updateHeadings(): HeadTypes[] {
 		if (tiptap === undefined) return [];
 		const headings: HeadTypes[] = [];
 		const transaction = tiptap.state.tr;
 		tiptap.state.doc.descendants((node, pos) => {
-			if (node.type.name === 'heading' && node.attrs.level === 1) {
+			if (node.type.name === 'heading') {
 				const id = `${encodeURIComponent(cerial(node.textContent)) + headings.length + 1}`;
 
 				if (node.attrs.id !== id) {
@@ -38,7 +41,7 @@
 						id
 					});
 				}
-				headings.push({ text: node.textContent, id: id });
+				headings.push({ text: node.textContent, level: node.attrs.level, id: id });
 			}
 		});
 
@@ -55,7 +58,7 @@
 
 <div class="container">
 	{#each topHeadings as h}
-		<a href="#{h.id}" class="reset">{h.text}</a>
+		<a href="#{h.id}" style="padding-left: {h.level * 10 - 1}px;" class="reset">{h.text}</a>
 	{/each}
 </div>
 
