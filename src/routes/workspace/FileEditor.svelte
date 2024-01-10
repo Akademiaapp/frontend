@@ -16,7 +16,7 @@
 		</div>
 		<div class="page"></div>
 		{#if editor}
-			<Overview tiptap={editor} {activeFile}></Overview>
+			<Overview tiptap={editor}></Overview>
 		{/if}
 	</div>
 </div>

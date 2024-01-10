@@ -1,5 +1,7 @@
 <script>
 	export let active = false;
+
+	export let clickable = false;
 </script>
 
 <div class:active>
@@ -10,11 +12,12 @@
 	div {
 		padding: 0.25rem 0.5rem;
 		border-radius: 0.3rem;
+		cursor: pointer;
+		font-weight: 500;
 	}
 
 	div:hover {
 		background-color: color-mix(in srgb, var(--color-text-0) 10%, transparent);
-
 	}
 
 	.active {

@@ -7,7 +7,7 @@
 
 <SideBarElem {active}>
 	<div on:click={onClick} class:active>
-		<span class="material-symbols-rounded"> description </span>
+		<span class="material-symbols-rounded icon-w-2"> description </span>
 		<span class="name">{name}</span>
 	</div>
 </SideBarElem>
@@ -23,7 +23,5 @@
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
-		cursor: pointer;
-		font-weight: 500;
 	}
 </style>

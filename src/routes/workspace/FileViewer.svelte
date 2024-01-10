@@ -5,6 +5,7 @@
 	import { getContext, onMount } from 'svelte';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
+	import SideBarElem from './SideBarElem.svelte';
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
@@ -31,6 +32,12 @@
 		</div>
 		<!-- content here -->
 	{/each}
+	<SideBarElem active={false}>
+		<button class="reset f-full">
+			<span class="material-symbols-rounded icon-w-2">add</span>
+			<span>New file</span>
+		</button>
+	</SideBarElem>
 </div>
 
 <style>
@@ -43,5 +50,11 @@
 		background-color: var(--color-bg-1);
 		padding: 0.2rem;
 		flex-grow: 1;
+	}
+
+	button {
+		display: flex;
+		gap: 0.25rem;
+		justify-self: end;
 	}
 </style>

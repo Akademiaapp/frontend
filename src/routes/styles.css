@@ -32,9 +32,6 @@ h6 {
 	scroll-margin-top: 5rem;
 }
 
-button {
-}
-
 h1,
 h2,
 p {
@@ -112,11 +109,17 @@ button:focus:not(:focus-visible) {
 button.reset {
 	border: none;
 	background: transparent;
-	color: var(--color-text-0);
+	color: inherit;
+	font-weight: inherit;
 
 	cursor: pointer;
+	margin: 0;
+	padding: 0;
 }
 
+.icon-w-2 {
+	width: 1.5rem;
+}
 a.reset {
 	text-decoration: none;
 	color: var(--color-text-0);
@@ -156,4 +159,9 @@ a.reset {
 
 .br-4 {
 	border-radius: 1rem;
+}
+
+.f-full {
+	height: 100%;
+	width: 100%;
 }
