@@ -25,6 +25,7 @@
 	.page {
 		// aspect-ratio: 1.414;
 		width: 750px;
+		max-width: 100%;
 		height: 1000px;
 
 		background-color: var(--color-bg-1);
@@ -33,24 +34,21 @@
 	}
 
 	.pages {
-		padding-top: 4.5rem;
-		position: absolute;
 
 		// transform: translateX(-50%);
 		display: flex;
 		flex-direction: column;
 		gap: 5rem;
+		max-width: 100%;
 	}
 
 	.editor_wrapper {
 		display: flex;
 		justify-content: center;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-
-		position: absolute;
+		align-items: center;
+		width: fit-content;
+		max-width: 100%;
+		margin-right: 1rem;
 
 		z-index: 0;
 

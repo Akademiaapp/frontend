@@ -25,23 +25,43 @@
 	let activeFile: string;
 </script>
 
-<FileEditor bind:editor {activeFile}></FileEditor>
-<div class="main">
-	<Sidebar bind:activeFile></Sidebar>
-	<Toolbar {editor} {activeFile} />
+<div class="container">
+	<div class="sidebar">
+		<Sidebar bind:activeFile></Sidebar>
+	</div>
+	<div class="editor">
+		<Toolbar {editor} {activeFile} />
+		<FileEditor bind:editor {activeFile}></FileEditor>
+	</div>
 </div>
 
 <style>
-	.main {
-		z-index: 1;
-		position: fixed;
-		gap: 0.75rem;
-		display: flex;
-		pointer-events: none;
+	.container {
+			display: flex;
+			flex-direction: row;
+	}
 
-		flex: 1rem;
-		padding: 1.25rem;
-		height: 100%;
-		height: calc(100vh - 1.25rem - 1.25rem);
+	.sidebar {
+			z-index: 1;
+			position: relative;
+			gap: 0.75rem;
+			display: flex;
+			pointer-events: auto;
+
+			width: 250px; 
+			padding: 1.25rem;
+			height: 100%;
+			height: calc(100vh - 1.25rem - 1.25rem);
+	}
+
+	.editor {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: calc(100% - 250px);
+			gap: 0.75rem;
+			margin-top: 1.25rem;
 	}
 </style>

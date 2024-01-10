@@ -94,6 +94,8 @@
 	.editor_content {
 		overflow-wrap: break-word;
 		margin-top: 1rem;
+
+		max-width: 100%;
 	}
 
 	button.active {
