@@ -10,6 +10,7 @@
 		<UserAvatar name />
 		<QuickBar />
 	</div>
+
 	<FileViewer bind:activeFile></FileViewer>
 </nav>
 

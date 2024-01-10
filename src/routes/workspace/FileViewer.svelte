@@ -32,6 +32,7 @@
 		</div>
 		<!-- content here -->
 	{/each}
+	<div class="splitter"></div>
 	<SideBarElem active={false}>
 		<button class="reset f-full">
 			<span class="material-symbols-rounded icon-w-2">add</span>
@@ -41,6 +42,9 @@
 </div>
 
 <style>
+	.splitter {
+		flex: 1;
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
