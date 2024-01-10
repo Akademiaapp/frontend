@@ -15,7 +15,9 @@
 			<Tiptap {activeFile} bind:editor />
 		</div>
 		<div class="page"></div>
-		<Overview tiptap={editor}></Overview>
+		{#if editor}
+			<Overview tiptap={editor} {activeFile}></Overview>
+		{/if}
 	</div>
 </div>
 

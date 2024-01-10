@@ -7,12 +7,15 @@
 
 	Tiptap;
 
-	$: {
-		tiptap?.on('create', () => {
-			tiptap?.on('update', getHeadings);
-			console.log('hdehdhd');
-		});
-	}
+	export let activeFile: String;
+
+	// hook on update if we change document
+	$: activeFile && tiptap?.on('update', updateHeadings);
+
+	onMount(() => {
+		updateHeadings();
+		console.log('hdehdhd');
+	});
 
 	// Eat some cerial (:
 	function cerial(str: String): string {
@@ -21,7 +24,7 @@
 
 	type HeadTypes = { text: String; id: String };
 
-	function getHeadings(): HeadTypes[] {
+	function updateHeadings(): HeadTypes[] {
 		if (tiptap === undefined) return [];
 		const headings: HeadTypes[] = [];
 		const transaction = tiptap.state.tr;
