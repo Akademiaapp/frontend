@@ -5,19 +5,15 @@
 
 	export let tiptap: Editor;
 
-	Tiptap;
-
-	export let activeFile: String;
-
 	// hook on update if we change document
 	$: tiptap && updateHeadings();
 
 	// Eat some cerial (:
-	function cerial(str: String): string {
+	function cerial(str: string): string {
 		return str.replaceAll('?', '').replaceAll(' ', '-');
 	}
 
-	type HeadTypes = { text: String; level: Number; id: String };
+	type HeadTypes = { text: string; level: number; id: string };
 
 	function updateHeadings(): HeadTypes[] {
 		if (tiptap === undefined) return [];
@@ -46,15 +42,44 @@
 	}
 
 	let topHeadings: HeadTypes[] = [];
+
+	function higlight(id: string) {
+		const elem = document.getElementById(id);
+		console.log(elem);
+
+		elem?.classList.add('higlight');
+		setTimeout(() => {
+			elem?.classList.remove('higlight');
+		}, 10000);
+	}
 </script>
 
 <div class="container">
 	{#each topHeadings as h}
-		<a href="#{h.id}" style="padding-left: {h.level * 10 - 1}px;" class="reset">{h.text}</a>
+		<a
+			href="#{h.id}"
+			on:click={() => {
+				higlight(h.id);
+			}}
+			style="padding-left: {h.level * 10 - 1}px;"
+			class="reset">{h.text}</a
+		>
 	{/each}
 </div>
 
 <style lang="scss">
+	:global(.higlight:before) {
+		color: red;
+		content: '';
+		position: absolute;
+		bottom: -2px;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: #000;
+		box-shadow: 0 0 5px black;
+	}
+
 	.container {
 		position: fixed;
 		left: calc(50% + 450px);
