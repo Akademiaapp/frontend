@@ -93,4 +93,11 @@
 			color: var(--color-text-2);
 		}
 	}
+
+	// Hide container on smaller screens
+	@media (max-width: 1500px) {
+		.container {
+			display: none;
+		}
+	}
 </style>
