@@ -34,9 +34,9 @@
 			<File
 				name={file?.name}
 				onClick={() => {
-					activeFile = file.id;
+					activeFile = file?.id;
 				}}
-				active={file.id == activeFile}
+				active={file?.id == activeFile}
 			></File>
 		</div>
 		<!-- content here -->
