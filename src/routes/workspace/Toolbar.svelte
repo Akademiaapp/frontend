@@ -70,10 +70,11 @@
 
 <style lang="scss">
 	#toolbar {
+		position: sticky;
+		top: var(--pad);
 		pointer-events: auto;
 		z-index: 1;
 		width: 400px;
-		position: relative;
 
 		display: flex;
 		gap: 1rem;
