@@ -17,11 +17,12 @@
 
 	export let files: File[] = [];
 	export let activeFile = '';
+	let userDocuments;
 
 	$: console.log('Activefile change:', activeFile);
 
 	onMount(async () => {
-		const userDocuments = await api.getUserDocuments();
+		userDocuments = await api.getUserDocuments();
 
 		files = await userDocuments.json();
 		console.log(files);
@@ -43,7 +44,14 @@
 	{/each}
 	<div class="splitter"></div>
 	<SideBarElem active={false}>
-		<button on:click={() => api.createDocument('vvv')} class="reset f-full">
+		<button on:click={() => {
+				api.createDocument('vvv');
+				api.getUserDocuments().then((res) => {
+					res.json().then((data) => {
+						files = data;
+					});
+				});
+			}} class="reset f-full">
 			<span class="material-symbols-rounded icon-w-2">add</span>
 			<span>New file</span>
 		</button>
