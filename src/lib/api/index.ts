@@ -46,4 +46,10 @@ export default class ApiHandler {
       user_email
     }, 'PUT')
   }
+
+  renameDocument(documentId: string, documentName: string) {
+    return this.callApi('/documents/' + documentId, {
+      name: documentName
+    }, 'PUT')
+  }
 }
