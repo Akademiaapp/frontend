@@ -7,6 +7,8 @@
 	export let editor: Editor;
 
 	export let activeFile: string;
+
+	$: console.log("Activefile change 2:", activeFile);
 </script>
 
 <div class="editor_wrapper">
