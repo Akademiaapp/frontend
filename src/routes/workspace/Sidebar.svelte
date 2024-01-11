@@ -3,18 +3,29 @@
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	export let activeFile: string;
+	export let onSidebarToggle: () => void;
 </script>
 
 <nav class="sideBar">
 	<div class="settings br-2">
-		<UserAvatar name />
+		<div class="top">
+			<UserAvatar name />
+			<button
+				class="reset"
+				on:click={() => {
+					onSidebarToggle();
+				}}
+			>
+				<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
+			</button>
+		</div>
 		<QuickBar />
 	</div>
 
 	<FileViewer bind:activeFile></FileViewer>
 </nav>
 
-<style>
+<style lang="scss">
 	.settings {
 		display: flex;
 		justify-content: space-between;
@@ -34,5 +45,25 @@
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;
+	}
+
+	.top {
+		display: flex;
+
+		align-items: center;
+
+		justify-content: space-between;
+
+		button {
+			span {
+				font-size: 2rem;
+			}
+
+			color: var(--color-text-1);
+
+			&:hover {
+				color: var(--color-text-0);
+			}
+		}
 	}
 </style>

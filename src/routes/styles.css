@@ -108,6 +108,10 @@ button:focus:not(:focus-visible) {
 	}
 }
 
+.material-symbols-rounded {
+	user-select: none !important;
+}
+
 button.reset {
 	border: none;
 	background: transparent;

@@ -23,11 +23,23 @@
 	let editor: Editor;
 
 	let activeFile: string;
+
+	let sidebarVisible: string;
+
+	$: console.log(sidebarVisible);
 </script>
 
 <div class="container">
+	<h1>{sidebarVisible}</h1>
 	<div class="sidebar">
-		<Sidebar bind:activeFile></Sidebar>
+		<Sidebar
+			bind:activeFile
+			onSidebarToggle={() => {
+				console.log(sidebarVisible);
+				sidebarVisible = 'jj';
+				console.log(sidebarVisible);
+			}}
+		></Sidebar>
 	</div>
 	<div class="editor">
 		<Toolbar {editor} {activeFile} />
@@ -66,5 +78,7 @@
 		width: calc(100% - 250px);
 		gap: 0.75rem;
 		margin-top: var(--pad);
+
+		transition: all 300ms;
 	}
 </style>
