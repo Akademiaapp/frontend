@@ -37,31 +37,34 @@
 
 <style>
 	.container {
-			display: flex;
-			flex-direction: row;
+		display: flex;
+		flex-direction: row;
 	}
 
 	.sidebar {
-			z-index: 1;
-			position: relative;
-			gap: 0.75rem;
-			display: flex;
-			pointer-events: auto;
+		height: 100%;
+		z-index: 1;
+		float: left;
+		position: sticky;
+		top: 0;
+		gap: 0.75rem;
+		display: flex;
+		pointer-events: auto;
 
-			width: 250px; 
-			padding: 1.25rem;
-			height: 100%;
-			height: calc(100vh - 1.25rem - 1.25rem);
+		width: 250px;
+		padding: var(--pad);
+		height: 100%;
+		height: calc(100vh - var(--pad) - var(--pad));
 	}
 
 	.editor {
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			width: calc(100% - 250px);
-			gap: 0.75rem;
-			margin-top: 1.25rem;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: calc(100% - 250px);
+		gap: 0.75rem;
+		margin-top: var(--pad);
 	}
 </style>
