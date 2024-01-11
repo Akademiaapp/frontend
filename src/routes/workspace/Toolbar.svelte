@@ -27,7 +27,6 @@
 	</div> -->
 	<!-- <div class="splitter"></div> -->
 	<div id="style-controls">
-		{#if editor}
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 				class:active={editor.isActive('heading', { level: 1 })}
@@ -57,7 +56,6 @@
 				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
 				>
 			</div>
-		{/if}
 	</div>
 
 	<div class="spacer"></div>

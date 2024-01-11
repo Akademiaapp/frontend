@@ -11,15 +11,13 @@
 	$: console.log("Activefile change 2:", activeFile);
 </script>
 
-<div class="editor_wrapper">
+<div class="editor_wrapper" style:display={editor ? null : 'none'}>
 	<div class="pages">
 		<div class="page">
 			<Tiptap {activeFile} bind:editor />
 		</div>
 		<div class="page"></div>
-		{#if editor}
-			<Overview tiptap={editor}></Overview>
-		{/if}
+		<Overview tiptap={editor}></Overview>
 	</div>
 </div>
 
