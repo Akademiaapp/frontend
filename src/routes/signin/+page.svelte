@@ -20,27 +20,21 @@
 	<div class="login-container">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
 		<h1 class="header">Welcome to Akademia</h1>
-		<p>Choose a signin method</p>
+		<h2>Choose a signin method</h2>
 		<br />
 		<Authorizer />
 	</div>
 </div>
 
 <style>
-	h1, p {
+	h1, h2 {
 		cursor: default;
-	}
-	p {
-		margin-top: 1rem;
-		font-size: 1.5rem;
-	}
-	h1 {
 		margin-top: 0;
 		margin-bottom: 0;
 	}
 	.logo {
-		width: 15vw;
-		height: 15vw;
+		width: 15rem;
+		height: 15rem;
 	}
 	.container {
 		display: flex;
@@ -55,6 +49,9 @@
 		justify-content: center;
 		align-items: center;
 		width: 22vw;
-		margin-bottom: 25vh;
+		height: 100vh;
+		padding-bottom: 20vh;
+		gap: 0.5rem;
+		min-width: fit-content;
 	}
 </style>
