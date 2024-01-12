@@ -29,7 +29,9 @@ export const EditorExtensions = [
   BulletList,
   Code,
   CodeBlock,
-  Document,
+  Document.extend({
+    content: 'heading block+'
+  }),
   Dropcursor,
   Gapcursor,
   HardBreak,
