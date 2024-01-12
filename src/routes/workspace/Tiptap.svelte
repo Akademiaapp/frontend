@@ -13,6 +13,7 @@
 	import TableOfContents from './TableOfContents';
 	import Heading from '@tiptap/extension-heading';
 	import ApiHandler from '$lib/api';
+	import Document from '@tiptap/extension-document';
 
 	let state: AuthorizerState;
 
@@ -45,12 +46,10 @@
 			goto('/signin');
 			return;
 		}
-		const ydoc = new Y.Doc();
 		const provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc',
 			token: state.token.access_token,
 			name: activeFile,
-			document: ydoc,
 			onAuthenticationFailed: () => {
 				editor.destroy();
 				element.innerHTML =
@@ -71,6 +70,9 @@
 						}),
 						Collaboration.configure({
 							document: ydoc
+						}),
+						Document.extend({
+							content: 'block+'
 						}),
 						TableOfContents,
 						Heading.extend({

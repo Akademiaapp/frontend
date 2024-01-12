@@ -3,7 +3,6 @@ import { Bold } from '@tiptap/extension-bold'
 import { BulletList } from '@tiptap/extension-bullet-list'
 import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
-import { Document } from '@tiptap/extension-document'
 import { Dropcursor } from '@tiptap/extension-dropcursor'
 import { Gapcursor } from '@tiptap/extension-gapcursor'
 import { HardBreak } from '@tiptap/extension-hard-break'
@@ -29,9 +28,6 @@ export const EditorExtensions = [
   BulletList,
   Code,
   CodeBlock,
-  Document.extend({
-    content: 'title block+'
-  }),
   Dropcursor,
   Gapcursor,
   HardBreak,
