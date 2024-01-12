@@ -69,7 +69,7 @@
 							}
 						}),
 						Collaboration.configure({
-							document: provider.document,
+							document: provider.document
 						}),
 						Document.extend({
 							content: 'title block+'
@@ -77,15 +77,10 @@
 						TableOfContents,
 						Heading.extend({
 							name: 'title',
-							defaultOptions: {
-								HTMLAttributes: {
-									class: 'title'
-								}
-							},
 							onUpdate: ({ transaction }) => {
 								api.renameDocument(
 									activeFile,
-									transaction.doc.content.content[0].content.content[0].text
+									transaction.doc.content.content[0].content.content[0].textContent
 								);
 							}
 						})
