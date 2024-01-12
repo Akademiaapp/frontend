@@ -7,6 +7,7 @@
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import SideBarElem from './SideBarElem.svelte';
+	import randomName from '$lib/randomName';
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
@@ -45,7 +46,7 @@
 	<div class="splitter"></div>
 	<SideBarElem active={false}>
 		<button on:click={() => {
-				api.createDocument('vvv');
+				api.createDocument(randomName());
 				api.getUserDocuments().then((res) => {
 					res.json().then((data) => {
 						files = data;
