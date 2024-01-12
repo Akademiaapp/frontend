@@ -68,9 +68,7 @@
 								color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 							}
 						}),
-						Collaboration.configure({
-							document: ydoc
-						}),
+						Collaboration,
 						Document.extend({
 							content: 'title block+'
 						}),
