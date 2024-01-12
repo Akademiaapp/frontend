@@ -14,7 +14,6 @@ export default class ApiHandler {
 		let timer: number;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return (...args: any) => {
-			console.log('started debounce');
 			clearTimeout(timer);
 			timer = setTimeout(() => {
 				func.apply(this, args);
