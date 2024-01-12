@@ -4,6 +4,7 @@ import { get, type Readable } from 'svelte/store';
 export default class ApiHandler {
 	static baseUrl = 'https://api.akademia.cc';
 	static context: Readable<AuthorizerState>;
+
 	constructor(context: Readable<AuthorizerState>) {
 		ApiHandler.context = context;
 	}
@@ -13,9 +14,10 @@ export default class ApiHandler {
 		let timer: number;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return (...args: any) => {
+			console.log('started debounce');
 			clearTimeout(timer);
 			timer = setTimeout(() => {
-				func.apply(this, args);
+				func(args);
 			}, timeout);
 		};
 	}
@@ -71,17 +73,7 @@ export default class ApiHandler {
 		);
 	}
 
-	renameDocument(documentId: string, documentName: string) {
-		return this.debounce(
-			() =>
-				this.callApi(
-					'/documents/' + documentId,
-					{
-						name: documentName
-					},
-					'PUT'
-				),
-			1000
-		);
-	}
+	renameDocument = this.debounce((documentId: string, documentName: string) => {
+		this.callApi('/documents/' + documentId, { name: documentName }, 'PUT');
+	}, 300);
 }
