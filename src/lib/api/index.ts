@@ -17,7 +17,7 @@ export default class ApiHandler {
 			console.log('started debounce');
 			clearTimeout(timer);
 			timer = setTimeout(() => {
-				func(args);
+				func.apply(this, args);
 			}, timeout);
 		};
 	}
