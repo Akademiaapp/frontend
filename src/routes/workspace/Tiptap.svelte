@@ -72,7 +72,7 @@
 							document: ydoc
 						}),
 						Document.extend({
-							content: 'block+'
+							content: 'title block+'
 						}),
 						TableOfContents,
 						Heading.extend({
