@@ -35,7 +35,7 @@
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
-		console.log("Initializing tiptap", activeFile)
+		console.log('Initializing tiptap', activeFile);
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
 		}
@@ -69,7 +69,9 @@
 							}
 						}),
 						Collaboration.configure({
-							document: ydoc
+							document: Document.extend({
+								content: 'title block+'
+							})
 						}),
 						Document.extend({
 							content: 'title block+'
@@ -83,9 +85,12 @@
 								}
 							},
 							onUpdate: ({ transaction }) => {
-								api.renameDocument(activeFile, transaction.doc.content.content[0].content.content[0].text);
+								api.renameDocument(
+									activeFile,
+									transaction.doc.content.content[0].content.content[0].text
+								);
 							}
-						}),
+						})
 					],
 					content: `<title>${activeFilename}</title>`,
 
