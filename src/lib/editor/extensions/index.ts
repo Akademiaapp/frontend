@@ -29,11 +29,16 @@ export const EditorExtensions = [
   BulletList,
   Code,
   CodeBlock,
-  Document,
+  Document.extend({
+    content: 'title block+'
+  }),
   Dropcursor,
   Gapcursor,
   HardBreak,
   Heading,
+  Heading.extend({
+    name: 'title',
+  }),
   HorizontalRule,
   Italic,
   ListItem,

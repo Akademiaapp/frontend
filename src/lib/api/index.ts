@@ -8,6 +8,15 @@ export default class ApiHandler {
     ApiHandler.context = context
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  debounce(func: any, timeout = 300){
+    let timer: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (...args: any) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callApi(endpoint: string, options?: any, method: string = 'GET') {
@@ -48,8 +57,11 @@ export default class ApiHandler {
   }
 
   renameDocument(documentId: string, documentName: string) {
-    return this.callApi('/documents/' + documentId, {
-      name: documentName
-    }, 'PUT')
+    return this.debounce(
+      this.callApi('/documents/' + documentId, {
+        name: documentName
+        }, 'PUT'
+      ), 1000
+    )
   }
 }
