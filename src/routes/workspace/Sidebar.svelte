@@ -3,7 +3,7 @@
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	export let activeFile: string;
-	export let onSidebarToggle: () => void;
+	export let sidebarVisible: boolean;
 </script>
 
 <nav class="sideBar">
@@ -13,7 +13,7 @@
 			<button
 				class="reset"
 				on:click={() => {
-					onSidebarToggle();
+					sidebarVisible = !sidebarVisible;
 				}}
 			>
 				<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>

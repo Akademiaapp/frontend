@@ -24,23 +24,17 @@
 
 	let activeFile: string;
 
-	let sidebarVisible: string;
+	let sidebarVisible: boolean = true;
 
 	$: console.log(sidebarVisible);
 </script>
 
 <div class="container">
-	<h1>{sidebarVisible}</h1>
-	<div class="sidebar">
-		<Sidebar
-			bind:activeFile
-			onSidebarToggle={() => {
-				console.log(sidebarVisible);
-				sidebarVisible = 'jj';
-				console.log(sidebarVisible);
-			}}
-		></Sidebar>
-	</div>
+	{#if sidebarVisible}
+		<div class="sidebar">
+			<Sidebar bind:activeFile bind:sidebarVisible></Sidebar>
+		</div>
+	{/if}
 	<div class="editor">
 		<Toolbar {editor} {activeFile} />
 		<FileEditor bind:editor {activeFile}></FileEditor>
