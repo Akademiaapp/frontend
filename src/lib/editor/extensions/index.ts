@@ -30,12 +30,15 @@ export const EditorExtensions = [
   Code,
   CodeBlock,
   Document.extend({
-    content: 'heading block+'
+    content: 'title block+'
   }),
   Dropcursor,
   Gapcursor,
   HardBreak,
   Heading,
+  Heading.extend({
+    name: 'title',
+  }),
   HorizontalRule,
   Italic,
   ListItem,
