@@ -11,8 +11,12 @@
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from './TableOfContents';
+	import Heading from '@tiptap/extension-heading';
+	import ApiHandler from '$lib/api';
 
 	let state: AuthorizerState;
+
+	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
@@ -25,6 +29,8 @@
 
 	export let editor: Editor;
 	export let activeFile: string;
+	export let activeFilename: string;
+
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
@@ -66,9 +72,20 @@
 						Collaboration.configure({
 							document: ydoc
 						}),
-						TableOfContents
+						TableOfContents,
+						Heading.extend({
+							name: 'title',
+							defaultOptions: {
+								HTMLAttributes: {
+									class: 'title'
+								}
+							},
+							onUpdate: ({ transaction }) => {
+								api.renameDocument(activeFile, transaction.doc.content.content[0].content.content[0].text);
+							}
+						}),
 					],
-					content: '',
+					content: `<title>${activeFilename}</title>`,
 
 					onUpdate: () => {
 						editor = editor;

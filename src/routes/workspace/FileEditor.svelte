@@ -7,14 +7,13 @@
 	export let editor: Editor;
 
 	export let activeFile: string;
-
-	$: console.log("Activefile change 2:", activeFile);
+	export let activeFilename: string;
 </script>
 
 <div class="editor_wrapper" style:display={editor ? null : 'none'}>
 	<div class="pages">
 		<div class="page">
-			<Tiptap {activeFile} bind:editor />
+			<Tiptap {activeFile} {activeFilename} bind:editor />
 		</div>
 		<div class="page"></div>
 		<Overview tiptap={editor}></Overview>

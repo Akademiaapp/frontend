@@ -36,9 +36,6 @@ export const EditorExtensions = [
   Gapcursor,
   HardBreak,
   Heading,
-  Heading.extend({
-    name: 'title',
-  }),
   HorizontalRule,
   Italic,
   ListItem,

@@ -23,6 +23,7 @@
 	let editor: Editor;
 
 	let activeFile: string;
+	let activeFilename: string;
 
 	let sidebarVisible: string;
 
@@ -34,6 +35,7 @@
 	<div class="sidebar">
 		<Sidebar
 			bind:activeFile
+			bind:activeFilename
 			onSidebarToggle={() => {
 				console.log(sidebarVisible);
 				sidebarVisible = 'jj';
@@ -43,7 +45,7 @@
 	</div>
 	<div class="editor">
 		<Toolbar {editor} {activeFile} />
-		<FileEditor bind:editor {activeFile}></FileEditor>
+		<FileEditor bind:editor {activeFile} {activeFilename}></FileEditor>
 	</div>
 </div>
 

@@ -3,6 +3,7 @@
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	export let activeFile: string;
+	export let activeFilename: string;
 	export let onSidebarToggle: () => void;
 </script>
 
@@ -22,7 +23,7 @@
 		<QuickBar />
 	</div>
 
-	<FileViewer bind:activeFile></FileViewer>
+	<FileViewer bind:activeFile bind:activeFilename></FileViewer>
 </nav>
 
 <style lang="scss">

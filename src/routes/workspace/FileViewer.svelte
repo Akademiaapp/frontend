@@ -18,9 +18,8 @@
 
 	export let files: File[] = [];
 	export let activeFile = '';
+	export let activeFilename = '';
 	let userDocuments;
-
-	$: console.log('Activefile change:', activeFile);
 
 	onMount(async () => {
 		userDocuments = await api.getUserDocuments();
@@ -37,6 +36,7 @@
 				name={file?.name}
 				onClick={() => {
 					activeFile = file?.id;
+					activeFilename = file?.name;
 				}}
 				active={file?.id == activeFile}
 			></File>
