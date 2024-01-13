@@ -27,6 +27,7 @@
 	});
 
 	let element: Element;
+	let provider: HocuspocusProvider;
 
 	export let editor: Editor;
 	export let activeFile: string;
@@ -35,6 +36,9 @@
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
+		if (!activeFile) {
+			return;
+		}
 		console.log('Initializing tiptap', activeFile);
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
@@ -42,16 +46,20 @@
 		if (editor) {
 			editor.destroy();
 		}
-		if (state.token == null) {
+		if (provider) {
+			provider.destroy();
+		}
+		if (!state.token?.access_token) {
 			goto('/signin');
 			return;
 		}
-		const provider = new HocuspocusProvider({
+		provider = new HocuspocusProvider({
 			url: 'wss://backend.akademia.cc',
 			token: state.token.access_token,
 			name: activeFile,
 			onAuthenticationFailed: () => {
 				editor.destroy();
+				provider.destroy();
 				element.innerHTML =
 					'Authentication failed! You do not have access to this document!! 🚫⚠️❌⚠️🚫';
 				throw new Error('Authentication failed');
@@ -78,15 +86,16 @@
 						Heading.extend({
 							name: 'title',
 							onUpdate: ({ transaction }) => {
-								api.renameDocument(
-									activeFile,
-									transaction.doc.content.content[0].content.content[0].textContent
-								);
+								const title = transaction.doc.content.content[0].content.content[0].text;
+								if (title && title !== activeFilename) {
+									api.renameDocument(
+										activeFile,
+										transaction.doc.content.content[0].content.content[0].text
+									);
+								}
 							}
 						})
 					],
-					content: `<title>${activeFilename}</title>`,
-
 					onUpdate: () => {
 						editor = editor;
 					}

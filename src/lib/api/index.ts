@@ -74,5 +74,5 @@ export default class ApiHandler {
 
 	renameDocument = this.debounce((documentId: string, documentName: string) => {
 		this.callApi('/documents/' + documentId, { name: documentName }, 'PUT');
-	}, 300);
+	}, 350);
 }
