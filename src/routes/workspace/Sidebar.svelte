@@ -7,7 +7,7 @@
 	export let sidebarVisible: boolean;
 </script>
 
-<nav class="sideBar">
+<nav class="sideBar" class:hidden={!sidebarVisible}>
 	<div class="settings br-2">
 		<div class="top">
 			<UserAvatar name />
@@ -39,13 +39,25 @@
 	.sideBar {
 		pointer-events: auto;
 		resize: horizontal;
-		overflow: auto;
 		width: 18rem;
 		min-width: 10rem;
 		max-width: 16rem;
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;
+
+		&.hidden {
+			button {
+				span {
+					rotate: 180deg;
+				}
+
+				position: sticky;
+				left: 10px;
+
+				transform: translate(4.5rem, -1rem);
+			}
+		}
 	}
 
 	.top {
@@ -58,9 +70,20 @@
 		button {
 			span {
 				font-size: 2rem;
+
+				transition: rotate 300ms ease;
+				vertical-align: middle;
 			}
 
+			transition: all 100ms;
+
+			background-color: var(--color-bg-1);
+
+			padding: 0.25rem;
+
 			color: var(--color-text-1);
+
+			border-radius: 8px;
 
 			&:hover {
 				color: var(--color-text-0);

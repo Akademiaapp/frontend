@@ -31,18 +31,17 @@
 </script>
 
 <div class="container">
-	{#if sidebarVisible}
-		<div class="sidebar">
-			<Sidebar bind:activeFile bind:sidebarVisible bind:activeFilename></Sidebar>
-		</div>
-	{/if}
+	<div class="sidebar" class:hidden={!sidebarVisible}>
+		<Sidebar bind:activeFile bind:sidebarVisible bind:activeFilename></Sidebar>
+	</div>
+
 	<div class="editor">
 		<Toolbar {editor} {activeFile} />
 		<FileEditor bind:editor {activeFile} {activeFilename}></FileEditor>
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.container {
 		display: flex;
 		flex-direction: row;
@@ -62,6 +61,12 @@
 		padding: var(--pad);
 		height: 100%;
 		height: calc(100vh - var(--pad) - var(--pad));
+
+		transition: all 200ms cubic-bezier(0, 0, 0.24, 1.11);
+
+		&.hidden {
+			margin-left: calc(-250px - var(--pad));
+		}
 	}
 
 	.editor {
