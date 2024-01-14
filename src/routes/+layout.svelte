@@ -4,8 +4,8 @@
 	import './styles.css';
 	export let themeName = `dark`;
 
-	import { AuthorizerProvider } from '@authorizerdev/authorizer-svelte';
-	import '@authorizerdev/authorizer-svelte/styles/default.css';
+	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
+	import 'akademia-authorizer-svelte/styles/default.css';
 
 	isThemeChecked.subscribe((it) => {
 		themeName = it ? 'dark' : 'light';

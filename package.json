@@ -32,7 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@authorizerdev/authorizer-svelte": "git+https://github.com/Akademiaapp/authorizer-svelte",
 		"@hocuspocus/provider": "^2.9.0",
 		"@tiptap/core": "^2.1.16",
 		"@tiptap/extension-blockquote": "^2.1.16",
@@ -62,6 +61,7 @@
 		"@tiptap/extension-text": "^2.1.16",
 		"@tiptap/extension-text-style": "^2.1.16",
 		"@tiptap/pm": "^2.1.16",
+		"akademia-authorizer-svelte": "^0.1.11",
 		"mathlive": "^0.98.5",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
 		"yjs": "^13.6.10"

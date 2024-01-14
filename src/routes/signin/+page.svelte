@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { Authorizer } from '@authorizerdev/authorizer-svelte';
+	import { Authorizer } from 'akademia-authorizer-svelte';
 	import { goto } from '$app/navigation';
 	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 
 	let state: AuthorizerState;
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
