@@ -6,12 +6,15 @@
 
 	export let name = false;
 
+	let username = 'User';
+
 	let state: AuthorizerState;
 
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
+		username = getUserName();
 	});
 
 	function getUserName(): string {
@@ -45,7 +48,7 @@
 	/>
 	{#if name}
 		<p>
-			{getUserName()}
+			{username}
 		</p>
 	{/if}
 </div>

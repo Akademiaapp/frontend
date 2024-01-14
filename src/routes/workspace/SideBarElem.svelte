@@ -4,14 +4,13 @@
 	export let clickable = false;
 </script>
 
-<div class:active>
+<div class:active class="br-1">
 	<slot />
 </div>
 
 <style>
 	div {
 		padding: 0.25rem 0.5rem;
-		border-radius: 0.3rem;
 		cursor: pointer;
 		font-weight: 500;
 	}
