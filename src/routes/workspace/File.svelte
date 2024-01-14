@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import SideBarElem from './SideBarElem.svelte';
 	export let name = 'fileName';
 	export let onClick = () => {};
@@ -6,7 +7,7 @@
 </script>
 
 <SideBarElem {active}>
-	<div on:click={onClick} class:active>
+	<div on:click={() => {goto("editor"); onClick(); }} class:active>
 		<span class="material-symbols-rounded icon-w-2"> description </span>
 		<span class="name">{name}</span>
 	</div>

@@ -168,7 +168,7 @@ a.reset {
 }
 
 .frontground {
-	color: var(--color-bg-1);
+	background-color: var(--color-bg-1);
 }
 
 .f-full {

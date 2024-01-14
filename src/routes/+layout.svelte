@@ -28,16 +28,16 @@
 	}}
 >
 	<div class="app">
-		<main>
-			<slot />
-		</main>
+		
+		<slot />
+		
 	</div>
 </AuthorizerProvider>
 
 <style>
 	.app {
 		flex-direction: column;
-		height: 100vh;
+		min-height: 100vh;
 	}
 
 	main {
@@ -48,6 +48,7 @@
 		max-height: 100%;
 		/* max-width: 64rem; */
 		margin: 0 auto;
+		min-height: 100vh;
 		box-sizing: border-box;
 	}
 </style>

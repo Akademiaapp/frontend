@@ -26,7 +26,6 @@
 		align-items: center;
 		width: calc(100% - 250px);
 		gap: 0.75rem;
-		margin-top: var(--pad);
 
 		transition: all 300ms;
 	}

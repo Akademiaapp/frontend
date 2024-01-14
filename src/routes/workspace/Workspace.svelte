@@ -18,8 +18,8 @@
 		}
 	});
 
-	export let activeFile: string;
-	export let activeFilename: string;
+	export let activeFile: string = "";
+	export let activeFilename: string = "";
 
 	let sidebarVisible: boolean = true;
 
@@ -38,24 +38,29 @@
 	.container {
 		display: flex;
 		flex-direction: row;
+		padding: var(--pad);
+		gap: var(--gap);
+		height: 100%;
+		box-sizing: border-box;
+
 	}
 
 	.sidebar {
-		height: 100%;
 		z-index: 1;
 		float: left;
 		position: sticky;
-		top: 0;
+		top: var(--pad);
+		bottom: 0;
 		gap: 0.75rem;
 		display: flex;
 		pointer-events: auto;
+		
 
 		width: 250px;
-		padding: var(--pad);
 		height: 100%;
-		height: calc(100vh - var(--pad) - var(--pad));
+		height: calc(100vh - var(--pad) * 2);
 
-		transition: all 200ms cubic-bezier(0, 0, 0.24, 1.11);
+		transition: all 300ms cubic-bezier(0, 0.72, 0.21, 0.99);
 
 		&.hidden {
 			margin-left: calc(-250px - var(--pad));

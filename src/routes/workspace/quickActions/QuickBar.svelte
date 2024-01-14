@@ -1,10 +1,11 @@
 <script>
+	import { goto } from '$app/navigation';
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
 </script>
 
 <div class="container">
-	<QuickAction icon="home" />
+	<QuickAction icon="home" action={() => goto("home")} />
 	<SearchQ></SearchQ>
 	<QuickAction icon="alarm" />
 </div>

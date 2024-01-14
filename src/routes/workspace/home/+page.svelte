@@ -1,5 +1,8 @@
 <script>
+	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
 	import Workspace from './../Workspace.svelte';
 </script>
 
-<Workspace></Workspace>
+<Workspace>
+	<ActiveFiles></ActiveFiles>
+</Workspace>
