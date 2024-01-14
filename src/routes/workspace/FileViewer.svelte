@@ -21,12 +21,12 @@
 	export let activeFilename = '';
 	let userDocuments;
 
-	// onMount(async () => {
-	// 	userDocuments = await api.getUserDocuments();
+	onMount(async () => {
+		userDocuments = await api.getUserDocuments();
 
-	// 	files = await userDocuments.json();
-	// 	console.log(files);
-	// });
+		files = await userDocuments.json();
+		console.log(files);
+	});
 </script>
 
 <div class="container br-2">
