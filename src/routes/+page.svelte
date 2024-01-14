@@ -10,10 +10,9 @@
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
 		if (state.token) {
-			goto('/workspace');
+			goto('/workspace/editor');
 		} else {
 			goto('/signin');
 		}
 	});
 </script>
-
