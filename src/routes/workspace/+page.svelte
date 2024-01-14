@@ -1,18 +1,6 @@
-<script lang="ts">
-	import Toolbar from './Toolbar.svelte';
-	import FileEditor from './FileEditor.svelte';
-	import Workspace from './Workspace.svelte';
-	import type { Editor } from '@tiptap/core';
+<script>
+	import { goto } from '$app/navigation';
+	import { redirect } from '@sveltejs/kit';
 
-	let editor: Editor;
-
-	let activeFile: string;
-	let activeFilename: string;
+	goto('workspace/home');
 </script>
-
-<Workspace bind:activeFile bind:activeFilename>
-	<div class="editor">
-		<Toolbar {editor} {activeFile} />
-		<FileEditor bind:editor {activeFile} {activeFilename}></FileEditor>
-	</div>
-</Workspace>
