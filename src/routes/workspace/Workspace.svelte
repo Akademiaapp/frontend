@@ -4,7 +4,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import type { Editor } from '@tiptap/core';
 	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import FileEditor from './editor/FileEditor.svelte';
 
 	let state: AuthorizerState;

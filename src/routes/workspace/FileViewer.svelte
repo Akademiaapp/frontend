@@ -4,7 +4,7 @@
 	import ApiHandler from '$lib/api';
 
 	import { getContext, onMount } from 'svelte';
-	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';

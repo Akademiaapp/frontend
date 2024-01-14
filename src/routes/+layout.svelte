@@ -4,8 +4,8 @@
 	import './styles.css';
 	export let themeName = `dark`;
 
-	import { AuthorizerProvider } from '@authorizerdev/authorizer-svelte';
-	import '@authorizerdev/authorizer-svelte/styles/default.css';
+	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
+	import 'akademia-authorizer-svelte/styles/default.css';
 
 	isThemeChecked.subscribe((it) => {
 		themeName = it ? 'dark' : 'light';
@@ -20,19 +20,19 @@
 	<link rel="stylesheet" href="/themes/{themeName}.css" />
 </svelte:head>
 
-<div class="app">
-	<main>
-		<AuthorizerProvider
-			config={{
-				authorizerURL: 'https://dashboard.akademia.cc',
-				redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
-				client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
-			}}
-		>
+<AuthorizerProvider
+	config={{
+		authorizerURL: 'https://dashboard.akademia.cc',
+		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
+		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
+	}}
+>
+	<div class="app">
+		<main>
 			<slot />
-		</AuthorizerProvider>
-	</main>
-</div>
+		</main>
+	</div>
+</AuthorizerProvider>
 
 <style>
 	.app {

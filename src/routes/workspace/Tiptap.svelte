@@ -10,7 +10,7 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
-	import TableOfContents from '../TableOfContents';
+	import TableOfContents from './TableOfContents';
 	import Heading from '@tiptap/extension-heading';
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';

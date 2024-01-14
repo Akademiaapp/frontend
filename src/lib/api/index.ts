@@ -1,4 +1,4 @@
-import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
+import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
 
 export default class ApiHandler {
