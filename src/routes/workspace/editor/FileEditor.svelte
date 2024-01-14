@@ -33,7 +33,6 @@
 	}
 
 	.pages {
-
 		// transform: translateX(-50%);
 		display: flex;
 		flex-direction: column;

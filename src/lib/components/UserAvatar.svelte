@@ -15,9 +15,10 @@
 	});
 
 	function getUserName(): string {
-		let name = state.user?.given_name === ''
-			? state.user?.preferred_username.split(/[@.]/)[0]
-			: state.user?.given_name;
+		let name =
+			state.user?.given_name === ''
+				? state.user?.preferred_username.split(/[@.]/)[0]
+				: state.user?.given_name;
 		if (typeof name === 'string') {
 			return name;
 		} else {
@@ -35,7 +36,13 @@
 </script>
 
 <div class="container">
-	<img on:click={userHandler} class="avatar br-2" src={state.user?.picture} alt="User avatar" referrerpolicy="no-referrer"/>
+	<img
+		on:click={userHandler}
+		class="avatar br-2"
+		src={state.user?.picture}
+		alt="User avatar"
+		referrerpolicy="no-referrer"
+	/>
 	{#if name}
 		<p>
 			{getUserName()}

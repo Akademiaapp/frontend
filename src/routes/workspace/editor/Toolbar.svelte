@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core';
-	import { isThemeChecked } from '../store';
-	import ApiHandler from '../../lib/api';
+	import { isThemeChecked } from '../../store';
+	import ApiHandler from '../../../lib/api';
 
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
@@ -28,35 +28,35 @@
 		</div> -->
 		<!-- <div class="splitter"></div> -->
 		<div id="style-controls">
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-					class:active={editor.isActive('heading', { level: 1 })}
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+				class:active={editor.isActive('heading', { level: 1 })}
+			>
+				H1
+			</button>
+			<button
+				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+				class:active={editor.isActive('heading', { level: 2 })}
+			>
+				H2
+			</button>
+			<button
+				on:click={() => editor.chain().focus().setParagraph().run()}
+				class:active={editor.isActive('paragraph')}
+			>
+				P
+			</button>
+			<div class="smal-splitter"></div>
+			<div class="text-color">
+				<input
+					type="color"
+					on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
+					value={editor.getAttributes('textStyle').color}
+					id="text-color"
+				/>
+				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
 				>
-					H1
-				</button>
-				<button
-					on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-					class:active={editor.isActive('heading', { level: 2 })}
-				>
-					H2
-				</button>
-				<button
-					on:click={() => editor.chain().focus().setParagraph().run()}
-					class:active={editor.isActive('paragraph')}
-				>
-					P
-				</button>
-				<div class="smal-splitter"></div>
-				<div class="text-color">
-					<input
-						type="color"
-						on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
-						value={editor.getAttributes('textStyle').color}
-						id="text-color"
-					/>
-					<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
-					>
-				</div>
+			</div>
 		</div>
 
 		<div class="spacer"></div>

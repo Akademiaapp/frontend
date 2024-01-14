@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Toolbar from '../Toolbar.svelte';
-	import FileEditor from '../FileEditor.svelte';
+	import Toolbar from './Toolbar.svelte';
+	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
 	import type { Editor } from '@tiptap/core';
 

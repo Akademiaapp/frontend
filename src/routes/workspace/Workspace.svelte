@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Toolbar from './Toolbar.svelte';
-	import Tiptap from './Tiptap.svelte';
 	import Sidebar from './Sidebar.svelte';
 	import type { Editor } from '@tiptap/core';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from '@authorizerdev/authorizer-svelte/types';
-	import FileEditor from './FileEditor.svelte';
+	import FileEditor from './editor/FileEditor.svelte';
 
 	let state: AuthorizerState;
 
@@ -62,18 +60,5 @@
 		&.hidden {
 			margin-left: calc(-250px - var(--pad));
 		}
-	}
-
-	.editor {
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: calc(100% - 250px);
-		gap: 0.75rem;
-		margin-top: var(--pad);
-
-		transition: all 300ms;
 	}
 </style>
