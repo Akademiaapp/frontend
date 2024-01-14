@@ -21,12 +21,12 @@
 	export let activeFilename = '';
 	let userDocuments;
 
-	onMount(async () => {
-		userDocuments = await api.getUserDocuments();
+	// onMount(async () => {
+	// 	userDocuments = await api.getUserDocuments();
 
-		files = await userDocuments.json();
-		console.log(files);
-	});
+	// 	files = await userDocuments.json();
+	// 	console.log(files);
+	// });
 </script>
 
 <div class="container br-2">
@@ -45,14 +45,17 @@
 	{/each}
 	<div class="splitter"></div>
 	<SideBarElem active={false}>
-		<button on:click={() => {
+		<button
+			on:click={() => {
 				api.createDocument(randomName());
 				api.getUserDocuments().then((res) => {
 					res.json().then((data) => {
 						files = data;
 					});
 				});
-			}} class="reset f-full">
+			}}
+			class="reset f-full"
+		>
 			<span class="material-symbols-rounded icon-w-2">add</span>
 			<span>New file</span>
 		</button>

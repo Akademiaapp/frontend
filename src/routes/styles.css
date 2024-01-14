@@ -167,6 +167,10 @@ a.reset {
 	border-radius: 1rem;
 }
 
+.frontground {
+	color: var(--color-bg-1);
+}
+
 .f-full {
 	height: 100%;
 	width: 100%;
