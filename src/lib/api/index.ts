@@ -79,4 +79,20 @@ export default class ApiHandler {
 	deleteDocument(documentId: string) {
 		return this.callApi('/documents/' + documentId, {}, 'DELETE');
 	}
+
+	getAssignments() {
+		return this.callApi('/assignments');
+	}
+
+	createAssignment(documentId: string, assignmentName: string, due_date: Date) {
+		return this.callApi(
+			'/assignments',
+			{
+				document_id: documentId,
+				name: assignmentName,
+				due_date: due_date.toISOString()
+			},
+			'POST'
+		);
+	}
 }
