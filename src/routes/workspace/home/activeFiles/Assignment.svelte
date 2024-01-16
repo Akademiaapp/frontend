@@ -23,10 +23,20 @@
 <style lang="scss">
 	.container {
 		display: flex;
+
 		justify-content: space-between;
+		align-items: center;
+
 		border: solid black 1px;
 		box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.226);
 	}
+
+	.text {
+		.date {
+			color: var(--color-text-2);
+		}
+	}
+
 	svg {
 		height: 100%;
 		circle {
