@@ -1,11 +1,11 @@
 <script lang="ts">
 	export let name: string;
 	export let date: string;
-	export let progress: number = 100
-	export let href: string = ""
+	export let progress: number = 100;
+	export let id: string = ""
 </script>
 
-<a href={href} class="reset container frontground">
+<a href={"/workspace/editor?id=" + id} class="reset container frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 		<p class="date">Created {date}</p>
@@ -65,6 +65,8 @@
 		.date {
 			color: var(--color-text-2);
 			font-size: 0.6rem;
+
+			transform: translateY(-0.15rem);
 		}
 	}
 
