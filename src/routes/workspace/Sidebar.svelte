@@ -8,7 +8,7 @@
 </script>
 
 <nav class="sideBar" class:hidden={!sidebarVisible}>
-	<div class="settings br-2">
+	<div class="settings br-2 float-panel">
 		<div class="top">
 			<UserAvatar name />
 			<button

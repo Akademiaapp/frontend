@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div class="container br-2">
+<div class="container br-2 float-panel">
 	{#each files as file}
 		<div>
 			<File
