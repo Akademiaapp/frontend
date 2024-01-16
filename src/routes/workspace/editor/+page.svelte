@@ -6,7 +6,11 @@
 
 	let editor: Editor;
 
-	let activeFile: string;
+	var urlParams = new URLSearchParams(window.location.search);
+	var id = urlParams.get('id');
+	console.log(id)
+
+	let activeFile: string = id || "";
 	let activeFilename: string;
 </script>
 

@@ -36,7 +36,7 @@
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
-		if (!activeFile) {
+		if (!activeFile || !element) {
 			return;
 		}
 		console.log('Initializing tiptap', activeFile);

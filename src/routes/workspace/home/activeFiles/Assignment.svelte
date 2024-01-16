@@ -2,7 +2,7 @@
 	export let name: string;
 	export let date: string;
 	export let progress: number = 100;
-	export let id: string = ""
+	export let id: string = "Test"
 </script>
 
 <a href={"/workspace/editor?id=" + id} class="reset container frontground">
