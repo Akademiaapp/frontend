@@ -1,20 +1,12 @@
 <script lang="ts">
+	import { capLength } from "$lib/utils/stringUtils";
+
 	export let name: string;
 	export let date: string;
 	export let progress: number = -1;
 	export let id: string = "Test"
 
-	function capLength(inputString: string, maxLength: number): string {
-  		if (inputString.length <= maxLength)
-    		return inputString;
-  		
-		let truncatedString = inputString.substring(0, maxLength - 3).trim();
-		// Remove trailing hyphens
-		while (truncatedString.endsWith('-') || truncatedString.endsWith('.')) {
-			truncatedString = truncatedString.slice(0, -1).trim();
-		}
-		return truncatedString + '...';
-	}
+
 </script>
 
 <a href={"/workspace/editor?id=" + id} class="reset container frontground">
