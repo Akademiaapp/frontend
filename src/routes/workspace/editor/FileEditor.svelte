@@ -8,10 +8,18 @@
 
 	export let activeFile: string;
 	export let activeFilename: string;
+
+	var scale = 1;
+
+	function onScroll(e: ScrollEvent) {
+		if (!e.ctrlKey) return;
+		e.preventDefault();
+		scale *= 1 + Math.sign(e.wheelDeltaY) * 0.1;
+	}
 </script>
 
-<div class="editor_wrapper" style:display={editor ? null : 'none'}>
-	<div class="pages">
+<div class="editor_wrapper" style:display={editor ? null : 'none'} on:mousewheel={onScroll}>
+	<div class="pages" style="scale: {scale}">
 		<div class="page">
 			<Tiptap {activeFile} {activeFilename} bind:editor />
 		</div>
@@ -38,6 +46,7 @@
 		flex-direction: column;
 		gap: 5rem;
 		max-width: 100%;
+		transform-origin: top;
 	}
 
 	.editor_wrapper {

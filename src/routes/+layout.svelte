@@ -2,6 +2,7 @@
 	import { isThemeChecked } from './store';
 
 	import './styles.css';
+	import './tiptap-styles.scss';
 	export let themeName = `dark`;
 
 	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
@@ -28,9 +29,7 @@
 	}}
 >
 	<div class="app">
-		
 		<slot />
-		
 	</div>
 </AuthorizerProvider>
 

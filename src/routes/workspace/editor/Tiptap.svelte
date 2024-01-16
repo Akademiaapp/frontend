@@ -14,6 +14,7 @@
 	import Heading from '@tiptap/extension-heading';
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
+	import Placeholder from '@tiptap/extension-placeholder';
 
 	let state: AuthorizerState;
 
@@ -84,10 +85,10 @@
 						}),
 						TableOfContents,
 						Heading.extend({
+							priority: 10,
 							name: 'title',
 							onUpdate: ({ transaction }) => {
 								const title = transaction.doc.content.content[0].content.content[0]?.text;
-								
 								if (title && title !== activeFilename) {
 									api.renameDocument(
 										activeFile,
@@ -95,6 +96,21 @@
 									);
 								}
 							}
+						}).configure({
+							HTMLAttributes: {
+								class: 'title'
+							}
+						}),
+
+						Placeholder.configure({
+							placeholder: ({ node }) => {
+								if (node.type.name === 'title') {
+									return 'Untitled';
+								}
+
+								return null;
+							},
+							showOnlyCurrent: false
 						})
 					],
 					onUpdate: () => {
@@ -131,7 +147,19 @@
 		color: white;
 	}
 
-	:global(.ProseMirror:focus) {
+	:global(.tiptap h1.is-empty::before) {
+		color: #adb5bd;
+		content: attr(data-placeholder);
+		float: left;
+		height: 0;
+		pointer-events: none;
+	}
+
+	:global(.title) {
+		font-size: 3.25rem;
+	}
+
+	:global() :global(.ProseMirror:focus) {
 		outline: none;
 	}
 

@@ -8,7 +8,7 @@ export default Extension.create({
 				types: ['heading'],
 				attributes: {
 					id: {
-						default: 'hi'
+						default: null
 					}
 				}
 			}
