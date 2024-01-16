@@ -86,7 +86,9 @@
 						Heading.extend({
 							name: 'title',
 							onUpdate: ({ transaction }) => {
-								const title = transaction.doc.content.content[0].content.content[0].text;
+								const title = transaction?.doc.content?.content[0]?.content?.content[0]?.text;
+								if(!title)
+									return
 								if (title && title !== activeFilename) {
 									api.renameDocument(
 										activeFile,
