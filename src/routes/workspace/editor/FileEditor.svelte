@@ -47,44 +47,8 @@
 		width: fit-content;
 		max-width: 100%;
 		margin-right: 1rem;
+		margin-left: var(--gap);
 
 		z-index: 0;
-
-		// flex: 1;
-		// overflow-y: scroll;
-		&:hover,
-		:active,
-		:focus {
-			// overflow-y: auto;
-			&::-webkit-scrollbar {
-				opacity: 1;
-			}
-		}
-		&::-webkit-scrollbar {
-			width: 10px;
-			opacity: 0;
-			background-color: white;
-		}
-
-		&::webkit-scrollbar-button {
-			display: none;
-		}
-
-		/* Track */
-		&::-webkit-scrollbar-track {
-			/* background-color: var(--color-bg-2); */
-			background-color: transparent;
-		}
-
-		/* Handle */
-		&::-webkit-scrollbar-thumb {
-			border-radius: 100px;
-			background-color: var(--color-text-3);
-		}
-
-		/* Handle on hover */
-		&::-webkit-scrollbar-thumb:hover {
-			background: var(--color-text-2);
-		}
 	}
 </style>
