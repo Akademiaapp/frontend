@@ -16,6 +16,7 @@
 	--invert-0: 50%;
 	--invert-1: 20%;
 	--invert-2: 0%;
+	--rga: 0, 0, 0;
 	font-family: var(--font-body);
 	color: var(--color-text-0);
 }

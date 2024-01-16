@@ -44,6 +44,7 @@
 		padding: 3rem;
 		display: flex;
 		flex-direction: column;
+		flex: 1;
 	}
 
 	h2 {
@@ -56,7 +57,7 @@
 		display: grid;
 		gap: var(--gap);
 		height: auto;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 		margin-bottom: 2rem;
 	}
 </style>
