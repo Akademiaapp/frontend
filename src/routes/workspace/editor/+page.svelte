@@ -6,7 +6,11 @@
 
 	let editor: Editor;
 
-	let activeFile: string;
+	var urlParams = new URLSearchParams(window.location.search);
+	var id = urlParams.get('id');
+	console.log(id)
+
+	let activeFile: string = id || "";
 	let activeFilename: string;
 </script>
 
@@ -26,6 +30,8 @@
 		align-items: center;
 		width: calc(100% - 250px);
 		gap: 0.75rem;
+		/* padding-left: var(--gap); */
+		padding-left: 0;
 
 		transition: all 300ms;
 	}

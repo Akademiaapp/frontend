@@ -36,7 +36,7 @@
 	$: activeFile && initializeTiptap(activeFile);
 
 	function initializeTiptap(activeFile: string) {
-		if (!activeFile) {
+		if (!activeFile || !element) {
 			return;
 		}
 		console.log('Initializing tiptap', activeFile);
@@ -86,7 +86,8 @@
 						Heading.extend({
 							name: 'title',
 							onUpdate: ({ transaction }) => {
-								const title = transaction.doc.content.content[0].content.content[0].text;
+								const title = transaction.doc.content.content[0].content.content[0]?.text;
+								
 								if (title && title !== activeFilename) {
 									api.renameDocument(
 										activeFile,

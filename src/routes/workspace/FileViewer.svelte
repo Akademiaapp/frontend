@@ -39,6 +39,7 @@
 					activeFilename = file?.name;
 				}}
 				active={file?.id == activeFile}
+				id={file?.id}
 			></File>
 		</div>
 		<!-- content here -->
