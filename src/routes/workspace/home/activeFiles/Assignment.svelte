@@ -3,11 +3,23 @@
 	export let date: string;
 	export let progress: number = -1;
 	export let id: string = "Test"
+
+	function capLength(inputString: string, maxLength: number): string {
+  		if (inputString.length <= maxLength)
+    		return inputString;
+  		
+		let truncatedString = inputString.substring(0, maxLength - 3).trim();
+		// Remove trailing hyphens
+		while (truncatedString.endsWith('-') || truncatedString.endsWith('.')) {
+			truncatedString = truncatedString.slice(0, -1).trim();
+		}
+		return truncatedString + '...';
+	}
 </script>
 
 <a href={"/workspace/editor?id=" + id} class="reset container frontground">
 	<div class="text">
-		<p class="name">{name}</p>
+		<p class="name">{capLength(name, 25)}</p>
 		<p class="date">Created {date}</p>
 	</div>
 	{#if progress >= 0}
@@ -63,6 +75,7 @@
 	.text {
 		p {
 			margin: 0;
+			text-wrap: nowrap;
 		}
 		.date {
 			color: var(--color-text-2);

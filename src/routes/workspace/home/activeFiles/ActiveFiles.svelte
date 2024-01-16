@@ -34,7 +34,7 @@
 	<h2>Documents</h2>
 	<div class="filelist">
 		{#each files as f}
-			<Assignment name={f.name} progress={-1} id={f.id} date="3. jan"></Assignment>
+			<Assignment name={f.name} id={f.id} date="3. jan"></Assignment>
 		{/each}
 	</div>
 </div>

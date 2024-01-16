@@ -128,7 +128,9 @@ button.reset {
 }
 a.reset {
 	text-decoration: none;
-	color: var(--color-text-0);
+	color: inherit;
+	position: inherit;
+	text-align: inherit;
 }
 
 .flex {
