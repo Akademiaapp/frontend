@@ -2,16 +2,18 @@
 	import { capLength } from '$lib/utils/stringUtils';
 	import { goto } from '$app/navigation';
 	import SideBarElem from './SideBarElem.svelte';
+	import { File } from 'lucide-svelte';
 	export let name = 'fileName';
-	export let id = "";
+	export let id = '';
 	export let onClick = () => {};
 	export let active = false;
 </script>
 
 <SideBarElem {active}>
 	<a on:click={onClick} href="editor?id={id}" class="reset" class:active>
-		
-		<span class="material-symbols-rounded icon-w-2"> description </span>
+		<div>
+			<File size={20}></File>
+		</div>
 		<span class="name">{name}</span>
 	</a>
 </SideBarElem>
@@ -19,8 +21,8 @@
 <style lang="scss">
 	.name {
 		text-overflow: ellipsis;
-		overflow:hidden;
-		white-space:nowrap;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 	.active .name {
 		color: var(--color-text-0);
@@ -31,7 +33,11 @@
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
+
+		div {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
-
-
 </style>

@@ -6,7 +6,7 @@
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
-	import { ArchiveX } from 'lucide-svelte';
+	import { UserRoundPlus } from 'lucide-svelte';
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let editor: Editor;
@@ -65,7 +65,7 @@
 			</div>
 		</div>
 		<button class="reset bar br-2 frontground left hover">
-			<ArchiveX size={15} />
+			<UserRoundPlus size={17} strokeWidth={2} />
 
 			<!-- <span class="material-symbols-rounded"> person_add </span> -->
 			<span>Inviter</span>
@@ -87,20 +87,30 @@
 	}
 
 	.material-symbols-rounded {
-		font-size: 1.3em;
-		text-align: bottom;
+		// font-size: 1.3em;
+
+		// line-height: 1;
+		// text-size-adjust: 100%;
 	}
 
 	button {
-		vertical-align: middle;
+		span {
+			// text-align: center;
+			// vertical-align: middle;
+			font-weight: 600;
+			text-size-adjust: 100%;
+			line-height: 1.5;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
 	}
 
 	.bar {
 		display: flex;
 		gap: 0.4rem;
-		padding: 0rem 1rem;
+		padding: 0.4rem 1rem;
 
-		height: 3rem;
+		// height: 3rem;
 
 		align-items: center;
 
