@@ -27,13 +27,13 @@
 </script>
 
 <div class="editor_wrapper" style:display={editor ? null : 'none'} on:mousewheel={onScroll}>
-	<div class="pages" style="scale: {scale}">
+	<div class="pages" style:scale>
 		<div class="page">
 			<Tiptap {activeFile} {activeFilename} bind:editor />
 		</div>
 		<div class="page"></div>
-		<Overview tiptap={editor}></Overview>
 	</div>
+	<Overview tiptap={editor}></Overview>
 </div>
 
 <style lang="scss">

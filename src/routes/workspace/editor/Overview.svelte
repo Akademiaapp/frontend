@@ -60,7 +60,7 @@
 			on:click={() => {
 				higlight(h.id);
 			}}
-			style="padding-left: {h.level * 10 - 1}px;"
+			class:h1={h.level == 1}
 			class="reset">{h.text}</a
 		>
 	{/each}
@@ -73,6 +73,7 @@
 		position: absolute;
 		bottom: -2px;
 		left: 0;
+		top: 0;
 		width: 100%;
 		height: 2px;
 		background: #000;
@@ -80,16 +81,25 @@
 	}
 
 	.container {
-		position: fixed;
-		left: calc(50% + 450px);
+		position: sticky;
+		top: var(--pad);
+		align-self: flex-start;
 
 		display: flex;
 		flex-direction: column;
-		gap: 0.25rem;
+
+		padding-left: 1rem;
+
+		width: 0;
 		a {
+			width: 200px;
 			cursor: pointer;
 
 			color: var(--color-text-2);
+
+			&.h1 {
+				color: var(--color-text-1);
+			}
 		}
 	}
 
