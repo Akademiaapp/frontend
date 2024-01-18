@@ -32,12 +32,7 @@ h4,
 h5,
 h6 {
 	scroll-margin-top: 5rem;
-}
-
-h1,
-h2,
-p {
-	font-weight: 400;
+	font-weight: 600;
 }
 
 p {
