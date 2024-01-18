@@ -21,6 +21,7 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
+		"mdi-svelte": "^1.1.2",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"sass": "^1.69.7",
@@ -33,6 +34,7 @@
 	"type": "module",
 	"dependencies": {
 		"@hocuspocus/provider": "^2.9.0",
+		"@mdi/js": "^7.4.47",
 		"@tiptap/core": "^2.1.16",
 		"@tiptap/extension-blockquote": "^2.1.16",
 		"@tiptap/extension-bold": "^2.1.16",
@@ -63,6 +65,7 @@
 		"@tiptap/extension-text-style": "^2.1.16",
 		"@tiptap/pm": "^2.1.16",
 		"akademia-authorizer-svelte": "^0.1.12",
+		"lucide-svelte": "^0.312.0",
 		"mathlive": "^0.98.5",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
 		"yjs": "^13.6.10"

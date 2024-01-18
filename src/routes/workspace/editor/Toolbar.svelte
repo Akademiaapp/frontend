@@ -6,7 +6,7 @@
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
-
+	import { ArchiveX } from 'lucide-svelte';
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let editor: Editor;
@@ -21,13 +21,13 @@
 </script>
 
 {#if editor}
-	<div id="toolbar" class="br-2">
+	<div id="toolbar">
 		<!-- <div id="filepath">
 			<div class="color"></div>
 			<p class="filename">{activeFile}</p>
 		</div> -->
 		<!-- <div class="splitter"></div> -->
-		<div id="style-controls">
+		<div id="style-controls" class="br-2 bar frontground">
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 				class:active={editor.isActive('heading', { level: 1 })}
@@ -57,14 +57,19 @@
 				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
 				>
 			</div>
-		</div>
+			<div class="spacer"></div>
 
-		<div class="spacer"></div>
-
-		<div class="darkmode_toggle">
-			<input type="checkbox" id="mode_toggle" bind:checked />
-			<label for="mode_toggle"></label>
+			<div class="darkmode_toggle">
+				<input type="checkbox" id="mode_toggle" bind:checked />
+				<label for="mode_toggle"></label>
+			</div>
 		</div>
+		<button class="reset bar br-2 frontground left hover">
+			<ArchiveX size={15} />
+
+			<!-- <span class="material-symbols-rounded"> person_add </span> -->
+			<span>Inviter</span>
+		</button>
 	</div>
 {/if}
 
@@ -74,20 +79,41 @@
 		top: var(--pad);
 		pointer-events: auto;
 		z-index: 1;
-		width: 400px;
-
+		width: 100%;
 		display: flex;
-		gap: 1rem;
-		padding: 0.3rem 1rem;
 
-		background-color: var(--color-bg-1);
+		// align-items: center;
+		justify-content: center;
+	}
+
+	.material-symbols-rounded {
+		font-size: 1.3em;
+		text-align: bottom;
+	}
+
+	button {
+		vertical-align: middle;
+	}
+
+	.bar {
+		display: flex;
+		gap: 0.4rem;
+		padding: 0rem 1rem;
+
+		height: 3rem;
+
+		align-items: center;
 
 		box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.05);
 
-		align-items: center;
-		justify-items: center;
-
 		border-bottom: solid var(--color-overlay-1) 0.05rem;
+	}
+
+	.left {
+		position: absolute;
+		right: 0;
+		height: -webkit-fill-available;
+		// height: 100%;
 	}
 
 	.darkmode_toggle label {
@@ -158,6 +184,7 @@
 	}
 
 	#style-controls {
+		min-width: 400px;
 		display: flex;
 		gap: 0.2rem;
 		align-items: center;

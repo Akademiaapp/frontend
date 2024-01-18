@@ -99,7 +99,7 @@ button:focus:not(:focus-visible) {
 
 button.reset {
 	border: none;
-	background: transparent;
+	/* background: initial; */
 	color: inherit;
 	font-weight: inherit;
 
@@ -108,6 +108,9 @@ button.reset {
 	padding: 0;
 }
 
+.no-bg {
+	background-color: transparent;
+}
 .icon-w-2 {
 	width: 1.5rem;
 }
@@ -165,4 +168,13 @@ a.reset {
 
 .fixed {
 	position: fixed;
+}
+
+button.hover:hover {
+	background-color: color-mix(in srgb, var(--color-text-0) 5%, transparent);
+	/* background-color: blue; */
+}
+
+button.hover {
+	transition: background-color 100ms;
 }
