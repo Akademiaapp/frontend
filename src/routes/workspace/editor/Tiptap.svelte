@@ -15,6 +15,7 @@
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
+	import { Title } from '$lib/editor/extensions/title';
 
 	let state: AuthorizerState;
 
@@ -84,24 +85,11 @@
 							content: 'title block+'
 						}),
 						TableOfContents,
-						Heading.extend({
-							priority: 10,
-							name: 'title',
-							onUpdate: ({ transaction }) => {
-								const title = transaction.doc.content.content[0].content.content[0]?.text;
-								if (title && title !== activeFilename) {
-									api.renameDocument(
-										activeFile,
-										transaction.doc.content.content[0].content.content[0].text
-									);
-								}
-							}
-						}).configure({
-							HTMLAttributes: {
-								class: 'title'
-							}
+						Title.configure({
+							activeFile: activeFile,
+							api: api,
+							activeFilename: activeFilename
 						}),
-
 						Placeholder.configure({
 							placeholder: ({ node }) => {
 								if (node.type.name === 'title') {
