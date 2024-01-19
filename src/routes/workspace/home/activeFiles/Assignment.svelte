@@ -2,15 +2,17 @@
 	import { capLength } from '$lib/utils/stringUtils';
 
 	export let name: string;
-	export let date: string;
+	export let date: string | undefined;
 	export let progress: number = -1;
 	export let id: string = 'Test';
 </script>
 
 <a href={'/workspace/editor?id=' + id} class="reset container frontground">
 	<div class="text">
-		<p class="name">{capLength(name, 25)}</p>
-		<p class="date">Created {date}</p>
+		<p class="name">{name}</p>
+		{#if date}
+			<p class="date">Created {date}</p>
+		{/if}
 	</div>
 	{#if progress >= 0}
 		<svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,6 +41,7 @@
 <style lang="scss">
 	.container {
 		display: flex;
+		min-height: 2rem;
 
 		justify-content: space-between;
 		align-items: center;
@@ -61,9 +64,12 @@
 	}
 
 	.text {
+		max-width: 100%;
 		p {
 			margin: 0;
 			text-wrap: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 		.date {
 			color: var(--color-text-2);

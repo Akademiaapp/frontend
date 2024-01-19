@@ -85,11 +85,7 @@
 							content: 'title block+'
 						}),
 						TableOfContents,
-						Title.configure({
-							activeFile: activeFile,
-							api: api,
-							activeFilename: activeFilename
-						}),
+						Title,
 						Placeholder.configure({
 							placeholder: ({ node }) => {
 								if (node.type.name === 'title') {
@@ -101,8 +97,15 @@
 							showOnlyCurrent: false
 						})
 					],
-					onUpdate: () => {
+					onUpdate: ({ transaction }) => {
 						editor = editor;
+
+						console.log('too', transaction);
+
+						const title = transaction.doc.content.content[0].content.content[0]?.text;
+						if (title && title !== activeFilename) {
+							api.renameDocument(activeFile, title);
+						}
 					}
 				});
 			}

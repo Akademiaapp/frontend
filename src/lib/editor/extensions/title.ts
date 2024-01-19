@@ -26,26 +26,8 @@ export const Title = Node.create<TitleOptions>({
 	defining: true,
 	name: 'title',
 
-	addOptions() {
-		return {
-			activeFile: '',
-			activeFilename: '',
-			api: {},
-			HTMLAttributes: {}
-		};
-	},
-
 	group: 'title',
 	content: 'text*',
-
-	onUpdate: ({ transaction, this: { options } }) => {
-		console.log(this?.options);
-		console.log('too', transaction);
-		const title = transaction.doc.content.content[0].content.content[0]?.text;
-		if (title && title !== activeFilename) {
-			api.renameDocument(activeFile, transaction.doc.content.content[0].content.content[0].text);
-		}
-	},
 
 	parseHTML() {
 		return [

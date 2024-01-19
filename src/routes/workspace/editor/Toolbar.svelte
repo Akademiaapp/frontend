@@ -6,7 +6,7 @@
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
-	import { UserRoundPlus } from 'lucide-svelte';
+	import { Baseline, Bold, UserRoundPlus } from 'lucide-svelte';
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let editor: Editor;
@@ -18,6 +18,16 @@
 	$: isThemeChecked.set(checked);
 
 	let textcolor: string;
+
+	function nodeOrSelected() {
+		// let focus = editor.commands.focus();
+		const selection = editor.state.selection;
+		if (selection.from == selection.to) {
+			return editor.chain().selectParentNode();
+		} else {
+			return editor.chain().focus();
+		}
+	}
 </script>
 
 {#if editor}
@@ -54,9 +64,13 @@
 					value={editor.getAttributes('textStyle').color}
 					id="text-color"
 				/>
-				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}>A</label
-				>
+				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}
+					><p class="material-symbols-rounded">format_color_text</p>
+				</label>
 			</div>
+			<button on:click={(event) => nodeOrSelected().toggleBold().run()}
+				><span class="material-symbols-rounded"> format_bold </span></button
+			>
 			<div class="spacer"></div>
 
 			<div class="darkmode_toggle">
@@ -65,7 +79,7 @@
 			</div>
 		</div>
 		<button class="reset bar br-2 frontground left hover">
-			<UserRoundPlus size={17} strokeWidth={2} />
+			<UserRoundPlus size={17} />
 
 			<!-- <span class="material-symbols-rounded"> person_add </span> -->
 			<span>Inviter</span>
@@ -87,6 +101,10 @@
 	}
 
 	.material-symbols-rounded {
+		height: 1rem;
+		line-height: 1rem;
+		// width: 1rem;
+		margin: 0 -0.3rem;
 		// font-size: 1.3em;
 
 		// line-height: 1;
@@ -199,7 +217,8 @@
 		gap: 0.2rem;
 		align-items: center;
 
-		button {
+		button,
+		label {
 			border: none;
 			background-color: transparent;
 
@@ -222,7 +241,13 @@
 			position: absolute;
 		}
 		label {
-			font-weight: bold;
+			p {
+				color: var(--color-text-1);
+			}
+			// font-weight: bold;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 </style>
