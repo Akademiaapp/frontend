@@ -23,13 +23,11 @@
 	let isControlPressed = false;
 
 	window.addEventListener('keydown', (ev) => {
-		if (ev.key == 'Control') isControlPressed = true;
-
-		if (ev.key == 'p' && isControlPressed) {
+		if (ev.key == 'p' && ev.ctrlKey) {
 			openSearch();
 			ev.preventDefault();
 		}
-		if (ev.key == ' ' && isControlPressed) {
+		if (ev.key == ' ' && ev.ctrlKey) {
 			openSearch();
 		}
 
@@ -39,12 +37,6 @@
 
 		if (isSeaching && ev.key == 'Escape') {
 			closeSearch();
-		}
-	});
-
-	window.addEventListener('keyup', (ev) => {
-		if (ev.key == 'Control') {
-			isControlPressed = false;
 		}
 	});
 </script>
@@ -77,7 +69,7 @@
 		right: 0;
 		background-color: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
-		z-index: 10;
+		z-index: 100;
 		display: flex;
 		/* align-items: center; */
 		align-items: self-start;

@@ -18,8 +18,8 @@
 		}
 	});
 
-	export let activeFile: string = "";
-	export let activeFilename: string = "";
+	export let activeFile: string = '';
+	export let activeFilename: string = '';
 
 	let sidebarVisible: boolean = true;
 
@@ -42,11 +42,10 @@
 		gap: var(--gap);
 		height: 100%;
 		box-sizing: border-box;
-
 	}
 
 	.sidebar {
-		z-index: 1;
+		z-index: 5;
 		float: left;
 		position: sticky;
 		top: var(--pad);
@@ -54,7 +53,6 @@
 		gap: 0.75rem;
 		display: flex;
 		pointer-events: auto;
-		
 
 		width: 250px;
 		height: 100%;

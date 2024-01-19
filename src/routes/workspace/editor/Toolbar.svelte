@@ -75,10 +75,10 @@
 
 <style lang="scss">
 	#toolbar {
+		z-index: 1;
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
-		z-index: 1;
 		width: 100%;
 		display: flex;
 

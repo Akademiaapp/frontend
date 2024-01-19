@@ -64,7 +64,5 @@
 		max-width: 100%;
 		margin-right: 1rem;
 		margin-left: var(--gap);
-
-		z-index: 0;
 	}
 </style>

@@ -144,7 +144,7 @@
 	}
 
 	:global(.title) {
-		font-size: 3.25rem;
+		font-size: 3rem;
 	}
 
 	:global() :global(.ProseMirror:focus) {
