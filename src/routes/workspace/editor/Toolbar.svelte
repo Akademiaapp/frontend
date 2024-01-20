@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Editor } from '@tiptap/core';
+	import { selectionToInsertionEnd, type Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../../store';
 	import ApiHandler from '../../../lib/api';
 
@@ -11,7 +11,13 @@
 
 	export let editor: Editor;
 
+	let selection = editor;
+
 	export let checked = false;
+
+	$: editor?.on('selectionUpdate', () => {
+		selection = editor;
+	});
 
 	export let activeFile: string;
 
@@ -40,19 +46,19 @@
 		<div id="style-controls" class="br-2 bar frontground">
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-				class:active={editor.isActive('heading', { level: 1 })}
+				class:active={selection?.isActive('heading', { level: 1 })}
 			>
 				H1
 			</button>
 			<button
 				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-				class:active={editor.isActive('heading', { level: 2 })}
+				class:active={selection?.isActive('heading', { level: 2 })}
 			>
 				H2
 			</button>
 			<button
 				on:click={() => editor.chain().focus().setParagraph().run()}
-				class:active={editor.isActive('paragraph')}
+				class:active={selection?.isActive('paragraph')}
 			>
 				P
 			</button>

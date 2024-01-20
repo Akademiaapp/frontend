@@ -6,7 +6,7 @@
 	export let tiptap: Editor;
 
 	// hook on update if we change document
-	$: tiptap && updateHeadings();
+	$: tiptap?.on('update', updateHeadings);
 
 	// Eat some cerial (:
 	function cerial(str: string): string {
