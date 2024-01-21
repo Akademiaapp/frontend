@@ -162,11 +162,6 @@ a.reset {
 	background-color: var(--color-bg-1);
 }
 
-.f-full {
-	height: 100%;
-	width: 100%;
-}
-
 .fixed {
 	position: fixed;
 }
