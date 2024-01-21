@@ -1,15 +1,15 @@
 <script>
 	import "../app.pcss";
-    import { isThemeChecked } from './store';
+	import { isThemeChecked } from './store';
 
-    import './styles.css';
-    import './tiptap-styles.scss';
-    export let themeName = `dark`;
+	import './styles.css';
+	import './tiptap-styles.scss';
+	export let themeName = `dark`;
 
-    import { AuthorizerProvider } from 'akademia-authorizer-svelte';
-    import 'akademia-authorizer-svelte/styles/default.css';
+	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
+	import 'akademia-authorizer-svelte/styles/default.css';
 
-    isThemeChecked.subscribe((it) => {
+  isThemeChecked.subscribe((it) => {
 		themeName = it ? 'dark' : 'light';
 	});
 </script>
@@ -19,7 +19,13 @@
 	<link rel="stylesheet" href="/themes/{themeName}.css">
 </svelte:head>
 
-<AuthorizerProvider config="{{" authorizerurl: 'https: akademia-dashboard.arctix.dev', redirecturl: typeof window !="undefined" ? window.location.origin : ``, client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0' }}>
+<AuthorizerProvider
+	config={{
+		authorizerURL: 'https://akademia-dashboard.arctix.dev',
+		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
+		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
+	}}
+	>
 	<div class="app">
 		<slot></slot>
 	</div>
