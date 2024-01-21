@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div class="container br-2 float-panel">
+<div class="cont br-2 float-panel">
 	{#each files as file}
 		<div>
 			<File
@@ -55,7 +55,7 @@
 					});
 				});
 			}}
-			class="reset no-bg f-full"
+			class="reset no-bg size-full"
 		>
 			<span class="material-symbols-rounded icon-w-2">add</span>
 			<span>New file</span>
@@ -67,7 +67,7 @@
 	.splitter {
 		flex: 1;
 	}
-	.container {
+	.cont {
 		display: flex;
 		flex-direction: column;
 		gap: 0.2rem;

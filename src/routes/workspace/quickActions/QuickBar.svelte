@@ -4,14 +4,14 @@
 	import QuickAction from './QuickAction.svelte';
 </script>
 
-<div class="container">
-	<QuickAction icon="home" action={() => goto("home")} />
+<div class="cont">
+	<QuickAction icon="home" action={() => goto('home')} />
 	<SearchQ></SearchQ>
 	<QuickAction icon="alarm" />
 </div>
 
 <style lang="scss">
-	.container {
+	.cont {
 		display: flex;
 		gap: 0.5rem;
 	}

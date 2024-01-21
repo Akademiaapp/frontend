@@ -3,7 +3,7 @@
 	export let action = () => {};
 </script>
 
-<button class="container b2" on:click={action}>
+<button class="cont b2" on:click={action}>
 	<span class="material-symbols-rounded"> {icon} </span>
 </button>
 
@@ -14,7 +14,7 @@
 		background-color: transparent;
 	}
 
-	.container {
+	.cont {
 		height: 2rem;
 		width: 2rem;
 		padding: 0rem;

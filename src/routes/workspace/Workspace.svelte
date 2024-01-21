@@ -26,7 +26,7 @@
 	$: console.log(sidebarVisible);
 </script>
 
-<div class="container">
+<div class="cont">
 	<div class="sidebar" class:hidden={!sidebarVisible}>
 		<Sidebar bind:activeFile bind:sidebarVisible bind:activeFilename></Sidebar>
 	</div>
@@ -35,7 +35,7 @@
 </div>
 
 <style lang="scss">
-	.container {
+	.cont {
 		display: flex;
 		flex-direction: row;
 		padding: var(--pad);
