@@ -56,7 +56,7 @@
 			return;
 		}
 		provider = new HocuspocusProvider({
-			url: 'wss://backend.akademia.cc',
+			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
 			name: activeFile,
 			onAuthenticationFailed: () => {
