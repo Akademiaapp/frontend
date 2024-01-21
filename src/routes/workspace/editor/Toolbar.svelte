@@ -7,6 +7,7 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
 	import { Baseline, Bold, UserRoundPlus } from 'lucide-svelte';
+	import ShareDocument from '@/components/ShareDocument.svelte';
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let editor: Editor;
@@ -84,12 +85,7 @@
 				<label for="mode_toggle"></label>
 			</div>
 		</div>
-		<button class="reset bar br-2 frontground left hover">
-			<UserRoundPlus size={17} />
-
-			<!-- <span class="material-symbols-rounded"> person_add </span> -->
-			<span>Inviter</span>
-		</button>
+		<ShareDocument />
 	</div>
 {/if}
 
