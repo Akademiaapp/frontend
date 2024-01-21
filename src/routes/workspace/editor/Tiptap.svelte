@@ -16,6 +16,7 @@
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from '$lib/editor/extensions/title';
+	import { Step } from '@tiptap/pm/transform';
 
 	let state: AuthorizerState;
 
@@ -111,8 +112,32 @@
 							api.renameDocument(activeFile, title);
 						}
 
-						editor.commands.undo();
-						console.log('undo');
+						// editor.commands.undo();
+						if (transaction.isGeneric) {
+							const steps = transaction.steps;
+
+							if (steps.length != 1) {
+								return;
+							}
+							const typedLetter: string = steps[0].slice.content.content[0]?.text;
+
+							const regex = /^[a-z]$/;
+
+							if (!regex.test(typedLetter)) return;
+
+							if (typedLetter === undefined) return;
+
+							const letterBefore = transaction.doc.textBetween(
+								transaction.selection.anchor - 3,
+								transaction.selection.anchor - 1
+							);
+							console.log(letterBefore);
+
+							if (letterBefore == '' || letterBefore[0] == '.') {
+								editor.commands.undo();
+								editor.commands.insertContent(typedLetter.toUpperCase());
+							}
+						}
 					}
 				});
 			}
