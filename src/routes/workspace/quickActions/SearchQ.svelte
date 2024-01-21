@@ -68,7 +68,7 @@
 		left: 0;
 		right: 0;
 		background-color: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(2px);
+		// backdrop-filter: blur(100px);
 		z-index: 100;
 		display: flex;
 		/* align-items: center; */
