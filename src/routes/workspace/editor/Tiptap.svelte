@@ -56,7 +56,7 @@
 			return;
 		}
 		provider = new HocuspocusProvider({
-			url: 'wss://backend.akademia.cc',
+			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
 			name: activeFile,
 			onAuthenticationFailed: () => {
@@ -67,6 +67,12 @@
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
+				if (editor) {
+					editor.destroy();
+				}
+				while (element.firstChild) {
+					element.removeChild(element.firstChild);
+				}
 				editor = new Editor({
 					element: element,
 					extensions: [
@@ -98,8 +104,6 @@
 						})
 					],
 					onUpdate: ({ transaction }) => {
-						editor = editor;
-
 						console.log('too', transaction);
 
 						const title = transaction.doc.content.content[0].content.content[0]?.text;

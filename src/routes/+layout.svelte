@@ -23,7 +23,7 @@
 
 <AuthorizerProvider
 	config={{
-		authorizerURL: 'https://dashboard.akademia.cc',
+		authorizerURL: 'https://akademia-dashboard.arctix.dev',
 		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
 		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
 	}}

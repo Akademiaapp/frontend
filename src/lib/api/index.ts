@@ -2,7 +2,7 @@ import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
 
 export default class ApiHandler {
-	static baseUrl = 'https://api.akademia.cc';
+	static baseUrl = 'https://akademia-api.arctix.dev';
 	static context: Readable<AuthorizerState>;
 
 	constructor(context: Readable<AuthorizerState>) {

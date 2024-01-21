@@ -11,7 +11,7 @@
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
 		if (state.token) {
-			goto('/workspace/editor');
+			goto('/workspace/home');
 		}
 	});
 </script>
