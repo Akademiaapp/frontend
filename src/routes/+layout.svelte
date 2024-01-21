@@ -1,35 +1,27 @@
 <script>
-	import { isThemeChecked } from './store';
+	import "../app.pcss";
+    import { isThemeChecked } from './store';
 
-	import './styles.css';
-	import './tiptap-styles.scss';
-	export let themeName = `dark`;
+    import './styles.css';
+    import './tiptap-styles.scss';
+    export let themeName = `dark`;
 
-	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
-	import 'akademia-authorizer-svelte/styles/default.css';
+    import { AuthorizerProvider } from 'akademia-authorizer-svelte';
+    import 'akademia-authorizer-svelte/styles/default.css';
 
-	isThemeChecked.subscribe((it) => {
+    isThemeChecked.subscribe((it) => {
 		themeName = it ? 'dark' : 'light';
 	});
 </script>
 
 <svelte:head>
-	<link
-		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-	/>
-	<link rel="stylesheet" href="/themes/{themeName}.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+	<link rel="stylesheet" href="/themes/{themeName}.css">
 </svelte:head>
 
-<AuthorizerProvider
-	config={{
-		authorizerURL: 'https://akademia-dashboard.arctix.dev',
-		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
-		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
-	}}
->
+<AuthorizerProvider config="{{" authorizerurl: 'https: akademia-dashboard.arctix.dev', redirecturl: typeof window !="undefined" ? window.location.origin : ``, client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0' }}>
 	<div class="app">
-		<slot />
+		<slot></slot>
 	</div>
 </AuthorizerProvider>
 
