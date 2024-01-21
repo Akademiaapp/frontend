@@ -104,12 +104,15 @@
 						})
 					],
 					onUpdate: ({ transaction }) => {
-						console.log('too', transaction);
+						// console.log('too', transaction);
 
 						const title = transaction.doc.content.content[0].content.content[0]?.text;
 						if (title && title !== activeFilename) {
 							api.renameDocument(activeFile, title);
 						}
+
+						editor.commands.undo();
+						console.log('undo');
 					}
 				});
 			}

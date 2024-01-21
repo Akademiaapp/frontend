@@ -8,8 +8,8 @@
 
 	let assignments: { name: string; progress: number }[] = [
 		{ name: 'beskrivende tekst', progress: 100 },
-		{ name: 'Matmatik aflevering', progress: 50 },
-		{ name: 'Matmatik aflevering', progress: 0 }
+		{ name: 'matematik aflevering', progress: 50 },
+		{ name: 'matematik aflevering', progress: 0 }
 	];
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
