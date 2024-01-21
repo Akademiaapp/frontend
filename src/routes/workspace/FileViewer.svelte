@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div class="container br-2 float-panel">
+<div class="cont br-2 float-panel">
 	{#each files as file}
 		<div>
 			<File
@@ -67,7 +67,7 @@
 	.splitter {
 		flex: 1;
 	}
-	.container {
+	.cont {
 		display: flex;
 		flex-direction: column;
 		gap: 0.2rem;

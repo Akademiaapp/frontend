@@ -16,8 +16,8 @@
 	});
 </script>
 
-<div class="container">
-	<div class="login-container">
+<div class="cont">
+	<div class="login-cont">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
 		<h1 class="header">Welcome to Akademia</h1>
 		<h2>Choose a signin method</h2>
@@ -37,14 +37,14 @@
 		width: 15rem;
 		height: 15rem;
 	}
-	.container {
+	.cont {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
 		width: 100vw;
 	}
-	.login-container {
+	.login-cont {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

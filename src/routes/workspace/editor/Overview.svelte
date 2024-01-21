@@ -53,7 +53,7 @@
 	}
 </script>
 
-<div class="container">
+<div class="cont">
 	{#each topHeadings as h}
 		<a
 			href="#{h.id}"
@@ -80,7 +80,7 @@
 		box-shadow: 0 0 5px black;
 	}
 
-	.container {
+	.cont {
 		position: sticky;
 		top: var(--pad);
 		align-self: flex-start;
@@ -103,9 +103,9 @@
 		}
 	}
 
-	// Hide container on smaller screens
+	// Hide cont on smaller screens
 	@media (max-width: 1500px) {
-		.container {
+		.cont {
 			display: none;
 		}
 	}

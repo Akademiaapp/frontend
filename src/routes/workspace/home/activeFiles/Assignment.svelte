@@ -7,7 +7,7 @@
 	export let id: string = 'Test';
 </script>
 
-<a href={'/workspace/editor?id=' + id} class="reset container frontground">
+<a href={'/workspace/editor?id=' + id} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 		{#if date}
@@ -39,7 +39,7 @@
 </a>
 
 <style lang="scss">
-	.container {
+	.cont {
 		display: flex;
 		min-height: 2rem;
 

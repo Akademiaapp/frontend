@@ -25,7 +25,7 @@
 	});
 </script>
 
-<div class="container br-2 frontground">
+<div class="cont br-2 frontground">
 	<h2>
 		<Target></Target>
 		Asignments
@@ -56,7 +56,7 @@
 </div>
 
 <style lang="scss">
-	.container {
+	.cont {
 		padding: 3rem;
 		display: flex;
 		flex-direction: column;
