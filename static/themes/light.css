@@ -24,8 +24,8 @@
 	font-family: var(--font-body);
 	color: var(--color-text-0);
 
-	--background: 0 0% 96.5%;
-	--foreground: 0 0% 100%;
+	--background: 0 0% 100%;
+	--foreground: 240 10% 3.9%;
 
 	--muted: 240 4.8% 95.9%;
 	--muted-foreground: 240 3.8% 46.1%;
