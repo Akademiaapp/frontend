@@ -38,7 +38,7 @@
 	};
 </script>
 
-<div class="container">
+<div class="cage">
 	<img
 		on:click={userHandler}
 		class="avatar br-2"
@@ -59,7 +59,7 @@
 		font-weight: bold;
 		color: var(--color-text-1);
 	}
-	.container {
+	.cage {
 		display: flex;
 		gap: 0.75rem;
 		justify-self: center;
