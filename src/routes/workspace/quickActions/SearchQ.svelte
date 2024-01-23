@@ -7,6 +7,7 @@
 	import * as Command from '$lib/components/ui/command';
 	import { fileStore } from '@/api/fileHandler';
 	import { goto } from '$app/navigation';
+	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 
 	let isSeaching = false;
 
@@ -46,6 +47,7 @@
 		<Command.Group heading="Files">
 			{#each files as file}
 				<Command.Item onSelect={() => openFile(file.id)}>
+					<File strokeWidth={1.5}></File>
 					{file.name}
 				</Command.Item>
 				<!-- content here -->
@@ -53,9 +55,18 @@
 		</Command.Group>
 		<Command.Separator />
 		<Command.Group heading="Commands">
-			<Command.Item>Profile</Command.Item>
-			<Command.Item>Billing</Command.Item>
-			<Command.Item>Settings</Command.Item>
+			<Command.Item>
+				<FilePen strokeWidth={1.5}></FilePen>
+				New Document
+			</Command.Item>
+			<Command.Item>
+				<NotebookPen strokeWidth={1.5}></NotebookPen>
+				New Note
+			</Command.Item>
+			<Command.Item>
+				<BookPlus strokeWidth={1.5}></BookPlus>
+				New Project
+			</Command.Item>
 		</Command.Group>
 	</Command.List>
 </Command.Dialog>
