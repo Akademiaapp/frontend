@@ -9,36 +9,17 @@
 
 	let isSeaching = false;
 
-	let searchInput: HTMLElement;
-
-	async function openSearch() {
-		isSeaching = true;
-		await tick();
-		searchInput.focus();
-	}
-
-	async function closeSearch() {
-		isSeaching = false;
-		searchInput.blur();
-	}
-
-	let isControlPressed = false;
-
 	window.addEventListener('keydown', (ev) => {
 		if (ev.key == 'p' && ev.ctrlKey) {
-			openSearch();
+			isSeaching = true;
 			ev.preventDefault();
 		}
 		if (ev.key == ' ' && ev.ctrlKey) {
-			openSearch();
+			isSeaching = true;
 		}
 
 		if (ev.key == 'Enter') {
-			closeSearch();
-		}
-
-		if (isSeaching && ev.key == 'Escape') {
-			closeSearch();
+			isSeaching = false;
 		}
 	});
 
@@ -49,7 +30,7 @@
 	console.log(files);
 </script>
 
-<QuickAction icon="search" action={openSearch}></QuickAction>
+<QuickAction icon="search" action={() => (isSeaching = true)}></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
 	<Command.Input placeholder="Type a command or search..." />
