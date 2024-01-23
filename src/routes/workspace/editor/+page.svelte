@@ -15,6 +15,10 @@
 	let activeFilename: string;
 </script>
 
+<svelte:head>
+	<title>{activeFilename} | Akademia</title>
+</svelte:head>
+
 <Workspace bind:activeFile bind:activeFilename>
 	<div class="editor">
 		<Toolbar {editor} {activeFile} />

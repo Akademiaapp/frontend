@@ -16,6 +16,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Signin | Akademia</title>
+</svelte:head>
+
 <div class="cont">
 	<div class="login-cont">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
