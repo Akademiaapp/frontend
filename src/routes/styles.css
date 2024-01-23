@@ -182,3 +182,20 @@ button.hover {
 
 	border-bottom: solid var(--color-overlay-1) 0.05rem;
 }
+
+.floating-panel {
+	z-index: 5;
+	position: sticky;
+	top: var(--pad);
+	bottom: 0;
+	pointer-events: auto;
+	height: 100%;
+	height: calc(100vh - var(--pad) * 2);
+}
+
+@container (inline-size < 768px) {
+	/* This selector doesn't work here */
+	div div .time {
+		background-color: red;
+	}
+}

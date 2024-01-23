@@ -8,7 +8,7 @@
 	import { fileStore } from '@/api/fileHandler';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
-
+	import { CalendarPlus } from 'lucide-svelte';
 	let isSeaching = false;
 
 	window.addEventListener('keydown', (ev) => {
@@ -66,6 +66,10 @@
 			<Command.Item>
 				<BookPlus strokeWidth={1.5}></BookPlus>
 				New Project
+			</Command.Item>
+			<Command.Item>
+				<CalendarPlus strokeWidth={1.5}></CalendarPlus>
+				New Calender Event
 			</Command.Item>
 		</Command.Group>
 	</Command.List>

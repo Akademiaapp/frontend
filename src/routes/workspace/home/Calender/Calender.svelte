@@ -28,8 +28,8 @@
 	}
 </script>
 
-<div class="frontground br-2">
-	<h1>Kalender</h1>
+<div class="frontground br-2 floating-panel">
+	<h2>Calender</h2>
 	<div class="calender">
 		<div class="time-stamps">
 			{#each timeStamps as timeStamp}

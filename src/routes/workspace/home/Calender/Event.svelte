@@ -18,7 +18,7 @@
 	</p>
 </div>
 
-<style lang="scss">
+<style>
 	div {
 		width: 300px;
 		background: color-mix(in srgb, var(--event-color) 29%, transparent);
@@ -31,15 +31,22 @@
 
 		top: var(--start);
 		position: absolute;
+
+		container-type: size;
 	}
 
 	.name {
 		text-transform: capitalize;
-		font-size: 1.2rem;
 	}
 
 	.time {
 		color: var(--color-text-2-t);
 		font-size: 0.7rem;
+	}
+
+	@container (height < 2.25rem) {
+		div .time {
+			display: none;
+		}
 	}
 </style>
