@@ -4,6 +4,10 @@
 	import Calender from './Calender/Calender.svelte';
 </script>
 
+<svelte:head>
+	<title>Dashboard | Akademia</title>
+</svelte:head>
+
 <Workspace>
 	<ActiveFiles></ActiveFiles>
 	<Calender></Calender>
