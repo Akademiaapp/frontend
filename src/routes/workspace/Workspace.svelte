@@ -2,10 +2,8 @@
 	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Sidebar from './Sidebar.svelte';
-	import type { Editor } from '@tiptap/core';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import FileEditor from './editor/FileEditor.svelte';
 
 	let state: AuthorizerState;
 
