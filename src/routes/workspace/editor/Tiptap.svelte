@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, setContext } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';

@@ -2,7 +2,7 @@
 	import File from './File.svelte';
 	import ApiHandler from '$lib/api';
 
-	import { getContext } from 'svelte';
+	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import { fileStore, type FileInfo } from '@/api/fileHandler';

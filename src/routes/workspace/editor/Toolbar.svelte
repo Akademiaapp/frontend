@@ -19,6 +19,7 @@
 	});
 
 	export let activeFile: string;
+	export let activeFilename: string;
 
 	$: isThemeChecked.set(checked);
 
@@ -83,7 +84,7 @@
 				<label for="mode_toggle"></label>
 			</div>
 		</div>
-		<ShareDocument />
+		<ShareDocument {activeFile} {activeFilename} />
 	</div>
 {/if}
 

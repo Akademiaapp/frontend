@@ -2,7 +2,7 @@
 	import { fade, slide } from 'svelte/transition';
 	import QuickAction from './QuickAction.svelte';
 	import fadeScale from '$lib/transitions/fade-scale';
-	import { getContext, tick } from 'svelte';
+	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
 	import { fileStore } from '@/api/fileHandler';
