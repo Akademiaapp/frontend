@@ -6,6 +6,7 @@
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
 	import { fileStore } from '@/api/fileHandler';
+	import { goto } from '$app/navigation';
 
 	let isSeaching = false;
 
@@ -23,11 +24,17 @@
 		}
 	});
 
+	function openFile(id: string) {
+		goto('editor?id=' + id);
+		isSeaching = false;
+		activeFile = id;
+	}
+
+	export let activeFile: string;
+
 	let files = $fileStore;
 
 	$: files = $fileStore;
-
-	console.log(files);
 </script>
 
 <QuickAction icon="search" action={() => (isSeaching = true)}></QuickAction>
@@ -38,7 +45,9 @@
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Files">
 			{#each files as file}
-				<Command.Item>{file.name}</Command.Item>
+				<Command.Item onSelect={() => openFile(file.id)}>
+					{file.name}
+				</Command.Item>
 				<!-- content here -->
 			{/each}
 		</Command.Group>

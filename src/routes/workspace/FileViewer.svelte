@@ -15,7 +15,7 @@
 	export let files: FileInfo[] = $fileStore;
 
 	$: files = $fileStore;
-	export let activeFileId = '';
+	export let activeFile = '';
 	export let activeFilename = '';
 </script>
 
@@ -25,10 +25,10 @@
 			<File
 				name={file?.name}
 				onClick={() => {
-					activeFileId = file?.id;
+					activeFile = file?.id;
 					activeFilename = file?.name;
 				}}
-				active={file?.id == activeFileId}
+				active={file?.id == activeFile}
 				id={file?.id}
 			></File>
 		</div>

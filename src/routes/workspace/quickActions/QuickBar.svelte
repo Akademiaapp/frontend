@@ -1,12 +1,14 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
+
+	export let activeFile: string;
 </script>
 
 <div class="cont">
 	<QuickAction icon="home" action={() => goto('home')} />
-	<SearchQ></SearchQ>
+	<SearchQ bind:activeFile></SearchQ>
 	<QuickAction icon="alarm" />
 </div>
 

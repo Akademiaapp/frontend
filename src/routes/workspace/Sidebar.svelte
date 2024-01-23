@@ -20,10 +20,10 @@
 				<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 			</button>
 		</div>
-		<QuickBar />
+		<QuickBar bind:activeFile />
 	</div>
 
-	<FileViewer bind:activeFileId={activeFile} bind:activeFilename></FileViewer>
+	<FileViewer bind:activeFile bind:activeFilename></FileViewer>
 </nav>
 
 <style lang="scss">
