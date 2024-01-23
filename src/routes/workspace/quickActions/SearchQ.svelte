@@ -4,6 +4,8 @@
 	import fadeScale from '$lib/transitions/fade-scale';
 	import { tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
+	import * as Command from '$lib/components/ui/command';
+	import { fileStore } from '@/api/fileHandler';
 
 	let isSeaching = false;
 
@@ -39,26 +41,34 @@
 			closeSearch();
 		}
 	});
+
+	let files = $fileStore;
+
+	$: files = $fileStore;
+
+	console.log(files);
 </script>
 
 <QuickAction icon="search" action={openSearch}></QuickAction>
 
-{#if isSeaching}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div
-		class="background"
-		on:click|self={() => (isSeaching = false)}
-		transition:fade={{ duration: 200, easing: sineInOut }}
-	>
-		<div class="search br-3" in:fadeScale={{ duration: 150, easing: expoOut }}>
-			<div class="search-bar">
-				<img src={'icons/search.svg'} alt="" />
-				<input type="text" placeholder="Search" bind:this={searchInput} />
-			</div>
-		</div>
-	</div>
-{/if}
+<Command.Dialog bind:open={isSeaching}>
+	<Command.Input placeholder="Type a command or search..." />
+	<Command.List>
+		<Command.Empty>No results found.</Command.Empty>
+		<Command.Group heading="Files">
+			{#each files as file}
+				<Command.Item>{file.name}</Command.Item>
+				<!-- content here -->
+			{/each}
+		</Command.Group>
+		<Command.Separator />
+		<Command.Group heading="Commands">
+			<Command.Item>Profile</Command.Item>
+			<Command.Item>Billing</Command.Item>
+			<Command.Item>Settings</Command.Item>
+		</Command.Group>
+	</Command.List>
+</Command.Dialog>
 
 <style lang="scss">
 	.background {

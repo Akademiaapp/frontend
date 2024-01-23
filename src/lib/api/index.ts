@@ -1,5 +1,6 @@
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
+import { updateFiles } from './fileHandler';
 
 export default class ApiHandler {
 	static baseUrl = 'https://akademia-api.arctix.dev';
@@ -59,7 +60,7 @@ export default class ApiHandler {
 				user_id: get(ApiHandler.context).user?.id
 			},
 			'POST'
-		);
+		).then(() => updateFiles(this));
 	}
 
 	addUserToDocument(documentId: string, user_email: string) {

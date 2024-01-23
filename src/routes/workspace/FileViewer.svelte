@@ -8,11 +8,13 @@
 	import type { Readable } from 'svelte/store';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { fileStore, type FileInfo } from '@/api/fileHandler';
+	import { fileStore, type FileInfo, updateFiles } from '@/api/fileHandler';
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	export let files: FileInfo[] = $fileStore;
+
+	$: files = $fileStore;
 	export let activeFileId = '';
 	export let activeFilename = '';
 </script>
@@ -37,11 +39,6 @@
 		<button
 			on:click={() => {
 				api.createDocument(randomName());
-				api.getUserDocuments().then((res) => {
-					res.json().then((data) => {
-						files = data;
-					});
-				});
 			}}
 			class="reset no-bg size-full"
 		>
