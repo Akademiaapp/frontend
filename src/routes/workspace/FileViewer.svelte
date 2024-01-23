@@ -8,25 +8,13 @@
 	import type { Readable } from 'svelte/store';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
+	import { fileStore, type FileInfo } from '@/api/fileHandler';
 
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
-	interface File {
-		name: string;
-		id: string;
-	}
-
-	export let files: File[] = [];
-	export let activeFile = '';
+	export let files: FileInfo[] = $fileStore;
+	export let activeFileId = '';
 	export let activeFilename = '';
-	let userDocuments;
-
-	onMount(async () => {
-		userDocuments = await api.getUserDocuments();
-
-		files = await userDocuments.json();
-		console.log(files);
-	});
 </script>
 
 <div class="cont br-2 float-panel">
@@ -35,10 +23,10 @@
 			<File
 				name={file?.name}
 				onClick={() => {
-					activeFile = file?.id;
+					activeFileId = file?.id;
 					activeFilename = file?.name;
 				}}
-				active={file?.id == activeFile}
+				active={file?.id == activeFileId}
 				id={file?.id}
 			></File>
 		</div>

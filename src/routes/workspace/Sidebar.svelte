@@ -23,7 +23,7 @@
 		<QuickBar />
 	</div>
 
-	<FileViewer bind:activeFile bind:activeFilename></FileViewer>
+	<FileViewer bind:activeFileId={activeFile} bind:activeFilename></FileViewer>
 </nav>
 
 <style lang="scss">

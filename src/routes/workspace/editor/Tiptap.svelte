@@ -131,7 +131,6 @@
 								transaction.selection.anchor - 3,
 								transaction.selection.anchor - 1
 							);
-							console.log(letterBefore);
 
 							if (letterBefore == '' || letterBefore[0] == '.') {
 								editor.commands.undo();
