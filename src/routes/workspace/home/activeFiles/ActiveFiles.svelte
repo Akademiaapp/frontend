@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Assignment from './Assignment.svelte';
 	import ApiHandler from '$lib/api';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
 	import { getContext, onMount } from 'svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
 
@@ -11,7 +9,8 @@
 		{ name: 'matematik aflevering', progress: 50 },
 		{ name: 'matematik aflevering', progress: 0 }
 	];
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+
+	const api = getContext('api') as ApiHandler;
 
 	interface File {
 		name: string;

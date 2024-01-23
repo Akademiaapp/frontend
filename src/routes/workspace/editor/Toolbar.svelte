@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { selectionToInsertionEnd, type Editor } from '@tiptap/core';
+	import { type Editor } from '@tiptap/core';
 	import { isThemeChecked } from '../../store';
 	import ApiHandler from '../../../lib/api';
 
 	import { getContext } from 'svelte';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
-	import { Baseline, Bold, UserRoundPlus } from 'lucide-svelte';
 	import ShareDocument from '@/components/ShareDocument.svelte';
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
+	const api = getContext('api') as ApiHandler;
+	
 	export let editor: Editor;
 
 	let selection = editor;
