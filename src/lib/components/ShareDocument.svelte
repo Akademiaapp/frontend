@@ -2,8 +2,8 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
@@ -17,28 +17,30 @@
 
 	const permissions = [
 		{
-			value: "view",
-			label: "Can view"
+			value: 'view',
+			label: 'Can view'
 		},
 		{
-			value: "edit",
-			label: "Can edit"
+			value: 'edit',
+			label: 'Can edit'
 		}
 	];
 
-	let people = [{
-	 	name: "Sofia Davis",
-	 	email: "p@example.com",
-		avatar: "/avatars/01.png",
-		permission: permissions[0]
-	}];
+	let people = [
+		{
+			name: 'Sofia Davis',
+			email: 'p@example.com',
+			avatar: '/avatars/01.png',
+			permission: permissions[0]
+		}
+	];
 
 	const fullDocument = api.getDocument(activeFile).then((fullDocument) => {
 		console.log('Fulldocument', fullDocument);
 	});
 
 	function copyLinkToClipboard() {
-		var copyText = document.getElementById("copy-link") as HTMLInputElement;
+		var copyText = document.getElementById('copy-link') as HTMLInputElement;
 		copyText.select();
 		copyText.setSelectionRange(0, 99999);
 		navigator.clipboard.writeText(copyText.value);
@@ -63,13 +65,20 @@
 	<Dialog.Content>
 		<Dialog.Header>
 			<Dialog.Title>Share '{activeFilename}'</Dialog.Title>
-		  	<Dialog.Description>
-				Only people you invite can access this document. You can change the permission of each person.
-		  	</Dialog.Description>
+			<Dialog.Description>
+				Only people you invite can access this document. You can change the permission of each
+				person.
+			</Dialog.Description>
 		</Dialog.Header>
 		<div class="flex space-x-2">
-			<Input id="copy-link" value="https://app.akademia.cc/workspace/editor?id={activeFile}" readonly />
-			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}>Copy Link</Button>
+			<Input
+				id="copy-link"
+				value="https://app.akademia.cc/workspace/editor?id={activeFile}"
+				readonly
+			/>
+			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
+				>Copy Link</Button
+			>
 		</div>
 		<Separator class="my-4" />
 		<div class="space-y-4">
@@ -95,7 +104,7 @@
 			<h4 class="text-sm font-medium">People with access</h4>
 			<div class="grid gap-6">
 				{#each people as person}
-					{@const name = person.name.split(" ")}
+					{@const name = person.name.split(' ')}
 					<div class="flex items-center justify-between space-x-4">
 						<div class="flex items-center space-x-4">
 							<Avatar.Root>
