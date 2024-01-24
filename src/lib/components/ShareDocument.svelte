@@ -48,9 +48,10 @@
 
 	function addUserToDocument() {
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		var id = getContext('activeFile') as string;
-
-		api.addUserToDocument(id, email);
+		console.log(email)
+		api.addUserToDocument(activeFile, email).then((response) => {
+			console.log(response);
+		})
 	}
 </script>
 
