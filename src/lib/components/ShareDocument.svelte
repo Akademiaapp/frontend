@@ -9,11 +9,9 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
+	import { activeFile } from '../../routes/store';
 
 	const api = getContext('api') as ApiHandler;
-
-	export let activeFile: string;
-	export let activeFilename: string;
 
 	const permissions = [
 		{
@@ -35,7 +33,7 @@
 		}
 	];
 
-	const fullDocument = api.getDocument(activeFile).then((fullDocument) => {
+	$: api.getDocument($activeFile?.id || '').then((fullDocument) => {
 		fullDocument.json().then((json) => {
 			console.log('Fulldocument JSON', json);
 		});
@@ -51,7 +49,7 @@
 	function addUserToDocument() {
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
 		console.log(email);
-		api.addUserToDocument(activeFile, email).then((response) => {
+		api.addUserToDocument($activeFile?.id || '', email).then((response) => {
 			console.log(response);
 		});
 	}
@@ -67,7 +65,7 @@
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Share '{activeFilename}'</Dialog.Title>
+			<Dialog.Title>Share '{$activeFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
 				Only people you invite can access this document. You can change the permission of each
 				person.
@@ -76,7 +74,7 @@
 		<div class="flex space-x-2">
 			<Input
 				id="copy-link"
-				value="https://app.akademia.cc/workspace/editor?id={activeFile}"
+				value="https://app.akademia.cc/workspace/editor?id={$activeFile.id}"
 				readonly
 			/>
 			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
