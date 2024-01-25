@@ -3,14 +3,22 @@
 	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
 	import type { Editor } from '@tiptap/core';
-	import Overview from './Overview.svelte';
 	import { activeFile } from '../../store';
+	import { getContext } from 'svelte';
+	import ApiHandler from '@/api';
+	import type { Readable } from 'svelte/store';
+	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 
 	let editor: Editor;
+	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
-	console.log(id);
+	api.getDocument(id || '').then((file) => {
+		file.json().then((fileContent) => {
+			activeFile.set(fileContent);
+		});
+	});
 </script>
 
 <svelte:head>
