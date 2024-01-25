@@ -5,9 +5,10 @@
 
 	import { getContext } from 'svelte';
 	import ShareDocument from '@/components/ShareDocument.svelte';
+	import { Brush } from 'lucide-svelte';
 
 	const api = getContext('api') as ApiHandler;
-	
+
 	export let editor: Editor;
 
 	let selection = editor;
@@ -68,11 +69,10 @@
 					id="text-color"
 				/>
 				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}
-					><p class="material-symbols-rounded">format_color_text</p>
-				</label>
+					><Brush size="15"></Brush></label
+				>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()}
-				><span class="material-symbols-rounded"> format_bold </span></button
+			<button on:click={(event) => nodeOrSelected().toggleBold().run()} class="font-black">B</button
 			>
 			<div class="spacer"></div>
 
@@ -81,7 +81,7 @@
 				<label for="mode_toggle"></label>
 			</div>
 		</div>
-		<ShareDocument/>
+		<ShareDocument />
 	</div>
 {/if}
 
