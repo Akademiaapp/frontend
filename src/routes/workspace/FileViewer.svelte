@@ -5,7 +5,7 @@
 	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { fileStore, type FileInfo } from '@/api/fileHandler';
+	import { fileStore, type FileInfo } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 

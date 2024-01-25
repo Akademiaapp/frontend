@@ -3,6 +3,7 @@
 	import ApiHandler from '$lib/api';
 	import { getContext, onMount } from 'svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
+	import { fileStore } from '@/api/apiStore';
 
 	let assignments: { name: string; progress: number }[] = [
 		{ name: 'beskrivende tekst', progress: 100 },
@@ -12,12 +13,6 @@
 
 	const api = getContext('api') as ApiHandler;
 
-	interface File {
-		name: string;
-		id: string;
-	}
-
-	export let files: File[] = [];
 	const context = api.getContext();
 	onMount(async () => {
 		files = await (await api.getUserDocuments()).json();
@@ -43,7 +38,7 @@
 		Documents
 	</h2>
 	<div class="filelist">
-		{#each files as f}
+		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
 	</div>
@@ -52,7 +47,7 @@
 		Notes
 	</h2>
 	<div class="filelist">
-		{#each files as f}
+		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
 	</div>
