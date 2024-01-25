@@ -72,7 +72,8 @@
 					><Brush size="15"></Brush></label
 				>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()} class="font-black">B</button
+			<button class="align" on:click={(event) => nodeOrSelected().toggleBold().run()}
+				><span class="material-symbols-rounded !mb-1 align-middle"> format_bold </span></button
 			>
 			<div class="spacer"></div>
 
