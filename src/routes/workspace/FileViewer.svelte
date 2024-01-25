@@ -16,24 +16,28 @@
 </script>
 
 <div class="cont br-2 float-panel">
-	{#each files as file}
-		<div>
-			<File
-				name={file?.name}
-				onClick={() => {
-					activeFile.set(file);
-				}}
-				active={file?.id == $activeFile?.id}
-				id={file?.id}
-			></File>
-		</div>
-		<!-- content here -->
-	{/each}
+	<div class="files br-2">
+		{#each files as file}
+			<div>
+				<File
+					name={file?.name}
+					onClick={() => {
+						activeFile.set(file);
+					}}
+					active={file?.id == $activeFile?.id}
+					id={file?.id}
+				></File>
+			</div>
+			<!-- content here -->
+		{/each}
+	</div>
 	<div class="splitter"></div>
 	<SideBarElem active={false}>
 		<button
-			on:click={() => {
-				api.createDocument(randomName());
+			on:click={async () => {
+				const newFile = await (await api.createDocument(randomName())).json();
+				activeFile.set(newFile);
+				fileStore.update((before) => [...before, newFile]);
 			}}
 			class="reset no-bg size-full"
 		>
@@ -56,6 +60,15 @@
 		background-color: var(--color-bg-1);
 		padding: 0.2rem;
 		flex-grow: 1;
+		overflow-y: hidden;
+	}
+
+	.files {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		font-size: 1.05rem;
+		overflow-y: auto;
 	}
 
 	button {
