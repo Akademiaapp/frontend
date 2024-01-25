@@ -61,7 +61,7 @@
 				P
 			</button>
 			<div class="smal-splitter"></div>
-			<div class="text-color">
+			<div class="text-color h-full">
 				<input
 					type="color"
 					on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
@@ -72,8 +72,8 @@
 					><Brush size="15"></Brush></label
 				>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()}
-				><span class="material-symbols-rounded !mb-0.5 align-middle"> format_bold </span></button
+			<button on:click={(event) => nodeOrSelected().toggleBold().run()} class="flex items-center"
+				><span class="material-symbols-rounded"> format_bold </span></button
 			>
 			<div class="spacer"></div>
 
@@ -223,6 +223,7 @@
 
 			border-radius: 0.2rem;
 			padding: 0.15rem 0.5rem;
+			height: 100%;
 
 			// transition: background-color 100ms;
 			&:hover {
