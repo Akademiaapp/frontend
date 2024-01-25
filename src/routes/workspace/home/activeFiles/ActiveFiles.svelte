@@ -13,13 +13,8 @@
 
 	const api = getContext('api') as ApiHandler;
 
-	interface File {
-		name: string;
-		id: string;
-	}
 	const context = api.getContext();
 	onMount(async () => {
-		console.log('Files: ', files);
 		assignments = await (await api.getAssignments()).json();
 		console.log('Asignments: ', assignments);
 	});
@@ -50,7 +45,7 @@
 		Notes
 	</h2>
 	<div class="filelist">
-		{#each files as f}
+		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
 	</div>
