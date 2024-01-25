@@ -71,8 +71,8 @@
 					><p class="material-symbols-rounded">format_color_text</p>
 				</label>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()}
-				><span class="material-symbols-rounded"> format_bold </span></button
+			<button class="align" on:click={(event) => nodeOrSelected().toggleBold().run()}
+				><span class="material-symbols-rounded align-middle !mb-1"> format_bold </span></button
 			>
 			<div class="spacer"></div>
 
