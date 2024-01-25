@@ -2,7 +2,7 @@
 	import { capLength } from '$lib/utils/stringUtils';
 
 	export let name: string;
-	export let date: string | undefined;
+	export let date: string | undefined = undefined;
 	export let progress: number = -1;
 	export let id: string = 'Test';
 </script>
