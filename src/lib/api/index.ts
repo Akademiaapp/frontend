@@ -100,4 +100,9 @@ export default class ApiHandler {
 			'POST'
 		);
 	};
+
+	// Get all users in a document
+	getMembers = (documentId: string) => {
+		return this.callApi('/documents/' + documentId + '/users');
+	};
 }
