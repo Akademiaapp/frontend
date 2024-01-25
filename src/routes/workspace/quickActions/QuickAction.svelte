@@ -38,22 +38,23 @@
 
 		color: #7f7f7f;
 
-		transition: color 100ms;
 		&:hover {
 			color: var(--color-text-0);
 			transform: translateY(-0.05rem);
 
-			transition: transform 100ms;
+			transition:
+				transform 100ms,
+				color 400ms;
 		}
 		transition:
-			transform 400ms,
-			color 1s;
+			color 400ms,
+			transform 400ms;
 
 		&::before {
 			content: var(--icon);
 			position: absolute;
 			color: transparent;
-			transition: color 1s;
+			transition: color 400ms;
 
 			font-variation-settings:
 				'FILL' 100,

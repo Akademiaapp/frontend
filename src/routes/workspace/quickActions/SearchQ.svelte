@@ -36,10 +36,6 @@
 	}
 
 	export let activeFile: string;
-
-	let files = $fileStore;
-
-	$: files = $fileStore;
 </script>
 
 <QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
@@ -49,7 +45,7 @@
 	<Command.List>
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Files">
-			{#each files as file}
+			{#each $fileStore as file}
 				<Command.Item onSelect={() => openFile(file.id)}>
 					<File strokeWidth={1.5}></File>
 					{file.name}
