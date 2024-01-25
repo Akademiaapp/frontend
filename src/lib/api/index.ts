@@ -64,7 +64,7 @@ export default class ApiHandler {
 				user_id: get(ApiHandler.context).user?.id
 			},
 			'POST'
-		).then(() => updateFiles(this));
+		);
 	};
 
 	addUserToDocument = (documentId: string, user_email: string) => {

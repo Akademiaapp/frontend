@@ -117,7 +117,8 @@
 							if (steps.length != 1) {
 								return;
 							}
-							const typedLetter: string = steps[0].slice.content.content[0]?.text;
+							const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
+							if (!typedLetter) return false;
 
 							const regex = /^[a-z]$/;
 
