@@ -4,7 +4,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { updateFiles } from '@/api/apiStore';
+	import { updateFiles, updateUserInfo } from '@/api/apiStore';
 	import ApiHandler from '@/api';
 
 	let state: AuthorizerState;
@@ -17,9 +17,10 @@
 			goto('/signin');
 		}
 	});
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+	const api = new ApiHandler(store);
 	setContext('api', api);
 	updateFiles(api);
+	updateUserInfo($store);
 
 	export let activeFile: string = '';
 	export let activeFilename: string = '';

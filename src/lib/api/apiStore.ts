@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type ApiHandler from '.';
+import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 
 export interface FileInfo {
 	user_id: string;
@@ -16,9 +17,26 @@ export async function updateFiles(api: ApiHandler) {
 	fileStore.set(await userDocuments.json());
 	console.log('updated files');
 }
+function getUserName(state: AuthorizerState): string {
+	if (!state?.user) return '';
+	const name =
+		state.user?.given_name === ''
+			? state.user?.preferred_username.split(/[@.]/)[0]
+			: state.user?.given_name;
+	if (typeof name === 'string') {
+		return name;
+	} else {
+		return 'User';
+	}
+}
+export function updateUserInfo(state: AuthorizerState) {
+	userInfo.set({ name: getUserName(state) });
+}
 
 // Explicitly specify the type of the store
 export const fileStore = writable<FileInfo[]>([]);
-fileStore.subscribe((value) => {
-	console.log(value);
-}); // logs '0'
+
+interface userInfo {
+	name: string;
+}
+export const userInfo = writable<userInfo>();

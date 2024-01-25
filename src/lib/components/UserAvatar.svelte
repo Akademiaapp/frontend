@@ -3,52 +3,32 @@
 	import { goto } from '$app/navigation';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Readable } from 'svelte/store';
+	import { userInfo } from '@/api/apiStore';
 
 	export let name = false;
 
-	let username = 'User';
-
-	let state: AuthorizerState;
-
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		username = getUserName();
-	});
-
-	function getUserName(): string {
-		let name =
-			state.user?.given_name === ''
-				? state.user?.preferred_username.split(/[@.]/)[0]
-				: state.user?.given_name;
-		if (typeof name === 'string') {
-			return name;
-		} else {
-			return 'User';
-		}
-	}
-
-	const userHandler = async () => {
-		if (!state.token) {
-			goto('/signin');
-		} else {
-			await state.logout();
-		}
-	};
+	// const userHandler = async () => {
+	// 	if (!state.token) {
+	// 		goto('/signin');
+	// 	} else {
+	// 		await state.logout();
+	// 	}
+	// };
+	// on:click={userHandler}
 </script>
 
 <div class="cage">
 	<img
-		on:click={userHandler}
 		class="avatar br-2"
-		src={state.user?.picture}
+		src={$store.user?.picture}
 		alt="User avatar"
 		referrerpolicy="no-referrer"
 	/>
 	{#if name}
 		<p>
-			{username}
+			{$userInfo.name}
 		</p>
 	{/if}
 </div>
