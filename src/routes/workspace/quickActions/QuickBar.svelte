@@ -2,12 +2,17 @@
 	import { goto } from '$app/navigation';
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
+	import { page } from '$app/stores';
 
 	export let activeFile: string;
 </script>
 
 <div class="cont">
-	<QuickAction icon="home" action={() => goto('home')} />
+	<QuickAction
+		icon="home"
+		action={() => goto('home')}
+		active={$page.route.id?.includes('workspace/home')}
+	/>
 	<SearchQ bind:activeFile></SearchQ>
 	<QuickAction icon="alarm" />
 </div>

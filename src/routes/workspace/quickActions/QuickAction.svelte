@@ -1,10 +1,13 @@
 <script lang="ts">
 	export let icon: string;
 	export let action = () => {};
+	export let active = false;
 </script>
 
 <button class="cont b2" on:click={action}>
-	<span class="material-symbols-rounded"> {icon} </span>
+	<span class="material-symbols-rounded" style:--icon={"'" + icon + "'"} class:active>
+		{icon}
+	</span>
 </button>
 
 <style lang="scss">
@@ -34,6 +37,7 @@
 		font-size: 2rem;
 
 		color: #7f7f7f;
+
 		transition: color 100ms;
 		&:hover {
 			color: var(--color-text-0);
@@ -41,6 +45,28 @@
 
 			transition: transform 100ms;
 		}
-		transition: transform 400ms;
+		transition:
+			transform 400ms,
+			color 1s;
+
+		&::before {
+			content: var(--icon);
+			position: absolute;
+			color: transparent;
+			transition: color 1s;
+
+			font-variation-settings:
+				'FILL' 100,
+				'wght' 400,
+				'GRAD' 0,
+				'opsz' 24;
+		}
+		&.active {
+			color: transparent;
+
+			&::before {
+				color: var(--color-text-0);
+			}
+		}
 	}
 </style>

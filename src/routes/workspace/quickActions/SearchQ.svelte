@@ -42,7 +42,7 @@
 	$: files = $fileStore;
 </script>
 
-<QuickAction icon="search" action={() => (isSeaching = true)}></QuickAction>
+<QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
 	<Command.Input placeholder="Type a command or search..." />
