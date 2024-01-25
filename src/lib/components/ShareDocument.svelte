@@ -89,7 +89,7 @@
 			<div class="flex space-x-4">
 				<Input placeholder="Email address" id="invite-email" />
 				<Select.Root>
-					<Select.Trigger class="w-[110px]">
+					<Select.Trigger class="w-[200px]">
 						<Select.Value placeholder="Select" />
 					</Select.Trigger>
 					<Select.Content>
