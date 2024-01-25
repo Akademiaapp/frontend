@@ -74,7 +74,7 @@
 		<div class="flex space-x-2">
 			<Input
 				id="copy-link"
-				value="https://app.akademia.cc/workspace/editor?id={$activeFile.id}"
+				value="https://app.akademia.cc/workspace/editor?id={$activeFile?.id || 'failure'}"
 				readonly
 			/>
 			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
