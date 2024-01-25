@@ -4,26 +4,24 @@
 	import Workspace from '../Workspace.svelte';
 	import type { Editor } from '@tiptap/core';
 	import Overview from './Overview.svelte';
+	import { activeFile } from '../../store';
 
 	let editor: Editor;
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	console.log(id);
-
-	let activeFile: string = id || '';
-	let activeFilename: string;
 </script>
 
 <svelte:head>
-	<title>{activeFilename} | Akademia</title>
+	<title>{$activeFile?.name} | Akademia</title>
 </svelte:head>
 
-<Workspace bind:activeFile bind:activeFilename>
+<Workspace>
 	<div class="editor">
-		<Toolbar {editor} {activeFile} {activeFilename}/>
+		<Toolbar {editor}/>
 
-		<FileEditor bind:editor {activeFile} {activeFilename}></FileEditor>
+		<FileEditor bind:editor></FileEditor>
 	</div>
 </Workspace>
 

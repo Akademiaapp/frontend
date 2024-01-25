@@ -2,8 +2,6 @@
 	import QuickBar from './quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	export let activeFile: string;
-	export let activeFilename: string;
 	export let sidebarVisible: boolean;
 </script>
 
@@ -20,10 +18,10 @@
 				<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 			</button>
 		</div>
-		<QuickBar bind:activeFile />
+		<QuickBar/>
 	</div>
 
-	<FileViewer bind:activeFile bind:activeFilename></FileViewer>
+	<FileViewer></FileViewer>
 </nav>
 
 <style lang="scss">

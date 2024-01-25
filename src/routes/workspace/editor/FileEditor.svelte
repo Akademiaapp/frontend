@@ -4,9 +4,6 @@
 	import Overview from './Overview.svelte';
 	export let editor: Editor;
 
-	export let activeFile: string;
-	export let activeFilename: string;
-
 	var scale = 1;
 
 	function onScroll(e: Event) {
@@ -26,7 +23,7 @@
 <div class="editor_wrapper" style:display={editor ? null : 'none'} on:mousewheel={onScroll}>
 	<div class="pages" style:scale>
 		<div class="page">
-			<Tiptap {activeFile} {activeFilename} bind:editor />
+			<Tiptap bind:editor />
 		</div>
 		<div class="page"></div>
 	</div>

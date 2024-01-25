@@ -22,9 +22,6 @@
 	updateFiles(api);
 	updateUserInfo($store);
 
-	export let activeFile: string = '';
-	export let activeFilename: string = '';
-
 	let sidebarVisible: boolean = true;
 
 	$: console.log(sidebarVisible);
@@ -32,7 +29,7 @@
 
 <div class="cont">
 	<div class="sidebar floating-panel" class:hidden={!sidebarVisible}>
-		<Sidebar bind:activeFile bind:sidebarVisible bind:activeFilename></Sidebar>
+		<Sidebar bind:sidebarVisible></Sidebar>
 	</div>
 
 	<slot />

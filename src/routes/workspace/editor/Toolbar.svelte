@@ -18,9 +18,6 @@
 		selection = editor;
 	});
 
-	export let activeFile: string;
-	export let activeFilename: string;
-
 	$: isThemeChecked.set(checked);
 
 	let textcolor: string;
@@ -84,7 +81,7 @@
 				<label for="mode_toggle"></label>
 			</div>
 		</div>
-		<ShareDocument {activeFile} {activeFilename} />
+		<ShareDocument/>
 	</div>
 {/if}
 

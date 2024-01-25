@@ -11,6 +11,7 @@
 	import { CalendarPlus } from 'lucide-svelte';
 	import type ApiHandler from '@/api';
 	import randomName from '@/randomName';
+	import { activeFile } from '../../store';
 	let isSeaching = false;
 
 	const api = getContext('api') as ApiHandler;
@@ -32,10 +33,12 @@
 	function openFile(id: string) {
 		goto('editor?id=' + id);
 		isSeaching = false;
-		activeFile = id;
+		$fileStore.forEach((file) => {
+			if (file.id == id) {
+				activeFile.set(file);
+			}
+		});
 	}
-
-	export let activeFile: string;
 </script>
 
 <QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>

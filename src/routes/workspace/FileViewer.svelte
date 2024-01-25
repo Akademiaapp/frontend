@@ -6,14 +6,13 @@
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
+	import { activeFile } from '../store';
 
 	const api = getContext('api') as ApiHandler;
 
 	export let files: FileInfo[] = $fileStore;
 
 	$: files = $fileStore;
-	export let activeFile = '';
-	export let activeFilename = '';
 </script>
 
 <div class="cont br-2 float-panel">
@@ -22,10 +21,9 @@
 			<File
 				name={file?.name}
 				onClick={() => {
-					activeFile = file?.id;
-					activeFilename = file?.name;
+					activeFile.set(file);
 				}}
-				active={file?.id == activeFile}
+				active={file?.id == $activeFile?.id}
 				id={file?.id}
 			></File>
 		</div>

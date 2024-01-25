@@ -15,6 +15,8 @@
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from '$lib/editor/extensions/title';
+	import { activeFile } from '../../store';
+	import type { FileInfo } from '@/api/apiStore';
 
 	let state: AuthorizerState;
 
@@ -31,12 +33,10 @@
 	let provider: HocuspocusProvider;
 
 	export let editor: Editor;
-	export let activeFile: string;
-	export let activeFilename: string;
 
-	$: activeFile && initializeTiptap(activeFile);
+	$: initializeTiptap($activeFile);
 
-	function initializeTiptap(activeFile: string) {
+	function initializeTiptap(activeFile: FileInfo | null) {
 		if (!activeFile || !element) {
 			return;
 		}
@@ -57,7 +57,7 @@
 		provider = new HocuspocusProvider({
 			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
-			name: activeFile,
+			name: activeFile.id,
 			onAuthenticationFailed: () => {
 				editor.destroy();
 				provider.destroy();
@@ -106,8 +106,8 @@
 						// console.log('too', transaction);
 
 						const title = transaction.doc.content.content[0].content.content[0]?.text;
-						if (title && title !== activeFilename) {
-							api.renameDocument(activeFile, title);
+						if (title && title !== activeFile.name) {
+							api.renameDocument(activeFile.id, title);
 						}
 
 						// editor.commands.undo();
@@ -142,7 +142,7 @@
 	}
 
 	onMount(() => {
-		initializeTiptap(activeFile);
+		initializeTiptap($activeFile);
 	});
 
 	onDestroy(() => {
