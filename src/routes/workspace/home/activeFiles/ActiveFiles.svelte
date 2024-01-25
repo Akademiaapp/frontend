@@ -18,13 +18,17 @@
 	}
 
 	export let files: File[] = [];
+	const context = api.getContext();
 	onMount(async () => {
 		files = await (await api.getUserDocuments()).json();
-		console.log(files);
+		console.log("Files: ", files);
+		assignments = await (await api.getAssignments()).json();
+		console.log("Asignments: ", assignments);
 	});
 </script>
 
 <div class="cont br-2 frontground">
+	<h1>Welcome, {context.user?.nickname}</h1>
 	<h2>
 		<Target></Target>
 		Asignments

@@ -36,7 +36,9 @@
 	];
 
 	const fullDocument = api.getDocument(activeFile).then((fullDocument) => {
-		console.log('Fulldocument', fullDocument);
+		fullDocument.json().then((json) => {
+			console.log('Fulldocument JSON', json);
+		});
 	});
 
 	function copyLinkToClipboard() {
@@ -48,10 +50,10 @@
 
 	function addUserToDocument() {
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		console.log(email)
+		console.log(email);
 		api.addUserToDocument(activeFile, email).then((response) => {
 			console.log(response);
-		})
+		});
 	}
 </script>
 

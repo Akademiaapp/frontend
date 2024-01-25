@@ -10,6 +10,10 @@ export default class ApiHandler {
 		ApiHandler.context = context;
 	}
 
+	getContext = () => {
+		return get(ApiHandler.context);
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
 		let timer: number;
@@ -44,15 +48,15 @@ export default class ApiHandler {
 		);
 	}
 
-	getDocument(documentId: string) {
+	getDocument = (documentId: string) => {
 		return this.callApi('/documents/' + documentId);
 	}
 
-	getUserDocuments() {
+	getUserDocuments = () => {
 		return this.callApi('/documents');
 	}
 
-	createDocument(documentName: string) {
+	createDocument = (documentName: string) => {
 		return this.callApi(
 			'/documents',
 			{
@@ -63,7 +67,7 @@ export default class ApiHandler {
 		).then(() => updateFiles(this));
 	}
 
-	addUserToDocument(documentId: string, user_email: string) {
+	addUserToDocument = (documentId: string, user_email: string) => {
 		return this.callApi(
 			'/documents/' + documentId + '/users',
 			{
@@ -77,15 +81,15 @@ export default class ApiHandler {
 		this.callApi('/documents/' + documentId, { name: documentName }, 'PUT');
 	}, 350);
 
-	deleteDocument(documentId: string) {
+	deleteDocument = (documentId: string) => {
 		return this.callApi('/documents/' + documentId, {}, 'DELETE');
 	}
 
-	getAssignments() {
+	getAssignments = () => {
 		return this.callApi('/assignments');
 	}
 
-	createAssignment(documentId: string, assignmentName: string, due_date: Date) {
+	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(
 			'/assignments',
 			{
