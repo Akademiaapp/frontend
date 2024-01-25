@@ -5,7 +5,7 @@
 	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
-	import { fileStore } from '@/api/fileHandler';
+	import { fileStore } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
