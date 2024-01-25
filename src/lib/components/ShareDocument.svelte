@@ -59,11 +59,17 @@
 
 	let people: Member[] = [];
 
-	$: api.getMembers($activeFile?.id || '').then((response) => {
+	activeFile.subscribe((file) => {
 		people = [];
+	});
+
+	$: api.getMembers($activeFile?.id || '').then((response) => {
+		
 		response.json().then((members: User[]) => {
 			console.log(members);
 			members.forEach(member => {
+				// Only add people who arent already in the list
+				if (people.find(person => person.email == member.email)) return;
 				people.push({
 					name: member.given_name || member.preferred_username || member.nickname || member.family_name || member.middle_name || member.email.split('@')[0],
 					email: member.email,
