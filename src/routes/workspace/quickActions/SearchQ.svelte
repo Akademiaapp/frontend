@@ -5,7 +5,7 @@
 	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
-	import { fileStore } from '@/api/apiStore';
+	import { fileStore, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
@@ -30,14 +30,10 @@
 		}
 	});
 
-	function openFile(id: string) {
-		goto('editor?id=' + id);
+	function openFile(file: FileInfo) {
+		goto('editor?id=' + file.id);
 		isSeaching = false;
-		$fileStore.forEach((file) => {
-			if (file.id == id) {
-				activeFile.set(file);
-			}
-		});
+		activeFile.set(file);
 	}
 </script>
 
@@ -49,7 +45,7 @@
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Files">
 			{#each $fileStore as file}
-				<Command.Item onSelect={() => openFile(file.id)}>
+				<Command.Item onSelect={() => openFile(file)}>
 					<File strokeWidth={1.5}></File>
 					{file.name}
 				</Command.Item>
