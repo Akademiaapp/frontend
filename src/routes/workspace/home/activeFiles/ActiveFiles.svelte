@@ -22,7 +22,7 @@
 	onMount(async () => {
 		files = await (await api.getUserDocuments()).json();
 		console.log("Files: ", files);
-		assignments = await (await api.getAssignments()).json();
+		// assignments = await (await api.getAssignments()).json();
 		console.log("Asignments: ", assignments);
 	});
 </script>
@@ -31,7 +31,7 @@
 	<h1>Welcome, {context.user?.nickname}</h1>
 	<h2>
 		<Target></Target>
-		Asignments
+		Assignments
 	</h2>
 	<div class="filelist">
 		{#each assignments as assignment}
