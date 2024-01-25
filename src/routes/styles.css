@@ -192,10 +192,3 @@ button.hover {
 	height: 100%;
 	height: calc(100vh - var(--pad) * 2);
 }
-
-@container (inline-size < 768px) {
-	/* This selector doesn't work here */
-	div div .time {
-		background-color: red;
-	}
-}
