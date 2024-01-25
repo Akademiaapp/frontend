@@ -24,18 +24,53 @@
 		}
 	];
 
-	let people = [
-		{
-			name: 'Sofia Davis',
-			email: 'p@example.com',
-			avatar: '/avatars/01.png',
-			permission: permissions[0]
-		}
-	];
+	interface Member {
+		name: string;
+		email: string;
+		avatar: string;
+		permission: {
+			value: string;
+			label: string;
+		};
+	};
 
-	$: api.getDocument($activeFile?.id || '').then((fullDocument) => {
-		fullDocument.json().then((json) => {
-			console.log('Fulldocument JSON', json);
+	interface User {
+    id: string;
+    email: string;
+    preferred_username: string;
+    email_verified: boolean;
+    signup_methods: string;
+    given_name?: string | null;
+    family_name?: string | null;
+    middle_name?: string | null;
+    nickname?: string | null;
+    picture?: string | null;
+    gender?: string | null;
+    birthdate?: string | null;
+    phone_number?: string | null;
+    phone_number_verified?: boolean | null;
+    roles?: string[];
+    created_at: number;
+    updated_at: number;
+    is_multi_factor_auth_enabled?: boolean;
+    app_data?: Record<string, any>;
+		permission: string;
+}
+
+	let people: Member[] = [];
+
+	$: api.getMembers($activeFile?.id || '').then((response) => {
+		response.json().then((members: User[]) => {
+			console.log(members);
+			members.forEach(member => {
+				people.push({
+					name: member.given_name || member.preferred_username || member.nickname || member.family_name || member.middle_name || member.email.split('@')[0],
+					email: member.email,
+					avatar: member.picture || '',
+					permission: permissions[0]
+				});
+			});
+			console.log(people);
 		});
 	});
 
@@ -105,7 +140,7 @@
 			<h4 class="text-sm font-medium">People with access</h4>
 			<div class="grid gap-6">
 				{#each people as person}
-					{@const name = person.name.split(' ')}
+					{@const name = [person.name[0], person.name[1]]}
 					<div class="flex items-center justify-between space-x-4">
 						<div class="flex items-center space-x-4">
 							<Avatar.Root>
