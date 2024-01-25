@@ -16,7 +16,7 @@
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from '$lib/editor/extensions/title';
 	import { activeFile } from '../../store';
-	import type { FileInfo } from '@/api/apiStore';
+	import { fileStore, type FileInfo } from '@/api/apiStore';
 
 	let state: AuthorizerState;
 
@@ -36,11 +36,15 @@
 
 	$: initializeTiptap($activeFile);
 
-	function initializeTiptap(activeFile: FileInfo | null) {
-		if (!activeFile || !element) {
+	// this is needed
+	let activeFileName = '';
+	$: activeFileName = $activeFile?.name || '';
+
+	function initializeTiptap(initActiveFile: FileInfo | null) {
+		if (!initActiveFile || !element) {
 			return;
 		}
-		console.log('Initializing tiptap', activeFile);
+		console.log('Initializing tiptap', initActiveFile);
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
 		}
@@ -57,7 +61,7 @@
 		provider = new HocuspocusProvider({
 			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
-			name: activeFile.id,
+			name: initActiveFile.id,
 			onAuthenticationFailed: () => {
 				editor.destroy();
 				provider.destroy();
@@ -104,10 +108,24 @@
 					],
 					onUpdate: ({ transaction }) => {
 						// console.log('too', transaction);
+						if (!transaction.isGeneric) return;
 
-						const title = transaction.doc.content.content[0].content.content[0]?.text;
-						if (title && title !== activeFile.name) {
-							api.renameDocument(activeFile.id, title);
+						const title = transaction.doc.content.content[0].content.content[0]?.text || 'Untitled';
+						if (title && title !== activeFileName) {
+							api.renameDocument(initActiveFile.id, title);
+
+							activeFileName = title;
+
+							const newState = { ...$activeFile };
+							// Update the value for the specified key
+							newState['name'] = title;
+
+							fileStore.update((prev) => {
+								return prev.map((it) => {
+									if (it.id == $activeFile?.id) return newState;
+									return it;
+								});
+							});
 						}
 
 						// editor.commands.undo();
