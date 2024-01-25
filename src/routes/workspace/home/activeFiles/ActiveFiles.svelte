@@ -10,16 +10,6 @@
 		{ name: 'matematik aflevering', progress: 50 },
 		{ name: 'matematik aflevering', progress: 0 }
 	];
-
-	const api = getContext('api') as ApiHandler;
-
-	const context = api.getContext();
-	onMount(async () => {
-		files = await (await api.getUserDocuments()).json();
-		console.log('Files: ', files);
-		// assignments = await (await api.getAssignments()).json();
-		console.log('Asignments: ', assignments);
-	});
 </script>
 
 <div class="cont br-2 frontground">
@@ -55,7 +45,7 @@
 
 <style lang="scss">
 	.cont {
-		padding: 3rem;
+		padding: 2rem;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
