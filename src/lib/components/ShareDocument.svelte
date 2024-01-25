@@ -60,6 +60,7 @@
 	let people: Member[] = [];
 
 	$: api.getMembers($activeFile?.id || '').then((response) => {
+		people = [];
 		response.json().then((members: User[]) => {
 			console.log(members);
 			members.forEach(member => {
