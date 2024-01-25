@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { minMax, type Editor } from '@tiptap/core';
 	import Tiptap from './Tiptap.svelte';
-	import Toolbar from './Toolbar.svelte';
 	import Overview from './Overview.svelte';
-	import { onMount } from 'svelte';
-
 	export let editor: Editor;
 
 	export let activeFile: string;

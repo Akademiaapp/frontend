@@ -1,16 +1,13 @@
 <script lang="ts">
-	import { Document } from '@tiptap/extension-document';
 	import File from './File.svelte';
 	import ApiHandler from '$lib/api';
 
-	import { getContext, onMount } from 'svelte';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
+	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { fileStore, type FileInfo, updateFiles } from '@/api/fileHandler';
+	import { fileStore, type FileInfo } from '@/api/apiStore';
 
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+	const api = getContext('api') as ApiHandler;
 
 	export let files: FileInfo[] = $fileStore;
 

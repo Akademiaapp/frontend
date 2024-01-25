@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, setContext } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';
@@ -11,16 +11,14 @@
 	import type { Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../TableOfContents';
-	import Heading from '@tiptap/extension-heading';
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from '$lib/editor/extensions/title';
-	import { Step } from '@tiptap/pm/transform';
 
 	let state: AuthorizerState;
 
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+	const api = getContext('api') as ApiHandler;
 
 	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
 

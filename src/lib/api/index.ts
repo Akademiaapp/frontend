@@ -1,6 +1,6 @@
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
-import { updateFiles } from './fileHandler';
+import { updateFiles } from './apiStore';
 
 export default class ApiHandler {
 	static baseUrl = 'https://akademia-api.arctix.dev';
@@ -9,6 +9,10 @@ export default class ApiHandler {
 	constructor(context: Readable<AuthorizerState>) {
 		ApiHandler.context = context;
 	}
+
+	getContext = () => {
+		return get(ApiHandler.context);
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
@@ -44,15 +48,15 @@ export default class ApiHandler {
 		);
 	}
 
-	getDocument(documentId: string) {
+	getDocument = (documentId: string) => {
 		return this.callApi('/documents/' + documentId);
-	}
+	};
 
-	getUserDocuments() {
+	getUserDocuments = () => {
 		return this.callApi('/documents');
-	}
+	};
 
-	createDocument(documentName: string) {
+	createDocument = (documentName: string) => {
 		return this.callApi(
 			'/documents',
 			{
@@ -61,9 +65,9 @@ export default class ApiHandler {
 			},
 			'POST'
 		).then(() => updateFiles(this));
-	}
+	};
 
-	addUserToDocument(documentId: string, user_email: string) {
+	addUserToDocument = (documentId: string, user_email: string) => {
 		return this.callApi(
 			'/documents/' + documentId + '/users',
 			{
@@ -71,21 +75,21 @@ export default class ApiHandler {
 			},
 			'PUT'
 		);
-	}
+	};
 
 	renameDocument = this.debounce((documentId: string, documentName: string) => {
 		this.callApi('/documents/' + documentId, { name: documentName }, 'PUT');
 	}, 350);
 
-	deleteDocument(documentId: string) {
+	deleteDocument = (documentId: string) => {
 		return this.callApi('/documents/' + documentId, {}, 'DELETE');
-	}
+	};
 
-	getAssignments() {
+	getAssignments = () => {
 		return this.callApi('/assignments');
-	}
+	};
 
-	createAssignment(documentId: string, assignmentName: string, due_date: Date) {
+	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(
 			'/assignments',
 			{
@@ -95,5 +99,5 @@ export default class ApiHandler {
 			},
 			'POST'
 		);
-	}
+	};
 }

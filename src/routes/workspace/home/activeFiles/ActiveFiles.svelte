@@ -1,34 +1,32 @@
 <script lang="ts">
 	import Assignment from './Assignment.svelte';
 	import ApiHandler from '$lib/api';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
 	import { getContext, onMount } from 'svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
+	import { fileStore } from '@/api/apiStore';
 
 	let assignments: { name: string; progress: number }[] = [
 		{ name: 'beskrivende tekst', progress: 100 },
 		{ name: 'matematik aflevering', progress: 50 },
 		{ name: 'matematik aflevering', progress: 0 }
 	];
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
-	interface File {
-		name: string;
-		id: string;
-	}
+	const api = getContext('api') as ApiHandler;
 
-	export let files: File[] = [];
+	const context = api.getContext();
 	onMount(async () => {
 		files = await (await api.getUserDocuments()).json();
-		console.log(files);
+		console.log("Files: ", files);
+		// assignments = await (await api.getAssignments()).json();
+		console.log("Asignments: ", assignments);
 	});
 </script>
 
 <div class="cont br-2 frontground">
+	<h1>Welcome, {context.user?.nickname}</h1>
 	<h2>
 		<Target></Target>
-		Asignments
+		Assignments
 	</h2>
 	<div class="filelist">
 		{#each assignments as assignment}
@@ -40,7 +38,7 @@
 		Documents
 	</h2>
 	<div class="filelist">
-		{#each files as f}
+		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
 	</div>
@@ -49,7 +47,7 @@
 		Notes
 	</h2>
 	<div class="filelist">
-		{#each files as f}
+		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
 	</div>

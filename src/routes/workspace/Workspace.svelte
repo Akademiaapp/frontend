@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, setContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Sidebar from './Sidebar.svelte';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { updateFiles } from '@/api/fileHandler';
+	import { updateFiles } from '@/api/apiStore';
 	import ApiHandler from '@/api';
 
 	let state: AuthorizerState;
@@ -18,6 +18,7 @@
 		}
 	});
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
+	setContext('api', api);
 	updateFiles(api);
 
 	export let activeFile: string = '';

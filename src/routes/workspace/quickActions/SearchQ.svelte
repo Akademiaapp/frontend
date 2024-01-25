@@ -2,14 +2,18 @@
 	import { fade, slide } from 'svelte/transition';
 	import QuickAction from './QuickAction.svelte';
 	import fadeScale from '$lib/transitions/fade-scale';
-	import { tick } from 'svelte';
+	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
-	import { fileStore } from '@/api/fileHandler';
+	import { fileStore } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
+	import type ApiHandler from '@/api';
+	import randomName from '@/randomName';
 	let isSeaching = false;
+
+	const api = getContext('api') as ApiHandler;
 
 	window.addEventListener('keydown', (ev) => {
 		if (ev.key == 'p' && ev.ctrlKey) {
@@ -55,7 +59,7 @@
 		</Command.Group>
 		<Command.Separator />
 		<Command.Group heading="Commands">
-			<Command.Item>
+			<Command.Item onSelect={() => api.createDocument(randomName())}>
 				<FilePen strokeWidth={1.5}></FilePen>
 				New Document
 			</Command.Item>
