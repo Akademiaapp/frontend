@@ -1,33 +1,46 @@
 <script>
-	import "../app.pcss";
-	import { isThemeChecked } from './store';
+	import '../app.pcss';
+	import { isLightTheme } from './store';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
 	export let themeName = `dark`;
 
+	const themes = {
+		deafult: {
+			light: 'light',
+			dark: 'dark'
+		},
+		word: {}
+	};
+
+	let currentTheme = themes.deafult;
+
 	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
 	import 'akademia-authorizer-svelte/styles/default.css';
 
-  isThemeChecked.subscribe((it) => {
+	isLightTheme.subscribe((it) => {
 		themeName = it ? 'dark' : 'light';
 	});
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-	<link rel="stylesheet" href="/themes/{themeName}.css">
+	<link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+	/>
+	<link rel="stylesheet" href="/themes/{currentTheme[$isLightTheme ? 'light' : 'dark']}.css" />
+	<meta name="color-scheme" content={$isLightTheme ? 'light' : 'dark'} />
 </svelte:head>
-
 <AuthorizerProvider
 	config={{
 		authorizerURL: 'https://akademia-dashboard.arctix.dev',
 		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
 		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
 	}}
-	>
+>
 	<div class="app">
-		<slot></slot>
+		<slot />
 	</div>
 </AuthorizerProvider>
 

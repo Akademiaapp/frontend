@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Editor } from '@tiptap/core';
-	import { isThemeChecked } from '../../store';
+	import { isLightTheme } from '../../store';
 	import ApiHandler from '../../../lib/api';
 
 	import { getContext } from 'svelte';
@@ -19,7 +19,7 @@
 		selection = editor;
 	});
 
-	$: isThemeChecked.set(checked);
+	$: isLightTheme.set(checked);
 
 	let textcolor: string;
 
@@ -33,10 +33,6 @@
 		}
 	}
 </script>
-
-<svelte:head>
-	<meta name="color-scheme" content={$isThemeChecked ? 'dark' : 'light'} />
-</svelte:head>
 
 {#if editor}
 	<div id="toolbar">
