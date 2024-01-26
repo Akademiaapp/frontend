@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Editor } from '@tiptap/core';
-	import { isLightTheme } from '../../store';
+	import { themeVariant } from '../../store';
 	import ApiHandler from '../../../lib/api';
 
 	import { getContext } from 'svelte';
@@ -13,13 +13,13 @@
 
 	let selection = editor;
 
-	export let checked = false;
+	export let checked = $themeVariant == 'dark';
 
 	$: editor?.on('selectionUpdate', () => {
 		selection = editor;
 	});
 
-	$: isLightTheme.set(checked);
+	$: themeVariant.set(checked ? 'dark' : 'light');
 
 	let textcolor: string;
 

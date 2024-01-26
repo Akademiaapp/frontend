@@ -1,6 +1,6 @@
 <script>
 	import '../app.pcss';
-	import { isLightTheme } from './store';
+	import { themeVariant } from './store';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
@@ -13,14 +13,15 @@
 		},
 		word: {}
 	};
+	$: console.log($themeVariant);
 
 	let currentTheme = themes.deafult;
 
 	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
 	import 'akademia-authorizer-svelte/styles/default.css';
 
-	isLightTheme.subscribe((it) => {
-		themeName = it ? 'dark' : 'light';
+	themeVariant.subscribe((it) => {
+		themeName = it ? 'light' : 'dark';
 	});
 </script>
 
@@ -29,9 +30,10 @@
 		rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
 	/>
-	<link rel="stylesheet" href="/themes/{currentTheme[$isLightTheme ? 'light' : 'dark']}.css" />
-	<meta name="color-scheme" content={$isLightTheme ? 'light' : 'dark'} />
+	<link rel="stylesheet" href="/themes/{currentTheme[$themeVariant]}.css" />
+	<meta name="color-scheme" content={$themeVariant} />
 </svelte:head>
+
 <AuthorizerProvider
 	config={{
 		authorizerURL: 'https://akademia-dashboard.arctix.dev',
