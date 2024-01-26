@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<meta name="color-scheme" content={checked ? 'dark' : 'light'} />
+	<meta name="color-scheme" content={$isThemeChecked ? 'dark' : 'light'} />
 </svelte:head>
 
 {#if editor}
