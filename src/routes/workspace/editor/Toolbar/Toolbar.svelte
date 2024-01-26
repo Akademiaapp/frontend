@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { type Editor } from '@tiptap/core';
-	import { themeVariant } from '../../store';
-	import ApiHandler from '../../../lib/api';
+	import { themeVariant } from '../../../store';
+	import ApiHandler from '../../../../lib/api';
 
 	import { getContext } from 'svelte';
-	import ShareDocument from '@/components/ShareDocument.svelte';
-	import { Brush } from 'lucide-svelte';
+	import ShareDocument from './ShareDocument.svelte';
+	import { Brush, LogOut, MoreHorizontal, Trash2 } from 'lucide-svelte';
+	import MoreActions from './MoreActions.svelte';
 
 	const api = getContext('api') as ApiHandler;
 
@@ -82,7 +83,10 @@
 				<label for="mode_toggle"></label>
 			</div>
 		</div>
-		<ShareDocument />
+		<div class="absolute right-0 flex h-full gap-2">
+			<ShareDocument />
+			<MoreActions></MoreActions>
+		</div>
 	</div>
 {/if}
 
@@ -125,7 +129,7 @@
 	.bar {
 		display: flex;
 		gap: 0.4rem;
-		padding: 0.4rem 1rem;
+		padding: 0.2rem 1rem;
 
 		// height: 3rem;
 

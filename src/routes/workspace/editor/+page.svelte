@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Toolbar from './Toolbar.svelte';
+	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
 	import type { Editor } from '@tiptap/core';
@@ -27,7 +27,7 @@
 
 <Workspace>
 	<div class="editor">
-		<Toolbar {editor}/>
+		<Toolbar {editor} />
 
 		<FileEditor bind:editor></FileEditor>
 	</div>

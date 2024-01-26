@@ -9,7 +9,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { activeFile } from '../../routes/store';
+	import { activeFile } from '../../../store';
 
 	const api = getContext('api') as ApiHandler;
 
@@ -32,30 +32,30 @@
 			value: string;
 			label: string;
 		};
-	};
+	}
 
 	interface User {
-    id: string;
-    email: string;
-    preferred_username: string;
-    email_verified: boolean;
-    signup_methods: string;
-    given_name?: string | null;
-    family_name?: string | null;
-    middle_name?: string | null;
-    nickname?: string | null;
-    picture?: string | null;
-    gender?: string | null;
-    birthdate?: string | null;
-    phone_number?: string | null;
-    phone_number_verified?: boolean | null;
-    roles?: string[];
-    created_at: number;
-    updated_at: number;
-    is_multi_factor_auth_enabled?: boolean;
-    app_data?: Record<string, any>;
+		id: string;
+		email: string;
+		preferred_username: string;
+		email_verified: boolean;
+		signup_methods: string;
+		given_name?: string | null;
+		family_name?: string | null;
+		middle_name?: string | null;
+		nickname?: string | null;
+		picture?: string | null;
+		gender?: string | null;
+		birthdate?: string | null;
+		phone_number?: string | null;
+		phone_number_verified?: boolean | null;
+		roles?: string[];
+		created_at: number;
+		updated_at: number;
+		is_multi_factor_auth_enabled?: boolean;
+		app_data?: Record<string, any>;
 		permission: string;
-}
+	}
 
 	let people: Member[] = [];
 
@@ -64,14 +64,19 @@
 	});
 
 	$: api.getMembers($activeFile?.id || '').then((response) => {
-		
 		response.json().then((members: User[]) => {
 			console.log(members);
-			members.forEach(member => {
+			members.forEach((member) => {
 				// Only add people who arent already in the list
-				if (people.find(person => person.email == member.email)) return;
+				if (people.find((person) => person.email == member.email)) return;
 				people.push({
-					name: member.given_name || member.preferred_username || member.nickname || member.family_name || member.middle_name || member.email.split('@')[0],
+					name:
+						member.given_name ||
+						member.preferred_username ||
+						member.nickname ||
+						member.family_name ||
+						member.middle_name ||
+						member.email.split('@')[0],
 					email: member.email,
 					avatar: member.picture || '',
 					permission: permissions[0]
@@ -99,8 +104,7 @@
 
 <Dialog.Root>
 	<Dialog.Trigger
-		class={'br-2 toolbar-bar absolute right-0 flex h-full px-4 py-2' +
-			buttonVariants({ variant: 'floating' })}
+		class={'br-2 toolbar-bar flex h-full px-4 py-2' + buttonVariants({ variant: 'floating' })}
 	>
 		<UserRoundPlus size={17} />
 		<span class="text box-border overflow-hidden font-semibold leading-normal">Inviter</span>
