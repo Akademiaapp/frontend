@@ -34,6 +34,10 @@
 	}
 </script>
 
+<svelte:head>
+	<meta name="color-scheme" content={checked ? 'dark' : 'light'} />
+</svelte:head>
+
 {#if editor}
 	<div id="toolbar">
 		<!-- <div id="filepath">
