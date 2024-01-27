@@ -19,6 +19,8 @@
 		const id = $activeFile?.id;
 		if (!id) return;
 		api.deleteDocument(id);
+		isDeleteOpen = false;
+		activeFile.set(null);
 	}
 </script>
 
@@ -49,10 +51,10 @@
 </DropdownMenu.Root>
 
 <Dialog.Dialog bind:open={isDeleteOpen}>
-	<Dialog.Content class="max-w-[20rem]">
+	<Dialog.Content class="max-w-[23rem]">
 		<Dialog.Title>Are you sure you want to delete {$activeFile?.name}?</Dialog.Title>
 		<Dialog.Description
-			>This will delete the file permanently. This action cannot be undone</Dialog.Description
+			>This will permanently delete the file. This action cannot be undone</Dialog.Description
 		>
 		<div class="flex w-full gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (isDeleteOpen = false)}>No</Button>
