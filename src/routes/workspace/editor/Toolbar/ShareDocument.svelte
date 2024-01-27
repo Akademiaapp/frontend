@@ -10,6 +10,7 @@
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
 	import { activeFile } from '../../../store';
+	import type { FileInfo } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 
@@ -59,33 +60,33 @@
 
 	let people: Member[] = [];
 
-	activeFile.subscribe((file) => {
+	$: $activeFile && findMembers($activeFile);
+
+	function findMembers(activeFile: FileInfo) {
 		people = [];
-	});
-
-	$: api.getMembers($activeFile?.id || '').then((response) => {
-		response.json().then((members: User[]) => {
-			console.log(members);
-			members.forEach((member) => {
-				// Only add people who arent already in the list
-				if (people.find((person) => person.email == member.email)) return;
-				people.push({
-					name:
-						member.given_name ||
-						member.preferred_username ||
-						member.nickname ||
-						member.family_name ||
-						member.middle_name ||
-						member.email.split('@')[0],
-					email: member.email,
-					avatar: member.picture || '',
-					permission: permissions[0]
+		api.getMembers(activeFile?.id || '').then((response) => {
+			response.json().then((members: User[]) => {
+				console.log(members);
+				members.forEach((member) => {
+					// Only add people who arent already in the list
+					if (people.find((person) => person.email == member.email)) return;
+					people.push({
+						name:
+							member.given_name ||
+							member.preferred_username ||
+							member.nickname ||
+							member.family_name ||
+							member.middle_name ||
+							member.email.split('@')[0],
+						email: member.email,
+						avatar: member.picture || '',
+						permission: permissions[0]
+					});
 				});
+				console.log(people);
 			});
-			console.log(people);
 		});
-	});
-
+	}
 	function copyLinkToClipboard() {
 		var copyText = document.getElementById('copy-link') as HTMLInputElement;
 		copyText.select();

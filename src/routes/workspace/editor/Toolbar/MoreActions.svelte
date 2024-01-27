@@ -9,18 +9,21 @@
 	import { activeFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
+	import { fileStore } from '@/api/apiStore';
 
 	let isDeleteOpen = false;
-
-	$: console.log(isDeleteOpen);
 
 	const api = getContext('api') as ApiHandler;
 	function deleteActiveFile() {
 		const id = $activeFile?.id;
 		if (!id) return;
-		api.deleteDocument(id);
+		api.deleteDocument(id).then((it) => {
+			if (it.status !== 200) return;
+			console.log(it);
+			fileStore.update((prev) => prev.filter((it) => it !== $activeFile));
+			activeFile.set(null);
+		});
 		isDeleteOpen = false;
-		activeFile.set(null);
 	}
 </script>
 
