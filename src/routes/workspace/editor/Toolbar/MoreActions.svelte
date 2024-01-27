@@ -55,11 +55,6 @@
 			>This will delete the file permanently. This action cannot be undone</Dialog.Description
 		>
 		<div class="flex w-full gap-2">
-			: flex-1 <!-- Affects all direct children -->
-			:: flex-1 <!-- Affects ALL children -->
-			:div flex-1 <!-- Affects all direct children that are divs -->
-			::div flex-1 <!-- Affects ALL children that are divs -->
-			:Button flex-1 <!-- Affects all direct children that are Buttons. because it would be precompiled, this would be possible -->
 			<Button variant="outline" class="flex-1" on:click={() => (isDeleteOpen = false)}>No</Button>
 			<Button variant="destructive" class="flex-1" on:click={deleteActiveFile}>Yes</Button>
 		</div>
