@@ -1,13 +1,25 @@
-<script>
+<script lang="ts">
+	import DialogDescription from './../../../../lib/components/ui/dialog/dialog-description.svelte';
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { MoreHorizontal, Trash2, LogOut } from 'lucide-svelte';
 	import DropdownMenuItem from '@/components/ui/dropdown-menu/dropdown-menu-item.svelte';
+	import { Title } from '@/components/ui/card';
+	import { activeFile } from '../../../store';
+	import { getContext } from 'svelte';
+	import type ApiHandler from '@/api';
 
 	let isDeleteOpen = false;
 
 	$: console.log(isDeleteOpen);
+
+	const api = getContext('api') as ApiHandler;
+	function deleteActiveFile() {
+		const id = $activeFile?.id;
+		if (!id) return;
+		api.deleteDocument(id);
+	}
 </script>
 
 <DropdownMenu.Root>
@@ -22,20 +34,10 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-56" align="end">
 		<DropdownMenu.Group>
-			<
-				onSelect={() => {
-					isDeleteOpen = !isDeleteOpen;
-				}}
-			>
+			<DropdownMenu.Item on:click={() => (isDeleteOpen = true)}>
 				<Trash2 size="15" strokeWidth="1.5"></Trash2>
 				Delete
-			</>
-
-			<Dialog.Dialog>
-				<Dialog.Content>
-					<h1>hej</h1>
-				</Dialog.Content>
-			</Dialog.Dialog>
+			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 		<DropdownMenu.Item>
@@ -45,3 +47,21 @@
 		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
+
+<Dialog.Dialog bind:open={isDeleteOpen}>
+	<Dialog.Content class="max-w-[20rem]">
+		<Dialog.Title>Are you sure you want to delete {$activeFile?.name}?</Dialog.Title>
+		<Dialog.Description
+			>This will delete the file permanently. This action cannot be undone</Dialog.Description
+		>
+		<div class="flex w-full gap-2">
+			: flex-1 <!-- Affects all direct children -->
+			:: flex-1 <!-- Affects ALL children -->
+			:div flex-1 <!-- Affects all direct children that are divs -->
+			::div flex-1 <!-- Affects ALL children that are divs -->
+			:Button flex-1 <!-- Affects all direct children that are Buttons. because it would be precompiled, this would be possible -->
+			<Button variant="outline" class="flex-1" on:click={() => (isDeleteOpen = false)}>No</Button>
+			<Button variant="destructive" class="flex-1" on:click={deleteActiveFile}>Yes</Button>
+		</div>
+	</Dialog.Content>
+</Dialog.Dialog>
