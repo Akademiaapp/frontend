@@ -19,6 +19,7 @@
 	$: editor?.on('selectionUpdate', () => {
 		selection = editor;
 	});
+	$: editor?.on('update', () => (selection = editor));
 
 	$: themeVariant.set(checked ? 'dark' : 'light');
 
