@@ -34,7 +34,7 @@
 
 	export let editor: Editor;
 
-	$: initializeTiptap($activeFile);
+	$: if ($activeFile) initializeTiptap($activeFile);
 
 	// this is needed
 	let activeFileName = '';

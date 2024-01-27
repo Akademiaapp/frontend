@@ -2,6 +2,7 @@
 	import { minMax, type Editor } from '@tiptap/core';
 	import Tiptap from './Tiptap.svelte';
 	import Overview from './Overview.svelte';
+	import { activeFile } from '../../store';
 	export let editor: Editor;
 
 	var scale = 1;

@@ -26,11 +26,13 @@
 </svelte:head>
 
 <Workspace>
-	<div class="editor">
-		<Toolbar {editor} />
+	{#if $activeFile}
+		<div class="editor">
+			<Toolbar {editor} />
 
-		<FileEditor bind:editor></FileEditor>
-	</div>
+			<FileEditor bind:editor></FileEditor>
+		</div>
+	{/if}
 </Workspace>
 
 <style>
