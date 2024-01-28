@@ -1,16 +1,16 @@
 <script lang="ts">
-	import DialogDescription from './../../../../lib/components/ui/dialog/dialog-description.svelte';
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
-	import { MoreHorizontal, Trash2, LogOut } from 'lucide-svelte';
-	import DropdownMenuItem from '@/components/ui/dropdown-menu/dropdown-menu-item.svelte';
+	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
 	import { Title } from '@/components/ui/card';
 	import { activeFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
 	import { fileStore } from '@/api/apiStore';
-
+	import DropdownMenuSubContent from '@/components/ui/dropdown-menu/dropdown-menu-sub-content.svelte';
+	import print from 'print-js';
+	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
 	const api = getContext('api') as ApiHandler;
@@ -24,6 +24,15 @@
 			activeFile.set(null);
 		});
 		isDeleteOpen = false;
+	}
+
+	function printFile() {
+		printUsingWindow(document.getElementById('pages')?.innerHTML);
+		// print({
+		// 	printable: 'pages',
+		// 	type: 'html',
+		// 	css: ['/css/styles.css', '/css/tiptap-styles.scss']
+		// });
 	}
 </script>
 
@@ -39,12 +48,30 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-56" align="end">
 		<DropdownMenu.Group>
+			<DropdownMenu.Sub>
+				<DropdownMenu.SubTrigger>
+					<Download size="15" strokeWidth="1.5"></Download>
+					Export
+				</DropdownMenu.SubTrigger>
+				<DropdownMenu.SubContent>
+					<DropdownMenu.Item>Word</DropdownMenu.Item>
+					<DropdownMenu.Item>PDF</DropdownMenu.Item>
+				</DropdownMenu.SubContent>
+			</DropdownMenu.Sub>
+			<DropdownMenu.Item on:click={printFile}>
+				<Printer size="15" strokeWidth="1.5"></Printer>
+				Print
+			</DropdownMenu.Item>
+		</DropdownMenu.Group>
+		<DropdownMenu.Separator />
+		<DropdownMenu.Group>
 			<DropdownMenu.Item on:click={() => (isDeleteOpen = true)}>
 				<Trash2 size="15" strokeWidth="1.5"></Trash2>
 				Delete
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
+
 		<DropdownMenu.Item>
 			<LogOut size="15" strokeWidth="1.5"></LogOut>
 			Log out

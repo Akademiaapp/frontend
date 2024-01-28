@@ -76,6 +76,7 @@
 		"cmdk-sv": "^0.0.13",
 		"lucide-svelte": "^0.315.0",
 		"mathlive": "^0.98.5",
+		"print-js": "^1.6.0",
 		"tailwind-merge": "^2.2.1",
 		"tailwind-variants": "^0.1.20",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",

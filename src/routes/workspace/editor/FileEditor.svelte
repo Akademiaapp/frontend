@@ -22,7 +22,7 @@
 </script>
 
 <div class="editor_wrapper" style:display={editor ? null : 'none'} on:mousewheel={onScroll}>
-	<div class="pages" style:scale>
+	<div id="pages" style:scale>
 		<div class="page">
 			<Tiptap bind:editor />
 		</div>
@@ -42,7 +42,7 @@
 		padding: 2rem 4rem;
 	}
 
-	.pages {
+	#pages {
 		// transform: translateX(-50%);
 		display: flex;
 		flex-direction: column;

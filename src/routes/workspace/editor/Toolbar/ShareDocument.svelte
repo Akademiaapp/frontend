@@ -95,9 +95,10 @@
 	}
 
 	function addUserToDocument() {
+		if (!$activeFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
 		console.log(email);
-		api.addUserToDocument($activeFile?.id || '', email).then((response) => {
+		api.addUserToDocument($activeFile?.id, email).then((response) => {
 			console.log(response);
 		});
 	}

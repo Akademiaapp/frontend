@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-	<title>{$activeFile?.name} | Akademia</title>
+	<title>{$activeFile?.name || 'Editor'} | Akademia</title>
 </svelte:head>
 
 <Workspace>
