@@ -1,6 +1,5 @@
 export function printUsingWindow(content: string) {
 	const printWindow = window.open('/print', undefined, 'popup');
-	console.log('dhdhdh');
 	if (!printWindow) return;
 	printWindow?.addEventListener('DOMContentLoaded', () => {
 		console.log('loaded');
@@ -12,6 +11,6 @@ export function printUsingWindow(content: string) {
 			setTimeout(() => {
 				printWindow.close();
 			}, 200);
-		}, 200);
+		}, 700);
 	});
 }
