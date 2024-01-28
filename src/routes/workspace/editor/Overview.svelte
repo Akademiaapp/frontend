@@ -82,7 +82,7 @@
 
 	.cont {
 		position: sticky;
-		top: var(--pad);
+		top: calc(var(--pad) + 2.5rem);
 		align-self: flex-start;
 
 		display: flex;
