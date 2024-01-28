@@ -11,6 +11,6 @@ export function printUsingWindow(content: string) {
 			setTimeout(() => {
 				printWindow.close();
 			}, 200);
-		}, 700);
+		}, 900);
 	});
 }

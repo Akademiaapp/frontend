@@ -2,6 +2,9 @@
 	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
 	import Workspace from './../Workspace.svelte';
 	import Calender from './Calender/Calender.svelte';
+	import { activeFile } from '../../store';
+
+	activeFile.set(null);
 </script>
 
 <svelte:head>
