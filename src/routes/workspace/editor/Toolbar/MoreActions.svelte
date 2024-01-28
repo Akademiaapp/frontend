@@ -9,7 +9,6 @@
 	import type ApiHandler from '@/api';
 	import { fileStore } from '@/api/apiStore';
 	import DropdownMenuSubContent from '@/components/ui/dropdown-menu/dropdown-menu-sub-content.svelte';
-	import print from 'print-js';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
