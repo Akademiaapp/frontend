@@ -24,7 +24,7 @@
 		background: color-mix(in srgb, var(--event-color) 29%, transparent);
 		padding: 0.5rem 1rem;
 		--event-gap: 0.25rem;
-		height: calc(var(--height) - var(var(--event-gap)));
+		height: calc(var(--height) - var(--event-gap));
 		margin-bottom: val(--event-gap);
 
 		border-left: solid var(--event-color) 0.4rem;
