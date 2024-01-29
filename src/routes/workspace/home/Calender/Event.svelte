@@ -23,8 +23,9 @@
 		width: 300px;
 		background: color-mix(in srgb, var(--event-color) 29%, transparent);
 		padding: 0.5rem 1rem;
-		--cal-gap: 0.25rem height: calc(var(--height) - var(var(--cal-gap)));
-		margin-bottom: val(--cal-gap);
+		--event-gap: 0.25rem;
+		height: calc(var(--height) - var(var(--event-gap)));
+		margin-bottom: val(--event-gap);
 
 		border-left: solid var(--event-color) 0.4rem;
 		box-sizing: border-box;
