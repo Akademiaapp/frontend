@@ -50,7 +50,7 @@
 		flex-direction: column;
 		padding: 1rem;
 		display: flex;
-		gap: 1rem;
+		
 	}
 
 	.calender {
