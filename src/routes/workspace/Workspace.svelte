@@ -6,6 +6,7 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import { updateFiles, updateUserInfo } from '@/api/apiStore';
 	import ApiHandler from '@/api';
+	import SidebarAssignment from './SidebarAssignment.svelte';
 
 	let state: AuthorizerState;
 
@@ -22,20 +23,30 @@
 	updateFiles(api);
 	updateUserInfo($store);
 
+	var urlParams = new URLSearchParams(window.location.search);
+	var type = urlParams.get('type');
+
 	let sidebarVisible: boolean = true;
 
 	$: console.log(sidebarVisible);
 </script>
 
 <div class="cont">
-	<div class="sidebar floating-panel" class:hidden={!sidebarVisible}>
-		<Sidebar bind:sidebarVisible></Sidebar>
+	<div class={"sidebar floating-panel"} class:wide={type == "assignment"} class:hidden={!sidebarVisible}>
+		{#if type === 'assignment'}
+			<SidebarAssignment bind:sidebarVisible/>
+		{:else}
+			<Sidebar bind:sidebarVisible></Sidebar>
+		{/if}
 	</div>
 
 	<slot />
 </div>
 
 <style lang="scss">
+	.wide {
+		width: 30rem !important;
+	}
 	.cont {
 		display: flex;
 		flex-direction: row;

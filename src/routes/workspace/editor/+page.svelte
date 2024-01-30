@@ -14,6 +14,7 @@
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
+
 	api.getDocument(id || '').then((file) => {
 		file.json().then((fileContent) => {
 			activeFile.set(fileContent);
