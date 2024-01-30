@@ -4,6 +4,7 @@
 
 	import './styles.css';
 	import './tiptap-styles.scss';
+	import 'katex/dist/katex.min.css'
 	export let themeName = `dark`;
 
 	const themes = {

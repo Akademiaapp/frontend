@@ -22,6 +22,8 @@ import Image from '@tiptap/extension-image'
 import TextStyle from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color'
 
+import Mathematics from '@tiptap-pro/extension-mathematics'
+
 export const EditorExtensions = [
   Blockquote,
   Bold,
@@ -45,5 +47,6 @@ export const EditorExtensions = [
   Superscript,
   Image,
   TextStyle,
-  Color
+  Color,
+  Mathematics
 ]
