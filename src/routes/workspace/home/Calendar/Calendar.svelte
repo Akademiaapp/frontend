@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { prettyTime, type CalenderEvent } from './CalenderUtils';
+	import { prettyTime, type CalendarEvent } from './CalendarUtils';
 	import Event from './Event.svelte';
 
-	let events: CalenderEvent[] = [
+	let events: CalendarEvent[] = [
 		{ name: 'dansk', start: 8 * 60, duraction: 45 },
 		{ name: 'matematik', start: 8 * 60 + 45, duraction: 45 * 2 },
 		{ name: 'engelsk', start: 8 * 60 + 45 * 3, duraction: 45 },
@@ -17,20 +17,20 @@
 		engelsk: '#f5ce42'
 	};
 
-	const calenderStart = 8 * 60;
-	const calenderEnd = 16 * 60;
-	const calenderLength = calenderEnd - calenderStart;
+	const calendarStart = 8 * 60;
+	const calendarEnd = 16 * 60;
+	const calendarLength = calendarEnd - calendarStart;
 
 	const timeStamps: number[] = [];
 
-	for (let t = calenderStart; t < calenderEnd; t += 60) {
+	for (let t = calendarStart; t < calendarEnd; t += 60) {
 		timeStamps.push(t);
 	}
 </script>
 
 <div class="frontground br-2 floating-panel">
-	<h2>Calender</h2>
-	<div class="calender">
+	<h2>Kalender</h2>
+	<div class="calendar">
 		<div class="time-stamps">
 			{#each timeStamps as timeStamp}
 				<p>{prettyTime(timeStamp)}</p>
@@ -38,7 +38,7 @@
 		</div>
 		<div class="events">
 			{#each events as event}
-				<Event {event} {calenderLength} {calenderStart} color={colors[event.name] || '#8b65fc'}
+				<Event {event} {calendarLength} {calendarStart} color={colors[event.name] || '#8b65fc'}
 				></Event>
 			{/each}
 		</div>
@@ -52,7 +52,7 @@
 		display: flex;
 	}
 
-	.calender {
+	.calendar {
 		display: flex;
 		height: 100%;
 	}

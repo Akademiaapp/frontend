@@ -42,7 +42,7 @@
 			class="reset no-bg size-full"
 		>
 			<span class="material-symbols-rounded icon-w-2">add</span>
-			<span>New file</span>
+			<span>Ny fil</span>
 		</button>
 	</SideBarElem>
 </div>

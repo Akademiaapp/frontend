@@ -1,4 +1,4 @@
-export interface CalenderEvent {
+export interface CalendarEvent {
 	name: string;
 	start: number;
 	duraction: number;

@@ -50,7 +50,7 @@
 			<DropdownMenu.Sub>
 				<DropdownMenu.SubTrigger>
 					<Download size="15" strokeWidth="1.5"></Download>
-					Export
+					Eksport
 				</DropdownMenu.SubTrigger>
 				<DropdownMenu.SubContent>
 					<DropdownMenu.Item>Word</DropdownMenu.Item>
@@ -66,28 +66,27 @@
 		<DropdownMenu.Group>
 			<DropdownMenu.Item on:click={() => (isDeleteOpen = true)}>
 				<Trash2 size="15" strokeWidth="1.5"></Trash2>
-				Delete
+				Slet
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 
 		<DropdownMenu.Item>
 			<LogOut size="15" strokeWidth="1.5"></LogOut>
-			Log out
-			<DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut>
+			Log ud
 		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
 
 <Dialog.Dialog bind:open={isDeleteOpen}>
 	<Dialog.Content class="max-w-[23rem]">
-		<Dialog.Title>Are you sure you want to delete {$activeFile?.name}?</Dialog.Title>
+		<Dialog.Title>Er du sikker på, at du vil slette {$activeFile?.name}?</Dialog.Title>
 		<Dialog.Description
-			>This will permanently delete the file. This action cannot be undone</Dialog.Description
+			>Dette sletter filen permanent. Denne handling kan ikke fortrydes</Dialog.Description
 		>
 		<div class="flex w-full gap-2">
-			<Button variant="outline" class="flex-1" on:click={() => (isDeleteOpen = false)}>No</Button>
-			<Button variant="destructive" class="flex-1" on:click={deleteActiveFile}>Yes</Button>
+			<Button variant="outline" class="flex-1" on:click={() => (isDeleteOpen = false)}>Nej</Button>
+			<Button variant="destructive" class="flex-1" on:click={deleteActiveFile}>Ja</Button>
 		</div>
 	</Dialog.Content>
 </Dialog.Dialog>

@@ -23,8 +23,8 @@
 <div class="cont">
 	<div class="login-cont">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
-		<h1 class="header">Welcome to Akademia</h1>
-		<h2>Choose a signin method</h2>
+		<h1 class="header">Velkommen til Akademia!</h1>
+		<h2>Vælg en loginmetode</h2>
 		<br />
 		<Authorizer />
 	</div>

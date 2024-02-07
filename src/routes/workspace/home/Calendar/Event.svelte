@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { prettyTime, type CalenderEvent } from './CalenderUtils';
-	export let event: CalenderEvent;
-	export let calenderLength: number;
-	export let calenderStart: number;
+	import { prettyTime, type CalendarEvent } from './CalendarUtils';
+	export let event: CalendarEvent;
+	export let calendarLength: number;
+	export let calendarStart: number;
 	export let color: string = '#FF3D00';
 </script>
 
 <div
 	style:--event-color={color}
-	style:--height="{(event.duraction / calenderLength) * 100}%"
-	style:--start="{((event.start - calenderStart) / calenderLength) * 100}%"
+	style:--height="{(event.duraction / calendarLength) * 100}%"
+	style:--start="{((event.start - calendarStart) / calendarLength) * 100}%"
 	class="br-2"
 >
 	<p class="name">{event.name}</p>

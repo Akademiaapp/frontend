@@ -20,11 +20,11 @@
 	const permissions = [
 		{
 			value: 'view',
-			label: 'Can view'
+			label: 'Kan se'
 		},
 		{
 			value: 'edit',
-			label: 'Can edit'
+			label: 'Kan redigere'
 		}
 	];
 
@@ -121,10 +121,9 @@
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Share '{$activeFile?.name || ''}'</Dialog.Title>
+			<Dialog.Title>Del '{$activeFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
-				Only people you invite can access this document. You can change the permission of each
-				person.
+			Kun personer, du inviterer, kan få adgang til dette dokument. Du kan ændre tilladelsen for hver person.
 			</Dialog.Description>
 		</Dialog.Header>
 		<div class="flex space-x-2">
@@ -134,17 +133,17 @@
 				readonly
 			/>
 			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
-				>Copy Link</Button
+				>Kopier link</Button
 			>
 		</div>
 		<Separator class="my-4" />
 		<div class="space-y-4">
-			<h4 class="text-sm font-medium">Invite new people</h4>
+			<h4 class="text-sm font-medium">Inviter nye personer</h4>
 			<div class="flex space-x-4">
-				<Input placeholder="Email address" id="invite-email" />
+				<Input placeholder="Email adresse" id="invite-email" />
 				<Select.Root>
 					<Select.Trigger class="w-[200px]">
-						<Select.Value placeholder="Select" />
+						<Select.Value placeholder="Vælg" />
 					</Select.Trigger>
 					<Select.Content>
 						{#each permissions as permission}
@@ -154,11 +153,11 @@
 						{/each}
 					</Select.Content>
 				</Select.Root>
-				<Button variant="secondary" on:click={() => addUserToDocument()}>Invite</Button>
+				<Button variant="secondary" on:click={() => addUserToDocument()}>Inviter</Button>
 			</div>
 		</div>
 		<div class="space-y-4">
-			<h4 class="text-sm font-medium">People with access</h4>
+			<h4 class="text-sm font-medium">Personer med adgang</h4>
 			<div class="grid gap-6">
 				{#each people as person}
 					{@const name = [person.name[0], person.name[1]]}

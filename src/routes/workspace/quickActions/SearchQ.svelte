@@ -40,10 +40,10 @@
 <QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
-	<Command.Input placeholder="Type a command or search..." />
+	<Command.Input placeholder="Indtast en kommando eller søg..." />
 	<Command.List>
-		<Command.Empty>No results found.</Command.Empty>
-		<Command.Group heading="Files">
+		<Command.Empty>Ingen resultater.</Command.Empty>
+		<Command.Group heading="Filer">
 			{#each $fileStore as file}
 				<Command.Item onSelect={() => openFile(file)}>
 					<File strokeWidth={1.5}></File>
@@ -53,22 +53,22 @@
 			{/each}
 		</Command.Group>
 		<Command.Separator />
-		<Command.Group heading="Commands">
+		<Command.Group heading="Kommandoer">
 			<Command.Item onSelect={() => api.createDocument(randomName())}>
 				<FilePen strokeWidth={1.5}></FilePen>
-				New Document
+				Nyt dokument
 			</Command.Item>
 			<Command.Item>
 				<NotebookPen strokeWidth={1.5}></NotebookPen>
-				New Note
+				Ny note
 			</Command.Item>
 			<Command.Item>
 				<BookPlus strokeWidth={1.5}></BookPlus>
-				New Project
+				Nyt project
 			</Command.Item>
 			<Command.Item>
 				<CalendarPlus strokeWidth={1.5}></CalendarPlus>
-				New Calender Event
+				Nyt kalender event
 			</Command.Item>
 		</Command.Group>
 	</Command.List>

@@ -66,7 +66,7 @@
 				editor.destroy();
 				provider.destroy();
 				element.innerHTML =
-					'Authentication failed! You do not have access to this document!! 🚫⚠️❌⚠️🚫';
+					'--- ⚠️ --- Godkendelse mislykkedes! Du har ikke adgang til dette dokument! --- ⚠️ ---';
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
@@ -98,7 +98,7 @@
 						Placeholder.configure({
 							placeholder: ({ node }) => {
 								if (node.type.name === 'title') {
-									return 'Untitled';
+									return 'Uden titel';
 								}
 
 								return null;
@@ -110,7 +110,7 @@
 						// console.log('too', transaction);
 						if (!transaction.isGeneric) return;
 
-						const title = transaction.doc.content.content[0].content.content[0]?.text || 'Untitled';
+						const title = transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 						if (title && title !== activeFileName) {
 							api.renameDocument(initActiveFile.id, title);
 

@@ -1,7 +1,7 @@
 <script>
 	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
 	import Workspace from './../Workspace.svelte';
-	import Calender from './Calender/Calender.svelte';
+	import Calendar from './Calendar/Calendar.svelte';
 	import { activeFile } from '../../store';
 
 	activeFile.set(null);
@@ -12,6 +12,6 @@
 </svelte:head>
 
 <Workspace>
-	<ActiveFiles></ActiveFiles>
-	<Calender></Calender>
+	<ActiveFiles />
+	<Calendar />
 </Workspace>

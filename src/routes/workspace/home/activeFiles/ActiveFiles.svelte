@@ -13,10 +13,10 @@
 </script>
 
 <div class="cont br-2 frontground">
-	<h1>Welcome, {$userInfo.name}</h1>
+	<h1>Velkommen, {$userInfo.name}</h1>
 	<h2>
-		<Target></Target>
-		Assignments
+		<Target />
+		Afleveringer
 	</h2>
 	<div class="filelist">
 		{#each assignments as assignment}
@@ -24,8 +24,8 @@
 		{/each}
 	</div>
 	<h2>
-		<File></File>
-		Documents
+		<File />
+		Dokumenter
 	</h2>
 	<div class="filelist">
 		{#each $fileStore as f}
@@ -33,8 +33,8 @@
 		{/each}
 	</div>
 	<h2>
-		<Notebook></Notebook>
-		Notes
+		<Notebook />
+		Noter
 	</h2>
 	<div class="filelist">
 		{#each $fileStore as f}
