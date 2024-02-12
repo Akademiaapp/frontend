@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-	<title>Signin | Akademia</title>
+	<title>Login | Akademia</title>
 </svelte:head>
 
 <div class="cont">
