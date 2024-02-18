@@ -1,6 +1,5 @@
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
-import { updateFiles } from './apiStore';
 
 export default class ApiHandler {
 	static baseUrl = 'https://akademia-api.arctix.dev';

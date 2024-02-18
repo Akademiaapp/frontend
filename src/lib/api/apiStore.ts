@@ -13,8 +13,10 @@ export interface FileInfo {
 
 export async function updateFiles(api: ApiHandler) {
 	const userDocuments = await api.getUserDocuments();
+	const userDocumentsJson = await userDocuments.json();
+	console.log(userDocumentsJson);
 
-	fileStore.set(await userDocuments.json());
+	fileStore.set(userDocumentsJson);
 	console.log('updated files');
 }
 function getUserName(state: AuthorizerState): string {

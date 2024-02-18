@@ -8,12 +8,17 @@
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Editor } from 'svelte-tiptap';
+	import { goto } from '$app/navigation';
 
 	let editor: Readable<Editor>;
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
+
+	if (!id) {
+		goto('/workspace/home');
+	}
 
 	api.getDocument(id || '').then((file) => {
 		file.json().then((fileContent) => {
