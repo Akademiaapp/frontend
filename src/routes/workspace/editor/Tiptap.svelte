@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { onMount, onDestroy, setContext } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { createEditor, Editor, EditorContent } from 'svelte-tiptap';
 
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
-	import * as Y from 'yjs';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { readable, type Readable } from 'svelte/store';
+	import { type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../TableOfContents';
 	import ApiHandler from '$lib/api';
@@ -41,13 +40,10 @@
 	$: activeFileName = $activeFile?.name || '';
 
 	function initializeTiptap(initActiveFile: FileInfo | null) {
-		if (!initActiveFile || !element) {
+		if (!initActiveFile) {
 			return;
 		}
 		console.log('Initializing tiptap', initActiveFile);
-		while (element.firstChild) {
-			element.removeChild(element.firstChild);
-		}
 		if ($editor) {
 			$editor.destroy();
 		}
@@ -65,16 +61,11 @@
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
-				element.innerHTML =
-					'--- ⚠️ --- Godkendelse mislykkedes! Du har ikke adgang til dette dokument! --- ⚠️ ---';
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
 				if ($editor) {
 					$editor.destroy();
-				}
-				while (element.firstChild) {
-					element.removeChild(element.firstChild);
 				}
 				editor = createEditor({
 					extensions: [
@@ -100,7 +91,7 @@
 									return 'Uden titel';
 								}
 
-								return null;
+								return '';
 							},
 							showOnlyCurrent: false
 						})
