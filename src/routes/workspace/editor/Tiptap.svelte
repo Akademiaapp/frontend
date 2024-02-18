@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, setContext } from 'svelte';
-	import { Editor } from '@tiptap/core';
+	import { createEditor, Editor, EditorContent } from 'svelte-tiptap';
+
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
@@ -8,7 +9,7 @@
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
+	import { readable, type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../TableOfContents';
 	import ApiHandler from '$lib/api';
@@ -32,7 +33,7 @@
 	let element: Element;
 	let provider: HocuspocusProvider;
 
-	export let editor: Editor;
+	export let editor: Readable<Editor>;
 
 	$: if ($activeFile) initializeTiptap($activeFile);
 
@@ -48,8 +49,8 @@
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
 		}
-		if (editor) {
-			editor.destroy();
+		if ($editor) {
+			$editor.destroy();
 		}
 		if (provider) {
 			provider.destroy();
@@ -63,21 +64,20 @@
 			token: state.token.access_token,
 			name: initActiveFile.id,
 			onAuthenticationFailed: () => {
-				editor.destroy();
+				$editor.destroy();
 				provider.destroy();
 				element.innerHTML =
 					'--- ⚠️ --- Godkendelse mislykkedes! Du har ikke adgang til dette dokument! --- ⚠️ ---';
 				throw new Error('Authentication failed');
 			},
 			onConnect: () => {
-				if (editor) {
-					editor.destroy();
+				if ($editor) {
+					$editor.destroy();
 				}
 				while (element.firstChild) {
 					element.removeChild(element.firstChild);
 				}
-				editor = new Editor({
-					element: element,
+				editor = createEditor({
 					extensions: [
 						...EditorExtensions,
 						CollaborationCursor.configure({
@@ -110,7 +110,8 @@
 						// console.log('too', transaction);
 						if (!transaction.isGeneric) return;
 
-						const title = transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
+						const title =
+							transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 						if (title && title !== activeFileName) {
 							api.renameDocument(initActiveFile.id, title);
 
@@ -150,8 +151,8 @@
 							);
 
 							if (letterBefore == '' || letterBefore[0] == '.') {
-								editor.commands.undo();
-								editor.commands.insertContent(typedLetter.toUpperCase());
+								$editor.commands.undo();
+								$editor.commands.insertContent(typedLetter.toUpperCase());
 							}
 						}
 					}
@@ -165,13 +166,14 @@
 	});
 
 	onDestroy(() => {
-		if (editor) {
-			editor.destroy();
+		if ($editor) {
+			$editor.destroy();
 		}
 	});
 </script>
 
 <div id="text-editor" class="editor_content" bind:this={element} />
+<EditorContent editor={$editor} />
 
 <style lang="scss">
 	.editor_content {

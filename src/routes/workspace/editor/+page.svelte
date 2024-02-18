@@ -2,14 +2,14 @@
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
-	import type { Editor } from '@tiptap/core';
 	import { activeFile } from '../../store';
 	import { getContext } from 'svelte';
 	import ApiHandler from '@/api';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
+	import type { Editor } from 'svelte-tiptap';
 
-	let editor: Editor;
+	let editor: Readable<Editor>;
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	var urlParams = new URLSearchParams(window.location.search);
@@ -29,7 +29,7 @@
 <Workspace>
 	{#if $activeFile}
 		<div class="editor">
-			<Toolbar {editor} />
+			<Toolbar {$editor} />
 
 			<FileEditor bind:editor></FileEditor>
 		</div>
