@@ -34,7 +34,7 @@
 <Workspace>
 	{#if $activeFile}
 		<div class="editor">
-			<Toolbar {$editor} />
+			<Toolbar editor={$editor} />
 
 			<FileEditor bind:editor></FileEditor>
 		</div>

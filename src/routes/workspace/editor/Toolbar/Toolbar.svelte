@@ -5,7 +5,7 @@
 
 	import { getContext } from 'svelte';
 	import ShareDocument from './ShareDocument.svelte';
-	import { Brush, LogOut, MoreHorizontal, Trash2 } from 'lucide-svelte';
+	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 
 	const api = getContext('api') as ApiHandler;
