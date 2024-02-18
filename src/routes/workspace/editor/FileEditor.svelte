@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { minMax, type Editor } from '@tiptap/core';
+	import { Editor } from 'svelte-tiptap';
 	import Tiptap from './Tiptap.svelte';
 	import Overview from './Overview.svelte';
 	import { activeFile } from '../../store';
-	export let editor: Editor;
-
+	import type { Readable } from 'svelte/store';
+	export let editor: Readable<Editor>;
 	var scale = 1;
 
 	function onScroll(e: Event) {
@@ -28,7 +28,7 @@
 		</div>
 		<div class="page"></div>
 	</div>
-	<Overview tiptap={editor}></Overview>
+	<Overview tiptap={$editor}></Overview>
 </div>
 
 <style lang="scss">

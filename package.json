@@ -78,6 +78,7 @@
 		"katex": "^0.16.9",
 		"lucide-svelte": "^0.330.0",
 		"mathlive": "^0.98.6",
+		"svelte-tiptap": "^1.1.2",
 		"tailwind-merge": "^2.2.1",
 		"tailwind-variants": "^0.2.0",
 		"tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state#v1",
