@@ -30,7 +30,6 @@
 		console.log(state);
 	});
 
-	let element: Element;
 	let provider: HocuspocusProvider;
 
 	export let editor: Readable<Editor>;
