@@ -172,7 +172,6 @@
 	});
 </script>
 
-<div id="text-editor" class="editor_content" bind:this={element} />
 <EditorContent editor={$editor} />
 
 <style lang="scss">
