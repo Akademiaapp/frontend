@@ -4,19 +4,14 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  NODE_VERSION: '18.x' # set this to the node version to use
-
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+      - name: Use Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
         run: bun install --frozen-lockfile --silent
         env:
