@@ -110,11 +110,11 @@
 								if ($activeFile != null) {
 									const newState: FileInfo = { ...$activeFile };
 									newState['name'] = title;
-
+									const id = $activeFile.id;
 									// Update the value for the specified key
 									fileStore.update((prev: FileInfo[]): FileInfo[] => {
 										return prev.map((it) => {
-											if (it.id == $activeFile?.id ?? '') return newState;
+											if (it.id == id) return newState;
 											return it;
 										});
 									});
