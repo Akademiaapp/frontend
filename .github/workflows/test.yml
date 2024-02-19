@@ -16,10 +16,7 @@ jobs:
         run: bun install --frozen-lockfile --silent
         env:
           CI: true
-      - name: Lint
-        run: bunx pre-commit run -a
-        env:
-          CI: true
+      - uses: pre-commit/action@v3.0.1
       - name: Build
         run: bun build
         env:
