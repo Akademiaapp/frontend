@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createEditor, Editor, EditorContent } from 'svelte-tiptap';
+	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';
@@ -17,6 +17,7 @@
 	import { Title } from '$lib/editor/extensions/title';
 	import { activeFile } from '../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
+	import { editor } from './editorStore';
 
 	let state: AuthorizerState;
 
@@ -30,8 +31,6 @@
 	});
 
 	let provider: HocuspocusProvider;
-
-	export let editor: Readable<Editor>;
 
 	$: if ($activeFile) initializeTiptap($activeFile);
 
@@ -68,86 +67,88 @@
 				if ($editor) {
 					$editor.destroy();
 				}
-				editor = createEditor({
-					extensions: [
-						...EditorExtensions,
-						CollaborationCursor.configure({
-							provider: provider,
-							user: {
-								name: state.user?.preferred_username,
-								color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
-							}
-						}),
-						Collaboration.configure({
-							document: provider.document
-						}),
-						Document.extend({
-							content: 'title block+'
-						}),
-						TableOfContents,
-						Title,
-						Placeholder.configure({
-							placeholder: ({ node }) => {
-								if (node.type.name === 'title') {
-									return 'Uden titel';
+				editor.set(
+					new Editor({
+						extensions: [
+							...EditorExtensions,
+							CollaborationCursor.configure({
+								provider: provider,
+								user: {
+									name: state.user?.preferred_username,
+									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 								}
+							}),
+							Collaboration.configure({
+								document: provider.document
+							}),
+							Document.extend({
+								content: 'title block+'
+							}),
+							TableOfContents,
+							Title,
+							Placeholder.configure({
+								placeholder: ({ node }) => {
+									if (node.type.name === 'title') {
+										return 'Uden titel';
+									}
 
-								return '';
-							},
-							showOnlyCurrent: false
-						})
-					],
-					onUpdate: ({ transaction }) => {
-						// console.log('too', transaction);
-						if (!transaction.isGeneric) return;
+									return '';
+								},
+								showOnlyCurrent: false
+							})
+						],
+						onUpdate: ({ transaction }) => {
+							// console.log('too', transaction);
+							if (!transaction.isGeneric) return;
 
-						const title =
-							transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
-						if (title && title !== activeFileName) {
-							api.renameDocument(initActiveFile.id, title);
+							const title =
+								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
+							if (title && title !== activeFileName) {
+								api.renameDocument(initActiveFile.id, title);
 
-							activeFileName = title;
+								activeFileName = title;
 
-							const newState = { ...$activeFile };
-							// Update the value for the specified key
-							newState['name'] = title;
+								const newState = { ...$activeFile };
+								// Update the value for the specified key
+								newState['name'] = title;
 
-							fileStore.update((prev) => {
-								return prev.map((it) => {
-									if (it.id == $activeFile?.id) return newState;
-									return it;
+								fileStore.update((prev) => {
+									return prev.map((it) => {
+										if (it.id == $activeFile?.id) return newState;
+										return it;
+									});
 								});
-							});
-						}
-
-						// editor.commands.undo();
-						if (transaction.isGeneric) {
-							const steps = transaction.steps;
-
-							if (steps.length != 1) {
-								return;
 							}
-							const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
-							if (!typedLetter) return false;
 
-							const regex = /^[a-z]$/;
+							// editor.commands.undo();
+							if (transaction.isGeneric) {
+								const steps = transaction.steps;
 
-							if (!regex.test(typedLetter)) return;
+								if (steps.length != 1) {
+									return;
+								}
+								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
+								if (!typedLetter) return false;
 
-							if (typedLetter === undefined) return;
+								const regex = /^[a-z]$/;
 
-							const letterBefore = transaction.doc.textBetween(
-								transaction.selection.anchor - 3,
-								transaction.selection.anchor - 1
-							);
+								if (!regex.test(typedLetter)) return;
 
-							if (letterBefore == '' || letterBefore[0] == '.') {
-								$editor.commands.undo();
-								$editor.commands.insertContent(typedLetter.toUpperCase());
+								if (typedLetter === undefined) return;
+
+								const letterBefore = transaction.doc.textBetween(
+									transaction.selection.anchor - 3,
+									transaction.selection.anchor - 1
+								);
+
+								if (letterBefore == '' || letterBefore[0] == '.') {
+									$editor.commands.undo();
+									$editor.commands.insertContent(typedLetter.toUpperCase());
+								}
 							}
 						}
-					}
-				});
+					})
+				);
 			}
 		});
 	}

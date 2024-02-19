@@ -1,12 +1,8 @@
 <script lang="ts">
-	import type { Editor } from '@tiptap/core';
-	import { onMount } from 'svelte';
-	import Tiptap from './Tiptap.svelte';
-
-	export let tiptap: Editor;
+	import { editor } from './editorStore';
 
 	// hook on update if we change document
-	$: tiptap?.on('update', updateHeadings);
+	$: $editor?.on('update', updateHeadings);
 
 	// Eat some cerial (:
 	function cerial(str: string): string {
@@ -16,10 +12,10 @@
 	type HeadTypes = { text: string; level: number; id: string };
 
 	function updateHeadings(): HeadTypes[] {
-		if (tiptap === undefined) return [];
+		if ($editor === undefined) return [];
 		const headings: HeadTypes[] = [];
-		const transaction = tiptap.state.tr;
-		tiptap.state.doc.descendants((node, pos) => {
+		const transaction = $editor.state.tr;
+		$editor.state.doc.descendants((node, pos) => {
 			if (node.type.name === 'heading') {
 				const id = `${encodeURIComponent(cerial(node.textContent)) + headings.length + 1}`;
 
@@ -35,7 +31,7 @@
 
 		transaction.setMeta('addToHistory', false);
 		transaction.setMeta('preventUpdate', true);
-		tiptap.view.dispatch(transaction);
+		$editor.view.dispatch(transaction);
 
 		topHeadings = headings;
 		return headings;

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { type Editor } from '@tiptap/core';
 	import { themeVariant } from '../../../store';
 	import ApiHandler from '../../../../lib/api';
 
@@ -7,36 +6,35 @@
 	import ShareDocument from './ShareDocument.svelte';
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
+	import { editor } from '../editorStore';
 
 	const api = getContext('api') as ApiHandler;
 
-	export let editor: Editor;
-
-	let selection = editor;
+	let selection = $editor;
 
 	export let checked = $themeVariant == 'dark';
 
-	$: editor?.on('selectionUpdate', () => {
-		selection = editor;
+	$: $editor?.on('selectionUpdate', () => {
+		selection = $editor;
 	});
-	$: editor?.on('update', () => (selection = editor));
+	$: $editor?.on('update', () => (selection = $editor));
 
 	$: themeVariant.set(checked ? 'dark' : 'light');
 
 	let textcolor: string;
 
 	function nodeOrSelected() {
-		// let focus = editor.commands.focus();
-		const selection = editor.state.selection;
+		// let focus = $editor.commands.focus();
+		const selection = $editor.state.selection;
 		if (selection.from == selection.to) {
-			return editor.chain().selectParentNode();
+			return $editor.chain().selectParentNode();
 		} else {
-			return editor.chain().focus();
+			return $editor.chain().focus();
 		}
 	}
 </script>
 
-{#if editor}
+{#if $editor}
 	<div id="toolbar">
 		<!-- <div id="filepath">
 			<div class="color"></div>
@@ -45,19 +43,19 @@
 		<!-- <div class="splitter"></div> -->
 		<div id="style-controls" class="br-2 bar frontground">
 			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+				on:click={() => $editor.chain().focus().toggleHeading({ level: 1 }).run()}
 				class:active={selection?.isActive('heading', { level: 1 })}
 			>
 				H1
 			</button>
 			<button
-				on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+				on:click={() => $editor.chain().focus().toggleHeading({ level: 2 }).run()}
 				class:active={selection?.isActive('heading', { level: 2 })}
 			>
 				H2
 			</button>
 			<button
-				on:click={() => editor.chain().focus().setParagraph().run()}
+				on:click={() => $editor.chain().focus().setParagraph().run()}
 				class:active={selection?.isActive('paragraph')}
 			>
 				P
@@ -66,11 +64,11 @@
 			<div class="text-color h-full">
 				<input
 					type="color"
-					on:input={(event) => editor.chain().focus().setColor(event.target?.value).run()}
-					value={editor.getAttributes('textStyle').color}
+					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
+					value={$editor.getAttributes('textStyle').color}
 					id="text-color"
 				/>
-				<label for="text-color" style={'color: ' + editor.getAttributes('textStyle').color}
+				<label for="text-color" style={'color: ' + $editor.getAttributes('textStyle').color}
 					><Brush size="15"></Brush></label
 				>
 			</div>
