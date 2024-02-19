@@ -18,6 +18,10 @@ jobs:
           CI: true
       - uses: pre-commit/action@v3.0.1
       - name: Build
-        run: bun build
+        run: bun run build
+        env:
+          CI: true
+      - name: Check
+        run: bun run check
         env:
           CI: true
