@@ -114,7 +114,7 @@
 
 								fileStore.update((prev) => {
 									return prev.map((it) => {
-										if (it.id == $activeFile?.id) return newState;
+										if (it.id == $activeFile?.id ?? '') return newState;
 										return it;
 									});
 								});
