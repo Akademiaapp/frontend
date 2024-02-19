@@ -1,8 +1,4 @@
 <script lang="ts">
-	import type { Editor } from '@tiptap/core';
-	import { onMount } from 'svelte';
-	import Tiptap from './Tiptap.svelte';
-
 	import { editor } from './editorStore';
 
 	// hook on update if we change document

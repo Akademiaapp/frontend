@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createEditor, Editor, EditorContent } from 'svelte-tiptap';
+	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	import Collaboration from '@tiptap/extension-collaboration';
 	import { EditorExtensions } from '$lib/editor/extensions';
@@ -8,7 +8,7 @@
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { getContext } from 'svelte';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { writable, type Readable, type Writable } from 'svelte/store';
+	import { type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../TableOfContents';
 	import ApiHandler from '$lib/api';

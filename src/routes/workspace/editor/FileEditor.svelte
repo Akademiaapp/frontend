@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Tiptap from './Tiptap.svelte';
 	import Overview from './Overview.svelte';
-	import { activeFile } from '../../store';
-	import type { Readable } from 'svelte/store';
 	import { editor } from './editorStore';
 
 	var scale = 1;
