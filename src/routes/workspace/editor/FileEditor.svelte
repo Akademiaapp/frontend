@@ -5,18 +5,13 @@
 
 	var scale = 1;
 
-	function onScroll(e: Event) {
+	function onScroll(e: WheelEvent) {
 		if (!e.ctrlKey) return;
 		e.preventDefault();
-		scale *= 1 + Math.sign(e.wheelDeltaY) * 0.1;
+		scale *= 1 + Math.sign(-e.deltaY) * 0.1;
 		const maxScale = (window.innerWidth - 250) / 950;
 		scale = Math.min(scale, maxScale);
 	}
-	// addEventListener('resize', (event) => {
-	// 	console.log(window.innerWidth);
-
-	// 	scale = (window.innerWidth - 250) / 800;
-	// });
 </script>
 
 <div class="editor_wrapper" style:display={$editor ? null : 'none'} on:wheel={onScroll}>
