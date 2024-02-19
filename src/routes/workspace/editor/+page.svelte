@@ -34,8 +34,8 @@
 <Workspace>
 	{#if $activeFile}
 		<div class="editor">
-			<Toolbar/>
-			<FileEditor/>
+			<Toolbar />
+			<FileEditor />
 		</div>
 	{/if}
 </Workspace>
