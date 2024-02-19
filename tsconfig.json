@@ -9,10 +9,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler",
-		"paths": {
-			"@tiptap/core": ["./node_modules/@tiptap/core/src/index"]
-		}
+		"moduleResolution": "bundler"
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
