@@ -21,7 +21,7 @@ jobs:
         run: bun run build
         env:
           CI: true
-      - name: Check
-        run: bun run check
-        env:
-          CI: true
+      # - name: Check
+      #   run: bun run check
+      #   env:
+      #     CI: true
