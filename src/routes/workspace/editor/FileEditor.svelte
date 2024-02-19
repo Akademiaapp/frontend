@@ -19,7 +19,7 @@
 	// });
 </script>
 
-<div class="editor_wrapper" style:display={$editor ? null : 'none'} on:mousewheel={onScroll}>
+<div class="editor_wrapper" style:display={$editor ? null : 'none'} on:wheel={onScroll}>
 	<div id="pages" style:scale>
 		<div class="page">
 			<Tiptap />
