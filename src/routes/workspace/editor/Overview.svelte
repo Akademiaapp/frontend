@@ -39,7 +39,7 @@
 
 	let topHeadings: HeadTypes[] = [];
 
-	function higlight(id: string) {
+	function highlight(id: string) {
 		const elem = document.getElementById(id);
 
 		elem?.classList.add('higlight');
@@ -54,7 +54,7 @@
 		<a
 			href="#{h.id}"
 			on:click={() => {
-				higlight(h.id);
+				highlight(h.id);
 			}}
 			class:h1={h.level == 1}
 			class="reset">{h.text}</a
@@ -63,7 +63,7 @@
 </div>
 
 <style lang="scss">
-	:global(.higlight:before) {
+	:global(.highlight:before) {
 		color: red;
 		content: '';
 		position: absolute;

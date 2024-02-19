@@ -18,7 +18,7 @@
 				<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 			</button>
 		</div>
-		<QuickBar/>
+		<QuickBar />
 	</div>
 
 	<div class="settings assignment br-2 float-panel flex-1 overflow-scroll">
@@ -31,15 +31,37 @@
 			<br />
 			<p>Pr&oslash;ven best&aring;r af 7 opgaver. Du har 3 timer til at l&oslash;se dem.</p>
 			<br />
-			<p>Ved hver opgave st&aring;r der, hvor mange point den h&oslash;jst kan give.Pr&oslash;ven kan i alt h&oslash;jst give 60 point. Du bestemmer selv, hvilkenr&aelig;kkef&oslash;lge du laver opgaverne i, og hvor lang tid du vil bruge p&aring; hver af dem.</p>
+			<p>
+				Ved hver opgave st&aring;r der, hvor mange point den h&oslash;jst kan give.Pr&oslash;ven kan
+				i alt h&oslash;jst give 60 point. Du bestemmer selv, hvilkenr&aelig;kkef&oslash;lge du laver
+				opgaverne i, og hvor lang tid du vil bruge p&aring; hver af dem.
+			</p>
 			<br />
-			<p>Det er vigtigt, at du begrunder dine svar i alle opgaver.Det betyder, at du i hver opgave skal vise eller forklare, hvordandu er n&aring;et frem til dit svar. Du kan fx begrunde dit svar med tekst,beregninger og/eller tegninger.</p>
+			<p>
+				Det er vigtigt, at du begrunder dine svar i alle opgaver.Det betyder, at du i hver opgave
+				skal vise eller forklare, hvordandu er n&aring;et frem til dit svar. Du kan fx begrunde dit
+				svar med tekst,beregninger og/eller tegninger.
+			</p>
 			<br />
-			<p>En del af de point, du kan f&aring; i hver opgave, kommer fra dine begrundelser.I de fleste opgaver kan du ikke f&aring; det h&oslash;jeste antal point, hvis du ikkebegrunder dit svar, selv om dine resultater er rigtige.</p>
+			<p>
+				En del af de point, du kan f&aring; i hver opgave, kommer fra dine begrundelser.I de fleste
+				opgaver kan du ikke f&aring; det h&oslash;jeste antal point, hvis du ikkebegrunder dit svar,
+				selv om dine resultater er rigtige.
+			</p>
 			<br />
-			<p>I nogle af opgaverne skal du beregne et antal eller en st&oslash;rrelse. I andreopgaver skal du vise, hvordan du finder frem til et bestemt resultat ellerafg&oslash;re, om en p&aring;stand er sand eller falsk.</p>
+			<p>
+				I nogle af opgaverne skal du beregne et antal eller en st&oslash;rrelse. I andreopgaver skal
+				du vise, hvordan du finder frem til et bestemt resultat ellerafg&oslash;re, om en
+				p&aring;stand er sand eller falsk.
+			</p>
 			<br />
-			<p>Der er ogs&aring; opgaver, hvor du skal l&oslash;se et matematisk problem ved atunders&oslash;ge. I disse opgaver forventer vi ikke, at du p&aring; forh&aring;nd kender enmetode, du kan bruge til at l&oslash;se problemet. Ordet &rsquo;unders&oslash;g&rsquo; signalerer, at duselv skal finde p&aring; en god m&aring;de at l&oslash;se problemet p&aring; ved at bruge matematik,du kender.</p>
+			<p>
+				Der er ogs&aring; opgaver, hvor du skal l&oslash;se et matematisk problem ved
+				atunders&oslash;ge. I disse opgaver forventer vi ikke, at du p&aring; forh&aring;nd kender
+				enmetode, du kan bruge til at l&oslash;se problemet. Ordet &rsquo;unders&oslash;g&rsquo;
+				signalerer, at duselv skal finde p&aring; en god m&aring;de at l&oslash;se problemet
+				p&aring; ved at bruge matematik,du kender.
+			</p>
 			<br />
 			<p>God arbejdslyst.</p>
 			<br />

@@ -13,7 +13,7 @@
 	import type { FileInfo } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
-	
+
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
 
@@ -71,7 +71,7 @@
 			response.json().then((members: User[]) => {
 				console.log(members);
 				members.forEach((member) => {
-					// Only add people who arent already in the list
+					// Only add people who aren't already in the list
 					if (people.find((person) => person.email == member.email)) return;
 					people.push({
 						name:
@@ -123,7 +123,8 @@
 		<Dialog.Header>
 			<Dialog.Title>Del '{$activeFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
-			Kun personer, du inviterer, kan få adgang til dette dokument. Du kan ændre tilladelsen for hver person.
+				Kun personer, du inviterer, kan få adgang til dette dokument. Du kan ændre tilladelsen for
+				hver person.
 			</Dialog.Description>
 		</Dialog.Header>
 		<div class="flex space-x-2">
@@ -140,7 +141,7 @@
 		<div class="space-y-4">
 			<h4 class="text-sm font-medium">Inviter nye personer</h4>
 			<div class="flex space-x-4">
-				<Input placeholder="Email adresse" id="invite-email" />
+				<Input placeholder="Email address" id="invite-email" />
 				<Select.Root>
 					<Select.Trigger class="w-[200px]">
 						<Select.Value placeholder="Vælg" />

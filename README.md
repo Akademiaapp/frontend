@@ -1,4 +1,5 @@
 # Akademia frontend
+
 The frontend app used by the akademia [tauri app](https://github.com/Akademiaapp/companion) and [website](https://github.com/Akademiaapp/website).
 
 ## Developing

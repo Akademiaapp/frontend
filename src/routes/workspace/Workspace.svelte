@@ -32,9 +32,13 @@
 </script>
 
 <div class="cont">
-	<div class={"sidebar floating-panel"} class:wide={type == "assignment"} class:hidden={!sidebarVisible}>
+	<div
+		class={'sidebar floating-panel'}
+		class:wide={type == 'assignment'}
+		class:hidden={!sidebarVisible}
+	>
 		{#if type === 'assignment'}
-			<SidebarAssignment bind:sidebarVisible/>
+			<SidebarAssignment bind:sidebarVisible />
 		{:else}
 			<Sidebar bind:sidebarVisible></Sidebar>
 		{/if}

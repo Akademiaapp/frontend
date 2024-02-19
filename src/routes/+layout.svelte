@@ -4,11 +4,11 @@
 
 	import './styles.css';
 	import './tiptap-styles.scss';
-	import 'katex/dist/katex.min.css'
+	import 'katex/dist/katex.min.css';
 	export let themeName = `dark`;
 
 	const themes = {
-		deafult: {
+		default: {
 			light: 'light',
 			dark: 'dark'
 		},
@@ -16,7 +16,7 @@
 	};
 	$: console.log($themeVariant);
 
-	let currentTheme = themes.deafult;
+	let currentTheme = themes.default;
 
 	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
 	import 'akademia-authorizer-svelte/styles/default.css';

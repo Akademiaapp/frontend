@@ -7,7 +7,10 @@
 	export let id: string = 'Test';
 </script>
 
-<a href={'/workspace/editor?id=' + id + (date ? '&type=assignment' : '')} class="reset cont frontground">
+<a
+	href={'/workspace/editor?id=' + id + (date ? '&type=assignment' : '')}
+	class="reset cont frontground"
+>
 	<div class="text">
 		<p class="name">{name}</p>
 		{#if date}
