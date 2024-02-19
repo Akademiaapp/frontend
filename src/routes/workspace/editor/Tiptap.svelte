@@ -107,17 +107,18 @@
 								api.renameDocument(initActiveFile.id, title);
 
 								activeFileName = title;
-
-								const newState = { ...$activeFile };
-								// Update the value for the specified key
-								newState['name'] = title;
-
-								fileStore.update((prev) => {
-									return prev.map((it) => {
-										if (it.id == $activeFile?.id ?? '') return newState;
-										return it;
+								if ($activeFile != null) {
+									const newState: FileInfo = { ...$activeFile };
+									newState['name'] = title;
+									const id = $activeFile.id;
+									// Update the value for the specified key
+									fileStore.update((prev: FileInfo[]): FileInfo[] => {
+										return prev.map((it) => {
+											if (it.id == id) return newState;
+											return it;
+										});
 									});
-								});
+								}
 							}
 
 							// editor.commands.undo();
