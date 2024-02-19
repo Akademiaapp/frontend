@@ -17,6 +17,7 @@
 	import { Title } from '$lib/editor/extensions/title';
 	import { activeFile } from '../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
+	import { editor } from './editorStore';
 
 	let state: AuthorizerState;
 
@@ -30,8 +31,6 @@
 	});
 
 	let provider: HocuspocusProvider;
-
-	export const editor = writable<Editor>();
 
 	$: if ($activeFile) initializeTiptap($activeFile);
 
