@@ -3,12 +3,10 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
-	import { Title } from '@/components/ui/card';
 	import { activeFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
 	import { fileStore } from '@/api/apiStore';
-	import DropdownMenuSubContent from '@/components/ui/dropdown-menu/dropdown-menu-sub-content.svelte';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
