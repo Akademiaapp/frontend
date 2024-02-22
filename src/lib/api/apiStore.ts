@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type ApiHandler from '.';
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
+import { getContext } from 'svelte';
 
 export interface FileInfo {
 	user_id: string;
@@ -11,7 +12,19 @@ export interface FileInfo {
 	id: string;
 }
 
-export async function updateFiles(api: ApiHandler) {
+export interface Assignment {
+	id: string;
+	name: string;
+	created_at: string;
+	updated_at: string;
+	due_date: string;
+	assignment_document_id: string;
+	progress: number;
+}
+
+export async function updateFiles() {
+	const api = getContext('api') as ApiHandler;
+
 	const userDocuments = await api.getUserDocuments();
 	const userDocumentsJson = await userDocuments.json();
 	console.log(userDocumentsJson);
@@ -42,3 +55,15 @@ interface userInfo {
 	name: string;
 }
 export const userInfo = writable<userInfo>();
+
+export const assignmentStore = writable<Assignment[]>([]);
+
+export async function updateAssignments() {
+	const api = getContext('api') as ApiHandler;
+
+	const response = await api.getAssignments();
+	const json = await response.json();
+
+	assignmentStore.set(json);
+	console.log('updated assignments', json);
+}

@@ -1,15 +1,9 @@
 <script lang="ts">
 	import Assignment from './Assignment.svelte';
-	import ApiHandler from '$lib/api';
-	import { getContext, onMount } from 'svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
-	import { fileStore, userInfo } from '@/api/apiStore';
+	import { fileStore, userInfo, assignmentStore } from '@/api/apiStore';
 
-	let assignments: { name: string; progress: number }[] = [
-		{ name: 'beskrivende tekst', progress: 100 },
-		{ name: 'matematik aflevering', progress: 50 },
-		{ name: 'matematik aflevering', progress: 0 }
-	];
+	console.log($assignmentStore);
 </script>
 
 <div class="cont br-2 frontground">
@@ -19,9 +13,16 @@
 		Afleveringer
 	</h2>
 	<div class="filelist">
-		{#each assignments as assignment}
-			<Assignment name={assignment.name} progress={assignment.progress} date="3. jan"></Assignment>
+		{#each $assignmentStore as assignment}
+			<Assignment
+				name={assignment.name}
+				progress={assignment.progress}
+				date={new Date(assignment.due_date).toISOString()}
+			></Assignment>
 		{/each}
+		{#if $assignmentStore.length == 0}
+			<p class="">Der er ingen afleveringer</p>
+		{/if}
 	</div>
 	<h2>
 		<File />
@@ -31,6 +32,9 @@
 		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
+		{#if $fileStore.length == 0}
+			<p class="">Der er ingen dokumenter</p>
+		{/if}
 	</div>
 	<h2>
 		<Notebook />
@@ -40,6 +44,9 @@
 		{#each $fileStore as f}
 			<Assignment name={f.name} id={f.id}></Assignment>
 		{/each}
+		{#if $fileStore.length == 0}
+			<p class="">Der er ingen noter</p>
+		{/if}
 	</div>
 </div>
 

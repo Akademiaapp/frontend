@@ -4,7 +4,7 @@
 	import Sidebar from './Sidebar.svelte';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { updateFiles, updateUserInfo } from '@/api/apiStore';
+	import { updateFiles, updateUserInfo, updateAssignments } from '@/api/apiStore';
 	import ApiHandler from '@/api';
 	import SidebarAssignment from './SidebarAssignment.svelte';
 
@@ -20,7 +20,8 @@
 	});
 	const api = new ApiHandler(store);
 	setContext('api', api);
-	updateFiles(api);
+	updateFiles();
+	updateAssignments();
 	updateUserInfo($store);
 
 	var urlParams = new URLSearchParams(window.location.search);
