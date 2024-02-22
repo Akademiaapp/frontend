@@ -17,7 +17,14 @@
 			<Assignment
 				name={assignment.name}
 				progress={assignment.progress}
-				date={new Date(assignment.due_date).toISOString()}
+				date={new Date(Number(assignment.due_date)).toLocaleDateString('da-DK', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+					hour: 'numeric',
+					minute: 'numeric',
+					weekday: 'long',
+				})}
 			></Assignment>
 		{/each}
 		{#if $assignmentStore.length == 0}
