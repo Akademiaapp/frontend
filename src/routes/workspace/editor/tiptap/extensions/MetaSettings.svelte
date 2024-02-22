@@ -6,5 +6,21 @@
 <NodeViewWrapper>
 	<span>Svelte Component</span>
 
-	<div></div>
+	<div class="cont grid">
+		<p>Afleveringsfrist</p>
+		<p>hello</p>
+		<p>hi</p>
+		<p>hello</p>
+		<p>hi</p>
+		<p>hello</p>
+		<p>hi</p>
+		<p>hello</p>
+	</div>
 </NodeViewWrapper>
+
+<style>
+	.cont {
+		grid-template-columns: auto 1fr;
+		column-gap: 1rem;
+	}
+</style>

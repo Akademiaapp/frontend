@@ -4,18 +4,18 @@ import { SvelteNodeViewRenderer } from 'svelte-tiptap';
 import MetaSettings from './MetaSettings.svelte';
 
 export const MetaSettingsExtension = Node.create({
-	name: 'metaSettingComponement',
-	group: 'block',
+	name: 'metaSettings',
+	group: 'meta-settings',
 	atom: true,
 	draggable: true, // Optional: to make the node draggable
 	inline: false,
 
 	parseHTML() {
-		return [{ tag: 'meta-setting-componement' }];
+		return [{ tag: 'meta-settings-component' }];
 	},
 
 	renderHTML({ HTMLAttributes }) {
-		return ['meta-setting-componement', mergeAttributes(HTMLAttributes)];
+		return ['meta-settings-component', mergeAttributes(HTMLAttributes)];
 	},
 
 	addNodeView() {
