@@ -14,7 +14,7 @@
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from '$lib/editor/extensions/title';
+	import { Title } from './extensions/title';
 	import { activeFile } from '../../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
 	import { editor } from '../editorStore';

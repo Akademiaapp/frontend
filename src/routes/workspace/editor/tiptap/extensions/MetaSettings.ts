@@ -10,14 +10,6 @@ export const SvelteCounterExtension = Node.create({
 	draggable: true, // Optional: to make the node draggable
 	inline: false,
 
-	addAttributes() {
-		return {
-			count: {
-				default: 0
-			}
-		};
-	},
-
 	parseHTML() {
 		return [{ tag: 'svelte-counter-component' }];
 	},
