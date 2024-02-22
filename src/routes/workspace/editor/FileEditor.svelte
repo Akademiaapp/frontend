@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Tiptap from './Tiptap.svelte';
+	import Tiptap from './tiptap/Tiptap.svelte';
 	import Overview from './Overview.svelte';
 	import { editor } from './editorStore';
 

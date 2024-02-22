@@ -10,14 +10,14 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import { type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
-	import TableOfContents from '../TableOfContents';
+	import TableOfContents from '../../TableOfContents';
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from '$lib/editor/extensions/title';
-	import { activeFile } from '../../store';
+	import { activeFile } from '../../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { editor } from './editorStore';
+	import { editor } from '../editorStore';
 
 	let state: AuthorizerState;
 
