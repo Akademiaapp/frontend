@@ -121,7 +121,6 @@
 								}
 							}
 
-							// editor.commands.undo();
 							if (transaction.isGeneric) {
 								const steps = transaction.steps;
 
