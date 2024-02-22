@@ -18,6 +18,8 @@
 	import { activeFile } from '../../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
 	import { editor } from '../editorStore';
+	import MetaSettings from './extensions/MetaSettings.svelte';
+	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 
 	let state: AuthorizerState;
 
@@ -82,7 +84,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title block+'
+								content: 'metaSettings title block+'
 							}),
 							TableOfContents,
 							Title,
@@ -95,7 +97,8 @@
 									return '';
 								},
 								showOnlyCurrent: false
-							})
+							}),
+							MetaSettingsExtension
 						],
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);

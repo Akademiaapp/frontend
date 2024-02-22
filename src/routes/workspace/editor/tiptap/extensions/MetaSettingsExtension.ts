@@ -5,10 +5,17 @@ import MetaSettings from './MetaSettings.svelte';
 
 export const MetaSettingsExtension = Node.create({
 	name: 'metaSettings',
-	group: 'meta-settings',
+	group: 'block',
 	atom: true,
-	draggable: true, // Optional: to make the node draggable
-	inline: false,
+
+	selectable: false,
+	// draggable: true, // Optional: to make the node draggable
+	// inline: false,
+	// isolating: true,
+	// allowGapCursor: true,
+	onTransaction: function ({ transaction }) {
+		console.log(transaction.curSelection.$anchor.path[1]);
+	},
 
 	parseHTML() {
 		return [{ tag: 'meta-settings-component' }];

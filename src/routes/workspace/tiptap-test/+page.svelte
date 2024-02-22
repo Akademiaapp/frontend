@@ -4,7 +4,7 @@
 	import { Editor, EditorContent, createEditor } from 'svelte-tiptap';
 	import Document from '@tiptap/extension-document';
 	import { EditorExtensions } from '@/editor/extensions';
-	import { MetaSettingsExtension } from '../editor/tiptap/extensions/MetaSettings';
+	import { MetaSettingsExtension } from '../editor/tiptap/extensions/MetaSettingsExtension';
 
 	let editor: Readable<Editor>;
 
