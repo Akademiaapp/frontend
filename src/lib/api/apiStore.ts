@@ -30,7 +30,6 @@ export interface Assignment {
 }
 
 export async function updateFiles() {
-	console.log('will try to update files');
 	const api = getContext('api') as ApiHandler;
 
 	const userDocuments = await api.getUserDocuments();
