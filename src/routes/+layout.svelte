@@ -52,16 +52,4 @@
 		flex-direction: column;
 		min-height: 100vh;
 	}
-
-	main {
-		flex: 1;
-		flex-direction: column;
-		/* padding: 1rem; */
-		width: 100%;
-		max-height: 100%;
-		/* max-width: 64rem; */
-		margin: 0 auto;
-		min-height: 100vh;
-		box-sizing: border-box;
-	}
 </style>

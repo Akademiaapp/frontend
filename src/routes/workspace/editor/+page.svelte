@@ -21,6 +21,7 @@
 	}
 
 	api.getDocument(id || '').then((file) => {
+		if (!file) return;
 		file.json().then((fileContent) => {
 			activeFile.set(fileContent);
 		});
