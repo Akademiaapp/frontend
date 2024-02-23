@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
 	import { fileStore, userInfo, assignmentStore } from '@/api/apiStore';
@@ -22,8 +23,7 @@
 					month: 'long',
 					day: 'numeric',
 					hour: 'numeric',
-					minute: 'numeric',
-					weekday: 'long'
+					minute: 'numeric'
 				})}
 			></Assignment>
 		{/each}
@@ -37,11 +37,11 @@
 	</h2>
 	<div class="filelist">
 		{#each $fileStore as f}
-			<Assignment name={f.name} id={f.id}></Assignment>
+			<Document name={f.name} id={f.id}></Document>
 		{/each}
 		{#if $fileStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
-		{/if}
+		{/if} 
 	</div>
 	<h2>
 		<Notebook />
@@ -49,7 +49,7 @@
 	</h2>
 	<div class="filelist">
 		{#each $fileStore as f}
-			<Assignment name={f.name} id={f.id}></Assignment>
+			<Document name={f.name} id={f.id}></Document>
 		{/each}
 		{#if $fileStore.length == 0}
 			<p class="">Der er ingen noter</p>

@@ -12,6 +12,13 @@ export interface FileInfo {
 	id: string;
 }
 
+export enum AssignmentProgress {
+	NotStarted,
+	InProgress,
+	Submitted,
+	Graded
+}
+
 export interface Assignment {
 	id: string;
 	name: string;
@@ -19,7 +26,7 @@ export interface Assignment {
 	updated_at: string;
 	due_date: string;
 	assignment_document_id: string;
-	progress: number;
+	progress: AssignmentProgress;
 }
 
 export async function updateFiles() {

@@ -51,6 +51,10 @@ export default class ApiHandler {
 		return this.callApi('/documents/' + documentId);
 	};
 
+	getDocumentJson = (documentId: string) => {
+		return this.callApi('/documents/' + documentId + '/json');
+	}
+
 	getUserDocuments = () => {
 		return this.callApi('/documents');
 	};
