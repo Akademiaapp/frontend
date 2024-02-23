@@ -1,5 +1,6 @@
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { get, type Readable } from 'svelte/store';
+import { apiDownStore } from './apiStore';
 
 export default class ApiHandler {
 	static baseUrl = 'https://akademia-api.arctix.dev';
@@ -44,7 +45,15 @@ export default class ApiHandler {
 				method,
 				headers
 			}
-		);
+		).catch((error) => {
+			// Handle CORS-related errors
+			if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+				console.log('API seems to be down at the moment');
+				apiDownStore.set(true);
+			} else {
+				console.error('Other error:', error);
+			}
+		});
 	}
 
 	getDocument = (documentId: string) => {
@@ -53,7 +62,7 @@ export default class ApiHandler {
 
 	getDocumentJson = (documentId: string) => {
 		return this.callApi('/documents/' + documentId + '/json');
-	}
+	};
 
 	getUserDocuments = () => {
 		return this.callApi('/documents');

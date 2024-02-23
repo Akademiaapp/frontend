@@ -30,6 +30,7 @@ export interface Assignment {
 }
 
 export async function updateFiles() {
+	console.log('will try to update files');
 	const api = getContext('api') as ApiHandler;
 
 	const userDocuments = await api.getUserDocuments();
@@ -74,3 +75,5 @@ export async function updateAssignments() {
 	assignmentStore.set(json);
 	console.log('updated assignments', json);
 }
+
+export const apiDownStore = writable<boolean>(false);
