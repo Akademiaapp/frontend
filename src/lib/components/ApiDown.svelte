@@ -2,6 +2,7 @@
 	import { apiDownStore } from '@/api/apiStore';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
+	import { RefreshCcw } from 'lucide-svelte';
 
 	let open = false;
 	$: open = $apiDownStore;
@@ -17,6 +18,10 @@
 		>
 		<div class="flex w-full gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Luk</Button>
+			<Button variant="outline" on:click={() => location.reload()} class="aspect-square px-2">
+				<RefreshCcw size="14"></RefreshCcw>
+			</Button>
+
 			<!-- <Button variant="destructive" class="flex-1" on:click={deleteActiveFile}>Ja</Button> -->
 		</div>
 	</Dialog.Content>
