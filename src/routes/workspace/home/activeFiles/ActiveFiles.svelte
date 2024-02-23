@@ -23,7 +23,7 @@
 					day: 'numeric',
 					hour: 'numeric',
 					minute: 'numeric',
-					weekday: 'long',
+					weekday: 'long'
 				})}
 			></Assignment>
 		{/each}
