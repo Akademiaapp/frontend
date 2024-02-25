@@ -190,10 +190,6 @@
 		pointer-events: none;
 	}
 
-	:global(.title) {
-		font-size: 3rem;
-	}
-
 	:global() :global(.ProseMirror:focus) {
 		outline: none;
 	}
