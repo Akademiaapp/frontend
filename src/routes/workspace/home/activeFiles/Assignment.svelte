@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { AssignmentProgress } from "@/api/apiStore";
-	import { Check } from "lucide-svelte";
+	import { AssignmentProgress } from '@/api/apiStore';
+	import { Check } from 'lucide-svelte';
 
 	export let name: string;
 	export let date: string | undefined = undefined;
@@ -10,7 +10,7 @@
 
 	let progressNumber = 5;
 	let finished = false;
-	console.log(progress)
+	console.log(progress);
 	if (progress == AssignmentProgress.NotStarted || progress == undefined) {
 		progressNumber = 5;
 	} else if (progress == AssignmentProgress.InProgress) {
@@ -23,39 +23,29 @@
 	}
 </script>
 
-<a
-	href={'/workspace/editor?id=' + id + '&type=assignment'}
-	class="reset cont frontground"
->
+<a href={'/workspace/editor?id=' + id + '&type=assignment'} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 		<p class="date">Afleveringsdato {date}</p>
 	</div>
 	{#if !finished}
-	<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<circle
-			class="bg-circle"
-			cx="11"
-			cy="11"
-			r="9"
-			pathLength="100"
-			stroke-width="3"
-		/>
-		<circle
-			class="progress-circle"
-			class:red={progressNumber < 25}
-			class:yellow={progressNumber >= 25 && progressNumber < 75}
-			class:green={progressNumber >= 75}
-			cx="11"
-			cy="11"
-			r="9"
-			pathLength="100"
-			stroke-width="3"
-			style="stroke-dashoffset: {100 - progressNumber};"
-		/>
-	</svg>
+		<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<circle class="bg-circle" cx="11" cy="11" r="9" pathLength="100" stroke-width="3" />
+			<circle
+				class="progress-circle"
+				class:red={progressNumber < 25}
+				class:yellow={progressNumber >= 25 && progressNumber < 75}
+				class:green={progressNumber >= 75}
+				cx="11"
+				cy="11"
+				r="9"
+				pathLength="100"
+				stroke-width="3"
+				style="stroke-dashoffset: {100 - progressNumber};"
+			/>
+		</svg>
 	{:else}
-		<Check color="#2cde00"/>
+		<Check color="#2cde00" />
 	{/if}
 </a>
 
