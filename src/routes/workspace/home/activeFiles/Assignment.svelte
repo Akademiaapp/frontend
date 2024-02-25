@@ -1,43 +1,51 @@
 <script lang="ts">
-	import { capLength } from '$lib/utils/stringUtils';
+	import { AssignmentProgress } from '@/api/apiStore';
+	import { Check } from 'lucide-svelte';
 
 	export let name: string;
 	export let date: string | undefined = undefined;
-	export let progress: number = -1;
+	export let progress: AssignmentProgress;
 	export let id: string = 'Test';
+	export let assignmentId: string = 'Test';
+
+	let progressNumber = 5;
+	let finished = false;
+	console.log(progress);
+	if (progress == AssignmentProgress.NotStarted || progress == undefined) {
+		progressNumber = 5;
+	} else if (progress == AssignmentProgress.InProgress) {
+		progressNumber = 50;
+	} else if (progress == AssignmentProgress.Submitted) {
+		progressNumber = 100;
+	} else if (progress == AssignmentProgress.Graded) {
+		finished = true;
+		progressNumber = 100;
+	}
 </script>
 
-<a
-	href={'/workspace/editor?id=' + id + (date ? '&type=assignment' : '')}
-	class="reset cont frontground"
->
+<a href={'/workspace/editor?id=' + id + '&type=assignment'} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
-		{#if date}
-			<p class="date">Afleveringsdato {date}</p>
-		{/if}
+		<p class="date">Afleveringsdato {date}</p>
 	</div>
-	{#if progress >= 0}
-		<svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<circle
-				class="bg-circle"
-				cx="10.3349"
-				cy="10.9299"
-				r="9.08329"
-				pathLength="100"
-				stroke-width="2.50515"
-			/>
+	{#if !finished}
+		<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<circle class="bg-circle" cx="11" cy="11" r="9" pathLength="100" stroke-width="3" />
 			<circle
 				class="progress-circle"
-				class:completed={progress == 100}
-				cx="10.3349"
-				cy="10.9299"
-				r="9.08329"
+				class:red={progressNumber < 25}
+				class:yellow={progressNumber >= 25 && progressNumber < 75}
+				class:green={progressNumber >= 75}
+				cx="11"
+				cy="11"
+				r="9"
 				pathLength="100"
-				stroke-width="2.50515"
-				style="stroke-dashoffset: {100 - progress};"
+				stroke-width="3"
+				style="stroke-dashoffset: {100 - progressNumber};"
 			/>
 		</svg>
+	{:else}
+		<Check color="#2cde00" />
 	{/if}
 </a>
 
@@ -86,9 +94,19 @@
 		height: 100%;
 		rotate: -90deg;
 
-		.progress-circle {
-			stroke: #ffa800;
+		.red {
+			stroke: #ff0000;
+		}
 
+		.yellow {
+			stroke: #ffa800;
+		}
+
+		.green {
+			stroke: #2cde00;
+		}
+
+		.progress-circle {
 			stroke-dasharray: 100;
 			stroke-dashoffset: 0;
 
@@ -101,10 +119,6 @@
 			animation-fill-mode: backwards;
 
 			z-index: 10;
-		}
-
-		.completed {
-			stroke: #2cde00;
 		}
 
 		.bg-circle {

@@ -7,6 +7,7 @@
 	import { updateFiles, updateUserInfo, updateAssignments } from '@/api/apiStore';
 	import ApiHandler from '@/api';
 	import SidebarAssignment from './SidebarAssignment.svelte';
+	import ApiDown from '@/components/ApiDown.svelte';
 
 	let state: AuthorizerState;
 
@@ -46,6 +47,8 @@
 	</div>
 
 	<slot />
+
+	<ApiDown></ApiDown>
 </div>
 
 <style lang="scss">

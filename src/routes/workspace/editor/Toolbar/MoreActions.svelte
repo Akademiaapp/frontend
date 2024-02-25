@@ -14,9 +14,9 @@
 	function deleteActiveFile() {
 		const id = $activeFile?.id;
 		if (!id) return;
-		api.deleteDocument(id).then((it) => {
-			if (it.status !== 200) return;
-			console.log(it);
+		api.deleteDocument(id).then((response) => {
+			if (!response || response.status !== 200) return;
+			console.log(response);
 			fileStore.update((prev) => prev.filter((it) => it !== $activeFile));
 			activeFile.set(null);
 		});

@@ -12,6 +12,13 @@ export interface FileInfo {
 	id: string;
 }
 
+export enum AssignmentProgress {
+	NotStarted,
+	InProgress,
+	Submitted,
+	Graded
+}
+
 export interface Assignment {
 	id: string;
 	name: string;
@@ -19,14 +26,17 @@ export interface Assignment {
 	updated_at: string;
 	due_date: string;
 	assignment_document_id: string;
-	progress: number;
+	progress: AssignmentProgress;
 }
 
 export async function updateFiles() {
 	const api = getContext('api') as ApiHandler;
 
-	const userDocuments = await api.getUserDocuments();
-	const userDocumentsJson = await userDocuments.json();
+	const response = await api.getUserDocuments();
+	if (!response) {
+		throw new Error('Could not update files due to no response');
+	}
+	const userDocumentsJson = await response.json();
 	console.log(userDocumentsJson);
 
 	fileStore.set(userDocumentsJson);
@@ -50,20 +60,24 @@ export function updateUserInfo(state: AuthorizerState) {
 
 // Explicitly specify the type of the store
 export const fileStore = writable<FileInfo[]>([]);
+export const assignmentStore = writable<Assignment[]>([]);
 
 interface userInfo {
 	name: string;
 }
 export const userInfo = writable<userInfo>();
 
-export const assignmentStore = writable<Assignment[]>([]);
-
 export async function updateAssignments() {
 	const api = getContext('api') as ApiHandler;
 
 	const response = await api.getAssignments();
+	if (!response) {
+		throw new Error('Could not update assignments due to no response');
+	}
 	const json = await response.json();
 
 	assignmentStore.set(json);
 	console.log('updated assignments', json);
 }
+
+export const apiDownStore = writable<boolean>(false);

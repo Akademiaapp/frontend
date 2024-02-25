@@ -1,8 +1,39 @@
 <script lang="ts">
 	import QuickBar from './quickActions/QuickBar.svelte';
-	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
+	import { Editor, EditorContent } from 'svelte-tiptap';
+	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
+	import { getContext } from 'svelte';
+	import type { Readable } from 'svelte/store';
+	import { EditorExtensions } from '@/editor/extensions';
+	import Document from '@tiptap/extension-document';
+	import { Title } from '@/editor/extensions/title';
+	import ApiHandler from '@/api';
 	export let sidebarVisible: boolean;
+
+	const api = getContext('api') as ApiHandler;
+
+	let state: AuthorizerState;
+
+	const store = getContext('authorizerContext') as Readable<AuthorizerState>;
+
+	store.subscribe((data: AuthorizerState) => {
+		state = data;
+		console.log("hahaahhaaggag 	", state);
+	});
+
+	export let assignmentId: string = 'Test';
+	let editor = new Editor({
+		extensions: [
+			...EditorExtensions,
+			Title,
+			Document.extend({
+				content: 'title block+',
+			}),
+		],
+		content: api.getDocumentJson(assignmentId),
+		editable: false,
+	});
 </script>
 
 <nav class="sideBar" class:hidden={!sidebarVisible}>
@@ -22,51 +53,7 @@
 	</div>
 
 	<div class="settings assignment br-2 float-panel flex-1 overflow-scroll">
-		<div>
-			<h1>Matematik FP9</h1>
-			<h2>Prøven med hjælpemidler - opgavehæfte</h2>
-			<h3>Prøven varer 3 timer (180 minutter)</h3>
-			<br />
-			<p>K&aelig;re elev</p>
-			<br />
-			<p>Pr&oslash;ven best&aring;r af 7 opgaver. Du har 3 timer til at l&oslash;se dem.</p>
-			<br />
-			<p>
-				Ved hver opgave st&aring;r der, hvor mange point den h&oslash;jst kan give.Pr&oslash;ven kan
-				i alt h&oslash;jst give 60 point. Du bestemmer selv, hvilkenr&aelig;kkef&oslash;lge du laver
-				opgaverne i, og hvor lang tid du vil bruge p&aring; hver af dem.
-			</p>
-			<br />
-			<p>
-				Det er vigtigt, at du begrunder dine svar i alle opgaver.Det betyder, at du i hver opgave
-				skal vise eller forklare, hvordandu er n&aring;et frem til dit svar. Du kan fx begrunde dit
-				svar med tekst,beregninger og/eller tegninger.
-			</p>
-			<br />
-			<p>
-				En del af de point, du kan f&aring; i hver opgave, kommer fra dine begrundelser.I de fleste
-				opgaver kan du ikke f&aring; det h&oslash;jeste antal point, hvis du ikkebegrunder dit svar,
-				selv om dine resultater er rigtige.
-			</p>
-			<br />
-			<p>
-				I nogle af opgaverne skal du beregne et antal eller en st&oslash;rrelse. I andreopgaver skal
-				du vise, hvordan du finder frem til et bestemt resultat ellerafg&oslash;re, om en
-				p&aring;stand er sand eller falsk.
-			</p>
-			<br />
-			<p>
-				Der er ogs&aring; opgaver, hvor du skal l&oslash;se et matematisk problem ved
-				atunders&oslash;ge. I disse opgaver forventer vi ikke, at du p&aring; forh&aring;nd kender
-				enmetode, du kan bruge til at l&oslash;se problemet. Ordet &rsquo;unders&oslash;g&rsquo;
-				signalerer, at duselv skal finde p&aring; en god m&aring;de at l&oslash;se problemet
-				p&aring; ved at bruge matematik,du kender.
-			</p>
-			<br />
-			<p>God arbejdslyst.</p>
-			<br />
-			<p>Styrelsen for Undervisning og Kvalitet</p>
-		</div>
+		<EditorContent {editor} />
 	</div>
 </nav>
 
