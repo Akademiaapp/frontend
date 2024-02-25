@@ -41,7 +41,7 @@
 		{/each}
 		{#if $fileStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
-		{/if} 
+		{/if}
 	</div>
 	<h2>
 		<Notebook />
