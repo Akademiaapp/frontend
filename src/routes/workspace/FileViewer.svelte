@@ -35,7 +35,10 @@
 	<SideBarElem active={false}>
 		<button
 			on:click={async () => {
-				const newFile = await (await api.createDocument(randomName())).json();
+				const newFile = await api.createDocument(randomName()).then((response) => {
+					if (!response) return;
+					return response.json();
+				});
 				activeFile.set(newFile);
 				fileStore.update((before) => [...before, newFile]);
 			}}
