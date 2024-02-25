@@ -7,7 +7,7 @@
 	import type { Readable } from 'svelte/store';
 	import { EditorExtensions } from '@/editor/extensions';
 	import Document from '@tiptap/extension-document';
-	import { Title } from '@/editor/extensions/title';
+	import { Title } from './editor/tiptap/extensions/title';
 	import ApiHandler from '@/api';
 	export let sidebarVisible: boolean;
 
@@ -19,7 +19,7 @@
 
 	store.subscribe((data: AuthorizerState) => {
 		state = data;
-		console.log("hahaahhaaggag 	", state);
+		console.log('hahaahhaaggag 	', state);
 	});
 
 	export let assignmentId: string = 'Test';
@@ -28,11 +28,11 @@
 			...EditorExtensions,
 			Title,
 			Document.extend({
-				content: 'title block+',
-			}),
+				content: 'title block+'
+			})
 		],
 		content: api.getDocumentJson(assignmentId),
-		editable: false,
+		editable: false
 	});
 </script>
 

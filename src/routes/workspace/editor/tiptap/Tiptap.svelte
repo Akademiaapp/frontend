@@ -84,7 +84,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'metaSettings title block+'
+								content: 'title metaSettings block+'
 							}),
 							TableOfContents,
 							Title,
@@ -130,7 +130,6 @@
 								if (steps.length != 1) {
 									return;
 								}
-								console.log('steps', steps);
 								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
 								if (!typedLetter) return false;
 
