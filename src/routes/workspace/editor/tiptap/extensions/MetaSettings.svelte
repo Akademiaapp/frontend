@@ -4,8 +4,6 @@
 </script>
 
 <NodeViewWrapper>
-	<span>Svelte Component</span>
-
 	<div class="cont grid">
 		<p>Afleveringsfrist</p>
 		<p>hello</p>
@@ -22,5 +20,10 @@
 	.cont {
 		grid-template-columns: auto 1fr;
 		column-gap: 1rem;
+	}
+
+	.cont p {
+		font-weight: 500;
+		color: var(--color-text-1-t);
 	}
 </style>
