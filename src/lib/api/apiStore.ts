@@ -3,13 +3,38 @@ import type ApiHandler from '.';
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';
 
-export interface FileInfo {
-	user_id: string;
+export class FileInfo {
+	id: string;
 	name: string;
 	data: { type: string; data: [] };
 	created_at: string;
 	updated_at: string;
-	id: string;
+
+	constructor(
+		id: string,
+		name: string,
+		data: { type: string; data: [] },
+		created_at: string,
+		updated_at: string
+	) {
+		this.id = id;
+		this.name = name;
+		this.data = data;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
+}
+
+export class DocumentInfo extends FileInfo {
+	constructor(
+		id: string,
+		name: string,
+		data: { type: string; data: [] },
+		created_at: string,
+		updated_at: string
+	) {
+		super(id, name, data, created_at, updated_at);
+	}
 }
 
 export enum AssignmentProgress {
@@ -19,14 +44,23 @@ export enum AssignmentProgress {
 	Graded
 }
 
-export interface Assignment {
-	id: string;
-	name: string;
-	created_at: string;
-	updated_at: string;
+export class Assignment extends FileInfo {
 	due_date: string;
-	assignment_document_id: string;
 	progress: AssignmentProgress;
+
+	constructor(
+		id: string,
+		name: string,
+		data: { type: string; data: [] },
+		created_at: string,
+		updated_at: string,
+		due_date: string,
+		progress: AssignmentProgress
+	) {
+		super(id, name, data, created_at, updated_at);
+		this.due_date = due_date;
+		this.progress = progress;
+	}
 }
 
 export async function updateFiles() {
@@ -74,9 +108,14 @@ export async function updateAssignments() {
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
 	}
-	const json = await response.json();
+	const json = await response.json().map((it) => ({ ...it, type: 'Assignment' }));
 
-	assignmentStore.set(json);
+	assignmentStore.set(
+		json.map((it) => ({
+			...it,
+			type: 'Assignment'
+		}))
+	);
 	console.log('updated assignments', json);
 }
 
