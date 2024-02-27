@@ -6,13 +6,21 @@
 	import { Button } from '@/components/ui/button';
 	import { cn } from '@/utils';
 	import { Calendar } from '@/components/ui/calendar';
-	import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
+	import {
+		DateFormatter,
+		getLocalTimeZone,
+		type DateValue,
+		CalendarDate,
+		today
+	} from '@internationalized/date';
+	import { Input } from '@/components/ui/input';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
-	let date;
+	// This will set the date to tomorrow
+	let date: DateValue = today(getLocalTimeZone()).add({ days: 1 });
 </script>
 
 <NodeViewWrapper>
@@ -21,30 +29,36 @@
 			<CalendarClock size="18"></CalendarClock>
 			<p>Afleveringsfrist</p>
 		</div>
-		<Popover openFocus>
-			<PopoverTrigger asChild let:builder>
-				<Button
-					variant={'ghost'}
-					class={cn(
-						'w-[280px] justify-start px-2 py-1 text-left text-base font-normal',
-						!date && 'text-muted-foreground'
-					)}
-					builders={[builder]}
-				>
-					{#if date}
-						{df.format(date.toDate(getLocalTimeZone()))}
-					{:else}
-						<span>Pick a date</span>
-					{/if}
-				</Button>
-			</PopoverTrigger>
-			<PopoverContent class="w-auto p-0">
-				<Calendar bind:value={date} initialFocus />
-			</PopoverContent>
-		</Popover>
+
+		<div class="flex">
+			<Popover openFocus>
+				<PopoverTrigger asChild let:builder>
+					<Button
+						variant={'ghost'}
+						class={cn(
+							'w-[150px] justify-start px-2 py-1 text-left text-base font-normal',
+							!date && 'text-muted-foreground'
+						)}
+						builders={[builder]}
+					>
+						{#if date}
+							{df.format(date.toDate(getLocalTimeZone()))}
+						{:else}
+							<span>Vælg dato</span>
+						{/if}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent class="w-auto p-0">
+					<Calendar bind:value={date} initialFocus />
+				</PopoverContent>
+			</Popover>
+			<input type="number" class="time-input" id="hour" />
+			:
+			<input type="number" class="time-input" id="minute" />
+		</div>
 		<div>
 			<Users size="18"></Users>
-			<p>Medlemmer</p>
+			<p>Tildelte</p>
 		</div>
 		<Button
 			variant={'ghost'}
@@ -72,5 +86,20 @@
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
+	}
+
+	.time-input {
+		width: 1.5rem;
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	/* Firefox */
+	input[type='number'] {
+		-moz-appearance: textfield;
 	}
 </style>
