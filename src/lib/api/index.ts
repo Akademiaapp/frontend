@@ -89,10 +89,6 @@ export default class ApiHandler {
 		);
 	};
 
-	deleteDocument = (documentId: string) => {
-		return this.callApi('/documents/' + documentId, {}, 'DELETE');
-	};
-
 	getAssignments = () => {
 		return this.callApi('/assignments');
 	};

@@ -1,4 +1,4 @@
-import { get, writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import type ApiHandler from '.';
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';
@@ -14,6 +14,10 @@ export class FileInfo {
 
 	rename(newName: string, api: ApiHandler) {
 		return api.callApi(this.apiPath + this.id, { name: newName }, 'PUT');
+	}
+
+	delete(api: ApiHandler) {
+		return api.callApi(this.apiPath + this.id, {}, 'DELETE');
 	}
 
 	constructor(info) {
