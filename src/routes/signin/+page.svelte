@@ -1,19 +1,33 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-	import { Authorizer } from 'akademia-authorizer-svelte';
-	import { goto } from '$app/navigation';
-	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
+	import Keycloak from 'keycloak-js';
+	import { userInfo } from '../../authStore';
 
-	let state: AuthorizerState;
-	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
-
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		if (state.token) {
-			goto('/workspace/home');
-		}
+	const keycloak = new Keycloak({
+		url: 'http://localhost:8080/',
+		realm: 'akademia',
+		clientId: 'akademia-frontend',
 	});
+
+	let loggedIn = false;
+
+	keycloak.init({
+		onLoad: 'login-required',
+	}).then((authenticated) => {
+		console.log("tyest")
+		loggedIn = authenticated;
+		if (loggedIn) {
+			console.log('authenticated', authenticated);
+			loggedIn = true;
+			
+			keycloak.loadUserInfo().then((userInfoKc) => {
+				userInfo.set(userInfoKc);
+			});
+		}
+	}).catch((e) => {
+		console.error(e);
+	});
+	console.log('loggedIn', loggedIn);
+
 </script>
 
 <svelte:head>
@@ -24,9 +38,13 @@
 	<div class="login-cont">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
 		<h1 class="header">Velkommen til Akademia!</h1>
-		<h2>Vælg en loginmetode</h2>
-		<br />
-		<Authorizer />
+		{#if loggedIn}
+			<h2>Du er logget ind som {$userInfo.preferred_username}!</h2>
+			<button on:click={() => {keycloak.logout();}}>Log ud</button>
+		{:else}
+			Du er ikke logget ind
+			<button on:click={() => {keycloak.login();}}>Login</button>
+		{/if}
 	</div>
 </div>
 
