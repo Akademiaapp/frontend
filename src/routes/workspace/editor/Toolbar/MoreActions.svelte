@@ -5,15 +5,15 @@
 	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { currentFile, documentStore } from '@/api/apiStore';
+	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
 	const api = getContext('api') as ApiHandler;
 	function deleteActiveFile() {
-		const id = $currentFile?.id;
-		if (!id) return;
-		api.deleteDocument(id).then((response) => {
+		console.log($currentFile);
+		if (!($currentFile instanceof FileInfo)) return;
+		$currentFile.delete(api).then((response) => {
 			if (!response || response.status !== 200) return;
 			console.log(response);
 			documentStore.update((prev) => prev.filter((it) => it !== $currentFile));

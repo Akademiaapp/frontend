@@ -100,10 +100,10 @@
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
 
-							const title =
+							const title: string =
 								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 							if (title && title !== currentFileName) {
-								$currentFile.rename(title, api);
+								$currentFile instanceof FileInfo && $currentFile.rename(title, api);
 
 								currentFileName = title;
 								if ($currentFile != null) {

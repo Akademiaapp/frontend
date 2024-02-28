@@ -90,7 +90,7 @@ export function updateUserInfo(state: AuthorizerState) {
 export const documentStore = writable<DocumentInfo[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
 
-export const currentFile = writable<FileInfo | null>(null);
+export const currentFile = writable<FileInfo>(null);
 
 interface userInfo {
 	name: string;

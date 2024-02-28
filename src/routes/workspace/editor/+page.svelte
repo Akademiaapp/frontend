@@ -8,7 +8,7 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
-	import { currentFile } from '@/api/apiStore';
+	import { currentFile, FileInfo } from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
@@ -23,7 +23,7 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
-			currentFile.set(fileContent);
+			currentFile.set(new FileInfo(fileContent));
 		});
 	});
 </script>
