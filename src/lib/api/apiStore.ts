@@ -10,30 +10,18 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	constructor(
-		id: string,
-		name: string,
-		data: { type: string; data: [] },
-		created_at: string,
-		updated_at: string
-	) {
-		this.id = id;
-		this.name = name;
-		this.data = data;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
+	constructor(info) {
+		this.id = info.id;
+		this.name = info.name;
+		this.data = info.data;
+		this.created_at = info.created_at;
+		this.updated_at = info.updated_at;
 	}
 }
 
 export class DocumentInfo extends FileInfo {
-	constructor(
-		id: string,
-		name: string,
-		data: { type: string; data: [] },
-		created_at: string,
-		updated_at: string
-	) {
-		super(id, name, data, created_at, updated_at);
+	constructor(info) {
+		super(info);
 	}
 }
 
@@ -48,18 +36,10 @@ export class Assignment extends FileInfo {
 	due_date: string;
 	progress: AssignmentProgress;
 
-	constructor(
-		id: string,
-		name: string,
-		data: { type: string; data: [] },
-		created_at: string,
-		updated_at: string,
-		due_date: string,
-		progress: AssignmentProgress
-	) {
-		super(id, name, data, created_at, updated_at);
-		this.due_date = due_date;
-		this.progress = progress;
+	constructor(info) {
+		super(info);
+		this.due_date = info.due_date;
+		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
 	}
 }
 
@@ -108,14 +88,9 @@ export async function updateAssignments() {
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
 	}
-	const json = await response.json().map((it) => ({ ...it, type: 'Assignment' }));
+	const json = await response.json();
 
-	assignmentStore.set(
-		json.map((it) => ({
-			...it,
-			type: 'Assignment'
-		}))
-	);
+	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
 	console.log('updated assignments', json);
 }
 

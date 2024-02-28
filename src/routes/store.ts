@@ -1,4 +1,4 @@
-import type { FileInfo } from '@/api/apiStore';
+import { Assignment, type FileInfo } from '@/api/apiStore';
 import { writable } from 'svelte/store';
 
 export const themeVariant = writable(localStorage.getItem('themeVariant') || 'light');
@@ -8,3 +8,5 @@ themeVariant.subscribe((value) => {
 });
 
 export const activeFile = writable<FileInfo | null>(null);
+
+activeFile.set(new Assignment({}));
