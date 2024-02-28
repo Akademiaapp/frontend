@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import type ApiHandler from '.';
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';

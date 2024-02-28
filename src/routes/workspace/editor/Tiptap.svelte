@@ -17,7 +17,7 @@
 	import { Title } from '$lib/editor/extensions/title';
 	import { activeFile } from '../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { editor } from './eddocumentStore';
+	import { editor } from './editorStore';
 
 	let state: AuthorizerState;
 
@@ -56,7 +56,7 @@
 		provider = new HocuspocusProvider({
 			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
-			name: 'document.'+initActiveFile.id,
+			name: 'document.' + initActiveFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -129,7 +129,7 @@
 								}
 								console.log('steps', steps);
 								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
-								ifdocumentStoreetter) return false;
+								if (!typedLetter) return false;
 
 								const regex = /^[a-z]$/;
 
