@@ -6,7 +6,7 @@
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { activeFile } from '../store';
+	import { currentFile } from '../store';
 
 	const api = getContext('api') as ApiHandler;
 
@@ -22,9 +22,9 @@
 				<File
 					name={file?.name}
 					onClick={() => {
-						activeFile.set(file);
+						currentFile.set(file);
 					}}
-					active={file?.id == $activeFile?.id}
+					active={file?.id == $currentFile?.id}
 					id={file?.id}
 				></File>
 			</div>
@@ -39,7 +39,7 @@
 					if (!response) return;
 					return response.json();
 				});
-				activeFile.set(newFile);
+				currentFile.set(newFile);
 				fileStore.update((before) => [...before, newFile]);
 			}}
 			class="reset no-bg size-full"

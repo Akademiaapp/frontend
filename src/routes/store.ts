@@ -7,6 +7,6 @@ themeVariant.subscribe((value) => {
 	localStorage.setItem('themeVariant', value);
 });
 
-export const activeFile = writable<FileInfo | null>(null);
+export const currentFile = writable<FileInfo | null>(null);
 
-activeFile.set(new Assignment({}));
+currentFile.set(new Assignment({}));

@@ -11,7 +11,7 @@
 	import { CalendarPlus } from 'lucide-svelte';
 	import type ApiHandler from '@/api';
 	import randomName from '@/randomName';
-	import { activeFile } from '../../store';
+	import { currentFile } from '../../store';
 	let isSeaching = false;
 
 	const api = getContext('api') as ApiHandler;
@@ -33,7 +33,7 @@
 	function openFile(file: FileInfo) {
 		goto('editor?id=' + file.id);
 		isSeaching = false;
-		activeFile.set(file);
+		currentFile.set(file);
 	}
 </script>
 

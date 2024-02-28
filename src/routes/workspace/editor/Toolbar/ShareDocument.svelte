@@ -9,7 +9,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { activeFile } from '../../../store';
+	import { currentFile } from '../../../store';
 	import type { FileInfo } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
@@ -63,7 +63,7 @@
 
 	let people: Member[] = [];
 
-	$: $activeFile && findMembers($activeFile);
+	$: $currentFile && findMembers($currentFile);
 
 	function findMembers(activeFile: FileInfo) {
 		people = [];
@@ -98,10 +98,10 @@
 	}
 
 	function addUserToDocument() {
-		if (!$activeFile) return;
+		if (!$currentFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
 		console.log(email);
-		api.addUserToDocument($activeFile?.id, email).then((response) => {
+		api.addUserToDocument($currentFile?.id, email).then((response) => {
 			console.log(response);
 		});
 	}
@@ -121,7 +121,7 @@
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>Del '{$activeFile?.name || ''}'</Dialog.Title>
+			<Dialog.Title>Del '{$currentFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
 				Kun personer, du inviterer, kan få adgang til dette dokument. Du kan ændre tilladelsen for
 				hver person.
@@ -130,7 +130,7 @@
 		<div class="flex space-x-2">
 			<Input
 				id="copy-link"
-				value="https://app.akademia.cc/workspace/editor?id={$activeFile?.id || 'failure'}"
+				value="https://app.akademia.cc/workspace/editor?id={$currentFile?.id || 'failure'}"
 				readonly
 			/>
 			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
