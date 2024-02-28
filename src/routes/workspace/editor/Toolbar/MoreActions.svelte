@@ -6,7 +6,7 @@
 	import { currentFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { fileStore } from '@/api/apiStore';
+	import { documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
@@ -17,7 +17,7 @@
 		api.deleteDocument(id).then((response) => {
 			if (!response || response.status !== 200) return;
 			console.log(response);
-			fileStore.update((prev) => prev.filter((it) => it !== $currentFile));
+			documentStore.update((prev) => prev.filter((it) => it !== $currentFile));
 			currentFile.set(null);
 		});
 		isDeleteOpen = false;

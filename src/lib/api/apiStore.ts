@@ -50,10 +50,10 @@ export async function updateDocuments() {
 	if (!response) {
 		throw new Error('Could not update files due to no response');
 	}
-	const userDocumentsJson = await response.json();
-	console.log(userDocumentsJson);
+	const json = await response.json();
+	console.log(json);
 
-	fileStore.set(userDocumentsJson);
+	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo)));
 	console.log('updated files');
 }
 function getUserName(state: AuthorizerState): string {
@@ -73,7 +73,7 @@ export function updateUserInfo(state: AuthorizerState) {
 }
 
 // Explicitly specify the type of the store
-export const fileStore = writable<FileInfo[]>([]);
+export const documentStore = writable<DocumentInfo[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
 
 export const currentFile = writable<FileInfo | null>(null);

@@ -17,7 +17,7 @@
 	import { Title } from '$lib/editor/extensions/title';
 	import { activeFile } from '../../store';
 	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { editor } from './editorStore';
+	import { editor } from './eddocumentStore';
 
 	let state: AuthorizerState;
 
@@ -129,7 +129,7 @@
 								}
 								console.log('steps', steps);
 								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
-								if (!typedLetter) return false;
+								ifdocumentStoreetter) return false;
 
 								const regex = /^[a-z]$/;
 
