@@ -43,7 +43,7 @@ export class Assignment extends FileInfo {
 	}
 }
 
-export async function updateFiles() {
+export async function updateDocuments() {
 	const api = getContext('api') as ApiHandler;
 
 	const response = await api.getUserDocuments();
@@ -75,6 +75,8 @@ export function updateUserInfo(state: AuthorizerState) {
 // Explicitly specify the type of the store
 export const fileStore = writable<FileInfo[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
+
+export const currentFile = writable<FileInfo | null>(null);
 
 interface userInfo {
 	name: string;
