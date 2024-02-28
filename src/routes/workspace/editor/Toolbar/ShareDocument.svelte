@@ -9,7 +9,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
-	import type { FileInfo, currentFile } from '@/api/apiStore';
+	import { type FileInfo, currentFile } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 
