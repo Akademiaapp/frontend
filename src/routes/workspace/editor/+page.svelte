@@ -2,13 +2,13 @@
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
-	import { currentFile } from '../../store';
 	import { getContext } from 'svelte';
 	import ApiHandler from '@/api';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
+	import { currentFile } from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));

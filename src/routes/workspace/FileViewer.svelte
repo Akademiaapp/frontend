@@ -5,12 +5,11 @@
 	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { documentStore, type FileInfo } from '@/api/apiStore';
-	import { currentFile } from '../store';
+	import { DocumentInfo, currentFile, documentStore } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 
-	export let files: FileInfo[] = $documentStore;
+	export let files: DocumentInfo[] = $documentStore;
 
 	$: files = $documentStore;
 </script>

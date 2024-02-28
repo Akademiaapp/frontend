@@ -3,10 +3,9 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
-	import { currentFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { documentStore } from '@/api/apiStore';
+	import { currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 

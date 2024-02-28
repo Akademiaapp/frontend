@@ -5,13 +5,12 @@
 	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
-	import { documentStore, type FileInfo } from '@/api/apiStore';
+	import { currentFile, documentStore, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
 	import type ApiHandler from '@/api';
 	import randomName from '@/randomName';
-	import { currentFile } from '../../store';
 	let isSeaching = false;
 
 	const api = getContext('api') as ApiHandler;

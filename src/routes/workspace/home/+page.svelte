@@ -2,7 +2,7 @@
 	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
 	import Workspace from './../Workspace.svelte';
 	import Calendar from './Calendar/Calendar.svelte';
-	import { currentFile } from '../../store';
+	import { currentFile } from '@/api/apiStore';
 
 	currentFile.set(null);
 </script>
