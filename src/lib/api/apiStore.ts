@@ -10,6 +10,12 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
+	apiPath: string = '/documents/';
+
+	rename(newName: string, api: ApiHandler) {
+		return api.callApi(this.apiPath + this.id, { name: newName }, 'PUT');
+	}
+
 	constructor(info) {
 		this.id = info.id;
 		this.name = info.name;
@@ -20,6 +26,8 @@ export class FileInfo {
 }
 
 export class DocumentInfo extends FileInfo {
+	apiPath: string = '/documents/';
+
 	constructor(info) {
 		super(info);
 	}
@@ -35,6 +43,8 @@ export enum AssignmentProgress {
 export class Assignment extends FileInfo {
 	due_date: string;
 	progress: AssignmentProgress;
+
+	apiPath = '/assignments/';
 
 	constructor(info) {
 		super(info);

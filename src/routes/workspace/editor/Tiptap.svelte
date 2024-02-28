@@ -103,13 +103,13 @@
 							const title =
 								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 							if (title && title !== currentFileName) {
-								api.renameDocument(initcurrentFile.id, title);
+								$currentFile.rename(title, api);
 
 								currentFileName = title;
 								if ($currentFile != null) {
-									const newState: FileInfo = { ...$currentFile };
-									newState['name'] = title;
-									const id = $currentFile.id;
+									const newState: FileInfo = $currentFile;
+									newState.name = title;
+									const id = newState.id;
 									// Update the value for the specified key
 									documentStore.update((prev: FileInfo[]): FileInfo[] => {
 										return prev.map((it) => {
