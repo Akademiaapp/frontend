@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Keycloak from 'keycloak-js';
-	import { userInfo } from '../../authStore';
+	import { userInfo, type UserInfo } from '../../authStore';
 
 	const keycloak = new Keycloak({
 		url: 'http://localhost:8080/',
@@ -13,21 +13,16 @@
 	keycloak.init({
 		onLoad: 'login-required',
 	}).then((authenticated) => {
-		console.log("tyest")
 		loggedIn = authenticated;
 		if (loggedIn) {
-			console.log('authenticated', authenticated);
-			loggedIn = true;
-			
 			keycloak.loadUserInfo().then((userInfoKc) => {
-				userInfo.set(userInfoKc);
+				userInfo.set(userInfoKc as UserInfo);
+				console.log('User info:', userInfoKc);
 			});
 		}
 	}).catch((e) => {
 		console.error(e);
 	});
-	console.log('loggedIn', loggedIn);
-
 </script>
 
 <svelte:head>
