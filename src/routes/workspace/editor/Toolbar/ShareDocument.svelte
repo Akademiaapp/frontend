@@ -62,11 +62,12 @@
 
 	let people: Member[] = [];
 
-	$: $currentFile && findMembers($currentFile);
+	$: $currentFile instanceof FileInfo && findMembers($currentFile);
 
 	function findMembers(activeFile: FileInfo) {
 		people = [];
-		api.getMembers(activeFile?.id || '').then((response) => {
+
+		$currentFile.getMembers(api).then((response) => {
 			response.json().then((members: User[]) => {
 				console.log(members);
 				members.forEach((member) => {
