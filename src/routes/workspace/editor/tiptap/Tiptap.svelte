@@ -14,8 +14,8 @@
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from '$lib/editor/extensions/title';
-	import { editor } from './editorStore';
+	import { Title } from './extensions/title';
+	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 
 	let state: AuthorizerState;
