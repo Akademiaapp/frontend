@@ -2,13 +2,13 @@
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
 	import Workspace from '../Workspace.svelte';
-	import { activeFile } from '../../store';
 	import { getContext } from 'svelte';
 	import ApiHandler from '@/api';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
+	import { currentFile, FileInfo } from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
 	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
@@ -23,17 +23,17 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
-			activeFile.set(fileContent);
+			currentFile.set(new FileInfo(fileContent));
 		});
 	});
 </script>
 
 <svelte:head>
-	<title>{$activeFile?.name || 'Editor'} | Akademia</title>
+	<title>{$currentFile?.name || 'Editor'} | Akademia</title>
 </svelte:head>
 
 <Workspace>
-	{#if $activeFile}
+	{#if $currentFile}
 		<div class="editor">
 			<Toolbar />
 			<FileEditor />

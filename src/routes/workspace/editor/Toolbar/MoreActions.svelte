@@ -3,22 +3,21 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
-	import { activeFile } from '../../../store';
 	import { getContext } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { fileStore } from '@/api/apiStore';
+	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	let isDeleteOpen = false;
 
 	const api = getContext('api') as ApiHandler;
 	function deleteActiveFile() {
-		const id = $activeFile?.id;
-		if (!id) return;
-		api.deleteDocument(id).then((response) => {
+		console.log($currentFile);
+		if (!($currentFile instanceof FileInfo)) return;
+		$currentFile.delete(api).then((response) => {
 			if (!response || response.status !== 200) return;
 			console.log(response);
-			fileStore.update((prev) => prev.filter((it) => it !== $activeFile));
-			activeFile.set(null);
+			documentStore.update((prev) => prev.filter((it) => it !== $currentFile));
+			currentFile.set(null);
 		});
 		isDeleteOpen = false;
 	}
@@ -78,7 +77,7 @@
 
 <Dialog.Dialog bind:open={isDeleteOpen}>
 	<Dialog.Content class="max-w-[23rem]">
-		<Dialog.Title>Er du sikker på, at du vil slette {$activeFile?.name}?</Dialog.Title>
+		<Dialog.Title>Er du sikker på, at du vil slette {$currentFile?.name}?</Dialog.Title>
 		<Dialog.Description
 			>Dette sletter filen permanent. Denne handling kan ikke fortrydes</Dialog.Description
 		>

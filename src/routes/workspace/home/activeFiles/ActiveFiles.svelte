@@ -2,7 +2,7 @@
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
-	import { fileStore, userInfo, assignmentStore } from '@/api/apiStore';
+	import { documentStore, userInfo, assignmentStore } from '@/api/apiStore';
 
 	console.log($assignmentStore);
 </script>
@@ -36,10 +36,10 @@
 		Dokumenter
 	</h2>
 	<div class="filelist">
-		{#each $fileStore as f}
+		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
-		{#if $fileStore.length == 0}
+		{#if $documentStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
 		{/if}
 	</div>
@@ -48,10 +48,10 @@
 		Noter
 	</h2>
 	<div class="filelist">
-		{#each $fileStore as f}
+		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
-		{#if $fileStore.length == 0}
+		{#if $documentStore.length == 0}
 			<p class="">Der er ingen noter</p>
 		{/if}
 	</div>

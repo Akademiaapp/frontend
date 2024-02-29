@@ -5,14 +5,13 @@
 	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { activeFile } from '../store';
+	import { DocumentInfo, currentFile, documentStore } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 
-	export let files: FileInfo[] = $fileStore;
+	export let files: DocumentInfo[] = $documentStore;
 
-	$: files = $fileStore;
+	$: files = $documentStore;
 </script>
 
 <div class="cont br-2 float-panel">
@@ -22,9 +21,9 @@
 				<File
 					name={file?.name}
 					onClick={() => {
-						activeFile.set(file);
+						currentFile.set(file);
 					}}
-					active={file?.id == $activeFile?.id}
+					active={file?.id == $currentFile?.id}
 					id={file?.id}
 				></File>
 			</div>
@@ -39,8 +38,8 @@
 					if (!response) return;
 					return response.json();
 				});
-				activeFile.set(newFile);
-				fileStore.update((before) => [...before, newFile]);
+				currentFile.set(newFile);
+				documentStore.update((before) => [...before, newFile]);
 			}}
 			class="reset no-bg size-full"
 		>
