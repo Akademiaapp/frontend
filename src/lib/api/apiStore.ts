@@ -25,7 +25,7 @@ export class FileInfo {
 	}
 
 	rename(newName: string, api: ApiHandler) {
-		return api.callApi(this.path, { name: newName }, 'PUT');
+		return this.updateInfo({ name: newName }, api);
 	}
 
 	delete(api: ApiHandler) {
@@ -42,8 +42,14 @@ export class FileInfo {
 		);
 	}
 
+	// Gets the members of the file from the api
 	getMembers(api: ApiHandler) {
 		return api.callApi(this.path + '/users');
+	}
+
+	// Requests the api to update information
+	updateInfo(info, api: ApiHandler) {
+		return api.callApi(this.path, info, 'PUT');
 	}
 }
 

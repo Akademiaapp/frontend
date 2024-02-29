@@ -87,6 +87,7 @@
 					});
 				});
 				console.log(people);
+				people = people;
 			});
 		});
 	}
@@ -145,7 +146,7 @@
 			<div class="flex space-x-4">
 				<Input placeholder="Email address" id="invite-email" />
 				<Select.Root>
-					<Select.Trigger class="w-[200px]">
+					<Select.Trigger class="w-[200px]  text-nowrap">
 						<Select.Value placeholder="Vælg" />
 					</Select.Trigger>
 					<Select.Content>
