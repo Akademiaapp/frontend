@@ -5,13 +5,12 @@
 	import { getContext, setContext, tick } from 'svelte';
 	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
 	import * as Command from '$lib/components/ui/command';
-	import { fileStore, type FileInfo } from '@/api/apiStore';
+	import { currentFile, documentStore, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
 	import type ApiHandler from '@/api';
 	import randomName from '@/randomName';
-	import { activeFile } from '../../store';
 	let isSeaching = false;
 
 	const api = getContext('api') as ApiHandler;
@@ -33,7 +32,7 @@
 	function openFile(file: FileInfo) {
 		goto('editor?id=' + file.id);
 		isSeaching = false;
-		activeFile.set(file);
+		currentFile.set(file);
 	}
 </script>
 
@@ -44,7 +43,7 @@
 	<Command.List>
 		<Command.Empty>Ingen resultater.</Command.Empty>
 		<Command.Group heading="Filer">
-			{#each $fileStore as file}
+			{#each $documentStore as file}
 				<Command.Item onSelect={() => openFile(file)}>
 					<File strokeWidth={1.5}></File>
 					{file.name}

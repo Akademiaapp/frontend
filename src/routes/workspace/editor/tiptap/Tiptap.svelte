@@ -14,12 +14,9 @@
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from './extensions/title';
-	import { activeFile } from '../../../store';
-	import { fileStore, type FileInfo } from '@/api/apiStore';
-	import { editor } from '../editorStore';
-	import MetaSettings from './extensions/MetaSettings.svelte';
-	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
+	import { Title } from '$lib/editor/extensions/title';
+	import { editor } from './editorStore';
+	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 
 	let state: AuthorizerState;
 
@@ -34,17 +31,17 @@
 
 	let provider: HocuspocusProvider;
 
-	$: if ($activeFile) initializeTiptap($activeFile);
+	$: if ($currentFile) initializeTiptap($currentFile);
 
 	// this is needed
-	let activeFileName = '';
-	$: activeFileName = $activeFile?.name || '';
+	let currentFileName = '';
+	$: currentFileName = $currentFile?.name || '';
 
-	function initializeTiptap(initActiveFile: FileInfo | null) {
-		if (!initActiveFile) {
+	function initializeTiptap(initcurrentFile: FileInfo | null) {
+		if (!initcurrentFile) {
 			return;
 		}
-		console.log('Initializing tiptap', initActiveFile);
+		console.log('Initializing tiptap', initcurrentFile);
 		if ($editor) {
 			$editor.destroy();
 		}
@@ -58,7 +55,7 @@
 		provider = new HocuspocusProvider({
 			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
-			name: 'document.'+initActiveFile.id,
+			name: 'document.' + initcurrentFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -104,18 +101,18 @@
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
 
-							const title =
+							const title: string =
 								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
-							if (title && title !== activeFileName) {
-								api.renameDocument(initActiveFile.id, title);
+							if (title && title !== currentFileName) {
+								$currentFile instanceof FileInfo && $currentFile.rename(title, api);
 
-								activeFileName = title;
-								if ($activeFile != null) {
-									const newState: FileInfo = { ...$activeFile };
-									newState['name'] = title;
-									const id = $activeFile.id;
+								currentFileName = title;
+								if ($currentFile != null) {
+									const newState: FileInfo = $currentFile;
+									newState.name = title;
+									const id = newState.id;
 									// Update the value for the specified key
-									fileStore.update((prev: FileInfo[]): FileInfo[] => {
+									documentStore.update((prev: FileInfo[]): FileInfo[] => {
 										return prev.map((it) => {
 											if (it.id == id) return newState;
 											return it;
@@ -157,7 +154,7 @@
 	}
 
 	onMount(() => {
-		initializeTiptap($activeFile);
+		initializeTiptap($currentFile);
 	});
 
 	onDestroy(() => {
