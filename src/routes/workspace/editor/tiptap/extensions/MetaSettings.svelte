@@ -36,7 +36,7 @@
 					<Button
 						variant={'ghost'}
 						class={cn(
-							'w-[150px] justify-start px-2 py-1 text-left text-base font-normal',
+							'w-auto justify-start px-2 py-1 text-left text-base font-normal',
 							!date && 'text-muted-foreground'
 						)}
 						builders={[builder]}
@@ -52,9 +52,8 @@
 					<Calendar bind:value={date} initialFocus />
 				</PopoverContent>
 			</Popover>
-			<input type="number" class="time-input" id="hour" />
-			:
-			<input type="number" class="time-input" id="minute" />
+			<p>kl.</p>
+			<Input type="time" class="h-full w-24 border-none text-base"></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>
