@@ -1,4 +1,5 @@
 <script lang="ts">
+	import MemberSearch from './MemberSearch.svelte';
 	import type { NodeViewProps } from '@tiptap/core';
 	import { NodeViewWrapper } from 'svelte-tiptap';
 	import { CalendarClock, CalendarIcon, Users } from 'lucide-svelte';
@@ -59,14 +60,15 @@
 			<Users size="18"></Users>
 			<p>Tildelte</p>
 		</div>
-		<Button
+		<MemberSearch></MemberSearch>
+		<!-- <Button
 			variant={'ghost'}
 			class={cn(
 				'w-[280px] justify-start px-2 py-1 text-left text-base font-normal text-muted-foreground'
 			)}
 		>
 			Ingen
-		</Button>
+		</Button> -->
 	</div>
 </NodeViewWrapper>
 
