@@ -12,12 +12,26 @@ export class FileInfo {
 
 	apiPath: string = '/documents/';
 
+	getPath() {
+		return this.apiPath + this.id;
+	}
+
 	rename(newName: string, api: ApiHandler) {
-		return api.callApi(this.apiPath + this.id, { name: newName }, 'PUT');
+		return api.callApi(this.getPath(), { name: newName }, 'PUT');
 	}
 
 	delete(api: ApiHandler) {
-		return api.callApi(this.apiPath + this.id, {}, 'DELETE');
+		return api.callApi(this.getPath(), {}, 'DELETE');
+	}
+
+	addUser(user_email: string, api: ApiHandler) {
+		return api.callApi(
+			this.getPath() + '/users',
+			{
+				user_email
+			},
+			'PUT'
+		);
 	}
 
 	constructor(info) {

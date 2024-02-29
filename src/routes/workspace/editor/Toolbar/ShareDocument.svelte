@@ -9,7 +9,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import type ApiHandler from '@/api';
-	import { type FileInfo, currentFile } from '@/api/apiStore';
+	import { FileInfo, currentFile } from '@/api/apiStore';
 
 	const api = getContext('api') as ApiHandler;
 
@@ -100,9 +100,11 @@
 		if (!$currentFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
 		console.log(email);
-		api.addUserToDocument($currentFile?.id, email).then((response) => {
-			console.log(response);
-		});
+		if ($currentFile instanceof FileInfo) {
+			$currentFile.addUser(email, api).then((response) => {
+				console.log(response);
+			});
+		}
 	}
 </script>
 
