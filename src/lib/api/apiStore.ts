@@ -12,21 +12,29 @@ export class FileInfo {
 
 	apiPath: string = '/documents/';
 
-	getPath() {
+	constructor(info) {
+		this.id = info.id;
+		this.name = info.name;
+		this.data = info.data;
+		this.created_at = info.created_at;
+		this.updated_at = info.updated_at;
+	}
+
+	get path() {
 		return this.apiPath + this.id;
 	}
 
 	rename(newName: string, api: ApiHandler) {
-		return api.callApi(this.getPath(), { name: newName }, 'PUT');
+		return api.callApi(this.path, { name: newName }, 'PUT');
 	}
 
 	delete(api: ApiHandler) {
-		return api.callApi(this.getPath(), {}, 'DELETE');
+		return api.callApi(this.path, {}, 'DELETE');
 	}
 
 	addUser(user_email: string, api: ApiHandler) {
 		return api.callApi(
-			this.getPath() + '/users',
+			this.path + '/users',
 			{
 				user_email
 			},
@@ -34,12 +42,8 @@ export class FileInfo {
 		);
 	}
 
-	constructor(info) {
-		this.id = info.id;
-		this.name = info.name;
-		this.data = info.data;
-		this.created_at = info.created_at;
-		this.updated_at = info.updated_at;
+	getMembers(api: ApiHandler) {
+		return api.callApi(this.path + '/users');
 	}
 }
 

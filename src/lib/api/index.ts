@@ -53,6 +53,8 @@ export default class ApiHandler {
 			} else {
 				console.error('Other error:', error);
 			}
+
+			return undefined;
 		});
 	}
 
@@ -78,17 +80,6 @@ export default class ApiHandler {
 			'POST'
 		);
 	};
-
-	addUserToDocument = (documentId: string, user_email: string) => {
-		return this.callApi(
-			'/documents/' + documentId + '/users',
-			{
-				user_email
-			},
-			'PUT'
-		);
-	};
-
 	getAssignments = () => {
 		return this.callApi('/assignments');
 	};
@@ -103,10 +94,5 @@ export default class ApiHandler {
 			},
 			'POST'
 		);
-	};
-
-	// Get all users in a document
-	getMembers = (documentId: string) => {
-		return this.callApi('/documents/' + documentId + '/users');
 	};
 }
