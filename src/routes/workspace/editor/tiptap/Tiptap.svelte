@@ -17,6 +17,7 @@
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 
 	let state: AuthorizerState;
 
