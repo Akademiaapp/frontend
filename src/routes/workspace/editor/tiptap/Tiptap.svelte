@@ -58,7 +58,7 @@
 		provider = new HocuspocusProvider({
 			url: 'wss://akademia-backend.arctix.dev',
 			token: state.token.access_token,
-			name: initActiveFile.id,
+			name: 'document.'+initActiveFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
