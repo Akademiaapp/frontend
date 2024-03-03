@@ -3,7 +3,7 @@
 	import { Search } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 
-	type $$Props = CommandPrimitive.InputProps;
+	type $$Props = CommandPrimitive.InputProps & { wrapperClass: any };
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
