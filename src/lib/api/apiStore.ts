@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import type ApiHandler from '.';
 import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';
@@ -10,7 +10,7 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	apiPath: string = '/documents/';
+	fileType: string = 'documents';
 
 	constructor(info) {
 		this.id = info.id;
@@ -21,7 +21,7 @@ export class FileInfo {
 	}
 
 	get path() {
-		return this.apiPath + this.id;
+		return `/${this.fileType}.${this.id}`;
 	}
 
 	rename(newName: string, api: ApiHandler) {
@@ -54,7 +54,7 @@ export class FileInfo {
 }
 
 export class DocumentInfo extends FileInfo {
-	apiPath: string = '/documents/';
+	fileType = 'document';
 
 	constructor(info) {
 		super(info);
@@ -72,7 +72,7 @@ export class Assignment extends FileInfo {
 	due_date: string;
 	progress: AssignmentProgress;
 
-	apiPath = '/assignments/';
+	fileType = 'assignments';
 
 	constructor(info) {
 		super(info);
@@ -94,6 +94,7 @@ export async function updateDocuments() {
 	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo)));
 	console.log('updated files');
 }
+
 function getUserName(state: AuthorizerState): string {
 	if (!state?.user) return '';
 	const name =
