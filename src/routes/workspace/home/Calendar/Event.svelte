@@ -4,17 +4,29 @@
 	export let calendarLength: number;
 	export let calendarStart: number;
 	export let color: string = '#FF3D00';
+
+	// function that converts data to minutes since day begon
+	function toMinutes(date: Date): number {
+		return date.getHours() * 60 + date.getMinutes();
+	}
+
+	function getDur(event: CalendarEvent): number {
+		return toMinutes(event.end) - toMinutes(event.start);
+	}
+
+	let start = toMinutes(event.start);
+	let dur = getDur(event);
 </script>
 
 <div
 	style:--event-color={color}
-	style:--height="{(event.duraction / calendarLength) * 100}%"
-	style:--start="{((event.start - calendarStart) / calendarLength) * 100}%"
+	style:--height="{(dur / calendarLength) * 100}%"
+	style:--start="{((start - calendarStart) / calendarLength) * 100}%"
 	class="br-2"
 >
 	<p class="name">{event.name}</p>
 	<p class="time">
-		{prettyTime(event.start)} - {prettyTime(event.start + event.duraction)}
+		{prettyTime(start)} - {prettyTime(toMinutes(event.end))}
 	</p>
 </div>
 

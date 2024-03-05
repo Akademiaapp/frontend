@@ -2,12 +2,67 @@
 	import { prettyTime, type CalendarEvent } from './CalendarUtils';
 	import Event from './Event.svelte';
 
+	// https://akademia-api.arctix.dev
+	// https://aula-api.arctix.dev/getCalendarEventsUsingUnilogin
+
+	async function sendRequest() {
+		const username = sessionStorage.getItem('username');
+		const password = sessionStorage.getItem('password');
+
+		const data = {
+			username,
+			password
+		};
+
+		const response = await fetch('https://aula-api.arctix.dev/getCalendarEventsUsingUnilogin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+
+		if (response.ok) {
+			// Handle successful response
+			const result = await response.json();
+			console.log(result);
+			events = result;
+		} else {
+			// Handle error response
+			console.error('Error:', response.status);
+		}
+	}
+
+	import { onMount } from 'svelte';
+
+	onMount(sendRequest);
+
 	let events: CalendarEvent[] = [
-		{ name: 'dansk', start: 8 * 60, duraction: 45 },
-		{ name: 'matematik', start: 8 * 60 + 45, duraction: 45 * 2 },
-		{ name: 'engelsk', start: 8 * 60 + 45 * 3, duraction: 45 },
-		{ name: 'dansk', start: 8 * 60 + 45 * 4, duraction: 45 },
-		{ name: 'klasse fest', start: 15 * 60, duraction: 1 * 60 }
+		{
+			name: 'dansk',
+			start: new Date(new Date().setHours(8, 0, 0, 0)),
+			end: new Date(new Date().setHours(8, 45, 0, 0))
+		},
+		{
+			name: 'matematik',
+			start: new Date(new Date().setHours(8, 45, 0, 0)),
+			end: new Date(new Date().setHours(10, 15, 0, 0))
+		},
+		{
+			name: 'engelsk',
+			start: new Date(new Date().setHours(9, 30, 0, 0)),
+			end: new Date(new Date().setHours(10, 15, 0, 0))
+		},
+		{
+			name: 'dansk',
+			start: new Date(new Date().setHours(10, 15, 0, 0)),
+			end: new Date(new Date().setHours(11, 0, 0, 0))
+		},
+		{
+			name: 'klasse fest',
+			start: new Date(new Date().setHours(15, 0, 0, 0)),
+			end: new Date(new Date().setHours(16, 0, 0, 0))
+		}
 	];
 
 	// map each type of event to a specific color
