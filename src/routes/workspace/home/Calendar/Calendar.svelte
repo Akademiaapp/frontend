@@ -26,6 +26,14 @@
 			// Handle successful response
 			const result = await response.json();
 			console.log(result);
+
+			events = result.map((event) => {
+				return {
+					name: event.title,
+					start: new Date(event.startDateTime),
+					end: new Date(event.endDateTime)
+				};
+			});
 			events = result;
 		} else {
 			// Handle error response
@@ -50,7 +58,7 @@
 		},
 		{
 			name: 'engelsk',
-			start: new Date(new Date().setHours(9, 30, 0, 0)),
+			start: new Date(new Date().setHours(new Date().getHours() - 14 - 24)),
 			end: new Date(new Date().setHours(10, 15, 0, 0))
 		},
 		{
@@ -81,6 +89,15 @@
 	for (let t = calendarStart; t < calendarEnd; t += 60) {
 		timeStamps.push(t);
 	}
+
+	function isToday(date) {
+		const today = new Date();
+		return (
+			date.getDate() === today.getDate() &&
+			date.getMonth() === today.getMonth() &&
+			date.getFullYear() === today.getFullYear()
+		);
+	}
 </script>
 
 <div class="frontground br-2 floating-panel">
@@ -92,7 +109,7 @@
 			{/each}
 		</div>
 		<div class="events">
-			{#each events as event}
+			{#each events.filter((event) => isToday(event.start)) as event}
 				<Event {event} {calendarLength} {calendarStart} color={colors[event.name] || '#8b65fc'}
 				></Event>
 			{/each}

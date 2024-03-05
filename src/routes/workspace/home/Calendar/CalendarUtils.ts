@@ -1,7 +1,7 @@
 export interface CalendarEvent {
 	name: string;
-	start: number;
-	duraction: number;
+	start: Date;
+	end: Date;
 }
 
 export function toHoursAndMinutes(totalMinutes: number) {
