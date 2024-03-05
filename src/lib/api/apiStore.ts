@@ -21,7 +21,7 @@ export class FileInfo {
 	}
 
 	get path() {
-		return `/${this.fileType}.${this.id}`;
+		return `/documents/${this.fileType}.${this.id}`;
 	}
 
 	rename(newName: string, api: ApiHandler) {
