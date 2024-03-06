@@ -23,6 +23,7 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
+			console.log(fileContent)
 			currentFile.set(new FileInfo(fileContent));
 		});
 	});
