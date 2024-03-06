@@ -39,7 +39,7 @@
 					return response.json();
 				});
 				currentFile.set(newFile);
-				documentStore.update((before) => [...before, newFile]);
+				documentStore.update((before) => [...before, new DocumentInfo(newFile)]);
 			}}
 			class="reset no-bg size-full"
 		>
