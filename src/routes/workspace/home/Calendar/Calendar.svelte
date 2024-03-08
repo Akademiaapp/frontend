@@ -9,18 +9,30 @@
 		const username = sessionStorage.getItem('username');
 		const password = sessionStorage.getItem('password');
 
+		if (!username || !password) return; //
+
+		if (username == '' || password == '') {
+			console.log('username or password is empty');
+			return;
+		}
+
+		console.log('sending request');
+
 		const data = {
 			username,
 			password
 		};
 
-		const response = await fetch('https://aula-api.arctix.dev/getCalendarEventsUsingUnilogin', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
+		const response = await fetch(
+			'https://akademia-aula-api.arctix.dev/getCalendarEventsUsingUnilogin',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			}
+		);
 
 		if (response.ok) {
 			// Handle successful response
