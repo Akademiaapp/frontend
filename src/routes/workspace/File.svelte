@@ -1,20 +1,27 @@
-<script>
+<script lang="ts">
 	import { capLength } from '$lib/utils/stringUtils';
 	import { goto } from '$app/navigation';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
-	export let name = 'fileName';
-	export let id = '';
-	export let onClick = () => {};
+	import { currentFile, FileInfo } from '@/api/apiStore';
+	export let file: FileInfo;
+
+	export let onClick = () => {
+		currentFile.set(file);
+	};
 	export let active = false;
+
+	$: if ($currentFile instanceof FileInfo) {
+		active = file.id == $currentFile.id;
+	}
 </script>
 
 <SideBarElem {active}>
-	<a on:click={onClick} href="editor?id={id}" class="reset" class:active>
+	<a on:click={onClick} href="editor?id={file.id}" class="reset" class:active>
 		<div>
 			<File size={20}></File>
 		</div>
-		<span class="name">{name}</span>
+		<span class="name">{file.name}</span>
 	</a>
 </SideBarElem>
 

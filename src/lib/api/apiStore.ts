@@ -81,6 +81,18 @@ export class Assignment extends FileInfo {
 	}
 }
 
+export class Folder {
+	name: string;
+	subFolders: Folder[];
+	files: FileInfo[];
+
+	constructor(info: { name: string; subFolders: Folder[]; files: FileInfo[] }) {
+		this.name = info.name;
+		this.subFolders = info.subFolders;
+		this.files = info.files;
+	}
+}
+
 export async function updateDocuments() {
 	const api = getContext('api') as ApiHandler;
 

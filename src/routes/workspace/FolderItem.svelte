@@ -1,0 +1,58 @@
+<script lang="ts">
+	import { slide } from 'svelte/transition';
+	import type { FileInfo, Folder } from '@/api/apiStore';
+	import SideBarElem from './SideBarElem.svelte';
+	import { ArrowLeft, ChevronRight } from 'lucide-svelte';
+	import File from './File.svelte';
+
+	export let open: boolean = false;
+
+	export let folder: Folder;
+
+	export let active = false;
+</script>
+
+<SideBarElem {active}>
+	<div class="cont flex">
+		<button
+			on:click={() => {
+				open = !open;
+			}}
+			class="openbox ro origin-center"
+			class:rotate-90={open}
+		>
+			<ChevronRight size={20}></ChevronRight>
+		</button>
+		<span class="name">{folder.name}</span>
+	</div>
+</SideBarElem>
+<div class="pl-1">
+	{#if open}
+		<!-- content here -->
+		<div class="sub-files" transition:slide>
+			{#each folder.files as file}
+				<File {file}></File>
+			{/each}
+		</div>
+	{/if}
+</div>
+
+<style lang="scss">
+	.openbox {
+		height: 100%;
+		transition: transform 0.3s;
+	}
+
+	.cont {
+		font-size: 1.2rem;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+
+		div {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+</style>
