@@ -12,29 +12,31 @@
 	export let active = false;
 </script>
 
-<SideBarElem {active}>
-	<div class="cont flex">
-		<button
-			on:click={() => {
-				open = !open;
-			}}
-			class="openbox ro origin-center"
-			class:rotate-90={open}
-		>
-			<ChevronRight size={20}></ChevronRight>
-		</button>
-		<span class="name">{folder.name}</span>
-	</div>
-</SideBarElem>
-<div class="pl-1">
-	{#if open}
-		<!-- content here -->
-		<div class="sub-files" transition:slide>
-			{#each folder.files as file}
-				<File {file}></File>
-			{/each}
+<div>
+	<SideBarElem {active}>
+		<div class="cont flex">
+			<button
+				on:click={() => {
+					open = !open;
+				}}
+				class="openbox ro origin-center"
+				class:rotate-90={open}
+			>
+				<ChevronRight size={20}></ChevronRight>
+			</button>
+			<span class="name">{folder.name}</span>
 		</div>
-	{/if}
+	</SideBarElem>
+	<div class="pl-5">
+		{#if open}
+			<!-- content here -->
+			<div class="sub-files" transition:slide>
+				{#each folder.files as file}
+					<File {file}></File>
+				{/each}
+			</div>
+		{/if}
+	</div>
 </div>
 
 <style lang="scss">
@@ -48,6 +50,15 @@
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
+
+		button {
+			color: var(--color-text-2);
+			border-radius: 0.25rem;
+
+			&:hover {
+				color: var(--color-text-0);
+			}
+		}
 
 		div {
 			display: flex;
