@@ -59,7 +59,7 @@
 					{/each}
 				</div>
 
-				<Button variant="outline" size="icon" on:click={movePage(1)}
+				<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
 					><ChevronRight></ChevronRight></Button
 				>
 			</div>
@@ -98,14 +98,19 @@
 
 	.content {
 		padding: 3rem;
+		padding-bottom: 1rem;
 
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		// align-items: center;
 		gap: 0.25rem;
 
 		overflow: auto;
 		height: 100%;
+	}
+
+	h1 {
+		margin: 0;
 	}
 
 	h2 {
