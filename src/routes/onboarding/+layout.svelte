@@ -4,7 +4,7 @@
 	import swipe from '$lib/transitions/swipe.js';
 	import { fly, fade } from 'svelte/transition';
 	import { page } from '$app/stores'; // <-- new
-	import { cubicIn } from 'svelte/easing';
+	import { cubicIn, expoIn, expoOut, quadIn, quadOut, sineIn, sineOut } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 
 	let currentProgress = '0';
@@ -38,32 +38,36 @@
 		<div class="flex-1 overflow-y-clip">
 			{#key data.url}
 				<div
-					in:fly={{ duration: 400, x: movingForward ? '100%' : '-100%', delay: 400 }}
-					out:fly={{ duration: 400, x: movingForward ? '-100%' : '100%', easing: cubicIn }}
+					in:fly={{
+						duration: 300,
+						x: movingForward ? '100%' : '-100%',
+						delay: 300,
+						easing: quadOut
+					}}
+					out:fly={{ duration: 300, x: movingForward ? '-100%' : '100%', easing: quadIn }}
 					class="content"
 				>
 					<slot />
 				</div>
 			{/key}
 		</div>
-		<div class="mb-5 flex items-center justify-between" in:fade={{ delay: 400 }}>
-			<Button variant="outline" size="icon" on:click={movePage(-1)}
-				><ChevronLeft></ChevronLeft></Button
-			>
-			<!-- <div></div> -->
-			<div class="progress flex h-1 w-[50%] items-center gap-2">
-				{#each Array(5) as _, index}
-					<div class="item" class:completed={+currentProgress > index}></div>
-				{/each}
+		{#if data.url !== '/onboarding/' && data.url !== '/onboarding'}
+			<div class="mb-5 flex items-center justify-between" in:fade={{ delay: 400 }}>
+				<Button variant="outline" size="icon" on:click={movePage(-1)}
+					><ChevronLeft></ChevronLeft></Button
+				>
+				<!-- <div></div> -->
+				<div class="progress flex h-1 w-[50%] items-center gap-2">
+					{#each Array(5) as _, index}
+						<div class="item" class:completed={+currentProgress > index}></div>
+					{/each}
+				</div>
+
+				<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
+					><ChevronRight></ChevronRight></Button
+				>
 			</div>
-
-			<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
-				><ChevronRight></ChevronRight></Button
-			>
-		</div>
-
-		<!-- {#if data.url !== '/onboarding/' && data.url !== '/onboarding'} -->
-		<!-- {/if} -->
+		{/if}
 	</div>
 </div>
 

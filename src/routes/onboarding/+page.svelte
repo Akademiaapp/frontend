@@ -18,30 +18,11 @@
 		goto('onboarding/1');
 	}}>Kom i gang</Button
 >
-<a rel="stylesheet" href="">Skip</a>
+<a href="">Skip</a>
 
 <div></div>
 
-<style>
-	.cont {
-		/* height: 100%; */
-		/* height: 100%; */
-		margin: 4rem 1rem;
-		max-width: 30rem;
-		width: 100%;
-		max-height: min(35rem, 100% - 4rem);
-		background-color: var(--color-bg-1);
-
-		padding: 3rem;
-
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.25rem;
-
-		overflow: auto;
-	}
-
+<style lang="scss">
 	h2 {
 		font-weight: normal;
 		margin: 0;
