@@ -1,5 +1,5 @@
 <script lang="ts">
-	import QuickBar from './quickActions/QuickBar.svelte';
+	import QuickBar from '../quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';

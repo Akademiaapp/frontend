@@ -1,5 +1,5 @@
 <script lang="ts">
-	import QuickBar from './quickActions/QuickBar.svelte';
+	import QuickBar from '../quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	export let sidebarVisible: boolean;
