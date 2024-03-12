@@ -7,18 +7,30 @@
 	import { cubicIn } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 
-	let currentProgress = 0;
+	let currentProgress = '0';
 	$: currentProgress = data.url.split('/').pop();
 	export let data;
 
-	let movePage = (direction: number) =>
+	export let movePage = (direction: number) =>
 		function () {
+			if (direction < 0) movingForward = false;
+			else movingForward = true;
+
+			console.log('moving forward', movingForward);
+
 			const newPage = +currentProgress + direction;
 			console.log(newPage, currentProgress, direction, +currentProgress + direction);
 			console.log('/onboarding/' + (newPage === 0 ? '' : newPage));
 
 			goto('/onboarding/' + (newPage === 0 ? '' : newPage));
+
+			// checky hack to make the button from the fist page transition forward.
+			setTimeout(() => {
+				movingForward = true;
+			}, 100);
 		};
+
+	let movingForward = true;
 </script>
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
@@ -26,8 +38,8 @@
 		<div class="flex-1">
 			{#key data.url}
 				<div
-					in:fly={{ duration: 400, x: '100%', delay: 400 }}
-					out:fly={{ duration: 400, x: '-100%', easing: cubicIn }}
+					in:fly={{ duration: 400, x: movingForward ? '100%' : '-100%', delay: 400 }}
+					out:fly={{ duration: 400, x: movingForward ? '-100%' : '100%', easing: cubicIn }}
 					class="content"
 				>
 					<slot />
@@ -43,16 +55,12 @@
 				<!-- <div></div> -->
 				<div class="progress flex h-1 w-[50%] items-center gap-2">
 					{#each Array(5) as _, index}
-						<div class="item" class:completed={currentProgress > index}></div>
+						<div class="item" class:completed={+currentProgress > index}></div>
 					{/each}
 				</div>
 
-				<Button
-					variant="outline"
-					size="icon"
-					on:click={() => {
-						goto('/onboarding/' + (+currentProgress + 1));
-					}}><ChevronRight></ChevronRight></Button
+				<Button variant="outline" size="icon" on:click={movePage(1)}
+					><ChevronRight></ChevronRight></Button
 				>
 			</div>
 		{/if}
