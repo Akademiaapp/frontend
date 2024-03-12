@@ -15,7 +15,7 @@
 	--color-text-1: hsl(0, 0%, 30%);
 	--color-text-2: hsl(0, 0%, 60%);
 	--color-text-3: #6d6d6d1f;
-
+	--color-accent-1: hsl(var(--primary) / 1);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	--invert-0: 50%;
@@ -40,7 +40,7 @@
 	--border: 240 5.9% 90%;
 	--input: 240 5.9% 90%;
 
-	--primary: 240 5.9% 10%;
+	--primary: 191 69% 61%;
 	--primary-foreground: 0 0% 98%;
 
 	--secondary: 240 4.8% 95.9%;
