@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
 	import type { FileInfo, Folder } from '@/api/apiStore';
 	import SideBarElem from './SideBarElem.svelte';
@@ -27,13 +28,11 @@
 			<span class="name">{folder.name}</span>
 		</div>
 	</SideBarElem>
-	<div class="pl-5">
+	<div class="w-full pl-5">
 		{#if open}
 			<!-- content here -->
-			<div class="sub-files" transition:slide>
-				{#each folder.files as file}
-					<File {file}></File>
-				{/each}
+			<div class="sub-files flex flex-col" transition:slide>
+				<FileList folders={folder.subFolders} files={folder.files}></FileList>
 			</div>
 		{/if}
 	</div>
