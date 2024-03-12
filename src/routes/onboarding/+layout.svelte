@@ -35,7 +35,7 @@
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
 	<div class="cont br-3 border">
-		<div class="flex-1">
+		<div class="flex-1 overflow-y-clip">
 			{#key data.url}
 				<div
 					in:fly={{ duration: 400, x: movingForward ? '100%' : '-100%', delay: 400 }}
@@ -46,31 +46,34 @@
 				</div>
 			{/key}
 		</div>
-
-		{#if data.url !== '/onboarding/' && data.url !== '/onboarding'}
-			<div class="flex items-center justify-between p-5" in:fade={{ delay: 400 }}>
-				<Button variant="outline" size="icon" on:click={movePage(-1)}
-					><ChevronLeft></ChevronLeft></Button
-				>
-				<!-- <div></div> -->
-				<div class="progress flex h-1 w-[50%] items-center gap-2">
-					{#each Array(5) as _, index}
-						<div class="item" class:completed={+currentProgress > index}></div>
-					{/each}
-				</div>
-
-				<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
-					><ChevronRight></ChevronRight></Button
-				>
+		<div class="mb-5 flex items-center justify-between" in:fade={{ delay: 400 }}>
+			<Button variant="outline" size="icon" on:click={movePage(-1)}
+				><ChevronLeft></ChevronLeft></Button
+			>
+			<!-- <div></div> -->
+			<div class="progress flex h-1 w-[50%] items-center gap-2">
+				{#each Array(5) as _, index}
+					<div class="item" class:completed={+currentProgress > index}></div>
+				{/each}
 			</div>
-		{/if}
+
+			<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
+				><ChevronRight></ChevronRight></Button
+			>
+		</div>
+
+		<!-- {#if data.url !== '/onboarding/' && data.url !== '/onboarding'} -->
+		<!-- {/if} -->
 	</div>
 </div>
 
 <style lang="scss">
 	.cont {
+		height: 100%;
 		/* height: 100%; */
 		/* height: 100%; */
+		padding: 3rem;
+		padding-bottom: 1rem;
 		display: flex;
 		flex-direction: column;
 		margin: 4rem 1rem;
@@ -81,6 +84,10 @@
 		background-color: var(--color-bg-1);
 
 		overflow: hidden;
+
+		div {
+			max-height: calc(100% - 1rem);
+		}
 	}
 
 	.progress div {
@@ -97,16 +104,15 @@
 	}
 
 	.content {
-		padding: 3rem;
-		padding-bottom: 1rem;
-
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		// align-items: center;
 		gap: 0.25rem;
 
-		overflow: auto;
 		height: 100%;
+
+		// overflow: auto;
 	}
 
 	h1 {
