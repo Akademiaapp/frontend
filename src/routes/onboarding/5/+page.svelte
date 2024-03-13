@@ -1,7 +1,17 @@
+<script>
+	import { canProceed } from '../proccedStore';
+
+	canProceed.set(false);
+
+	let selectedOption = '';
+
+	$: canProceed.set(selectedOption !== '');
+</script>
+
 <h1>Hvad er du?</h1>
 
 <div class="flex flex-col gap-2">
-	<input class="hidden" type="radio" id="option1" name="userType" value="option1" />
+	<input type="radio" id="option1" name="userType" value="tester" bind:group={selectedOption} />
 	<label for="option1">
 		<div>
 			Tester
@@ -9,17 +19,17 @@
 		</div>
 	</label>
 
-	<input class="hidden" type="radio" id="option2" name="userType" value="option2" />
+	<input type="radio" id="option2" name="userType" value="underviser" bind:group={selectedOption} />
 	<label for="option2">
 		<img src="/illustrations/undraw_professor.svg" alt="A personal notebook" />
-		Underviser</label
-	>
+		Underviser
+	</label>
 
-	<input class="hidden" type="radio" id="option3" name="userType" value="option3" />
+	<input type="radio" id="option3" name="userType" value="elev" bind:group={selectedOption} />
 	<label for="option3">
 		<img src="/illustrations/undraw_education.svg" alt="A personal notebook" />
-		Elev</label
-	>
+		Elev
+	</label>
 </div>
 
 <style lang="scss">
@@ -49,6 +59,8 @@
 			font-size: 0.75rem;
 			color: var(--color-text-2);
 		}
+
+		transition: all 100ms;
 	}
 
 	input[type='radio']:checked + label {
@@ -60,5 +72,9 @@
 		box-shadow: inset 0 0 0 1px var(--color-accent-1);
 
 		// border: none;
+	}
+
+	input {
+		display: none;
 	}
 </style>

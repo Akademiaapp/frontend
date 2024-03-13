@@ -4,8 +4,21 @@
 	import swipe from '$lib/transitions/swipe.js';
 	import { fly, fade } from 'svelte/transition';
 	import { page } from '$app/stores'; // <-- new
-	import { cubicIn, expoIn, expoOut, quadIn, quadOut, sineIn, sineOut } from 'svelte/easing';
+	import {
+		cubicIn,
+		cubicInOut,
+		cubicOut,
+		expoIn,
+		expoInOut,
+		expoOut,
+		quadIn,
+		quadInOut,
+		quadOut,
+		sineIn,
+		sineOut
+	} from 'svelte/easing';
 	import { goto } from '$app/navigation';
+	import { canProceed } from './proccedStore.js';
 
 	let currentProgress = '0';
 	$: currentProgress = data.url.split('/').pop();
@@ -16,7 +29,9 @@
 			if (direction < 0) movingForward = false;
 			else movingForward = true;
 
-			console.log('moving forward', movingForward);
+			if (movingForward && !$canProceed) {
+				return;
+			}
 
 			const newPage = +currentProgress + direction;
 			console.log(newPage, currentProgress, direction, +currentProgress + direction);
@@ -31,20 +46,24 @@
 		};
 
 	let movingForward = true;
+
+	const anim = {
+		duration: 400,
+		easing: quadInOut,
+		opacity: 1
+	};
 </script>
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
 	<div class="cont br-3 border">
-		<div class="flex-1 overflow-y-clip">
+		<div class="relative flex-1 overflow-y-clip">
 			{#key data.url}
 				<div
-					in:fly={{
-						duration: 300,
-						x: movingForward ? '100%' : '-100%',
-						delay: 300,
-						easing: quadOut
+					in:fly={{ ...anim, x: movingForward ? '120%' : '-120%' }}
+					out:fly={{
+						...anim,
+						x: movingForward ? '-120%' : '120%'
 					}}
-					out:fly={{ duration: 300, x: movingForward ? '-100%' : '100%', easing: quadIn }}
 					class="content"
 				>
 					<slot />
@@ -63,8 +82,12 @@
 					{/each}
 				</div>
 
-				<Button variant="outline" class="self-center" size="icon" on:click={movePage(1)}
-					><ChevronRight></ChevronRight></Button
+				<Button
+					variant="outline"
+					disabled={!$canProceed}
+					class="self-center"
+					size="icon"
+					on:click={movePage(1)}><ChevronRight></ChevronRight></Button
 				>
 			</div>
 		{/if}
@@ -115,7 +138,12 @@
 		// align-items: center;
 		gap: 0.25rem;
 
+		height: 20rem;
+
 		height: 100%;
+		widows: 100%;
+
+		position: absolute;
 
 		// overflow: auto;
 	}
