@@ -57,7 +57,7 @@
 					><ChevronLeft></ChevronLeft></Button
 				>
 				<!-- <div></div> -->
-				<div class="progress flex h-1 w-[50%] items-center gap-2">
+				<div class="progress flex h-1.5 w-[50%] items-center justify-center gap-3">
 					{#each Array(5) as _, index}
 						<div class="item" class:completed={+currentProgress > index}></div>
 					{/each}
@@ -90,12 +90,13 @@
 		overflow: hidden;
 
 		div {
-			max-height: calc(100% - 1rem);
+			// max-height: calc(100% - 1rem);
 		}
 	}
 
 	.progress div {
-		flex: 1;
+		// flex: 1;
+		aspect-ratio: 1;
 		align-self: stretch;
 		background-color: var(--color-text-2-t);
 		border-radius: 100rem;
