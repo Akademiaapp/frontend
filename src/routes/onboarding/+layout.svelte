@@ -2,7 +2,7 @@
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import swipe from '$lib/transitions/swipe.js';
-	import { fly, fade } from 'svelte/transition';
+	import { fly, fade, scale } from 'svelte/transition';
 	import { page } from '$app/stores'; // <-- new
 	import {
 		cubicIn,
@@ -18,28 +18,43 @@
 		sineOut
 	} from 'svelte/easing';
 	import { goto } from '$app/navigation';
-	import { canProceed } from './proccedStore.js';
+	import { canProceed, userType } from './onboardingStores.js';
+	import { setContext } from 'svelte';
 
-	let currentProgress = '0';
-	$: currentProgress = data.url.split('/').pop();
+	$: console.log($userType);
+
+	let currentProgress = 1;
 	export let data;
+	let urls: string[];
+	$: {
+		urls = [
+			'',
+			'1',
+			'2',
+			'3',
+			'4',
+			'5',
+			$userType !== 'tester' ? 'vaelg-skole' : null,
+			'6', // if userType is tester, show the select school page, else show the last page
+			'7'
+		].filter((it) => it !== null);
+	}
+
+	$: currentProgress = urls.indexOf(data.url.split('/').pop());
+
+	$: console.log(urls, currentProgress, data.url.split('/').pop());
 
 	export let movePage = (direction: number) =>
 		function () {
 			if (direction < 0) movingForward = false;
 			else movingForward = true;
 
-			if (movingForward && !$canProceed) {
-				return;
-			}
+			currentProgress += direction;
 
-			const newPage = +currentProgress + direction;
-			console.log(newPage, currentProgress, direction, +currentProgress + direction);
-			console.log('/onboarding/' + (newPage === 0 ? '' : newPage));
+			console.log(urls[currentProgress], currentProgress);
+			goto('/onboarding/' + urls[currentProgress]);
 
-			goto('/onboarding/' + (newPage === 0 ? '' : newPage));
-
-			// checky hack to make the button from the fist page transition forward.
+			// cheecky hack to make the button from the fist page transition forward.
 			setTimeout(() => {
 				movingForward = true;
 			}, 100);
@@ -52,6 +67,8 @@
 		easing: quadInOut,
 		opacity: 1
 	};
+
+	let hasBeen = [];
 </script>
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
@@ -77,8 +94,13 @@
 				>
 				<!-- <div></div> -->
 				<div class="progress flex h-1.5 w-[50%] items-center justify-center gap-3">
-					{#each Array(5) as _, index}
-						<div class="item" class:completed={+currentProgress > index}></div>
+					{#each urls as url, index (url)}
+						<div
+							class="item"
+							class:completed={+currentProgress > index}
+							transition:scale
+							id={url}
+						></div>
 					{/each}
 				</div>
 
@@ -141,7 +163,8 @@
 		height: 20rem;
 
 		height: 100%;
-		widows: 100%;
+		width: 100%;
+		padding-bottom: 1rem;
 
 		position: absolute;
 

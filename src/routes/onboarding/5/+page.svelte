@@ -1,17 +1,31 @@
 <script>
-	import { canProceed } from '../proccedStore';
+	import { canProceed, userType } from '../onboardingStores';
 
 	canProceed.set(false);
 
-	let selectedOption = '';
+	let selectedOption = $userType;
 
-	$: canProceed.set(selectedOption !== '');
+	$: console.log($userType);
+
+	$: canProceed.set($userType !== '');
+
+	$: {
+		if (selectedOption) {
+			console.log(selectedOption);
+			// userType.set(selectedOption);
+		}
+	}
+
+	$: {
+		console.log(selectedOption);
+		console.log($userType);
+	}
 </script>
 
-<h1>Hvad er du?</h1>
+<h1>Hvad beskriver dig bedst?</h1>
 
 <div class="flex flex-col gap-2">
-	<input type="radio" id="option1" name="userType" value="tester" bind:group={selectedOption} />
+	<input type="radio" id="option1" name="userType" value="tester" bind:group={$userType} />
 	<label for="option1">
 		<div>
 			Tester
@@ -19,13 +33,13 @@
 		</div>
 	</label>
 
-	<input type="radio" id="option2" name="userType" value="underviser" bind:group={selectedOption} />
+	<input type="radio" id="option2" name="userType" value="underviser" bind:group={$userType} />
 	<label for="option2">
 		<img src="/illustrations/undraw_professor.svg" alt="A personal notebook" />
 		Underviser
 	</label>
 
-	<input type="radio" id="option3" name="userType" value="elev" bind:group={selectedOption} />
+	<input type="radio" id="option3" name="userType" value="elev" bind:group={$userType} />
 	<label for="option3">
 		<img src="/illustrations/undraw_education.svg" alt="A personal notebook" />
 		Elev
