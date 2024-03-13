@@ -1,4 +1,4 @@
-<img src="/illustrations/undraw_meditation.svg" alt="" />
+<img src="/illustrations/undraw_meditation.svg" alt="a woman peacefully meditating" />
 
 <h1>Simpelt</h1>
 <p>

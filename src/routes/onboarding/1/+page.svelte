@@ -1,4 +1,4 @@
-<img src="/illustrations/undraw_teaching.svg" alt="" />
+<img src="/illustrations/undraw_teaching.svg" alt="A userinterface, with many features" />
 
 <h1>Alt samlet ét sted</h1>
 <p>
