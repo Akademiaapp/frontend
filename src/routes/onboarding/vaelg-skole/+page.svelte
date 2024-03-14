@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {
 		Command,
 		CommandInput,
@@ -9,44 +9,78 @@
 		CommandSeparator
 	} from '@/components/ui/command';
 	import { canProceed, userType } from '../onboardingStores';
+	import { School, Search } from 'lucide-svelte';
 
 	canProceed.set(false);
+
+	let schools = [
+		'Sct. Jørgens skole - Næstved',
+		'Aarhus Skt. Pauls Skole',
+		'Bagsværd Skole',
+		'Birkerød Skole',
+		'Christianshavns Skole',
+		'Det frie Gymnasium',
+		'Espergærde Skole',
+		'Frederiksberg Skole',
+		'Gefion Gymnasium',
+		'Haderslev Realskole',
+		'Ingrid Jespersens Skole',
+		'Johannes Skole',
+		'Kolding Realskole',
+		'Lemvig Skole',
+		'Mariagerfjord Skole',
+		'Niels Steensens Skole',
+		'Odense Skt. Hans Skole',
+		'Paderup Skole',
+		'Qaqortoq Skole',
+		'Roskilde Lilleskole',
+		'Sankt Annæ Skole',
+		'Tornbjerg Skole',
+		'Usserød Skole',
+		'Viborg Skole',
+		'Westend Skole'
+	];
+
+	let selectedSchool: string = null;
+
+	function selectSchool(school) {
+		canProceed.set(true);
+		selectedSchool = school;
+	}
+
+	let focused = false;
 </script>
 
 <h1>Vælg din skole</h1>
-<Command>
-	<CommandInput placeholder="Type a command or search..." />
-	<CommandList>
-		<CommandEmpty>No results found.</CommandEmpty>
-		<CommandGroup heading="Suggestions">
-			<CommandItem>Sct. Jørgens skole - Næstved</CommandItem>
-			<CommandItem>Aarhus Skt. Pauls Skole</CommandItem>
-			<CommandItem>Bagsværd Skole</CommandItem>
-			<CommandItem>Birkerød Skole</CommandItem>
-			<CommandItem>Christianshavns Skole</CommandItem>
-			<CommandItem>Det frie Gymnasium</CommandItem>
-			<CommandItem>Espergærde Skole</CommandItem>
-			<CommandItem>Frederiksberg Skole</CommandItem>
-			<CommandItem>Gefion Gymnasium</CommandItem>
-			<CommandItem>Haderslev Realskole</CommandItem>
-			<CommandItem>Ingrid Jespersens Skole</CommandItem>
-			<CommandItem>Johannes Skole</CommandItem>
-			<CommandItem>Kolding Realskole</CommandItem>
-			<CommandItem>Lemvig Skole</CommandItem>
-			<CommandItem>Mariagerfjord Skole</CommandItem>
-			<CommandItem>Niels Steensens Skole</CommandItem>
-			<CommandItem>Odense Skt. Hans Skole</CommandItem>
-			<CommandItem>Paderup Skole</CommandItem>
-			<CommandItem>Qaqortoq Skole</CommandItem>
-			<CommandItem>Roskilde Lilleskole</CommandItem>
-			<CommandItem>Sankt Annæ Skole</CommandItem>
-			<CommandItem>Tornbjerg Skole</CommandItem>
-			<CommandItem>Usserød Skole</CommandItem>
-			<CommandItem>Viborg Skole</CommandItem>
-			<CommandItem>Westend Skole</CommandItem>
-		</CommandGroup>
-	</CommandList>
-</Command>
+<div class:small={!focused && selectedSchool}>
+	<Command>
+		<CommandInput
+			on:focus={() => {
+				focused = true;
+				selectedSchool = null;
+			}}
+			on:blur={() => (focused = false)}
+			placeholder={selectedSchool || 'Søg efter din skole'}
+			class={selectedSchool ? 'placeholder:text-black' : ''}
+		>
+			{#if selectedSchool}
+				<School class="mr-2 h-4 w-4 shrink-0 opacity-50" />
+			{:else}
+				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
+			{/if}
+		</CommandInput>
+		{#if focused || !selectedSchool}
+			<CommandList>
+				<CommandEmpty>No results found.</CommandEmpty>
+				<CommandGroup heading="Suggestions">
+					{#each schools as school (school)}
+						<CommandItem onSelect={() => selectSchool(school)}>{school}</CommandItem>
+					{/each}
+				</CommandGroup>
+			</CommandList>
+		{/if}
+	</Command>
+</div>
 
 <style lang="scss">
 	label {
@@ -77,6 +111,10 @@
 		}
 
 		transition: all 100ms;
+	}
+
+	.small {
+		height: 2.8rem;
 	}
 
 	input[type='radio']:checked + label {
