@@ -20,8 +20,30 @@
 		<CommandEmpty>No results found.</CommandEmpty>
 		<CommandGroup heading="Suggestions">
 			<CommandItem>Sct. Jørgens skole - Næstved</CommandItem>
-			<CommandItem>Search Emoji</CommandItem>
-			<CommandItem>Calculator</CommandItem>
+			<CommandItem>Aarhus Skt. Pauls Skole</CommandItem>
+			<CommandItem>Bagsværd Skole</CommandItem>
+			<CommandItem>Birkerød Skole</CommandItem>
+			<CommandItem>Christianshavns Skole</CommandItem>
+			<CommandItem>Det frie Gymnasium</CommandItem>
+			<CommandItem>Espergærde Skole</CommandItem>
+			<CommandItem>Frederiksberg Skole</CommandItem>
+			<CommandItem>Gefion Gymnasium</CommandItem>
+			<CommandItem>Haderslev Realskole</CommandItem>
+			<CommandItem>Ingrid Jespersens Skole</CommandItem>
+			<CommandItem>Johannes Skole</CommandItem>
+			<CommandItem>Kolding Realskole</CommandItem>
+			<CommandItem>Lemvig Skole</CommandItem>
+			<CommandItem>Mariagerfjord Skole</CommandItem>
+			<CommandItem>Niels Steensens Skole</CommandItem>
+			<CommandItem>Odense Skt. Hans Skole</CommandItem>
+			<CommandItem>Paderup Skole</CommandItem>
+			<CommandItem>Qaqortoq Skole</CommandItem>
+			<CommandItem>Roskilde Lilleskole</CommandItem>
+			<CommandItem>Sankt Annæ Skole</CommandItem>
+			<CommandItem>Tornbjerg Skole</CommandItem>
+			<CommandItem>Usserød Skole</CommandItem>
+			<CommandItem>Viborg Skole</CommandItem>
+			<CommandItem>Westend Skole</CommandItem>
 		</CommandGroup>
 	</CommandList>
 </Command>

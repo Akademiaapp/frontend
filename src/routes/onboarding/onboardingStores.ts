@@ -5,4 +5,4 @@ export const canProceed = writable(true);
 
 export const nextUrl = writable('');
 
-export const userType = writable('hej');
+export const userType = writable('');
