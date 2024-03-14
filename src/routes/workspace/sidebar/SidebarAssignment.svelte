@@ -7,7 +7,7 @@
 	import type { Readable } from 'svelte/store';
 	import { EditorExtensions } from '@/editor/extensions';
 	import Document from '@tiptap/extension-document';
-	import { Title } from '@/editor/extensions/title';
+	import { Title } from '../editor/tiptap/extensions/title';
 	import ApiHandler from '@/api';
 	export let sidebarVisible: boolean;
 
