@@ -95,8 +95,7 @@
 									return '';
 								},
 								showOnlyCurrent: false
-							}),
-							MetaSettingsExtension
+							})
 						],
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
