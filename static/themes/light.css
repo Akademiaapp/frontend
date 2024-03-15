@@ -54,6 +54,8 @@
 
 	/* --ring: 240 10% 70%; */
 	--ring: 217 90% 80%;
+
+	--radius: 0.5rem;
 }
 
 .float-panel {
