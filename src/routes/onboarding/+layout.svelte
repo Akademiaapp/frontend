@@ -63,7 +63,7 @@
 	let movingForward = true;
 
 	const anim = {
-		duration: 400,
+		duration: 300,
 		easing: quadInOut,
 		opacity: 1
 	};

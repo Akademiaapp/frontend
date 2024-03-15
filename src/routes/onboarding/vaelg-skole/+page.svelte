@@ -40,17 +40,19 @@
 		'Viborg Skole',
 		'Westend Skole'
 	];
-
 	function selectSchool(school) {
 		canProceed.set(true);
 		selectedSchool.set(school);
+
+		el = document.querySelector('input');
+		el.blur();
 	}
 
 	let focused = false;
 </script>
 
 <h1>Vælg din skole</h1>
-<div class:small={!focused && selectedSchool}>
+<div class:small={!focused && $selectedSchool}>
 	<Command>
 		<CommandInput
 			on:focus={() => {
@@ -58,8 +60,8 @@
 				selectedSchool.set(null);
 			}}
 			on:blur={() => (focused = false)}
-			placeholder={selectedSchool || 'Søg efter din skole'}
-			class={selectedSchool ? 'placeholder:text-black' : ''}
+			placeholder={$selectedSchool || 'Søg efter din skole'}
+			class={$selectedSchool ? 'placeholder:text-black' : ''}
 		>
 			{#if selectedSchool}
 				<School class="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -67,7 +69,7 @@
 				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{/if}
 		</CommandInput>
-		{#if focused || !selectedSchool}
+		{#if focused || !$selectedSchool}
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
