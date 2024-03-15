@@ -88,12 +88,12 @@
 			{/key}
 		</div>
 		{#if data.url !== '/onboarding/' && data.url !== '/onboarding'}
-			<div class="mb-5 flex items-center justify-between" in:fade={{ delay: 400 }}>
+			<div class="mb-5 flex items-center justify-between gap-3" in:fade={{ delay: 400 }}>
 				<Button variant="outline" size="icon" on:click={movePage(-1)}
 					><ChevronLeft></ChevronLeft></Button
 				>
 				<!-- <div></div> -->
-				<div class="progress flex h-1.5 w-[50%] items-center justify-center gap-3">
+				<div class="progress flex h-1.5 max-w-32 flex-1 items-stretch justify-between">
 					{#each urls as url, index (url)}
 						<div
 							class="item"
