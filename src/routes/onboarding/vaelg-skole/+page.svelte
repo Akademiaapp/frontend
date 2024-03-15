@@ -8,7 +8,7 @@
 		CommandList,
 		CommandSeparator
 	} from '@/components/ui/command';
-	import { canProceed, userType } from '../onboardingStores';
+	import { canProceed, selectedSchool, userType } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 
 	canProceed.set(false);
@@ -41,11 +41,9 @@
 		'Westend Skole'
 	];
 
-	let selectedSchool: string = null;
-
 	function selectSchool(school) {
 		canProceed.set(true);
-		selectedSchool = school;
+		selectedSchool.set(school);
 	}
 
 	let focused = false;
@@ -57,7 +55,7 @@
 		<CommandInput
 			on:focus={() => {
 				focused = true;
-				selectedSchool = null;
+				selectedSchool.set(null);
 			}}
 			on:blur={() => (focused = false)}
 			placeholder={selectedSchool || 'Søg efter din skole'}
