@@ -10,13 +10,14 @@
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import { type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
-	import TableOfContents from '../TableOfContents';
+	import TableOfContents from '../../TableOfContents';
 	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from '$lib/editor/extensions/title';
-	import { editor } from './editorStore';
+	import { Title } from './extensions/title';
+	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 
 	let state: AuthorizerState;
 
@@ -81,7 +82,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title block+'
+								content: 'title metaSettings block+'
 							}),
 							TableOfContents,
 							Title,
@@ -126,7 +127,6 @@
 								if (steps.length != 1) {
 									return;
 								}
-								console.log('steps', steps);
 								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
 								if (!typedLetter) return false;
 
@@ -185,10 +185,6 @@
 		float: left;
 		height: 0;
 		pointer-events: none;
-	}
-
-	:global(.title) {
-		font-size: 3rem;
 	}
 
 	:global() :global(.ProseMirror:focus) {
