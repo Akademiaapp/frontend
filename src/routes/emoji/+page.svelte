@@ -8,6 +8,8 @@
 	import { tick } from 'svelte';
 
 	import { data } from '@/emoji/data-by-group';
+	import { Group } from 'lucide-svelte';
+	import Separator from '@/components/ui/separator/separator.svelte';
 
 	console.log(data[0]);
 	let emojiStr =
@@ -36,6 +38,7 @@
 
 	let open = false;
 	let value = '';
+	$: console.log(value);
 
 	$: selectedValue = frameworks.find((f) => f.value === value)?.label ?? 'Select a framework...';
 
@@ -48,23 +51,21 @@
 			document.getElementById(triggerId)?.focus();
 		});
 	}
+
+	let searchVal = '';
+
+	$: console.log(searchVal);
 </script>
 
 <div class="cont">
-	<Popover.Root bind:open let:ids>
+	<Popover.Root bind:open let:ids class="w-auto">
 		<Popover.Trigger asChild let:builder>
-			<Button
-				builders={[builder]}
-				variant="outline"
-				role="combobox"
-				aria-expanded={open}
-				class="w-[200px] justify-between"
-			>
-				{selectedValue}
+			<Button builders={[builder]} variant="outline" role="combobox" aria-expanded={open}>
+				{value}
 				<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</Button>
 		</Popover.Trigger>
-		<Popover.Content class="w-[200px] p-0">
+		<Popover.Content class="w-auto p-0">
 			<Command.Root>
 				<Command.Input placeholder="Search framework..." />
 				<Command.Empty>No framework found.</Command.Empty>
@@ -87,7 +88,7 @@
 	</Popover.Root>
 </div>
 
-<style>
+<style lang="scss">
 	.cont {
 		display: flex;
 		justify-content: center;
@@ -95,10 +96,19 @@
 		height: 100vh;
 	}
 
+	button {
+		padding: 0.25rem;
+	}
+
+	.group {
+		padding: 0.25rem;
+	}
+
 	:global([role='group']) {
 		/* max-height: 200px; */
 
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(13, 1fr);
 		flex-wrap: wrap;
 
 		max-width: 100%;
