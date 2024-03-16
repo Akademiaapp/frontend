@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button/index.js';
 	import { prettyTime, type CalendarEvent } from './CalendarUtils';
 	import Event from './Event.svelte';
 
@@ -45,21 +46,29 @@
 			// Sort events by start time
 			// events.sort((a, b) => a.start - b.start);
 
+			let eventsToDelete = [];
+
 			for (let i = 0; i < events.length - 1; i++) {
-				if (events[i].x == '50%') continue;
 				let j = 1;
 
 				console.log('checking overlap' + events[i].name + ' ' + events[i + j].name);
 
-				while (events[i].end > events[i + j].start) {
-					events[i + j].x = '50%';
-					console.log('overlap' + events[i].name + ' ' + events[i + j].name);
+				while (events[i].end >= events[i + j].start) {
+					if (events[i].end > events[i + j].start && events[i].x != '50%') {
+						events[i + j].x = '50%';
+					}
+
+					if (events[i].name == events[i + j].name) {
+						eventsToDelete.push(i + j);
+						events[i].end = events[i + j].end;
+					}
+
 					j++;
 				}
 			}
 
 			// No overlapping events
-			return events;
+			return events.filter((_, i) => !eventsToDelete.includes(i));
 		}
 
 		console.log(dd);
@@ -93,65 +102,13 @@
 		console.log(todayEvents);
 
 		return;
-
-		const response = await fetch('', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-
-		if (response.ok) {
-			// Handle successful response
-			const result = await response.json();
-			console.log(result);
-
-			events = result.map((event) => {
-				return {
-					name: event.title,
-					start: new Date(event.startDateTime),
-					end: new Date(event.endDateTime)
-				};
-			});
-			events = result;
-		} else {
-			// Handle error response
-			console.error('Error:', response.status);
-		}
 	}
 
 	import { onMount } from 'svelte';
 
 	onMount(sendRequest);
 
-	let events: CalendarEvent[] = [
-		{
-			name: 'dansk',
-			start: new Date(new Date().setHours(8, 0, 0, 0)),
-			end: new Date(new Date().setHours(8, 45, 0, 0))
-		},
-		{
-			name: 'matematik',
-			start: new Date(new Date().setHours(8, 45, 0, 0)),
-			end: new Date(new Date().setHours(10, 15, 0, 0))
-		},
-		{
-			name: 'engelsk',
-			start: new Date(new Date().setHours(new Date().getHours() - 14 - 24)),
-			end: new Date(new Date().setHours(10, 15, 0, 0))
-		},
-		{
-			name: 'dansk',
-			start: new Date(new Date().setHours(10, 15, 0, 0)),
-			end: new Date(new Date().setHours(11, 0, 0, 0))
-		},
-		{
-			name: 'klasse fest',
-			start: new Date(new Date().setHours(15, 0, 0, 0)),
-			end: new Date(new Date().setHours(16, 0, 0, 0))
-		}
-	];
+	let events: CalendarEvent[] = [];
 
 	// map each type of event to a specific color
 	const colors: Record<string, string> = {
@@ -182,7 +139,12 @@
 </script>
 
 <div class="frontground br-2 floating-panel">
-	<h2>Kalender</h2>
+	<div class="flex justify-between">
+		<h2>Kalender</h2>
+		<div class="flex">
+			<Button type=>hi</Button>
+		</div>
+	</div>
 	<div class="calendar">
 		<div class="time-stamps">
 			{#each timeStamps as timeStamp}

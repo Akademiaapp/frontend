@@ -15,6 +15,7 @@
 	}
 
 	let start = toMinutes(event.start);
+	console.log(((start - calendarStart) / calendarLength) * 100);
 	let dur = getDur(event);
 </script>
 
