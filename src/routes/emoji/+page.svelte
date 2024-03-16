@@ -67,22 +67,42 @@
 		</Popover.Trigger>
 		<Popover.Content class="w-auto p-0">
 			<Command.Root>
-				<Command.Input placeholder="Search framework..." />
-				<Command.Empty>No framework found.</Command.Empty>
-				<Command.Group data-cmdk-group-items>
-					{#each frameworks as framework}
-						<Command.Item
-							class="p-1.5"
-							value={framework.value}
-							onSelect={(currentValue) => {
-								value = currentValue;
-								closeAndFocusTrigger(ids.trigger);
-							}}
-						>
-							{framework.label}
-						</Command.Item>
-					{/each}
-				</Command.Group>
+				<Command.Input bind:value={searchVal} placeholder="Search framework..." />
+				<div class="max-h-[400px] overflow-y-auto overflow-x-clip">
+					{#if searchVal == ''}
+						{#each data as category}
+							<Command.Group heading={category.name}>
+								{#each category.emojis as emoji}
+									<button
+										on:click={() => {
+											value = emoji.emoji;
+											closeAndFocusTrigger(ids.trigger);
+										}}
+									>
+										{emoji.emoji}
+									</button>
+								{/each}
+							</Command.Group>
+							<Command.Separator />
+						{/each}
+					{:else}
+						<div class="group" role="group">
+							{#each data as category}
+								{#each category.emojis.filter((e) => e.name.includes(searchVal)) as emoji}
+									<button
+										on:click={() => {
+											value = emoji.emoji;
+											closeAndFocusTrigger(ids.trigger);
+										}}
+									>
+										{emoji.emoji}
+									</button>
+								{/each}
+							{/each}
+						</div>
+					{/if}
+				</div>
+				<!-- <Command.Empty>No framework found.</Command.Empty> -->
 			</Command.Root>
 		</Popover.Content>
 	</Popover.Root>
