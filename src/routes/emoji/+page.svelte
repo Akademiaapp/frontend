@@ -4,22 +4,11 @@
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { cn } from '$lib/utils.js';
 	import { tick } from 'svelte';
-
-	import { data } from '@/emoji/data-by-group';
+	import sprite from '$lib/assets/sprite.svg';
+	import json from '$lib/emoji/emojis.json';
 	import { Group } from 'lucide-svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
-
-	console.log(data[0]);
-	let emojiStr =
-		'😀😃😄😁😆😅😂🤣🥲🥹☺️😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟😕🙁☹️😣😖😫😩🥺😢😭😮‍💨😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🫣🤗🫡🤔🫢🤭🤫🤥😶😶‍🌫️😐😑😬🫨🫠🙄😯😦😧😮😲🥱😴🤤😪😵😵‍💫🫥🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👹👺🤡💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾';
-
-	let emojiList = [...emojiStr];
-	const frameworks = data[0].emojis.map((emoji) => ({
-		value: emoji.name,
-		label: emoji.emoji
-	}));
 
 	// const frameworks = [
 	// 	{
@@ -40,8 +29,6 @@
 	let value = '';
 	$: console.log(value);
 
-	$: selectedValue = frameworks.find((f) => f.value === value)?.label ?? 'Select a framework...';
-
 	// We want to refocus the trigger button when the user selects
 	// an item from the list so users can continue navigating the
 	// rest of the form with the keyboard.
@@ -57,12 +44,19 @@
 	$: console.log(searchVal);
 </script>
 
+<img src="/sprite.svg" type="image/svg+xml" />
 <div class="cont">
 	<Popover.Root bind:open let:ids class="w-auto">
 		<Popover.Trigger asChild let:builder>
-			<Button builders={[builder]} variant="outline" role="combobox" aria-expanded={open}>
+			<Button
+				builders={[builder]}
+				variant="ghost"
+				class="text-lg hover:bg-black/20"
+				size="icon"
+				role="combobox"
+				aria-expanded={open}
+			>
 				{value}
-				<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</Button>
 		</Popover.Trigger>
 		<Popover.Content class="w-auto p-0">
@@ -70,16 +64,20 @@
 				<Command.Input bind:value={searchVal} placeholder="Search framework..." />
 				<div class="max-h-[400px] overflow-y-auto overflow-x-clip">
 					{#if searchVal == ''}
-						{#each data as category}
+						{#each json as category}
 							<Command.Group heading={category.name}>
 								{#each category.emojis as emoji}
 									<button
 										on:click={() => {
-											value = emoji.emoji;
+											value = emoji.char;
 											closeAndFocusTrigger(ids.trigger);
 										}}
 									>
-										{emoji.emoji}
+										<svg width="25" height="25">
+											<use href={`${sprite}#${emoji.unicode}`}>
+												<title>{emoji.name}</title>
+											</use>
+										</svg>
 									</button>
 								{/each}
 							</Command.Group>
@@ -87,15 +85,19 @@
 						{/each}
 					{:else}
 						<div class="group" role="group">
-							{#each data as category}
+							{#each json as category}
 								{#each category.emojis.filter((e) => e.name.includes(searchVal)) as emoji}
 									<button
 										on:click={() => {
-											value = emoji.emoji;
+											value = emoji.char;
 											closeAndFocusTrigger(ids.trigger);
 										}}
 									>
-										{emoji.emoji}
+										<svg width="25" height="25">
+											<use href={`${sprite}#${emoji.unicode}`}>
+												<title>{emoji.name}</title>
+											</use>
+										</svg>
 									</button>
 								{/each}
 							{/each}
