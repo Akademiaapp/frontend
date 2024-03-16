@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Notebook, PanelLeft, Settings, File } from 'lucide-svelte';
+	import { Notebook, PanelLeft, Settings, File, Search } from 'lucide-svelte';
 	import QuickAction from '../quickActions/QuickAction.svelte';
 	import SearchQ from '../quickActions/SearchQ.svelte';
 
@@ -11,6 +11,7 @@
 <div class="flex h-full flex-col justify-between">
 	<div class="frontground br-2">
 		<QuickAction
+			tooltip="Expand"
 			action={() => {
 				isExpanded = !isExpanded;
 			}}
@@ -19,23 +20,24 @@
 		</QuickAction>
 		<QuickAction
 			icon="home"
+			tooltip="Home"
 			action={() => goto('home')}
 			active={$page.route.id?.includes('workspace/home')}
 		/>
-		<SearchQ></SearchQ>
+		<SearchQ tooltip="Search"></SearchQ>
 		<QuickAction icon="alarm" />
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="frontground br-2">
-			<QuickAction>
+			<QuickAction tooltip="New file">
 				<File size="29"></File>
 			</QuickAction>
-			<QuickAction>
+			<QuickAction tooltip="New note">
 				<Notebook size="29"></Notebook>
 			</QuickAction>
 		</div>
 		<div class="frontground br-2">
-			<QuickAction>
+			<QuickAction tooltip="Settings">
 				<Settings size="29"></Settings>
 			</QuickAction>
 		</div>

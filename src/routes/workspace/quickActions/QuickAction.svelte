@@ -2,9 +2,10 @@
 	export let icon: string = '';
 	export let action = () => {};
 	export let active = false;
+	export let tooltip = '';
 </script>
 
-<button class="cont b2" on:click={action}>
+<button class="cont b2" on:click={action} class:tooltip style:--tooltip={'"' + tooltip + '"'}>
 	<span class="material-symbols-rounded" style:--icon={"'" + icon + "'"} class:active>
 		<slot>
 			{icon}
@@ -17,6 +18,28 @@
 		outline: none;
 		border: none;
 		background-color: transparent;
+		position: relative;
+	}
+
+	.tooltip::after {
+		content: var(--tooltip);
+		background-color: rgb(255, 255, 255);
+		padding: 0.15rem 0.5rem;
+		transform: translateX(calc(50% + 1rem));
+		white-space: nowrap;
+		position: absolute;
+		opacity: 0;
+		border-radius: 0.25rem;
+		font-size: small;
+
+		box-shadow: 0rem 0rem 0.4rem rgba(0, 0, 0, 0.1);
+
+		transition: all 400ms 300ms;
+	}
+
+	.tooltip:hover::after {
+		opacity: 1;
+		transform: translateX(calc(50% + 1.2rem));
 	}
 
 	.cont {

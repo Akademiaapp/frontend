@@ -190,5 +190,5 @@ button.hover {
 	bottom: 0;
 	pointer-events: auto;
 	height: calc(100vh - var(--pad) * 2);
-	overflow-y: hidden;
+	/* overflow-y: hidden; */
 }

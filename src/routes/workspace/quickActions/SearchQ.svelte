@@ -34,9 +34,12 @@
 		isSeaching = false;
 		currentFile.set(file);
 	}
+
+	export let tooltip = '';
 </script>
 
-<QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
+<QuickAction icon="search" {tooltip} action={() => (isSeaching = true)} active={isSeaching}
+></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
 	<Command.Input placeholder="Indtast en kommando eller søg..." />
