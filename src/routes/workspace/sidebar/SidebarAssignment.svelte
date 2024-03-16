@@ -9,7 +9,7 @@
 	import Document from '@tiptap/extension-document';
 	import { Title } from '../editor/tiptap/extensions/title';
 	import ApiHandler from '@/api';
-	export let sidebarVisible: boolean;
+	export let sidebarVisible: boolean = true;
 
 	const api = getContext('api') as ApiHandler;
 

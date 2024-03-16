@@ -16,7 +16,7 @@
 	store.subscribe(async (data: AuthorizerState) => {
 		state = data;
 		if (!state.user?.preferred_username) {
-			goto('/signin');
+			// goto('/signin');
 		}
 	});
 	const api = new ApiHandler(store);
@@ -34,15 +34,11 @@
 </script>
 
 <div class="cont">
-	<div
-		class={'sidebar floating-panel'}
-		class:wide={type == 'assignment'}
-		class:hidden={!sidebarVisible}
-	>
+	<div class={'sidebar floating-panel'} class:wide={type == 'assignment'}>
 		{#if type === 'assignment'}
-			<SidebarAssignment bind:sidebarVisible />
+			<SidebarAssignment />
 		{:else}
-			<Sidebar bind:sidebarVisible></Sidebar>
+			<Sidebar></Sidebar>
 		{/if}
 	</div>
 
@@ -69,8 +65,6 @@
 		gap: 0.75rem;
 		display: flex;
 		pointer-events: auto;
-
-		width: 250px;
 
 		transition: all 300ms cubic-bezier(0, 0.72, 0.21, 0.99);
 

@@ -1,12 +1,14 @@
 <script lang="ts">
-	export let icon: string;
+	export let icon: string = '';
 	export let action = () => {};
 	export let active = false;
 </script>
 
 <button class="cont b2" on:click={action}>
 	<span class="material-symbols-rounded" style:--icon={"'" + icon + "'"} class:active>
-		{icon}
+		<slot>
+			{icon}
+		</slot>
 	</span>
 </button>
 
@@ -18,6 +20,8 @@
 	}
 
 	.cont {
+		display: grid;
+		place-items: center;
 		height: 2rem;
 		width: 2rem;
 		padding: 0rem;
