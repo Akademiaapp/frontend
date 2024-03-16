@@ -1,19 +1,40 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-svelte';
 	import { prettyTime, type CalendarEvent } from './CalendarUtils';
 	import Event from './Event.svelte';
 
 	// https://akademia-api.arctix.dev
 	// https://aula-api.arctix.dev/getCalendarEventsUsingUnilogin
 
+	const titelMap = {
+		MAT: 'Matematik',
+		DAN: 'Dansk',
+		ENG: 'Engelsk',
+		KRI: 'Kristendom',
+		IDR: 'Idræt',
+		SAM: 'Samfundsfag',
+		'F/K': 'Fysik/kemi',
+		BIO: 'Biologi',
+		TEK: 'Teknologi',
+		MUS: 'Musik',
+		BIL: 'Billedkunst',
+		HIS: 'Historie',
+		GEO: 'Geografi',
+		TYS: 'Tysk',
+		FRA: 'Fransk',
+		SPN: 'Spansk',
+		TIL: 'Valgfag'
+	};
+
+	let state = 'loading';
+
 	async function sendRequest() {
 		const username = sessionStorage.getItem('username');
 		const password = sessionStorage.getItem('password');
 
-		if (!username || !password) return; //
-
-		if (username == '' || password == '') {
-			console.log('username or password is empty');
+		if (username == '' || password == '' || username == null || password == null) {
+			state = 'missignCred';
 			return;
 		}
 
@@ -67,6 +88,8 @@
 				}
 			}
 
+			state = 'loaded';
+
 			// No overlapping events
 			return events.filter((_, i) => !eventsToDelete.includes(i));
 		}
@@ -89,7 +112,7 @@
 
 		let result = calenderData.map((event) => {
 			return {
-				name: event.title,
+				name: titelMap[event.title] || event.title,
 				start: new Date(event.startDateTime),
 				end: new Date(event.endDateTime)
 			};
@@ -97,16 +120,21 @@
 
 		events = checkOverlap(result);
 
-		const todayEvents = events.filter((event) => isToday(event.start));
-		console.log('Number of events happening today:', todayEvents.length);
-		console.log(todayEvents);
-
 		return;
 	}
 
 	import { onMount } from 'svelte';
 
-	onMount(sendRequest);
+	onMount(async () => {
+		try {
+			await sendRequest();
+			if (state == 'loading') {
+				state = 'failed';
+			}
+		} catch (e) {
+			state = 'error';
+		}
+	});
 
 	let events: CalendarEvent[] = [];
 
@@ -127,22 +155,47 @@
 		timeStamps.push(t);
 	}
 
-	function isToday(date) {
-		const today = new Date();
-		today.setDate(today.getDate() - 1);
+	let today = new Date();
+
+	function isToday(today: Date, date) {
 		return (
 			date.getDate() === today.getDate() &&
 			date.getMonth() === today.getMonth() &&
 			date.getFullYear() === today.getFullYear()
 		);
 	}
+
+	function moveDay(days) {
+		today.setDate(today.getDate() + days);
+		today = today;
+		console.log(today);
+		const todayEvents = events.filter((event) => isToday(today, event.start));
+		console.log(todayEvents);
+	}
 </script>
 
 <div class="frontground br-2 floating-panel">
 	<div class="flex justify-between">
 		<h2>Kalender</h2>
-		<div class="flex">
-			<Button type=>hi</Button>
+		<div class="flex gap-2">
+			<Button
+				variant="outline"
+				size="icon"
+				on:click={() => {
+					moveDay(-1);
+				}}
+			>
+				<ChevronLeft></ChevronLeft>
+			</Button>
+			<Button
+				variant="outline"
+				size="icon"
+				on:click={() => {
+					moveDay(1);
+				}}
+			>
+				<ChevronRight></ChevronRight>
+			</Button>
 		</div>
 	</div>
 	<div class="calendar">
@@ -152,7 +205,21 @@
 			{/each}
 		</div>
 		<div class="events">
-			{#each events.filter((event) => isToday(event.start)) as event}
+			{#if state !== 'loaded'}
+				<div
+					class="text-2 absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-1 font-semibold"
+				>
+					{#if state === 'loading'}
+						<Loader2 class=" mr-2 origin-center animate-spin" />
+						<p class="">Loading...</p>
+					{:else if state === 'missignCred'}
+						<a href="unilogin" class="text-2">Missing credentials</a>
+					{:else if state === 'failed'}
+						<p class="text-2">Failed to load</p>
+					{/if}
+				</div>
+			{/if}
+			{#each events.filter((event) => isToday(today, event.start)) as event (event)}
 				<Event {event} {calendarLength} {calendarStart} color={colors[event.name] || '#8b65fc'}
 				></Event>
 			{/each}
