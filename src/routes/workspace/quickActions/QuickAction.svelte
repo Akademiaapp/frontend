@@ -34,12 +34,13 @@
 
 		box-shadow: 0rem 0rem 0.4rem rgba(0, 0, 0, 0.1);
 
-		transition: all 400ms 300ms;
+		transition: all 400ms 50ms;
 	}
 
 	.tooltip:hover::after {
 		opacity: 1;
 		transform: translateX(calc(50% + 1.2rem));
+		transition: all 400ms 300ms;
 	}
 
 	.cont {
