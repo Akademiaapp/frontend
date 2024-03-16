@@ -23,16 +23,84 @@
 			password
 		};
 
-		const response = await fetch(
-			'https://akademia-aula-api.arctix.dev/getCalendarEventsUsingUnilogin',
+		const loginRes = await fetch('http://127.0.0.1:8080/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+
+		const loginData = await loginRes.json();
+
+		console.log(loginData);
+
+		let dd = JSON.stringify({
+			login_info: loginData,
+			start: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
+			end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString()
+		});
+
+		function checkOverlap(events) {
+			// Sort events by start time
+			// events.sort((a, b) => a.start - b.start);
+
+			for (let i = 0; i < events.length - 1; i++) {
+				if (events[i].x == '50%') continue;
+				let j = 1;
+
+				console.log('checking overlap' + events[i].name + ' ' + events[i + j].name);
+
+				while (events[i].end > events[i + j].start) {
+					events[i + j].x = '50%';
+					console.log('overlap' + events[i].name + ' ' + events[i + j].name);
+					j++;
+				}
+			}
+
+			// No overlapping events
+			return events;
+		}
+
+		console.log(dd);
+		const calenderRes = await fetch(
+			'http://127.0.0.1:8080/getCalenderEvents',
+
 			{
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(data)
+				body: dd
 			}
 		);
+
+		const calenderData = await calenderRes.json();
+		console.log(calenderData);
+
+		let result = calenderData.map((event) => {
+			return {
+				name: event.title,
+				start: new Date(event.startDateTime),
+				end: new Date(event.endDateTime)
+			};
+		});
+
+		events = checkOverlap(result);
+
+		const todayEvents = events.filter((event) => isToday(event.start));
+		console.log('Number of events happening today:', todayEvents.length);
+		console.log(todayEvents);
+
+		return;
+
+		const response = await fetch('', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
 
 		if (response.ok) {
 			// Handle successful response
@@ -104,6 +172,7 @@
 
 	function isToday(date) {
 		const today = new Date();
+		today.setDate(today.getDate() - 1);
 		return (
 			date.getDate() === today.getDate() &&
 			date.getMonth() === today.getMonth() &&

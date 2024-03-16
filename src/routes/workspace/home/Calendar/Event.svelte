@@ -22,6 +22,7 @@
 	style:--event-color={color}
 	style:--height="{(dur / calendarLength) * 100}%"
 	style:--start="{((start - calendarStart) / calendarLength) * 100}%"
+	class:overlapping={event.x == '50%'}
 	class="br-2"
 >
 	<p class="name">{event.name}</p>
@@ -30,7 +31,7 @@
 	</p>
 </div>
 
-<style>
+<style lang="scss">
 	div {
 		width: 300px;
 		background: color-mix(in srgb, var(--event-color) 29%, transparent);
@@ -46,6 +47,14 @@
 		position: absolute;
 
 		container-type: size;
+
+		&.overlapping {
+			left: 50%;
+			width: 150px;
+			.time {
+				display: none;
+			}
+		}
 	}
 
 	.name {

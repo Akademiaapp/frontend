@@ -2,6 +2,7 @@ export interface CalendarEvent {
 	name: string;
 	start: Date;
 	end: Date;
+	x?: string;
 }
 
 export function toHoursAndMinutes(totalMinutes: number) {

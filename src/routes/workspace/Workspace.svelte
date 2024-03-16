@@ -16,7 +16,7 @@
 	store.subscribe(async (data: AuthorizerState) => {
 		state = data;
 		if (!state.user?.preferred_username) {
-			goto('/signin');
+			// goto('/signin');
 		}
 	});
 	const api = new ApiHandler(store);
