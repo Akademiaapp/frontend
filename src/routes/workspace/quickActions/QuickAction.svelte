@@ -23,7 +23,7 @@
 
 	.tooltip::after {
 		content: var(--tooltip);
-		background-color: rgb(255, 255, 255);
+		background-color: var(--color-bg-2);
 		padding: 0.15rem 0.5rem;
 		transform: translateX(calc(50% + 1rem));
 		white-space: nowrap;
