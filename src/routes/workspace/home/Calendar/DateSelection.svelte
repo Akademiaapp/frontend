@@ -43,7 +43,7 @@
 			</Button>
 		</Popover.Trigger>
 		<Popover.Content class="w-auto p-0">
-			<Calendar bind:value weekStartsOn={1} initialFocus />
+			<Calendar bind:value weekStartsOn={1} initialFocus preventDeselect={true} />
 		</Popover.Content>
 	</Popover.Root>
 	<Button variant="outline" size="icon" on:click={moveDays(1)}>

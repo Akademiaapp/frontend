@@ -29,16 +29,20 @@
 
 	let state = 'loading';
 
-	async function sendRequest() {
+	let loadedDateRange: { start: Date | null; end: Date | null } = {
+		start: null,
+		end: null
+	};
+
+	let loginData = null;
+
+	async function getLoginInfo() {
 		const username = sessionStorage.getItem('username');
 		const password = sessionStorage.getItem('password');
-
 		if (username == '' || password == '' || username == null || password == null) {
 			state = 'missignCred';
 			return;
 		}
-
-		console.log('sending request');
 
 		const data = {
 			username,
@@ -53,46 +57,55 @@
 			body: JSON.stringify(data)
 		});
 
-		const loginData = await loginRes.json();
+		return await loginRes.json();
+	}
 
-		console.log(loginData);
+	function checkOverlap(events) {
+		// Sort events by start time
+		// events.sort((a, b) => a.start - b.start);
+
+		let eventsToDelete = [];
+
+		for (let i = 0; i < events.length - 1; i++) {
+			let j = 1;
+
+			console.log('checking overlap' + events[i].name + ' ' + events[i + j].name);
+
+			while (events[i].end >= events[i + j].start) {
+				if (events[i].end > events[i + j].start && events[i].x != '50%') {
+					events[i + j].x = '50%';
+				}
+
+				if (events[i].name == events[i + j].name) {
+					eventsToDelete.push(i + j);
+					events[i].end = events[i + j].end;
+				}
+
+				j++;
+			}
+		}
+
+		state = 'loaded';
+
+		// No overlapping events
+		return events.filter((_, i) => !eventsToDelete.includes(i));
+	}
+
+	async function sendRequest(start, end) {
+		state = 'loading';
+
+		console.log('sending request');
+
+		if (loginData == null) {
+			console.log('getting login info');
+			loginData = await getLoginInfo();
+		}
 
 		let dd = JSON.stringify({
 			login_info: loginData,
-			start: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
-			end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString()
+			start: start,
+			end: end
 		});
-
-		function checkOverlap(events) {
-			// Sort events by start time
-			// events.sort((a, b) => a.start - b.start);
-
-			let eventsToDelete = [];
-
-			for (let i = 0; i < events.length - 1; i++) {
-				let j = 1;
-
-				console.log('checking overlap' + events[i].name + ' ' + events[i + j].name);
-
-				while (events[i].end >= events[i + j].start) {
-					if (events[i].end > events[i + j].start && events[i].x != '50%') {
-						events[i + j].x = '50%';
-					}
-
-					if (events[i].name == events[i + j].name) {
-						eventsToDelete.push(i + j);
-						events[i].end = events[i + j].end;
-					}
-
-					j++;
-				}
-			}
-
-			state = 'loaded';
-
-			// No overlapping events
-			return events.filter((_, i) => !eventsToDelete.includes(i));
-		}
 
 		console.log(dd);
 		const calenderRes = await fetch(
@@ -118,19 +131,27 @@
 			};
 		});
 
-		events = checkOverlap(result);
+		events = [...events, ...checkOverlap(result)];
 
 		return;
 	}
 
 	import { onMount } from 'svelte';
 	import DateSelection from './DateSelection.svelte';
+	import { minDate } from '@internationalized/date';
 
 	onMount(async () => {
 		try {
-			await sendRequest();
+			const start = new Date(new Date().setDate(new Date().getDate() - 7));
+			const end = new Date(new Date().setDate(new Date().getDate() + 7));
+			await sendRequest(start.toISOString(), end.toISOString());
 			if (state == 'loading') {
 				state = 'failed';
+			} else {
+				loadedDateRange = {
+					start,
+					end
+				};
 			}
 		} catch (e) {
 			state = 'failed';
@@ -156,7 +177,29 @@
 		timeStamps.push(t);
 	}
 
+	function checkForUpdate(today) {
+		if (loadedDateRange.end == null) return;
+		if (state != 'loaded') return;
+
+		console.log(today, loadedDateRange.end, loadedDateRange.start);
+		if (today < loadedDateRange.start) {
+			const newStart = new Date(loadedDateRange.start);
+			newStart.setDate(newStart.getDate() - 14);
+			console.log(newStart, loadedDateRange.start);
+			sendRequest(newStart.toISOString(), loadedDateRange.start);
+
+			loadedDateRange.start = newStart;
+		} else if (today > loadedDateRange.end) {
+			const newEnd = new Date(today.setDate(loadedDateRange.end.getDate() + 14));
+			sendRequest(loadedDateRange.end, newEnd.toISOString());
+
+			loadedDateRange.end = newEnd;
+		}
+	}
+
 	let today;
+
+	$: checkForUpdate(today);
 
 	function isToday(today: Date, date) {
 		return (
@@ -164,14 +207,6 @@
 			date.getMonth() === today.getMonth() &&
 			date.getFullYear() === today.getFullYear()
 		);
-	}
-
-	function moveDay(days) {
-		today.setDate(today.getDate() + days);
-		today = today;
-		console.log(today);
-		const todayEvents = events.filter((event) => isToday(today, event.start));
-		console.log(todayEvents);
 	}
 </script>
 
