@@ -124,6 +124,7 @@
 	}
 
 	import { onMount } from 'svelte';
+	import DateSelection from './DateSelection.svelte';
 
 	onMount(async () => {
 		try {
@@ -132,7 +133,7 @@
 				state = 'failed';
 			}
 		} catch (e) {
-			state = 'error';
+			state = 'failed';
 		}
 	});
 
@@ -155,7 +156,7 @@
 		timeStamps.push(t);
 	}
 
-	let today = new Date();
+	let today;
 
 	function isToday(today: Date, date) {
 		return (
@@ -177,26 +178,7 @@
 <div class="frontground br-2 floating-panel">
 	<div class="flex justify-between">
 		<h2>Kalender</h2>
-		<div class="flex gap-2">
-			<Button
-				variant="outline"
-				size="icon"
-				on:click={() => {
-					moveDay(-1);
-				}}
-			>
-				<ChevronLeft></ChevronLeft>
-			</Button>
-			<Button
-				variant="outline"
-				size="icon"
-				on:click={() => {
-					moveDay(1);
-				}}
-			>
-				<ChevronRight></ChevronRight>
-			</Button>
-		</div>
+		<DateSelection bind:date={today} />
 	</div>
 	<div class="calendar">
 		<div class="time-stamps">
