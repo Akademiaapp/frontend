@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let name: string;
-	export let id: string = 'Test';
+	export let id: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
 </script>
 
 <a href={'/workspace/editor?id=' + id} class="reset cont frontground">

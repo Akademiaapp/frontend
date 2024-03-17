@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
-	import Workspace from '../Workspace.svelte';
+	import Workspace from '../+layout.svelte';
 	import { getContext } from 'svelte';
 	import ApiHandler from '@/api';
 	import type { Readable } from 'svelte/store';
@@ -23,6 +23,7 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
+			console.log(fileContent);
 			currentFile.set(new FileInfo(fileContent));
 		});
 	});
@@ -32,14 +33,12 @@
 	<title>{$currentFile?.name || 'Editor'} | Akademia</title>
 </svelte:head>
 
-<Workspace>
-	{#if $currentFile}
-		<div class="editor">
-			<Toolbar />
-			<FileEditor />
-		</div>
-	{/if}
-</Workspace>
+{#if $currentFile}
+	<div class="editor">
+		<Toolbar />
+		<FileEditor />
+	</div>
+{/if}
 
 <style>
 	.editor {
