@@ -149,7 +149,7 @@
 		transition: background-color 0.2s;
 
 		&.completed {
-			background-color: var(--color-accent-1);
+			background-color: var(--color-accent);
 		}
 	}
 

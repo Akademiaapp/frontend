@@ -21,6 +21,7 @@
 	--rga: 255, 255, 255;
 	font-family: var(--font-body);
 	color: var(--color-text-0);
+	--color-accent: hsl(var(--primary));
 
 	--background: 0 0% 13%;
 	--foreground: 0 0% 100%;
@@ -34,8 +35,8 @@
 	--card: 240 10% 3.9%;
 	--card-foreground: 0 0% 98%;
 
-	--border: 240 3.7% 15.9%;
-	--input: 240 3.7% 20%;
+	--border: 240 3.7% 30%;
+	--input: 240 3.7% 30%;
 
 	--primary: 191 69% 61%;
 	--primary-foreground: 240 5.9% 10%;

@@ -81,9 +81,9 @@
 		/* color: #ff0000; Change this to the color you want */
 		/* font-weight: bold; Add any other styles you want */
 
-		border: solid 1px var(--color-accent-1);
+		border: solid 1px var(--color-accent);
 
-		box-shadow: inset 0 0 0 1px var(--color-accent-1);
+		box-shadow: inset 0 0 0 1px var(--color-accent);
 
 		// border: none;
 	}
