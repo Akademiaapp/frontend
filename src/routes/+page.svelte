@@ -12,7 +12,7 @@
 		if (state.token) {
 			goto('/workspace/home');
 		} else {
-			goto('/signin');
+			// goto('/signin');
 		}
 	});
 </script>

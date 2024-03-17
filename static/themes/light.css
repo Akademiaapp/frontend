@@ -6,15 +6,12 @@
 	--color-bg-0: #f6f6f6;
 	--color-bg-1: rgb(255, 255, 255);
 	--color-bg-2: hsl(224, 44%, 95%);
-	--color-theme-1: #56c7e0;
-	--color-theme-2: #ff3e00;
 	--color-text-0-t: rgba(0, 0, 0, 0.8);
 	--color-text-1-t: rgba(0, 0, 0, 0.6);
 	--color-text-2-t: rgba(0, 0, 0, 0.4);
 	--color-text-0: hsl(0, 0%, 20%);
 	--color-text-1: hsl(0, 0%, 30%);
 	--color-text-2: hsl(0, 0%, 60%);
-	--color-text-3: #6d6d6d1f;
 
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
@@ -40,7 +37,7 @@
 	--border: 240 5.9% 90%;
 	--input: 240 5.9% 90%;
 
-	--primary: 240 5.9% 10%;
+	--primary: 191 69% 61%;
 	--primary-foreground: 0 0% 98%;
 
 	--secondary: 240 4.8% 95.9%;
@@ -54,8 +51,6 @@
 
 	/* --ring: 240 10% 70%; */
 	--ring: 217 90% 80%;
-
-	--radius: 0.5rem;
 }
 
 .float-panel {
