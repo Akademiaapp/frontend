@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Emoji from './Emoji.svelte';
 	import Check from 'lucide-svelte/icons/check';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import * as Command from '$lib/components/ui/command/index.js';
@@ -7,8 +8,6 @@
 	import { tick } from 'svelte';
 	import sprite from '$lib/assets/sprite.svg';
 	import json from '$lib/emoji/emojis.json';
-	import { Group } from 'lucide-svelte';
-	import Separator from '@/components/ui/separator/separator.svelte';
 
 	// const frameworks = [
 	// 	{
@@ -42,6 +41,62 @@
 	let searchVal = '';
 
 	$: console.log(searchVal);
+
+	const renderedHtmls = json.map((cat) => {
+		const elem = document.createElement('div');
+
+		cat.emojis.forEach((emoji) => {
+			const button = document.createElement('button');
+			button.innerHTML = `<svg width="25" height="25"><use href="${sprite}#${emoji.unicode}"></use></svg>`;
+			button.addEventListener('click', () => {
+				value = emoji.char;
+				closeAndFocusTrigger('trigger');
+				console.log('clicked');
+			});
+			elem.appendChild(button);
+		});
+		return elem;
+	});
+
+	function close() {
+		console.log('testttts');
+	}
+
+	// const renderedHtmls = json.map((cat) => {
+	// 	return cat.emojis
+	// 		.map(
+	// 			(emoji) =>
+	// 				`<button on:click="${close}"><svg width="25" height="25"><use href="${sprite}#${emoji.unicode}"></use></svg></button>`
+	// 		)
+	// 		.join('');
+	// });
+
+	// console.log(renderedHtmls);
+
+	$: if (open && searchVal === '') {
+		tick().then(() => {
+			renderedHtmls.forEach((html, i) => {
+				if (i === 0) {
+					let elem = document.querySelector(`.heji${i}`);
+					if (elem) {
+						// elem.appendChild(html);
+						elem.replaceWith(html);
+					}
+				} else {
+					setTimeout(
+						() => {
+							let elem = document.querySelector(`.heji${i}`);
+							if (elem) {
+								// elem.appendChild(html);
+								elem.replaceWith(html);
+							}
+						},
+						10 * (i - 1)
+					);
+				}
+			});
+		});
+	}
 </script>
 
 <img src="/sprite.svg" type="image/svg+xml" />
@@ -56,7 +111,9 @@
 				role="combobox"
 				aria-expanded={open}
 			>
-				{value}
+				{#if value}
+					<Emoji emoji={value} />
+				{/if}
 			</Button>
 		</Popover.Trigger>
 		<Popover.Content class="w-auto p-0">
@@ -64,43 +121,32 @@
 				<Command.Input bind:value={searchVal} placeholder="Search framework..." />
 				<div class="max-h-[400px] overflow-y-auto overflow-x-clip">
 					{#if searchVal == ''}
-						{#each json as category}
+						{#each json as category, i}
 							<Command.Group heading={category.name}>
-								{#each category.emojis as emoji}
-									<button
-										on:click={() => {
-											value = emoji.char;
-											closeAndFocusTrigger(ids.trigger);
-										}}
-									>
-										<svg width="25" height="25">
-											<use href={`${sprite}#${emoji.unicode}`}>
-												<title>{emoji.name}</title>
-											</use>
-										</svg>
-									</button>
-								{/each}
+								<div class="group heji{i}" role="group"></div>
 							</Command.Group>
 							<Command.Separator />
 						{/each}
 					{:else}
 						<div class="group" role="group">
-							{#each json as category}
-								{#each category.emojis.filter((e) => e.name.includes(searchVal)) as emoji}
-									<button
-										on:click={() => {
-											value = emoji.char;
-											closeAndFocusTrigger(ids.trigger);
-										}}
-									>
-										<svg width="25" height="25">
-											<use href={`${sprite}#${emoji.unicode}`}>
-												<title>{emoji.name}</title>
-											</use>
-										</svg>
-									</button>
+							<div>
+								{#each json as category}
+									{#each category.emojis.filter( (e) => e.name.includes(searchVal) ) as emoji (emoji.unicode)}
+										<button
+											on:click={() => {
+												value = emoji.char;
+												closeAndFocusTrigger(ids.trigger);
+											}}
+										>
+											<svg width="25" height="25">
+												<use href={`${sprite}#${emoji.unicode}`}>
+													<title>{emoji.name}</title>
+												</use>
+											</svg>
+										</button>
+									{/each}
 								{/each}
-							{/each}
+							</div>
 						</div>
 					{/if}
 				</div>
@@ -118,15 +164,11 @@
 		height: 100vh;
 	}
 
-	button {
-		padding: 0.25rem;
-	}
-
 	.group {
 		padding: 0.25rem;
 	}
 
-	:global([role='group']) {
+	:global([role='group'] div) {
 		/* max-height: 200px; */
 
 		display: grid;
