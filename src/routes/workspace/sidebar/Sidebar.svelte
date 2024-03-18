@@ -1,39 +1,8 @@
 <script lang="ts">
-	import QuickBar from './quickActions/QuickBar.svelte';
+	import QuickBar from '../quickActions/QuickBar.svelte';
+	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	import { Editor, EditorContent } from 'svelte-tiptap';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { getContext } from 'svelte';
-	import type { Readable } from 'svelte/store';
-	import { EditorExtensions } from '@/editor/extensions';
-	import Document from '@tiptap/extension-document';
-	import { Title } from '@/editor/extensions/title';
-	import ApiHandler from '@/api';
 	export let sidebarVisible: boolean;
-
-	const api = getContext('api') as ApiHandler;
-
-	let state: AuthorizerState;
-
-	const store = getContext('authorizerContext') as Readable<AuthorizerState>;
-
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		console.log("hahaahhaaggag 	", state);
-	});
-
-	export let assignmentId: string = 'Test';
-	let editor = new Editor({
-		extensions: [
-			...EditorExtensions,
-			Title,
-			Document.extend({
-				content: 'title block+',
-			}),
-		],
-		content: api.getDocumentJson(assignmentId),
-		editable: false,
-	});
 </script>
 
 <nav class="sideBar" class:hidden={!sidebarVisible}>
@@ -52,9 +21,7 @@
 		<QuickBar />
 	</div>
 
-	<div class="settings assignment br-2 float-panel flex-1 overflow-scroll">
-		<EditorContent {editor} />
-	</div>
+	<FileViewer></FileViewer>
 </nav>
 
 <style lang="scss">
@@ -70,9 +37,9 @@
 	.sideBar {
 		pointer-events: auto;
 		resize: horizontal;
-		width: 30rem;
+		width: 18rem;
 		min-width: 10rem;
-		max-width: 30rem;
+		max-width: 16rem;
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;

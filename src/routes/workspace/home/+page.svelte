@@ -1,17 +1,15 @@
 <script>
 	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
-	import Workspace from './../Workspace.svelte';
+	import Workspace from '../+layout.svelte';
 	import Calendar from './Calendar/Calendar.svelte';
-	import { activeFile } from '../../store';
+	import { currentFile } from '@/api/apiStore';
 
-	activeFile.set(null);
+	currentFile.set(null);
 </script>
 
 <svelte:head>
 	<title>Dashboard | Akademia</title>
 </svelte:head>
 
-<Workspace>
-	<ActiveFiles />
-	<Calendar />
-</Workspace>
+<ActiveFiles />
+<Calendar />

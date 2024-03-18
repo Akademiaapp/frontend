@@ -2,9 +2,9 @@
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
-	import { fileStore, userInfo, assignmentStore } from '@/api/apiStore';
+	import { documentStore, userInfo, assignmentStore } from '@/api/apiStore';
 
-	console.log($assignmentStore);
+	console.log("assignments", $assignmentStore);
 </script>
 
 <div class="cont br-2 frontground">
@@ -18,6 +18,7 @@
 			<Assignment
 				name={assignment.name}
 				progress={assignment.progress}
+				id={"294fb0e5-16f6-44da-9e34-ac79ed5a482a"}
 				date={new Date(Number(assignment.due_date)).toLocaleDateString('da-DK', {
 					year: 'numeric',
 					month: 'long',
@@ -36,10 +37,10 @@
 		Dokumenter
 	</h2>
 	<div class="filelist">
-		{#each $fileStore as f}
+		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
-		{#if $fileStore.length == 0}
+		{#if $documentStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
 		{/if}
 	</div>
@@ -48,10 +49,10 @@
 		Noter
 	</h2>
 	<div class="filelist">
-		{#each $fileStore as f}
+		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
-		{#if $fileStore.length == 0}
+		{#if $documentStore.length == 0}
 			<p class="">Der er ingen noter</p>
 		{/if}
 	</div>

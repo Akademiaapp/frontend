@@ -19,8 +19,15 @@
 		list-style-type: disc;
 		padding-inline-start: 1.5rem;
 	}
+
+	ol {
+		list-style-type: decimal;
+		padding: revert;
+		margin: revert;
+	}
 	.title {
 		font-size: 3rem;
+		font-weight: 700;
 	}
 }
 

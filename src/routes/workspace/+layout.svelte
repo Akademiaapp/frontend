@@ -1,12 +1,12 @@
 <script lang="ts">
+	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
 	import { getContext, setContext } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Sidebar from './Sidebar.svelte';
+	import Sidebar from './sidebar/Sidebar.svelte';
 	import type { Readable } from 'svelte/store';
 	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { updateFiles, updateUserInfo, updateAssignments } from '@/api/apiStore';
+	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';
 	import ApiHandler from '@/api';
-	import SidebarAssignment from './SidebarAssignment.svelte';
 	import ApiDown from '@/components/ApiDown.svelte';
 
 	let state: AuthorizerState;
@@ -16,12 +16,12 @@
 	store.subscribe(async (data: AuthorizerState) => {
 		state = data;
 		if (!state.user?.preferred_username) {
-			goto('/signin');
+			// goto('/signin');
 		}
 	});
 	const api = new ApiHandler(store);
 	setContext('api', api);
-	updateFiles();
+	updateDocuments();
 	updateAssignments();
 	updateUserInfo($store);
 

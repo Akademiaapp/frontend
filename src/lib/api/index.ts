@@ -53,6 +53,8 @@ export default class ApiHandler {
 			} else {
 				console.error('Other error:', error);
 			}
+
+			return undefined;
 		});
 	}
 
@@ -61,7 +63,8 @@ export default class ApiHandler {
 	};
 
 	getDocumentJson = (documentId: string) => {
-		return this.callApi('/documents/' + documentId + '/json');
+		return '';
+		//return this.callApi('/documents/' + documentId + '/json');
 	};
 
 	getUserDocuments = () => {
@@ -78,25 +81,6 @@ export default class ApiHandler {
 			'POST'
 		);
 	};
-
-	addUserToDocument = (documentId: string, user_email: string) => {
-		return this.callApi(
-			'/documents/' + documentId + '/users',
-			{
-				user_email
-			},
-			'PUT'
-		);
-	};
-
-	renameDocument = this.debounce((documentId: string, documentName: string) => {
-		this.callApi('/documents/' + documentId, { name: documentName }, 'PUT');
-	}, 350);
-
-	deleteDocument = (documentId: string) => {
-		return this.callApi('/documents/' + documentId, {}, 'DELETE');
-	};
-
 	getAssignments = () => {
 		return this.callApi('/assignments');
 	};
@@ -111,10 +95,5 @@ export default class ApiHandler {
 			},
 			'POST'
 		);
-	};
-
-	// Get all users in a document
-	getMembers = (documentId: string) => {
-		return this.callApi('/documents/' + documentId + '/users');
 	};
 }
