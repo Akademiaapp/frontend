@@ -25,35 +25,37 @@
 		themeName = it ? 'light' : 'dark';
 	});
 
-	if (!$keycloakState.token) {
-		keycloakState.set(new Keycloak({
+	keycloakState.set(
+		new Keycloak({
 			url: 'https://auth.akademia.cc/',
 			realm: 'akademia',
-			clientId: 'akademia-frontend',
-		}));
+			clientId: 'akademia-frontend'
+		})
+	);
 
-		let loggedIn = false;
+	let loggedIn = false;
 
-		$keycloakState.init({
+	$keycloakState
+		.init({
 			onLoad: 'check-sso'
-		}).then((authenticated) => {
+		})
+		.then((authenticated) => {
 			if (authenticated) {
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
 					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
 					console.log('User info:', userInfoKc);
-					goto('/workspace/home')
+					goto('/workspace/home');
 				});
 				// Check if user exists in own db
 			} else {
 				loggedIn = false;
 				goto('/signin');
 			}
-		}).catch((e) => {
+		})
+		.catch((e) => {
 			console.error(e);
 		});
-	}
-
 </script>
 
 <svelte:head>
@@ -68,6 +70,7 @@
 <div class="app">
 	<slot />
 </div>
+
 <style>
 	.app {
 		flex-direction: column;
