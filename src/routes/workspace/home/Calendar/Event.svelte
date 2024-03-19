@@ -34,7 +34,7 @@
 
 <style lang="scss">
 	div {
-		width: 300px;
+		width: 100%;
 		background: color-mix(in srgb, var(--event-color) 29%, transparent);
 		padding: 0.5rem 1rem;
 		--event-gap: 0.25rem;
