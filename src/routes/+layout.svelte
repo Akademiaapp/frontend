@@ -25,7 +25,7 @@
 		themeName = it ? 'light' : 'dark';
 	});
 
-	if (!$keycloakState) {
+	if (!$keycloakState.token) {
 		keycloakState.set(new Keycloak({
 			url: 'https://auth.akademia.cc/',
 			realm: 'akademia',
