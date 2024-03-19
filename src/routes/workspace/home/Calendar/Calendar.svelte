@@ -34,8 +34,6 @@
 		end: null
 	};
 
-	let loginData = null;
-
 	async function getLoginInfo() {
 		const username = sessionStorage.getItem('username');
 		const password = sessionStorage.getItem('password');
@@ -82,17 +80,17 @@
 
 		console.log('sending request');
 
-		if (loginData == null) {
+		if ($loginInfo == null) {
 			console.log('getting login info');
-			loginData = await getLoginInfo();
+			await getLoginInfo();
 		}
 
-		let dd = {
+		let payload = {
 			start: start,
 			end: end
 		};
 
-		const calenderData = await fetchAula('getCalenderEvents', dd);
+		const calenderData = await fetchAula('getCalenderEvents', payload);
 
 		console.log(calenderData);
 
@@ -111,7 +109,7 @@
 
 	import { onMount } from 'svelte';
 	import DateSelection from './DateSelection.svelte';
-	import { fetchAula, logintoAula } from '@/api/AulaApiStore';
+	import { fetchAula, loginInfo, logintoAula } from '@/api/AulaApiStore';
 
 	onMount(async () => {
 		try {
