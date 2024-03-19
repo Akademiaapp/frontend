@@ -1,29 +1,17 @@
 <script lang="ts">
 	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
-	import { getContext, setContext } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { setContext } from 'svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';
 	import ApiHandler from '@/api';
 	import ApiDown from '@/components/ApiDown.svelte';
+	import { userInfo } from '../../authStore';
 
-	let state: AuthorizerState;
-
-	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
-
-	store.subscribe(async (data: AuthorizerState) => {
-		state = data;
-		if (!state.user?.preferred_username) {
-			// goto('/signin');
-		}
-	});
-	const api = new ApiHandler(store);
+	const api = new ApiHandler($userInfo);
 	setContext('api', api);
 	updateDocuments();
 	updateAssignments();
-	updateUserInfo($store);
+	updateUserInfo($userInfo);
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');

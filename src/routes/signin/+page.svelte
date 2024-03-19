@@ -1,27 +1,15 @@
 <script lang="ts">
-	import Keycloak from 'keycloak-js';
-	import { userInfo, type UserInfo } from '../../authStore';
-
-	const keycloak = new Keycloak({
-		url: 'http://localhost:8080/',
-		realm: 'akademia',
-		clientId: 'akademia-frontend',
-	});
+	import { goto } from '$app/navigation';
+	import { keycloakState, userInfo } from '../../authStore';
+	import { onMount } from 'svelte';
 
 	let loggedIn = false;
 
-	keycloak.init({
-		onLoad: 'login-required',
-	}).then((authenticated) => {
-		loggedIn = authenticated;
-		if (loggedIn) {
-			keycloak.loadUserInfo().then((userInfoKc) => {
-				userInfo.set(userInfoKc as UserInfo);
-				console.log('User info:', userInfoKc);
-			});
+	onMount(() => {
+		if ($keycloakState.authenticated) {
+			loggedIn = true;
+			goto('/workspace/home');
 		}
-	}).catch((e) => {
-		console.error(e);
 	});
 </script>
 
@@ -34,11 +22,12 @@
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
 		<h1 class="header">Velkommen til Akademia!</h1>
 		{#if loggedIn}
-			<h2>Du er logget ind som {$userInfo.preferred_username}!</h2>
-			<button on:click={() => {keycloak.logout();}}>Log ud</button>
+			hey
+			<h3>Du er logget ind som {$userInfo.preferred_username}!</h3>
+			<button on:click={() => {$keycloakState.logout();}}>Log ud</button>
 		{:else}
 			Du er ikke logget ind
-			<button on:click={() => {keycloak.login();}}>Login</button>
+			<button on:click={() => {$keycloakState.login();}}>Login</button>
 		{/if}
 	</div>
 </div>
