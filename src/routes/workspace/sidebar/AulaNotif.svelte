@@ -1,16 +1,26 @@
 <script lang="ts">
-	let notfiCount = 2;
+	import { fetchAula } from '@/api/AulaApiStore';
+
+	let notfiCount = 0;
+
+	fetchAula('getNotifications', {}).then((res) => {
+		res.json().then((json) => {
+			notfiCount = json.data.length;
+		});
+	});
 </script>
 
-<div class="bg br-2 relative">
-	<img
-		src="https://aulainfo.dk/wp-content/themes/aula-info/assets/img/logo__aula--white.svg"
-		alt="aula logo"
-	/>
-	<p class="absolute -right-0.5 -top-1 min-w-4 rounded-full bg-red-600 p-0 text-center text-xs">
-		{notfiCount}
-	</p>
-</div>
+{#if notfiCount > 0}
+	<div class="bg br-2 relative">
+		<img
+			src="https://aulainfo.dk/wp-content/themes/aula-info/assets/img/logo__aula--white.svg"
+			alt="aula logo"
+		/>
+		<p class="absolute -right-0.5 -top-1 min-w-4 rounded-full bg-red-600 p-0 text-center text-xs">
+			{notfiCount}
+		</p>
+	</div>
+{/if}
 
 <style>
 	.bg {

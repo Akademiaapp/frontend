@@ -30,5 +30,5 @@ export async function fetchAula(endpoint: string, payload) {
 		body: JSON.stringify({ ...payload, login_info: get(loginInfo) })
 	});
 
-	return res.json();
+	return res;
 }

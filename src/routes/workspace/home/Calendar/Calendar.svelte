@@ -53,8 +53,6 @@
 		for (let i = 0; i < events.length - 1; i++) {
 			let j = 1;
 
-			console.log('checking overlap' + events[i].name + ' ' + events[i + j].name);
-
 			while (events[i].end >= events[i + j].start) {
 				if (events[i].end > events[i + j].start && events[i].x != '50%') {
 					events[i + j].x = '50%';
@@ -78,12 +76,10 @@
 	async function sendRequest(start, end) {
 		state = 'loading';
 
-		console.log('sending request');
-
 		if ($loginInfo == null) {
-			console.log('getting login info');
 			await getLoginInfo();
 		}
+		if (state == 'missignCred') return;
 
 		let payload = {
 			start: start,
@@ -92,9 +88,7 @@
 
 		const calenderData = await fetchAula('getCalenderEvents', payload);
 
-		console.log(calenderData);
-
-		let result = calenderData.map((event) => {
+		let result = (await calenderData.json()).map((event) => {
 			return {
 				name: titelMap[event.title] || event.title,
 				start: new Date(event.startDateTime),
@@ -152,11 +146,9 @@
 		if (loadedDateRange.end == null) return;
 		if (state != 'loaded') return;
 
-		console.log(today, loadedDateRange.end, loadedDateRange.start);
 		if (today < loadedDateRange.start) {
 			const newStart = new Date(loadedDateRange.start);
 			newStart.setDate(newStart.getDate() - 14);
-			console.log(newStart, loadedDateRange.start);
 			sendRequest(newStart.toISOString(), loadedDateRange.start);
 
 			loadedDateRange.start = newStart;
