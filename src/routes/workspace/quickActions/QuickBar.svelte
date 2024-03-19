@@ -5,32 +5,22 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="cont">
-	<QuickAction
-		icon="home"
-		action={() => goto('home')}
-		active={$page.route.id?.includes('workspace/home')}
-	/>
-	<SearchQ></SearchQ>
+<QuickAction
+	icon="home"
+	action={() => goto('home')}
+	active={$page.route.id?.includes('workspace/home')}
+/>
+<SearchQ></SearchQ>
 
-	<QuickAction icon="alarm" action={() => goto('time')} />
-</div>
+<QuickAction
+	icon="alarm"
+	action={() => goto('time')}
+	active={$page.route.id?.includes('workspace/time')}
+/>
 
 <style lang="scss">
 	.cont {
 		display: flex;
 		gap: 0.5rem;
-	}
-
-	span {
-		font-size: 2rem;
-
-		color: #7f7f7f;
-		transition: color 1s;
-		position: absolute;
-		&:hover {
-			color: black;
-			// font-variation-settings: 'FILL' 1;
-		}
 	}
 </style>

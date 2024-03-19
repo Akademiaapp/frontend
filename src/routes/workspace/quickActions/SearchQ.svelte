@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { fade, slide } from 'svelte/transition';
 	import QuickAction from './QuickAction.svelte';
-	import fadeScale from '$lib/transitions/fade-scale';
-	import { getContext, setContext, tick } from 'svelte';
-	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
+	import { getContext } from 'svelte';
 	import * as Command from '$lib/components/ui/command';
 	import { currentFile, documentStore, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
-	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
+	import { BookPlus, File, FilePen, NotebookPen } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
 	import type ApiHandler from '@/api';
 	import randomName from '@/randomName';
@@ -34,9 +31,12 @@
 		isSeaching = false;
 		currentFile.set(file);
 	}
+
+	export let tooltip = '';
 </script>
 
-<QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
+<QuickAction icon="search" {tooltip} action={() => (isSeaching = true)} active={isSeaching}
+></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
 	<Command.Input placeholder="Indtast en kommando eller søg..." />
