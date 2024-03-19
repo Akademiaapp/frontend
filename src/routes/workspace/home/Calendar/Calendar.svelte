@@ -43,21 +43,7 @@
 			state = 'missignCred';
 			return;
 		}
-
-		const data = {
-			username,
-			password
-		};
-
-		const loginRes = await fetch('http://127.0.0.1:8080/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-
-		return await loginRes.json();
+		await logintoAula(username, password);
 	}
 
 	function checkOverlap(events) {
@@ -101,26 +87,13 @@
 			loginData = await getLoginInfo();
 		}
 
-		let dd = JSON.stringify({
-			login_info: loginData,
+		let dd = {
 			start: start,
 			end: end
-		});
+		};
 
-		console.log(dd);
-		const calenderRes = await fetch(
-			'http://127.0.0.1:8080/getCalenderEvents',
+		const calenderData = await fetchAula('getCalenderEvents', dd);
 
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: dd
-			}
-		);
-
-		const calenderData = await calenderRes.json();
 		console.log(calenderData);
 
 		let result = calenderData.map((event) => {
@@ -138,7 +111,7 @@
 
 	import { onMount } from 'svelte';
 	import DateSelection from './DateSelection.svelte';
-	import { minDate } from '@internationalized/date';
+	import { fetchAula, logintoAula } from '@/api/AulaApiStore';
 
 	onMount(async () => {
 		try {
