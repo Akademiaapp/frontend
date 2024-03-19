@@ -17,7 +17,7 @@
 			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 		</button>
 	</div>
-	<QuickBar />
+	<div class="flex gap-2"><QuickBar /></div>
 </div>
 
 <FileViewer></FileViewer>

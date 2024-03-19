@@ -25,7 +25,12 @@
 			active={$page.route.id?.includes('workspace/home')}
 		/>
 		<SearchQ tooltip="Search"></SearchQ>
-		<QuickAction icon="alarm" />
+		<QuickAction
+			icon="alarm"
+			tooltip="timer"
+			action={() => goto('time')}
+			active={$page.route.id?.includes('workspace/time')}
+		/>
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="frontground br-2">
