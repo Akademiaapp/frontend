@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import type ApiHandler from '.';
-import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';
+import type { UserInfo } from '../../authStore';
 
 export class FileInfo {
 	id: string;
@@ -95,19 +95,19 @@ export async function updateDocuments() {
 	console.log('updated files');
 }
 
-function getUserName(state: AuthorizerState): string {
-	if (!state?.user) return '';
+function getUserName(state: UserInfo): string {
+	if (!state.sub) return '';
 	const name =
-		state.user?.given_name === ''
-			? state.user?.preferred_username.split(/[@.]/)[0]
-			: state.user?.given_name;
+		state.given_name === ''
+			? state.preferred_username.split(/[@.]/)[0]
+			: state.given_name;
 	if (typeof name === 'string') {
 		return name;
 	} else {
 		return 'User';
 	}
 }
-export function updateUserInfo(state: AuthorizerState) {
+export function updateUserInfo(state: UserInfo) {
 	userInfo.set({ name: getUserName(state) });
 }
 

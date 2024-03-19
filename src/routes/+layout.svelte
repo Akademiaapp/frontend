@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
 	import '../app.pcss';
 	import { themeVariant } from './store';
+	import Keycloak from 'keycloak-js';
+	import { userInfo, type UserInfo, keycloakState } from '../authStore';
+	import { goto } from '$app/navigation';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
@@ -18,12 +21,41 @@
 
 	let currentTheme = themes.default;
 
-	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
-	import 'akademia-authorizer-svelte/styles/default.css';
-
 	themeVariant.subscribe((it) => {
 		themeName = it ? 'light' : 'dark';
 	});
+
+	keycloakState.set(
+		new Keycloak({
+			url: 'https://auth.akademia.cc/',
+			realm: 'akademia',
+			clientId: 'akademia-frontend'
+		})
+	);
+
+	let loggedIn = false;
+
+	$keycloakState
+		.init({
+			onLoad: 'check-sso'
+		})
+		.then((authenticated) => {
+			if (authenticated) {
+				$keycloakState.loadUserInfo().then((userInfoKc) => {
+					loggedIn = true;
+					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
+					console.log('User info:', userInfoKc);
+					goto('/workspace/home');
+				});
+				// Check if user exists in own db
+			} else {
+				loggedIn = false;
+				goto('/signin');
+			}
+		})
+		.catch((e) => {
+			console.error(e);
+		});
 </script>
 
 <svelte:head>
@@ -35,17 +67,9 @@
 	<meta name="color-scheme" content={$themeVariant} />
 </svelte:head>
 
-<AuthorizerProvider
-	config={{
-		authorizerURL: 'https://akademia-dashboard.arctix.dev',
-		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
-		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
-	}}
->
-	<div class="app">
-		<slot />
-	</div>
-</AuthorizerProvider>
+<div class="app">
+	<slot />
+</div>
 
 <style>
 	.app {

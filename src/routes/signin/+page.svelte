@@ -1,16 +1,13 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-	import { Authorizer } from 'akademia-authorizer-svelte';
 	import { goto } from '$app/navigation';
-	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
+	import { keycloakState, userInfo } from '../../authStore';
+	import { onMount } from 'svelte';
 
-	let state: AuthorizerState;
-	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
+	let loggedIn = false;
 
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		if (state.token) {
+	onMount(() => {
+		if ($keycloakState.authenticated) {
+			loggedIn = true;
 			goto('/workspace/home');
 		}
 	});
@@ -24,9 +21,14 @@
 	<div class="login-cont">
 		<img src="/favicon.png" class="logo" alt="Akademia logo" />
 		<h1 class="header">Velkommen til Akademia!</h1>
-		<h2>Vælg en loginmetode</h2>
-		<br />
-		<Authorizer />
+		{#if loggedIn}
+			hey
+			<h3>Du er logget ind som {$userInfo.preferred_username}!</h3>
+			<button on:click={() => {$keycloakState.logout();}}>Log ud</button>
+		{:else}
+			Du er ikke logget ind
+			<button on:click={() => {$keycloakState.login();}}>Login</button>
+		{/if}
 	</div>
 </div>
 

@@ -12,7 +12,8 @@
 		active={$page.route.id?.includes('workspace/home')}
 	/>
 	<SearchQ></SearchQ>
-	<QuickAction icon="alarm" />
+
+	<QuickAction icon="alarm" action={() => goto('time')} />
 </div>
 
 <style lang="scss">
