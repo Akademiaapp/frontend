@@ -34,7 +34,6 @@
 		background-color: var(--color-bg-1);
 	}
 
-		// 		box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.05);
 	.top {
 		display: flex;
 
