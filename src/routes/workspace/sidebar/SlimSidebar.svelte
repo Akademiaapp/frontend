@@ -9,7 +9,7 @@
 </script>
 
 <div class="flex h-full flex-col justify-between">
-	<div class="frontground br-2">
+	<div class="frontground br-2" id="quick-actions">
 		<QuickAction
 			tooltip="Expand"
 			action={() => {

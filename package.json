@@ -43,6 +43,7 @@
     "@hocuspocus/provider": "^2.11.2",
     "@internationalized/date": "^3.5.2",
     "@mdi/js": "^7.4.47",
+    "@sjmc11/tourguidejs": "^0.0.16",
     "@tiptap-pro/extension-mathematics": "^2.7.5",
     "@tiptap/core": "^2.2.4",
     "@tiptap/extension-blockquote": "^2.2.4",

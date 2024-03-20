@@ -5,7 +5,7 @@
 	export let isExpanded: boolean;
 </script>
 
-<div class="settings br-2 float-panel">
+<div class="sidebar br-2 float-panel">
 	<div class="top">
 		<UserAvatar name />
 		<button
@@ -17,13 +17,13 @@
 			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 		</button>
 	</div>
-	<div class="flex gap-2"><QuickBar /></div>
+	<div class="flex gap-2" id="quick-bar"><QuickBar /></div>
 </div>
 
 <FileViewer></FileViewer>
 
 <style lang="scss">
-	.settings {
+	.sidebar {
 		min-width: 250px;
 		width: 100%;
 		display: flex;
