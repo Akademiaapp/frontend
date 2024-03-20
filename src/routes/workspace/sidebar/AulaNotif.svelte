@@ -7,7 +7,6 @@
 
 	fetchAula('getNotifications', {}).then((res) => {
 		res.json().then((json) => {
-			console.log(json);
 			notfiCount = json.data.length;
 		});
 	});
