@@ -71,7 +71,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title metaSettings block+'
+								content: 'title block+'
 							}),
 							TableOfContents,
 							Title,
