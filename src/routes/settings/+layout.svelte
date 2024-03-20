@@ -35,7 +35,7 @@
 				<a
 					class={cn(
 						buttonVariants({ variant: 'ghost' }),
-						'h-8 justify-start px-4 text-foreground hover:no-underline'
+						'h-8 justify-start px-4 text-foreground hover:bg-muted hover:no-underline'
 					)}
 					class:bg-muted={$page.route.id?.includes(setting.path)}
 					href={'/settings/' + setting.path}>{setting.name}</a
