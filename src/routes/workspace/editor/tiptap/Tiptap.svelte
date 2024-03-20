@@ -44,7 +44,7 @@
 		}
 		provider = new HocuspocusProvider({
 			url: 'wss://collaboration.akademia.cc',
-			token: 'Bearer' + $userInfo.token,
+			token: 'Bearer ' + $userInfo.token,
 			name: 'document.' + initcurrentFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
