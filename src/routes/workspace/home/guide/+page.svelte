@@ -31,6 +31,8 @@
 		}
 	]);
 
+	console.log(tg.steps);
+
 	tg.start(); // Start the tour
 
 	console.log('hi');
