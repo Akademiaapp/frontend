@@ -21,7 +21,7 @@
 		},
 		{
 			target: '#overview',
-			title: 'oversigt',
+			title: 'Oversigt',
 			content: 'Her kan du se dine Afleveringe og aktive filer'
 		},
 		{
