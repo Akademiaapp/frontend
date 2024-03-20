@@ -45,7 +45,6 @@
 					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
 					console.log('User info:', userInfoKc);
-					goto('/workspace/home/guide');
 				});
 				// Check if user exists in own db
 			} else {
