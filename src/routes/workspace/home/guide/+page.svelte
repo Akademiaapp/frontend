@@ -4,7 +4,7 @@
 
 	const tg = new TourGuideClient({});
 
-	tg.addSteps([
+	const steps = [
 		{
 			title: 'Velkommen til Akademia!',
 			content: 'Dette er en guide for at hjælpe dig i gang.'
@@ -29,9 +29,10 @@
 			title: 'Kalender',
 			content: 'Her kan du se dine lektioner og andre begivenheder.'
 		}
-	]);
+	];
+	tg.addSteps(steps);
 
-	console.log(tg.steps);
+	console.log(steps);
 
 	tg.start(); // Start the tour
 
