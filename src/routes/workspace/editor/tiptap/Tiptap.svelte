@@ -43,7 +43,7 @@
 			return;
 		}
 		provider = new HocuspocusProvider({
-			url: 'wss://akademia-backend.arctix.dev',
+			url: 'wss://collaboration.akademia.cc',
 			token: $userInfo.token,
 			name: 'document.' + initcurrentFile.id,
 			onAuthenticationFailed: () => {
