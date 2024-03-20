@@ -44,6 +44,8 @@
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
 					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
+					console.log('User info:', userInfoKc);
+					console.log('Token:', $keycloakState.token);
 				});
 				// Check if user exists in own db
 			} else {

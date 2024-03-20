@@ -85,6 +85,7 @@ export async function updateDocuments() {
 	const api = getContext('api') as ApiHandler;
 
 	const response = await api.getUserDocuments();
+	console.log('response: ', response);
 	if (!response) {
 		throw new Error('Could not update files due to no response');
 	}
