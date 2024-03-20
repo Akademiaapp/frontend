@@ -1,17 +1,25 @@
 <script lang="ts">
 	import { fetchAula } from '@/api/AulaApiStore';
+	import { cubicIn, cubicOut, expoIn, expoInOut, expoOut } from 'svelte/easing';
+	import { scale } from 'svelte/transition';
 
 	let notfiCount = 0;
 
 	fetchAula('getNotifications', {}).then((res) => {
 		res.json().then((json) => {
+			console.log(json);
 			notfiCount = json.data.length;
 		});
 	});
 </script>
 
 {#if notfiCount > 0}
-	<div class="bg br-2 relative">
+	<a
+		href="https://www.aula.dk/portal/#/overblik"
+		target="_blank"
+		class="bg br-2 relative"
+		transition:scale={{ duration: 150, easing: expoOut }}
+	>
 		<img
 			src="https://aulainfo.dk/wp-content/themes/aula-info/assets/img/logo__aula--white.svg"
 			alt="aula logo"
@@ -19,7 +27,7 @@
 		<p class="absolute -right-0.5 -top-1 min-w-4 rounded-full bg-red-600 p-0 text-center text-xs">
 			{notfiCount}
 		</p>
-	</div>
+	</a>
 {/if}
 
 <style>
