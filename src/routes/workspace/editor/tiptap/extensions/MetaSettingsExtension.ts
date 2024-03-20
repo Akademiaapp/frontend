@@ -9,16 +9,7 @@ export const MetaSettingsExtension = Node.create({
 	atom: true,
 
 	selectable: false,
-	// draggable: true, // Optional: to make the node draggable
-	// inline: false,
-	// isolating: true,
-	// allowGapCursor: true,
-	onTransaction: function ({ transaction }) {
-		// editor = this.editor;
-		// console.log(transaction);
-		// console.log(this.editor);
-		// console.log(transaction.curSelection.$anchor.path[1]);
-	},
+
 	addProseMirrorPlugins() {
 		const editor = this.editor;
 		return [
