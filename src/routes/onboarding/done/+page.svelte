@@ -7,7 +7,7 @@
 	let isLoading = true;
 
 	onMount(async () => {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 		isLoading = false;
 		await new Promise((resolve) => setTimeout(resolve, 2500));
 		goto('/workspace/home/guide');
@@ -67,4 +67,4 @@
 			transform: rotate(360deg);
 		}
 	}
-</div>
+</style>
