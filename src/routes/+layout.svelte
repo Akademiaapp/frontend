@@ -1,10 +1,14 @@
-<script>
+<script lang="ts">
 	import '../app.pcss';
 	import { themeVariant } from './store';
+	import Keycloak from 'keycloak-js';
+	import { userInfo, type UserInfo, keycloakState } from '../authStore';
+	import { goto } from '$app/navigation';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
+	import { page } from '$app/stores';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -18,12 +22,58 @@
 
 	let currentTheme = themes.default;
 
-	import { AuthorizerProvider } from 'akademia-authorizer-svelte';
-	import 'akademia-authorizer-svelte/styles/default.css';
-
 	themeVariant.subscribe((it) => {
 		themeName = it ? 'light' : 'dark';
 	});
+
+	keycloakState.set(
+		new Keycloak({
+			url: 'https://auth.akademia.cc/',
+			realm: 'akademia',
+			clientId: 'akademia-frontend'
+		})
+	);
+
+	$keycloakState
+		.init({
+			onLoad: 'check-sso'
+		})
+		.then((authenticated) => {
+			console.log($keycloakState.createRegisterUrl());
+			if (authenticated) {
+				// Check if token is valid
+				$keycloakState.loadUserInfo().then((userInfoKc) => {
+					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
+					console.log('User info:', userInfoKc);
+					console.log('Token:', $keycloakState.token);
+					setInterval(() => {
+						$keycloakState.updateToken(70).then((refreshed) => {
+							if (refreshed) {
+								console.log('Token refreshed');
+								userInfo.update((it) => ({ ...it, token: $keycloakState.token }));
+							} else {
+								console.log('Token not refreshed, valid for another 70 seconds');
+							}
+						});
+					}, 6000);
+					// if ($page.url.pathname.endsWith('/signin'))
+					goto($page.url.pathname);
+
+					console.log('Authenticated');
+				});
+			} else {
+				console.log('Not authenticated');
+				// reload page
+				if ($page.url.pathname.endsWith('/register')) {
+					window.location.href = $keycloakState.createRegisterUrl();
+				} else {
+					$keycloakState.login();
+				}
+			}
+		})
+		.catch((e) => {
+			console.error(e);
+		});
 </script>
 
 <svelte:head>
@@ -35,17 +85,12 @@
 	<meta name="color-scheme" content={$themeVariant} />
 </svelte:head>
 
-<AuthorizerProvider
-	config={{
-		authorizerURL: 'https://akademia-dashboard.arctix.dev',
-		redirectURL: typeof window != 'undefined' ? window.location.origin : ``,
-		client_id: 'b4da3a2f-76b7-4344-92de-3fb0d441a9c0'
-	}}
->
+{#if $keycloakState.authenticated}
+	<!-- content here -->
 	<div class="app">
 		<slot />
 	</div>
-</AuthorizerProvider>
+{/if}
 
 <style>
 	.app {

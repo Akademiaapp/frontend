@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import type ApiHandler from '.';
-import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 import { getContext } from 'svelte';
+import type { UserInfo } from '../../authStore';
 
 export class FileInfo {
 	id: string;
@@ -10,10 +10,11 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	fileType: string = 'documents';
+	fileType: string = 'document';
 
 	constructor(info) {
-		this.id = info.id;
+		this.fileType = 'document';
+		this.id = `${this.fileType}.${info.id}`;
 		this.name = info.name;
 		this.data = info.data;
 		this.created_at = info.created_at;
@@ -21,7 +22,7 @@ export class FileInfo {
 	}
 
 	get path() {
-		return `/documents/${this.fileType}.${this.id}`;
+		return `/documents/${this.id}`;
 	}
 
 	rename(newName: string, api: ApiHandler) {
@@ -85,6 +86,7 @@ export async function updateDocuments() {
 	const api = getContext('api') as ApiHandler;
 
 	const response = await api.getUserDocuments();
+	console.log('response: ', response);
 	if (!response) {
 		throw new Error('Could not update files due to no response');
 	}
@@ -95,19 +97,17 @@ export async function updateDocuments() {
 	console.log('updated files');
 }
 
-function getUserName(state: AuthorizerState): string {
-	if (!state?.user) return '';
+function getUserName(state: UserInfo): string {
+	if (!state.sub) return '';
 	const name =
-		state.user?.given_name === ''
-			? state.user?.preferred_username.split(/[@.]/)[0]
-			: state.user?.given_name;
+		state.given_name === '' ? state.preferred_username.split(/[@.]/)[0] : state.given_name;
 	if (typeof name === 'string') {
 		return name;
 	} else {
 		return 'User';
 	}
 }
-export function updateUserInfo(state: AuthorizerState) {
+export function updateUserInfo(state: UserInfo) {
 	userInfo.set({ name: getUserName(state) });
 }
 

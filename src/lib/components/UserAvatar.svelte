@@ -1,28 +1,13 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-	import { goto } from '$app/navigation';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import type { Readable } from 'svelte/store';
-	import { userInfo } from '@/api/apiStore';
+	import { userInfo } from "@/api/apiStore";
 
 	export let name = false;
-
-	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
-
-	// const userHandler = async () => {
-	// 	if (!state.token) {
-	// 		goto('/signin');
-	// 	} else {
-	// 		await state.logout();
-	// 	}
-	// };
-	// on:click={userHandler}
 </script>
 
 <div class="cage">
 	<img
 		class="avatar br-2"
-		src={$store.user?.picture}
+		src="https://gravatar.com/avatar/9d9ca268a5cc1b4399c88aaee589922a"
 		alt="User avatar"
 		referrerpolicy="no-referrer"
 	/>

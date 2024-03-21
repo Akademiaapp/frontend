@@ -7,8 +7,6 @@
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { getContext } from 'svelte';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { type Readable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../../TableOfContents';
 	import ApiHandler from '$lib/api';
@@ -17,18 +15,9 @@
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
-
-	let state: AuthorizerState;
+	import { userInfo } from '../../../../authStore';
 
 	const api = getContext('api') as ApiHandler;
-
-	const store = <Readable<AuthorizerState>>getContext('authorizerContext');
-
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		console.log(state);
-	});
 
 	let provider: HocuspocusProvider;
 
@@ -38,10 +27,13 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
+	export let connected = false;
+
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
 			return;
 		}
+		connected = false;
 		console.log('Initializing tiptap', initcurrentFile);
 		if ($editor) {
 			$editor.destroy();
@@ -49,14 +41,10 @@
 		if (provider) {
 			provider.destroy();
 		}
-		if (!state.token?.access_token) {
-			goto('/signin');
-			return;
-		}
 		provider = new HocuspocusProvider({
-			url: 'wss://akademia-backend.arctix.dev',
-			token: state.token.access_token,
-			name: 'document.' + initcurrentFile.id,
+			url: 'wss://collaboration.akademia.cc',
+			token: 'Bearer ' + $userInfo.token,
+			name: initcurrentFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -67,6 +55,8 @@
 				if ($editor) {
 					$editor.destroy();
 				}
+				connected = true;
+
 				editor.set(
 					new Editor({
 						extensions: [
@@ -74,7 +64,7 @@
 							CollaborationCursor.configure({
 								provider: provider,
 								user: {
-									name: state.user?.preferred_username,
+									name: $userInfo.preferred_username,
 									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 								}
 							}),
@@ -82,7 +72,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title metaSettings block+'
+								content: 'title block+'
 							}),
 							TableOfContents,
 							Title,
