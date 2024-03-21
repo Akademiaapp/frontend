@@ -35,8 +35,7 @@
 			'4',
 			'5',
 			$userType !== 'tester' ? 'vaelg-skole' : null,
-			'6', // if userType is tester, show the select school page, else show the last page
-			'7'
+			'done'
 		].filter((it) => it !== null);
 	}
 
@@ -97,7 +96,7 @@
 					{#each urls as url, index (url)}
 						<div
 							class="item"
-							class:completed={+currentProgress > index}
+							class:completed={+currentProgress + 1 > index}
 							transition:scale
 							id={url}
 						></div>
