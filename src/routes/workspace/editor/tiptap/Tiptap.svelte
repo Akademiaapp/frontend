@@ -27,10 +27,13 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
+	export let connected = false;
+
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
 			return;
 		}
+		connected = false;
 		console.log('Initializing tiptap', initcurrentFile);
 		if ($editor) {
 			$editor.destroy();
@@ -52,6 +55,8 @@
 				if ($editor) {
 					$editor.destroy();
 				}
+				connected = true;
+
 				editor.set(
 					new Editor({
 						extensions: [

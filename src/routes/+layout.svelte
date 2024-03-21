@@ -56,7 +56,9 @@
 							}
 						});
 					}, 6000);
-					goto('/workspace/home');
+					// if ($page.url.pathname.endsWith('/signin'))
+					goto($page.url.pathname);
+
 					console.log('Authenticated');
 				});
 			} else {
