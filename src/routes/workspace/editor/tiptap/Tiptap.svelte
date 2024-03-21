@@ -38,10 +38,6 @@
 		if (provider) {
 			provider.destroy();
 		}
-		if (!$userInfo) {
-			goto('/signin');
-			return;
-		}
 		provider = new HocuspocusProvider({
 			url: 'wss://collaboration.akademia.cc',
 			token: 'Bearer ' + $userInfo.token,

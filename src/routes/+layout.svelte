@@ -33,17 +33,15 @@
 		})
 	);
 
-	let loggedIn = false;
-
 	$keycloakState
 		.init({
 			onLoad: 'login-required'
 		})
 		.then((authenticated) => {
+			console.log($keycloakState.createRegisterUrl());
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
@@ -60,11 +58,8 @@
 					goto('/workspace/home');
 					console.log('Authenticated');
 				});
-				// Check if user exists in own db
 			} else {
-				loggedIn = false;
 				console.log('Not authenticated');
-				// reload page
 				$keycloakState.login();
 			}
 		})
