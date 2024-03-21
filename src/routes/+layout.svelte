@@ -8,6 +8,7 @@
 	import './styles.css';
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
+	import { page } from '$app/stores';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -37,7 +38,7 @@
 
 	$keycloakState
 		.init({
-			onLoad: 'login-required'
+			onLoad: 'check-sso'
 		})
 		.then((authenticated) => {
 			if (authenticated) {
@@ -65,7 +66,11 @@
 				loggedIn = false;
 				console.log('Not authenticated');
 				// reload page
-				$keycloakState.login();
+				if ($page.url.pathname.endsWith('/register')) {
+					window.location.href = $keycloakState.createRegisterUrl();
+				} else {
+					$keycloakState.login();
+				}
 			}
 		})
 		.catch((e) => {
@@ -82,9 +87,12 @@
 	<meta name="color-scheme" content={$themeVariant} />
 </svelte:head>
 
-<div class="app">
-	<slot />
-</div>
+{#if $keycloakState.authenticated}
+	<!-- content here -->
+	<div class="app">
+		<slot />
+	</div>
+{/if}
 
 <style>
 	.app {
