@@ -55,7 +55,7 @@
 								console.log('Token not refreshed, valid for another 70 seconds');
 							}
 						});
-					}, 60000);
+					}, 6000);
 					goto('/workspace/home');
 					console.log('Authenticated');
 				});
