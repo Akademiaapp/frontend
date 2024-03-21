@@ -37,7 +37,7 @@
 
 	$keycloakState
 		.init({
-			onLoad: 'check-sso'
+			onLoad: 'login-required'
 		})
 		.then((authenticated) => {
 			if (authenticated) {
@@ -63,7 +63,8 @@
 			} else {
 				loggedIn = false;
 				console.log('Not authenticated');
-				goto('/signin');
+				// reload page
+				$keycloakState.login();
 			}
 		})
 		.catch((e) => {
