@@ -10,10 +10,11 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	fileType: string = 'documents';
+	fileType: string = 'document';
 
 	constructor(info) {
-		this.id = info.id;
+		this.fileType = 'document';
+		this.id = `${this.fileType}.${info.id}`;
 		this.name = info.name;
 		this.data = info.data;
 		this.created_at = info.created_at;
@@ -21,7 +22,7 @@ export class FileInfo {
 	}
 
 	get path() {
-		return `/documents/${this.fileType}.${this.id}`;
+		return `/documents/${this.id}`;
 	}
 
 	rename(newName: string, api: ApiHandler) {
@@ -99,9 +100,7 @@ export async function updateDocuments() {
 function getUserName(state: UserInfo): string {
 	if (!state.sub) return '';
 	const name =
-		state.given_name === ''
-			? state.preferred_username.split(/[@.]/)[0]
-			: state.given_name;
+		state.given_name === '' ? state.preferred_username.split(/[@.]/)[0] : state.given_name;
 	if (typeof name === 'string') {
 		return name;
 	} else {
