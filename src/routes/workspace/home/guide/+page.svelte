@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	// import { type TourGuideOptions } from '@sjmc11/tourguidejs/src/core/options.ts';
 	import { TourGuideClient } from '@sjmc11/tourguidejs/src/Tour'; // JS
 
@@ -38,6 +40,10 @@
 	tg.addSteps(steps);
 
 	console.log(steps);
+
+	tg.onAfterExit(() => {
+		goto('/workspace/home');
+	});
 
 	tg.start(); // Start the tour
 
