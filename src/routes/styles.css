@@ -1,5 +1,5 @@
 @import '@fontsource/fira-mono';
-
+@import '@sjmc11/tourguidejs/src/scss/tour.scss';
 :root {
 	--color-overlay-0: color-mix(in srgb, var(--color-text-0) 5%, transparent);
 	--color-overlay-1: color-mix(in srgb, var(--color-text-0) 10%, transparent);
@@ -37,6 +37,10 @@ a {
 
 a:hover {
 	text-decoration: underline;
+}
+
+.tg-dialog .tg-dialog-dots > span.tg-dot.tg-dot-active {
+	background-color: hsl(var(--primary));
 }
 
 /* h1 {
