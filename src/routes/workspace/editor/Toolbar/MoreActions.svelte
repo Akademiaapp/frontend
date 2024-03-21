@@ -7,6 +7,7 @@
 	import type ApiHandler from '@/api';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
+	import { keycloakState } from '../../../../authStore';
 	let isDeleteOpen = false;
 
 	const api = getContext('api') as ApiHandler;
@@ -68,7 +69,7 @@
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 
-		<DropdownMenu.Item>
+		<DropdownMenu.Item on:click={() => $keycloakState.logout()}>
 			<LogOut size="15" strokeWidth="1.5"></LogOut>
 			Log ud
 		</DropdownMenu.Item>
