@@ -41,16 +41,28 @@
 		})
 		.then((authenticated) => {
 			if (authenticated) {
+				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
 					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
+					setInterval(() => {
+						$keycloakState.updateToken(70).then((refreshed) => {
+							if (refreshed) {
+								console.log('Token refreshed');
+							} else {
+								console.log('Token not refreshed, valid for another 70 seconds');
+							}
+						});
+					}, 60000);
 					goto('/workspace/home');
+					console.log('Authenticated');
 				});
 				// Check if user exists in own db
 			} else {
 				loggedIn = false;
+				console.log('Not authenticated');
 				goto('/signin');
 			}
 		})
