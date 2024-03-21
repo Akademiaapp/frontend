@@ -56,9 +56,7 @@
 							}
 						});
 					}, 6000);
-					// if ($page.url.pathname.endsWith('/signin'))
-					goto($page.url.pathname);
-
+					keycloakState.update((it) => it);
 					console.log('Authenticated');
 				});
 			} else {
@@ -86,7 +84,6 @@
 </svelte:head>
 
 {#if $keycloakState.authenticated}
-	<!-- content here -->
 	<div class="app">
 		<slot />
 	</div>
