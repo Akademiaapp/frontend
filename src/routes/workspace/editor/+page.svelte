@@ -20,7 +20,7 @@
 		goto('/workspace/home');
 	}
 
-	api.getDocument('document.' + id || '').then((file) => {
+	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
 			console.log(fileContent);
