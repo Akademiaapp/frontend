@@ -14,13 +14,6 @@ export interface UserInfo {
     token: string;
 }
 
-export const userInfo: Writable<UserInfo> = writable(JSON.parse(localStorage.getItem('userInfo') || '{}'));
-export const keycloakState: Writable<Keycloak> = writable(JSON.parse(localStorage.getItem('keycloakState') || '{}'));
+export const userInfo: Writable<UserInfo> = writable();
+export const keycloakState: Writable<Keycloak> = writable();
 
-// Persist the user info and keycloak in local storage
-userInfo.subscribe((value) => {
-    localStorage.setItem('userInfo', JSON.stringify(value));
-});
-keycloakState.subscribe((value) => {
-    localStorage.setItem('keycloakState', JSON.stringify(value));
-});
