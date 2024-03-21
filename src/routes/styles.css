@@ -39,6 +39,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+.tg-dialog .tg-dialog-dots > span.tg-dot.tg-dot-active {
+	background-color: hsl(var(--primary));
+}
+
 /* h1 {
 	font-size: 2rem;
 }
