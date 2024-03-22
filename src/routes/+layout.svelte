@@ -43,14 +43,13 @@
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
+					userInfo.set({ ...userInfoKc } as UserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
 					setInterval(() => {
 						$keycloakState.updateToken(70).then((refreshed) => {
 							if (refreshed) {
 								console.log('Token refreshed');
-								userInfo.update((it) => ({ ...it, token: $keycloakState.token }));
 							} else {
 								console.log('Token not refreshed, valid for another 70 seconds');
 							}

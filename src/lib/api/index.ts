@@ -1,5 +1,5 @@
 import { apiDownStore } from './apiStore';
-import { userInfo } from '../../authStore';
+import { keycloakState, userInfo } from '../../authStore';
 import { get } from 'svelte/store';
 
 class ApiHandler {
@@ -23,7 +23,7 @@ class ApiHandler {
 		// Add bearer token to headers
 		const headers = {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${get(userInfo).token}`
+			Authorization: `Bearer ${get(keycloakState).token}`
 		};
 
 		return fetch(
