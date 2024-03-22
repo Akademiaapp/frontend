@@ -2,7 +2,7 @@ import { apiDownStore } from './apiStore';
 import type { UserInfo } from '../../authStore';
 
 export default class ApiHandler {
-	static baseUrl = 'https://akademia-api.arctix.dev';
+	static baseUrl = 'https://api.akademia.cc';
 	static context: UserInfo;
 
 	constructor(context: UserInfo) {

@@ -7,20 +7,16 @@
 
 <QuickAction
 	icon="home"
-	action={() => goto('home')}
+	action={() => goto('/workspace/home')}
 	active={$page.route.id?.includes('workspace/home')}
 />
 <SearchQ></SearchQ>
 
 <QuickAction
 	icon="alarm"
-	action={() => goto('time')}
+	action={() => goto('/workspace/time')}
 	active={$page.route.id?.includes('workspace/time')}
 />
 
 <style lang="scss">
-	.cont {
-		display: flex;
-		gap: 0.5rem;
-	}
 </style>

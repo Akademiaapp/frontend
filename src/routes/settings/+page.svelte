@@ -1,5 +1,5 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
 
-	goto('/workspace/home');
+	goto('settings/appearance');
 </script>

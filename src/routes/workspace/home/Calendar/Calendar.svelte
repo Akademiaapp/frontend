@@ -173,7 +173,7 @@
 	}
 </script>
 
-<div class="frontground br-2 floating-panel">
+<div class="frontground br-2 floating-panel" id="calendar">
 	<div class="flex justify-between">
 		<h2>Kalender</h2>
 		<DateSelection bind:date={today} />
