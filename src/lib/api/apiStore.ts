@@ -24,9 +24,9 @@ export class FileInfo {
 		return `/documents/${this.id}`;
 	}
 
-	rename(newName: string) {
+	rename = api.debounce((newName: string) => {
 		return this.updateInfo({ name: newName });
-	}
+	});
 
 	delete() {
 		return api.callApi(this.path, {}, 'DELETE');
