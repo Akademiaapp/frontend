@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils';
-	import path from 'path';
 
 	const settingPages = [
 		{

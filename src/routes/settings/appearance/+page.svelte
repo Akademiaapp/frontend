@@ -1,19 +1,12 @@
 <script>
 	import { themeVariant } from '../../store';
-
-	let selectedTheme = 'light'; // default value
-
-	function handleThemeChange() {
-		console.log(selectedTheme); // logs the current selected value
-		themeVariant.set(selectedTheme);
-	}
 </script>
 
 <h2>Themes</h2>
 
 <div class="theme-selection flex gap-6">
 	<label>
-		<input type="radio" value="light" bind:group={selectedTheme} on:change={handleThemeChange} />
+		<input type="radio" value="light" bind:group={$themeVariant} />
 		<div class="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
 			<div class="flex gap-2 rounded-sm bg-[#ecedef] p-2">
 				<div class="w-10 space-y-2 rounded-md bg-white p-2">
@@ -40,7 +33,7 @@
 	</label>
 
 	<label>
-		<input type="radio" value="dark" bind:group={selectedTheme} on:change={handleThemeChange} />
+		<input type="radio" value="dark" bind:group={$themeVariant} />
 		<div
 			class="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
 		>
