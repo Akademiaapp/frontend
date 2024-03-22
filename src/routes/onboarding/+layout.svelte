@@ -86,7 +86,7 @@
 				</div>
 			{/key}
 		</div>
-		{#if data.url !== '/onboarding/' && data.url !== '/onboarding'}
+		{#if data.url !== '/onboarding/' && data.url !== '/onboarding' && data.url !== '/onboarding/login'}
 			<div class="mb-5 flex items-center justify-between gap-3" in:fade={{ delay: 400 }}>
 				<Button variant="outline" size="icon" on:click={movePage(-1)}
 					><ChevronLeft></ChevronLeft></Button
