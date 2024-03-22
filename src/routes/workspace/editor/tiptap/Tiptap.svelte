@@ -6,18 +6,14 @@
 	import { EditorExtensions } from '$lib/editor/extensions';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
-	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import TableOfContents from '../../TableOfContents';
-	import ApiHandler from '$lib/api';
 	import Document from '@tiptap/extension-document';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { userInfo } from '../../../../authStore';
-
-	const api = getContext('api') as ApiHandler;
 
 	let provider: HocuspocusProvider;
 
@@ -94,7 +90,7 @@
 							const title: string =
 								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 							if (title && title !== currentFileName) {
-								$currentFile instanceof FileInfo && $currentFile.rename(title, api);
+								$currentFile instanceof FileInfo && $currentFile.rename(title);
 
 								currentFileName = title;
 								if ($currentFile != null) {

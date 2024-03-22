@@ -6,11 +6,9 @@
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, NotebookPen } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
-	import type ApiHandler from '@/api';
+	import api from '@/api';
 	import randomName from '@/randomName';
 	let isSeaching = false;
-
-	const api = getContext('api') as ApiHandler;
 
 	window.addEventListener('keydown', (ev) => {
 		if (ev.key == 'p' && ev.ctrlKey) {

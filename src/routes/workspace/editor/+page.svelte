@@ -1,17 +1,13 @@
 <script lang="ts">
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
-	import Workspace from '../+layout.svelte';
-	import { getContext } from 'svelte';
-	import ApiHandler from '@/api';
+	import api from '@/api';
 	import type { Readable } from 'svelte/store';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
 	import { currentFile, FileInfo } from '@/api/apiStore';
-	import { userInfo } from '../../../authStore';
 
 	let editor: Readable<Editor>;
-	const api = new ApiHandler($userInfo);
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');

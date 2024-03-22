@@ -36,10 +36,10 @@
 
 	$keycloakState
 		.init({
-			onLoad: 'check-sso'
+			onLoad: 'check-sso',
 		})
 		.then((authenticated) => {
-			console.log($keycloakState.createRegisterUrl());
+			console.log($keycloakState.createRegisterUrl({ redirectUri: window.location.hostname + '/onboarding'}));
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
@@ -64,11 +64,11 @@
 			} else {
 				console.log('Not authenticated');
 				// reload page
-				if ($page.url.pathname.endsWith('/register')) {
-					window.location.href = $keycloakState.createRegisterUrl();
-				} else {
-					$keycloakState.login();
-				}
+				// if ($page.url.pathname.endsWith('/register')) {
+				// 	window.location.href = $keycloakState.createRegisterUrl({ redirectUri: window.location.hostname + '/onboarding' });
+				// } else {
+				// 	$keycloakState.login();
+				// }
 			}
 		})
 		.catch((e) => {
