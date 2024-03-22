@@ -39,7 +39,6 @@
 			onLoad: 'check-sso'
 		})
 		.then((authenticated) => {
-			console.log($keycloakState.createRegisterUrl());
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
