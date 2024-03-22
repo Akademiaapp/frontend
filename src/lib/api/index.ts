@@ -67,7 +67,7 @@ class ApiHandler {
 			'/documents',
 			{
 				name: documentName,
-				user_id: get(userInfo).token
+				user_id: get(userInfo).sub
 			},
 			'POST'
 		);
