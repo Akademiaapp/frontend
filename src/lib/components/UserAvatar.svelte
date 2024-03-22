@@ -2,15 +2,6 @@
 	import { userInfo } from "@/api/apiStore";
 
 	export let name = false;
-
-	// const userHandler = async () => {
-	// 	if (!state.token) {
-	// 		goto('/signin');
-	// 	} else {
-	// 		await state.logout();
-	// 	}
-	// };
-	// on:click={userHandler}
 </script>
 
 <div class="cage">

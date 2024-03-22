@@ -8,6 +8,7 @@
 	import './styles.css';
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
+	import { page } from '$app/stores';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -33,24 +34,39 @@
 		})
 	);
 
-	let loggedIn = false;
-
 	$keycloakState
 		.init({
 			onLoad: 'check-sso'
 		})
 		.then((authenticated) => {
+			console.log($keycloakState.createRegisterUrl());
 			if (authenticated) {
+				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					loggedIn = true;
 					userInfo.set({ ...userInfoKc, token: $keycloakState.token } as UserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
+					setInterval(() => {
+						$keycloakState.updateToken(70).then((refreshed) => {
+							if (refreshed) {
+								console.log('Token refreshed');
+								userInfo.update((it) => ({ ...it, token: $keycloakState.token }));
+							} else {
+								console.log('Token not refreshed, valid for another 70 seconds');
+							}
+						});
+					}, 6000);
+					keycloakState.update((it) => it);
+					console.log('Authenticated');
 				});
-				// Check if user exists in own db
 			} else {
-				loggedIn = false;
-				goto('/signin');
+				console.log('Not authenticated');
+				// reload page
+				if ($page.url.pathname.endsWith('/register')) {
+					window.location.href = $keycloakState.createRegisterUrl();
+				} else {
+					$keycloakState.login();
+				}
 			}
 		})
 		.catch((e) => {
@@ -67,9 +83,11 @@
 	<meta name="color-scheme" content={$themeVariant} />
 </svelte:head>
 
-<div class="app">
-	<slot />
-</div>
+{#if $keycloakState.authenticated}
+	<div class="app">
+		<slot />
+	</div>
+{/if}
 
 <style>
 	.app {

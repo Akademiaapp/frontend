@@ -4,10 +4,10 @@
 	import { Notebook, Target, File } from 'lucide-svelte';
 	import { documentStore, userInfo, assignmentStore } from '@/api/apiStore';
 
-	console.log("assignments", $assignmentStore);
+	console.log('assignments', $assignmentStore);
 </script>
 
-<div class="cont br-2 frontground">
+<div class="cont br-2 frontground" id="overview">
 	<h1>Velkommen, {$userInfo.name}</h1>
 	<h2>
 		<Target />
@@ -18,7 +18,7 @@
 			<Assignment
 				name={assignment.name}
 				progress={assignment.progress}
-				id={"294fb0e5-16f6-44da-9e34-ac79ed5a482a"}
+				id={'294fb0e5-16f6-44da-9e34-ac79ed5a482a'}
 				date={new Date(Number(assignment.due_date)).toLocaleDateString('da-DK', {
 					year: 'numeric',
 					month: 'long',

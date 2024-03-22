@@ -27,10 +27,13 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
+	export let connected = false;
+
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
 			return;
 		}
+		connected = false;
 		console.log('Initializing tiptap', initcurrentFile);
 		if ($editor) {
 			$editor.destroy();
@@ -38,14 +41,10 @@
 		if (provider) {
 			provider.destroy();
 		}
-		if (!$userInfo) {
-			goto('/signin');
-			return;
-		}
 		provider = new HocuspocusProvider({
 			url: 'wss://collaboration.akademia.cc',
 			token: 'Bearer ' + $userInfo.token,
-			name: 'document.' + initcurrentFile.id,
+			name: initcurrentFile.id,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -56,6 +55,8 @@
 				if ($editor) {
 					$editor.destroy();
 				}
+				connected = true;
+
 				editor.set(
 					new Editor({
 						extensions: [
