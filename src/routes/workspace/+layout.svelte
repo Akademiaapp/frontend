@@ -1,14 +1,10 @@
 <script lang="ts">
 	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
-	import { setContext } from 'svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';
-	import ApiHandler from '@/api';
+	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';;
 	import ApiDown from '@/components/ApiDown.svelte';
 	import { userInfo } from '../../authStore';
 
-	const api = new ApiHandler($userInfo);
-	setContext('api', api);
 	updateDocuments();
 	updateAssignments();
 	updateUserInfo($userInfo);

@@ -11,7 +11,6 @@ export interface UserInfo {
     preferred_username: string;
     given_name: string;
     family_name: string;
-    token: string;
 }
 
 export const userInfo: Writable<UserInfo> = writable();

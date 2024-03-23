@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { themeVariant } from '../../../store';
-	import ApiHandler from '../../../../lib/api';
+	import api from '../../../../lib/api';
 
 	import { getContext } from 'svelte';
 	import ShareDocument from './ShareDocument.svelte';
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
-
-	const api = getContext('api') as ApiHandler;
 
 	let selection = $editor;
 

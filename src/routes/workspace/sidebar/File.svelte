@@ -1,6 +1,5 @@
 <script>
 	import { capLength } from '$lib/utils/stringUtils';
-	import { goto } from '$app/navigation';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
 	export let name = 'fileName';
@@ -14,7 +13,7 @@
 		<div>
 			<File size={20}></File>
 		</div>
-		<span class="name">{name}</span>
+		<span class="name">{capLength(name, 20)}</span>
 	</a>
 </SideBarElem>
 
