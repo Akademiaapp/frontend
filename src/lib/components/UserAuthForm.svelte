@@ -10,10 +10,20 @@
 	export let actionName = 'Sign In';
 	export let onSubmit = () => {
 		isLoading = true;
+		
+		let email = (document.getElementById('email') as HTMLInputElement).value;
 
 		setTimeout(() => {
 			isLoading = false;
 		}, 3000);
+
+		if (actionName === 'Sign In') {
+			$keycloakState.login({ loginHint: email });
+			return;
+		} else if (actionName === 'Sign Up') {
+			$keycloakState.register({ loginHint: email });
+			return;
+		}
 	};
 
 	export let redirectUri = '';
