@@ -1,6 +1,13 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
+	import { keycloakState } from '../../../authStore';
+	import { goto } from '$app/navigation';
+
+	$: if ($keycloakState.authenticated) {
+		console.log('hhddh');
+		goto('/workspace');
+	}
 </script>
 
 <div class="md:hidden">
