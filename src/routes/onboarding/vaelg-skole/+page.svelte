@@ -44,7 +44,7 @@
 		canProceed.set(true);
 		selectedSchool.set(school);
 
-		el = document.querySelector('input');
+		const el = document.querySelector('input');
 		el.blur();
 	}
 
