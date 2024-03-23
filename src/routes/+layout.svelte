@@ -9,6 +9,7 @@
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
 	import { page } from '$app/stores';
+	import { Toaster } from '@/components/ui/sonner';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -91,6 +92,8 @@
 		<slot />
 	</div>
 {/if}
+
+<Toaster />
 
 <style>
 	.app {

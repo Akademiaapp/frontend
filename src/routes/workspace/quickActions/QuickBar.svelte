@@ -3,6 +3,8 @@
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
 	import { page } from '$app/stores';
+
+	export let isTimerVisible: boolean;
 </script>
 
 <QuickAction
@@ -14,8 +16,8 @@
 
 <QuickAction
 	icon="alarm"
-	action={() => goto('/workspace/time')}
-	active={$page.route.id?.includes('workspace/time')}
+	action={() => isTimerVisible = !isTimerVisible}
+	active={isTimerVisible}
 />
 
 <style lang="scss">

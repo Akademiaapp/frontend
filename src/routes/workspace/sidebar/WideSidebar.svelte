@@ -2,7 +2,10 @@
 	import QuickBar from '../quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
+	import Timer from './Timer.svelte';
 	export let isExpanded: boolean;
+
+	let isTimerVisible: boolean;
 </script>
 
 <div class="cont br-2 float-panel">
@@ -17,10 +20,12 @@
 			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 		</button>
 	</div>
-	<div class="flex gap-2" id="quick-bar"><QuickBar /></div>
+	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible/></div>
 </div>
 
 <FileViewer></FileViewer>
+
+<Timer bind:visible={isTimerVisible}></Timer>
 
 <style lang="scss">
 	.cont {
