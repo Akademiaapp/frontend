@@ -2,6 +2,7 @@
 	import { Github, Loader2 } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
+	import { keycloakState } from '../../authStore';
 
 	export let isLoading = false;
 
@@ -54,7 +55,12 @@
 			{/if}
 			Google
 		</Button>
-		<Button variant="outline" type="button" disabled={isLoading}>
+		<Button
+			variant="outline"
+			type="button"
+			disabled={isLoading}
+			on:click={() => $keycloakState.login({ idpHint: 'microsoft' })}
+		>
 			{#if isLoading}
 				<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 			{:else}
