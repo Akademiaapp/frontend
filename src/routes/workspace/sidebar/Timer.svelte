@@ -21,6 +21,7 @@
     setInterval(() => {
         if (isStarted) {
             remainingTime -= 1;
+			value = [remainingTime];
         }
     }, 1000);
 
