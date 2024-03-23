@@ -3,6 +3,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import { Pause, Play } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
+	import Slider from '@/components/ui/slider/slider.svelte';
 
     export let visible: boolean;
 
@@ -22,6 +23,9 @@
             remainingTime -= 1;
         }
     }, 1000);
+
+	let value = [remainingTime];
+	$: remainingTime = value[0];
 </script>
 
 {#if visible}
@@ -41,7 +45,11 @@
                 {/if}
 			</Button>
 		</div>
-		<Progress class="w-full" value={Math.round(remainingTime / (60 * 30) * 100)}/>
+		{#if isStarted}
+			<Progress value={Math.round(remainingTime / (60 * 30) * 100)}/>
+		{:else}
+			<Slider	bind:value min={0} max={30 * 60} />
+		{/if}
 	</div>
 {/if}
 
