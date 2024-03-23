@@ -3,6 +3,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { keycloakState } from '../../authStore';
+	import SocialLogonButton from './SocialLogonButton.svelte';
 
 	export let isLoading = false;
 
@@ -14,6 +15,8 @@
 			isLoading = false;
 		}, 3000);
 	};
+
+	export let redirectUri = '';
 </script>
 
 <div class="grid gap-6" {...$$restProps}>
@@ -47,26 +50,19 @@
 		</div>
 	</div>
 	<div class="flex flex-col gap-2">
-		<Button variant="outline" type="button" disabled={isLoading}>
-			{#if isLoading}
-				<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-			{:else}
-				<img src="/icons/social/google.svg" alt="google" class="mr-2 h-4 w-4" />
-			{/if}
-			Google
-		</Button>
-		<Button
-			variant="outline"
-			type="button"
-			disabled={isLoading}
-			on:click={() => $keycloakState.login({ idpHint: 'microsoft' })}
-		>
-			{#if isLoading}
-				<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-			{:else}
-				<img src="/icons/social/microsoft.svg" alt="Microsoft" class="mr-2 h-4 w-4" />
-			{/if}
-			Microsoft
-		</Button>
+		<SocialLogonButton
+			name="Google"
+			keycloakName="google"
+			icon="/icons/social/google.svg"
+			{isLoading}
+			{redirectUri}
+		/>
+		<SocialLogonButton
+			name="Microsoft"
+			keycloakName="microsoft"
+			icon="/icons/social/microsoft.svg"
+			{isLoading}
+			{redirectUri}
+		/>
 	</div>
 </div>
