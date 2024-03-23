@@ -2,7 +2,6 @@
 	import { Github, LoaderIcon } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
-	import Label from '@/components/ui/label/label.svelte';
 
 	let isLoading = false;
 	async function onSubmit() {
@@ -12,13 +11,14 @@
 			isLoading = false;
 		}, 3000);
 	}
+
+	export let action = 'Sign In';
 </script>
 
 <div class="grid gap-6" {...$$restProps}>
 	<form on:submit|preventDefault={onSubmit}>
 		<div class="grid gap-2">
 			<div class="grid gap-1">
-				<Label for="email">Email</Label>
 				<Input
 					id="email"
 					placeholder="name@example.com"
@@ -33,7 +33,7 @@
 				{#if isLoading}
 					<LoaderIcon class="mr-2 h-4 w-4 animate-spin" />
 				{/if}
-				Sign In with Email
+				{action} with Email
 			</Button>
 		</div>
 	</form>
