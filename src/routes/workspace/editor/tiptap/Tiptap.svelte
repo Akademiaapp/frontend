@@ -160,6 +160,14 @@
 		max-width: 100%;
 	}
 
+	:global(.page > div) {
+		height: 100%;
+	}
+
+	:global(.tiptap) {
+		height: 100%;
+	}
+
 	button.active {
 		background: rgb(0, 0, 0);
 		color: white;
