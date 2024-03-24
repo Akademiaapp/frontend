@@ -24,7 +24,7 @@
 		if (isStarted) {
 			remainingTime -= 1;
 		}
-	}, 1000);
+	}, 1);
 
 	let value = [remainingTime];
 	$: remainingTime = value[0];
@@ -50,7 +50,7 @@
 		{#if isStarted}
 			<Progress value={Math.round((remainingTime / value[0]) * 1000) / 10} />
 		{:else}
-			<Slider bind:value min={0} max={30 * 60} />
+			<Slider bind:value min={0} max={30 * 60} step={60} />
 		{/if}
 	</div>
 {/if}
