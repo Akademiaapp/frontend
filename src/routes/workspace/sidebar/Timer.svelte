@@ -28,8 +28,6 @@
 
 	let value = [remainingTime];
 	$: remainingTime = value[0];
-
-	$: console.log(remainingTime, value[0], remainingTime / value[0]);
 </script>
 
 {#if visible}
