@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import api from '.';
 import type { UserInfo } from '../../authStore';
 
@@ -62,10 +62,10 @@ export class DocumentInfo extends FileInfo {
 }
 
 export enum AssignmentProgress {
-	NotStarted,
-	InProgress,
-	Submitted,
-	Graded
+	NOT_STARTED,
+	IN_PROGRESS,
+	SUBMITTED,
+	GRADED
 }
 
 export class Assignment extends FileInfo {
@@ -94,7 +94,7 @@ export class AssignmentAnswer extends Assignment {
 	constructor(info) {
 		super(info);
 		this.due_date = info.due_date;
-		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
+		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 	}
 }
 
@@ -144,7 +144,7 @@ export async function updateAssignmentsAnswers() {
 	const json = await response.json();
 
 	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
-	console.log('updated assignments', json);
+	console.log('updated assignments', get(assignmentStore));
 }
 
 export const apiDownStore = writable<boolean>(false);
