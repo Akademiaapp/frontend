@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';;
+	import { updateDocuments, updateUserInfo, updateAssignments } from '@/api/apiStore';
 	import ApiDown from '@/components/ApiDown.svelte';
 	import { userInfo } from '../../authStore';
 

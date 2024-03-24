@@ -10,7 +10,7 @@
 	export let actionName = 'Sign In';
 	export let onSubmit = () => {
 		isLoading = true;
-		
+
 		let email = (document.getElementById('email') as HTMLInputElement).value;
 
 		setTimeout(() => {
