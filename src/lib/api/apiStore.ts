@@ -137,8 +137,8 @@ interface userInfo {
 }
 export const userInfo = writable<userInfo>();
 
-export async function updateAssignments() {
-	const response = await api.getAssignments();
+export async function updateAssignmentsAnswers() {
+	const response = await api.getAssignmentAnswers();
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
 	}

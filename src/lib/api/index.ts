@@ -72,9 +72,13 @@ class ApiHandler {
 			'POST'
 		);
 	};
-	getAssignments = () => {
+	getAssignmentAnswers = () => {
 		return this.callApi('/assignments');
 	};
+
+	// getAssignments = () => {
+	// 	return this.callApi('/assignments');
+	// };
 
 	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(
