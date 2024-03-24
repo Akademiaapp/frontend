@@ -16,7 +16,7 @@
 
 <QuickAction
 	icon="alarm"
-	action={() => isTimerVisible = !isTimerVisible}
+	action={() => (isTimerVisible = !isTimerVisible)}
 	active={isTimerVisible}
 />
 

@@ -20,7 +20,7 @@
 			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
 		</button>
 	</div>
-	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible/></div>
+	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible /></div>
 </div>
 
 <FileViewer></FileViewer>

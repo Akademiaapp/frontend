@@ -5,25 +5,27 @@
 	import { toast } from 'svelte-sonner';
 	import Slider from '@/components/ui/slider/slider.svelte';
 
-    export let visible: boolean;
+	export let visible: boolean;
 
-    let isStarted = false;
-    let remainingTime = 30 * 60;
+	let isStarted = false;
+	let remainingTime = 30 * 60;
 
-    $: if (remainingTime <= 0) {
-        let ding = new Audio('https://gist.githubusercontent.com/cferdinandi/9842dbe5f7286f0ed1edbb7203453a61/raw/6737423b76a764e3ec609a432a61c34dd79ff406/ding.mp3');
-        ding.play();
-        toast.success('Tiden er oppe!', { description: 'Timeren nåede 0.'});
-        remainingTime = 30 * 60;
-        isStarted = false;
-    }
+	$: if (remainingTime <= 0) {
+		let ding = new Audio(
+			'https://gist.githubusercontent.com/cferdinandi/9842dbe5f7286f0ed1edbb7203453a61/raw/6737423b76a764e3ec609a432a61c34dd79ff406/ding.mp3'
+		);
+		ding.play();
+		toast.success('Tiden er oppe!', { description: 'Timeren nåede 0.' });
+		remainingTime = 30 * 60;
+		isStarted = false;
+	}
 
-    setInterval(() => {
-        if (isStarted) {
-            remainingTime -= 1;
+	setInterval(() => {
+		if (isStarted) {
+			remainingTime -= 1;
 			value = [remainingTime];
-        }
-    }, 1000);
+		}
+	}, 1000);
 
 	let value = [remainingTime];
 	$: remainingTime = value[0];
@@ -35,21 +37,21 @@
 			<div class="mr-1">
 				<h2>Timer</h2>
 				<p>
-                    {remainingTime / 60 | 0}m {remainingTime % 60}s tilbage
-                </p>
+					{(remainingTime / 60) | 0}m {remainingTime % 60}s tilbage
+				</p>
 			</div>
-			<Button class="rounded-full h-10 w-10 p-0" on:click={() => isStarted = !isStarted}>
-                {#if isStarted}
-                    <Pause />
-                {:else}
-                    <Play />
-                {/if}
+			<Button class="h-10 w-10 rounded-full p-0" on:click={() => (isStarted = !isStarted)}>
+				{#if isStarted}
+					<Pause />
+				{:else}
+					<Play />
+				{/if}
 			</Button>
 		</div>
 		{#if isStarted}
-			<Progress value={Math.round(remainingTime / (60 * 30) * 100)}/>
+			<Progress value={Math.round((remainingTime / (60 * 30)) * 100)} />
 		{:else}
-			<Slider	bind:value min={0} max={30 * 60} />
+			<Slider bind:value min={0} max={30 * 60} />
 		{/if}
 	</div>
 {/if}
