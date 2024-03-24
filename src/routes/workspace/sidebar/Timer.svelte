@@ -23,12 +23,13 @@
 	setInterval(() => {
 		if (isStarted) {
 			remainingTime -= 1;
-			value = [remainingTime];
 		}
 	}, 1000);
 
 	let value = [remainingTime];
 	$: remainingTime = value[0];
+
+	$: console.log(remainingTime, value[0], remainingTime / value[0]);
 </script>
 
 {#if visible}
@@ -49,7 +50,7 @@
 			</Button>
 		</div>
 		{#if isStarted}
-			<Progress value={Math.round((remainingTime / (60 * 30)) * 100)} />
+			<Progress value={(remainingTime / value[0]) * 100} />
 		{:else}
 			<Slider bind:value min={0} max={30 * 60} />
 		{/if}
