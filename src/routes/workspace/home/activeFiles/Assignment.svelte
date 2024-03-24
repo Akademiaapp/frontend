@@ -11,13 +11,13 @@
 	let progressNumber = 5;
 	let finished = false;
 	console.log(progress);
-	if (progress == AssignmentProgress.NotStarted || progress == undefined) {
+	if (progress == AssignmentProgress.NOT_STARTED || progress == undefined) {
 		progressNumber = 5;
-	} else if (progress == AssignmentProgress.InProgress) {
+	} else if (progress == AssignmentProgress.IN_PROGRESS) {
 		progressNumber = 50;
-	} else if (progress == AssignmentProgress.Submitted) {
+	} else if (progress == AssignmentProgress.SUBMITTED) {
 		progressNumber = 100;
-	} else if (progress == AssignmentProgress.Graded) {
+	} else if (progress == AssignmentProgress.GRADED) {
 		finished = true;
 		progressNumber = 100;
 	}
