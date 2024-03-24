@@ -68,19 +68,6 @@ export enum AssignmentProgress {
 	Graded
 }
 
-export class AssignmentAnswer extends FileInfo {
-	due_date: string;
-	progress: AssignmentProgress;
-
-	fileType = 'assignments';
-
-	constructor(info) {
-		super(info);
-		this.due_date = info.due_date;
-		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
-	}
-}
-
 export class Assignment extends FileInfo {
 	due_date: string;
 	assignment_answers;
@@ -96,6 +83,18 @@ export class Assignment extends FileInfo {
 		this.assignment_answers = info.assignment_answers;
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
+	}
+}
+
+export class AssignmentAnswer extends Assignment {
+	progress: AssignmentProgress;
+
+	fileType = 'assignments';
+
+	constructor(info) {
+		super(info);
+		this.due_date = info.due_date;
+		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
 	}
 }
 
