@@ -1,12 +1,31 @@
 <script lang="ts">
+	import api from '@/api';
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
 	import { keycloakState } from '../../../authStore';
 	import { goto } from '$app/navigation';
 
+	let isLoading = false;
+
 	$: if ($keycloakState.authenticated) {
-		console.log('hhddh');
-		goto('/workspace');
+		redirect().catch(console.error);
+	}
+
+	async function redirect() {
+		// check if the user is correctly set up
+		isLoading = true;
+		const req = await api.callApi('isUserSetupCurrecly', null, 'GET');
+		// const isUserSetupCurrecly = (await req.json()).isUserSetupCurrecly;
+		const isUserSetupCurrecly = true;
+		//TODO: change to actual fetching the data
+
+		if (!isUserSetupCurrecly) {
+			// if not, redirect to the onboarding
+			goto('/onboarding');
+		} else {
+			// else redirect to the workspace
+			goto('/workspace');
+		}
 	}
 </script>
 
@@ -29,7 +48,7 @@
 					Enter your email below to log into your account.
 				</p>
 			</div>
-			<UserAuthForm />
+			<UserAuthForm {isLoading} />
 			<p class="px-8 text-center text-sm text-muted-foreground">
 				By clicking continue, you agree to our{' '}
 				<a href="/terms" class="underline underline-offset-4 hover:text-primary">
