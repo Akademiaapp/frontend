@@ -27,7 +27,6 @@
 	}, 1000);
 
 	let value = [remainingTime];
-	$: remainingTime = value[0];
 </script>
 
 {#if visible}
@@ -50,7 +49,7 @@
 		{#if isStarted}
 			<Progress value={Math.round((remainingTime / value[0]) * 100)} />
 		{:else}
-			<Slider bind:value min={0} max={30 * 60} />
+			<Slider bind:value min={0} max={30 * 60} onValueChange={() => (remainingTime = value[0])} />
 		{/if}
 	</div>
 {/if}
