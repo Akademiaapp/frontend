@@ -24,7 +24,7 @@
 		if (isStarted) {
 			remainingTime -= 1;
 		}
-	}, 1000);
+	}, 1);
 
 	let value = [remainingTime];
 </script>
