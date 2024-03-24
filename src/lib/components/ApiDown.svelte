@@ -14,7 +14,8 @@
 		<Dialog.Description
 			>Det ser ud til, at vores API har besluttet at tage en kaffe-pause og lade vores udviklere
 			arbejde deres magi bag kulisserne! Vi undskylder for besværet og lover at få det op at køre
-			igen snarest muligt. Du kan tjekke status <a href="https://status.akademia.cc/">her</a>.</Dialog.Description
+			igen snarest muligt. Du kan tjekke status <a href="https://status.akademia.cc/">her</a
+			>.</Dialog.Description
 		>
 		<div class="flex w-full gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Luk</Button>
