@@ -50,7 +50,7 @@
 		{#if isStarted}
 			<Progress value={Math.round((remainingTime / value[0]) * 1000) / 10} />
 		{:else}
-			<Slider bind:value min={0} max={30 * 60} step={60} />
+			<Slider bind:value min={0} max={30 * 60} step={30} />
 		{/if}
 	</div>
 {/if}
