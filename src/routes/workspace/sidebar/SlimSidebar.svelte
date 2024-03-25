@@ -42,7 +42,7 @@
 			</QuickAction>
 		</div>
 		<div class="frontground br-2">
-			<QuickAction tooltip="Settings" action={() => goto('/settings/appearance')}>
+			<QuickAction tooltip="Settings" action={() => goto('/settings')}>
 				<Settings size="29"></Settings>
 			</QuickAction>
 		</div>
