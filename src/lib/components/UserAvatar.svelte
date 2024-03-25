@@ -16,7 +16,8 @@
 		Settings,
 		User,
 		UserPlus,
-		Users
+		Users,
+		SquareX,
 	} from 'lucide-svelte';
 	import { keycloakState } from '../../authStore';
 	import { goto } from '$app/navigation';
@@ -39,62 +40,31 @@
 			<DropdownMenu.Label>My Account</DropdownMenu.Label>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Group>
-				<DropdownMenu.Item>
-					<User class="mr-2 h-4 w-4" />
-					<span>Profile</span>
-				</DropdownMenu.Item>
-				<DropdownMenu.Item>
-					<CreditCard class="mr-2 h-4 w-4" />
-					<span>Billing</span>
-				</DropdownMenu.Item>
 				<DropdownMenu.Item on:click={() => goto('/settings')}>
 					<Settings class="mr-2 h-4 w-4" />
 					<span>Settings</span>
 				</DropdownMenu.Item>
-			</DropdownMenu.Group>
-			<DropdownMenu.Separator />
-			<DropdownMenu.Group>
-				<DropdownMenu.Item>
-					<Users class="mr-2 h-4 w-4" />
-					<span>Team</span>
-				</DropdownMenu.Item>
-				<DropdownMenu.Sub>
-					<DropdownMenu.SubTrigger>
-						<UserPlus class="mr-2 h-4 w-4" />
-						<span>Invite users</span>
-					</DropdownMenu.SubTrigger>
-					<DropdownMenu.SubContent>
-						<DropdownMenu.Item>
-							<Mail class="mr-2 h-4 w-4" />
-							<span>Email</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<MessageSquare class="mr-2 h-4 w-4" />
-							<span>Message</span>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item>
-							<CirclePlus class="mr-2 h-4 w-4" />
-							<span>More...</span>
-						</DropdownMenu.Item>
-					</DropdownMenu.SubContent>
-				</DropdownMenu.Sub>
-				<DropdownMenu.Item>
-					<Plus class="mr-2 h-4 w-4" />
-					<span>New Team</span>
+				<DropdownMenu.Item on:click={() => goto('/settings/account')}>
+					<User class="mr-2 h-4 w-4" />
+					<span>Profile</span>
 				</DropdownMenu.Item>
 			</DropdownMenu.Group>
 			<DropdownMenu.Separator />
-			<DropdownMenu.Item>
+			<DropdownMenu.Item
+				on:click={() => {
+					window.location.href = 'https://github.com/akademiaapp/';
+				}}
+			>
 				<Github class="mr-2 h-4 w-4" />
 				<span>GitHub</span>
 			</DropdownMenu.Item>
-			<DropdownMenu.Item>
-				<LifeBuoy class="mr-2 h-4 w-4" />
-				<span>Support</span>
-			</DropdownMenu.Item>
-			<DropdownMenu.Item>
+			<DropdownMenu.Item
+				on:click={() => {
+					window.location.href = 'https://status.akademia.cc/';
+				}}
+			>
 				<Cloud class="mr-2 h-4 w-4" />
-				<span>API</span>
+				<span>API Status</span>
 			</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item
