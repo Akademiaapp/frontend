@@ -23,7 +23,9 @@
 			src="https://aulainfo.dk/wp-content/themes/aula-info/assets/img/logo__aula--white.svg"
 			alt="aula logo"
 		/>
-		<p class="absolute -right-0.5 -top-1 min-w-4 rounded-full bg-red-600 p-0 text-center text-xs">
+		<p
+			class="absolute -right-0.5 -top-1 min-w-4 rounded-full bg-red-600 p-0 text-center text-xs text-primary-foreground"
+		>
 			{notfiCount}
 		</p>
 	</a>
