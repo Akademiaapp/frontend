@@ -3,7 +3,7 @@ import { keycloakState, userInfo } from '../../authStore';
 import { get } from 'svelte/store';
 
 class ApiHandler {
-	static baseUrl = 'http://localhost:3000';
+	static baseUrl = 'https://api.akademia.cc';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
