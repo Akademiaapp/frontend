@@ -23,7 +23,7 @@
 	}
 </script>
 
-<a href={'/workspace/editor?id=' + id + '&type=assignment'} class="reset cont frontground">
+<a href={'/workspace/editor?id=assignmentAnswer.' + id + '&type=assignment'} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 		<p class="date">Afleveringsdato {date}</p>

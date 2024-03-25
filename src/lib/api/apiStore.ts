@@ -88,12 +88,14 @@ export class Assignment extends FileInfo {
 
 export class AssignmentAnswer extends Assignment {
 	progress: AssignmentProgress;
+	answer_id: string;
 
 	fileType = 'assignments';
 
 	constructor(info) {
 		super(info);
 		this.due_date = info.due_date;
+		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 	}
 }
@@ -143,7 +145,7 @@ export async function updateAssignmentsAnswers() {
 	}
 	const json = await response.json();
 
-	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
+	assignmentStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
 	console.log('updated assignments', get(assignmentStore));
 }
 
