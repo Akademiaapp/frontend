@@ -193,7 +193,7 @@
 						<Loader2 class=" mr-2 origin-center animate-spin" />
 						<p class="">Loading...</p>
 					{:else if state === 'missignCred'}
-						<a href="unilogin" class="text-2">Missing credentials</a>
+						<a href="/settings/aula" class="text-2">Missing credentials</a>
 					{:else if state === 'failed'}
 						<p class="text-2">Failed to load</p>
 					{/if}
