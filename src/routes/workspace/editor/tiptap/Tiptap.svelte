@@ -38,7 +38,7 @@
 			provider.destroy();
 		}
 		provider = new HocuspocusProvider({
-			url: 'ws://localhost:8090',
+			url: 'wss://collaboration.akademia.cc',
 			token: 'Bearer ' + $keycloakState.token,
 			name: initcurrentFile.id,
 			onAuthenticationFailed: () => {

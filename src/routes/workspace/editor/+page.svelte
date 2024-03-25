@@ -11,7 +11,7 @@
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
-	var documentType = id.split('.')[0]
+	var documentType = id.split('.')[0];
 
 	if (!id) {
 		goto('/workspace/home');
@@ -20,10 +20,9 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
-			console.log("hey!", fileContent);
-			console.log("What??", id)
-			if (id)
-			currentFile.set(new FileInfo(fileContent));
+			console.log('hey!', fileContent);
+			console.log('What??', id);
+			if (id) currentFile.set(new FileInfo(fileContent));
 		});
 	});
 </script>
