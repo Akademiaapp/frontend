@@ -1,13 +1,10 @@
 <script lang="ts">
 	import File from './File.svelte';
-	import ApiHandler from '$lib/api';
+	import api from '$lib/api';
 
-	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import { DocumentInfo, currentFile, documentStore } from '@/api/apiStore';
-
-	const api = getContext('api') as ApiHandler;
 
 	export let files: DocumentInfo[] = $documentStore;
 

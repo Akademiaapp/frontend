@@ -1,6 +1,5 @@
-import { writable } from 'svelte/store';
-import type ApiHandler from '.';
-import { getContext } from 'svelte';
+import { get, writable } from 'svelte/store';
+import api from '.';
 import type { UserInfo } from '../../authStore';
 
 export class FileInfo {
@@ -25,15 +24,15 @@ export class FileInfo {
 		return `/documents/${this.id}`;
 	}
 
-	rename(newName: string, api: ApiHandler) {
-		return this.updateInfo({ name: newName }, api);
-	}
+	rename = api.debounce((newName: string) => {
+		return this.updateInfo({ name: newName });
+	});
 
-	delete(api: ApiHandler) {
+	delete() {
 		return api.callApi(this.path, {}, 'DELETE');
 	}
 
-	addUser(user_email: string, api: ApiHandler) {
+	addUser(user_email: string) {
 		return api.callApi(
 			this.path + '/users',
 			{
@@ -44,12 +43,12 @@ export class FileInfo {
 	}
 
 	// Gets the members of the file from the api
-	getMembers(api: ApiHandler) {
+	getMembers() {
 		return api.callApi(this.path + '/users');
 	}
 
 	// Requests the api to update information
-	updateInfo(info, api: ApiHandler) {
+	updateInfo(info) {
 		return api.callApi(this.path, info, 'PUT');
 	}
 }
@@ -63,28 +62,45 @@ export class DocumentInfo extends FileInfo {
 }
 
 export enum AssignmentProgress {
-	NotStarted,
-	InProgress,
-	Submitted,
-	Graded
+	NOT_STARTED,
+	IN_PROGRESS,
+	SUBMITTED,
+	GRADED
 }
 
 export class Assignment extends FileInfo {
 	due_date: string;
-	progress: AssignmentProgress;
+	assignment_answers;
+	asigned_groups_ids: string[];
+	isPublic: boolean;
+	teacherId: string;
 
 	fileType = 'assignments';
 
 	constructor(info) {
 		super(info);
 		this.due_date = info.due_date;
-		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
+		this.assignment_answers = info.assignment_answers;
+		this.isPublic = info.isPublic;
+		this.teacherId = info.teacherId;
+	}
+}
+
+export class AssignmentAnswer extends Assignment {
+	progress: AssignmentProgress;
+	answer_id: string;
+
+	fileType = 'assignments';
+
+	constructor(info) {
+		super(info);
+		this.due_date = info.due_date;
+		this.answer_id = info.answer_id;
+		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 	}
 }
 
 export async function updateDocuments() {
-	const api = getContext('api') as ApiHandler;
-
 	const response = await api.getUserDocuments();
 	console.log('response: ', response);
 	if (!response) {
@@ -113,7 +129,7 @@ export function updateUserInfo(state: UserInfo) {
 
 // Explicitly specify the type of the store
 export const documentStore = writable<DocumentInfo[]>([]);
-export const assignmentStore = writable<Assignment[]>([]);
+export const assignmentStore = writable<AssignmentAnswer[]>([]);
 
 export const currentFile = writable<FileInfo>(null);
 
@@ -122,17 +138,15 @@ interface userInfo {
 }
 export const userInfo = writable<userInfo>();
 
-export async function updateAssignments() {
-	const api = getContext('api') as ApiHandler;
-
-	const response = await api.getAssignments();
+export async function updateAssignmentsAnswers() {
+	const response = await api.getAssignmentAnswers();
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
 	}
 	const json = await response.json();
 
-	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
-	console.log('updated assignments', json);
+	assignmentStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
+	console.log('updated assignments', get(assignmentStore));
 }
 
 export const apiDownStore = writable<boolean>(false);

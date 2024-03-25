@@ -18,15 +18,16 @@
 			<Assignment
 				name={assignment.name}
 				progress={assignment.progress}
-				id={'294fb0e5-16f6-44da-9e34-ac79ed5a482a'}
-				date={new Date(Number(assignment.due_date)).toLocaleDateString('da-DK', {
+				id={assignment.answer_id}
+				assignmentId={assignment.id}
+				date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
 					year: 'numeric',
 					month: 'long',
 					day: 'numeric',
 					hour: 'numeric',
 					minute: 'numeric'
 				})}
-			></Assignment>
+			/>
 		{/each}
 		{#if $assignmentStore.length == 0}
 			<p class="">Der er ingen afleveringer</p>

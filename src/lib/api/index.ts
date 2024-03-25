@@ -1,13 +1,9 @@
 import { apiDownStore } from './apiStore';
-import type { UserInfo } from '../../authStore';
+import { keycloakState, userInfo } from '../../authStore';
+import { get } from 'svelte/store';
 
-export default class ApiHandler {
-	static baseUrl = 'https://api.akademia.cc';
-	static context: UserInfo;
-
-	constructor(context: UserInfo) {
-		ApiHandler.context = context;
-	}
+class ApiHandler {
+	static baseUrl = 'http://localhost:3000';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
@@ -27,7 +23,7 @@ export default class ApiHandler {
 		// Add bearer token to headers
 		const headers = {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${ApiHandler.context.token}`
+			Authorization: `Bearer ${get(keycloakState).token}`
 		};
 
 		return fetch(
@@ -71,14 +67,18 @@ export default class ApiHandler {
 			'/documents',
 			{
 				name: documentName,
-				user_id: ApiHandler.context.sub
+				user_id: get(userInfo).sub
 			},
 			'POST'
 		);
 	};
-	getAssignments = () => {
+	getAssignmentAnswers = () => {
 		return this.callApi('/assignments');
 	};
+
+	// getAssignments = () => {
+	// 	return this.callApi('/assignments');
+	// };
 
 	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(
@@ -92,3 +92,5 @@ export default class ApiHandler {
 		);
 	};
 }
+
+export default new ApiHandler();

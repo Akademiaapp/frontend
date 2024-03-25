@@ -8,10 +8,8 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
-	import type ApiHandler from '@/api';
+	import api from '@/api';
 	import { FileInfo, currentFile } from '@/api/apiStore';
-
-	const api = getContext('api') as ApiHandler;
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
@@ -67,7 +65,7 @@
 	function findMembers(activeFile: FileInfo) {
 		people = [];
 
-		$currentFile.getMembers(api).then((response) => {
+		$currentFile.getMembers().then((response) => {
 			response.json().then((members: User[]) => {
 				console.log(members);
 				members.forEach((member) => {
@@ -103,7 +101,7 @@
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
 		console.log(email);
 		if ($currentFile instanceof FileInfo) {
-			$currentFile.addUser(email, api).then((response) => {
+			$currentFile.addUser(email).then((response) => {
 				console.log(response);
 			});
 		}

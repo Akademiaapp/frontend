@@ -1,16 +1,8 @@
 <script lang="ts">
 	import QuickBar from '../quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	import { Editor, EditorContent } from 'svelte-tiptap';
-	import { getContext } from 'svelte';
-	import type { Readable } from 'svelte/store';
-	import { EditorExtensions } from '@/editor/extensions';
-	import Document from '@tiptap/extension-document';
-	import { Title } from '../editor/tiptap/extensions/title';
-	import ApiHandler from '@/api';
-	export let sidebarVisible: boolean = true;
 
-	const api = getContext('api') as ApiHandler;
+	export let sidebarVisible: boolean = true;
 
 	export let assignmentId: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
 	// let editor = new Editor({

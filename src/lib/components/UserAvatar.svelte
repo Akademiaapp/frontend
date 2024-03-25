@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { userInfo } from "@/api/apiStore";
+	import { userInfo } from '@/api/apiStore';
 
 	export let name = false;
 </script>
