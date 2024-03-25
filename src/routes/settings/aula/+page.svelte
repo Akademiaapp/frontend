@@ -5,7 +5,11 @@
 	let username = '';
 	let password = '';
 
-	$: console.log(username, password);
+	function handleSubmit() {
+		// Save username and password in local storage
+		sessionStorage.setItem('username', username);
+		sessionStorage.setItem('password', password);
+	}
 </script>
 
 <h1 class="mb-0">Aula Integration</h1>
@@ -14,7 +18,7 @@
 </p>
 
 <h2 class="mt-4">Unilogin</h2>
-<form class="flex w-[20rem] flex-col gap-4" on:submit={() => console.log('hdhdh')}>
+<form class="flex w-[20rem] flex-col gap-4" on:submit={handleSubmit}>
 	<Input type="text" placeholder="Username" bind:value={username} />
 	<Input type="password" placeholder="Password" bind:value={password} />
 
