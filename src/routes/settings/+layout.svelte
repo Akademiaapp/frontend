@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils';
+	import { X } from 'lucide-svelte';
+	import { goto } from '$app/navigation';
 
 	const settingPages = [
 		{
@@ -22,7 +24,13 @@
 
 <div class="m-auto max-w-[80rem] p-6">
 	<div class="p-2">
-		<h1 class="mb-1">Settings</h1>
+		<div class="flex justify-between">
+			<h1 class="mb-1">Settings</h1>
+			
+			<button on:click={() => goto('/workspace/home')}>
+				<X class="cursor-pointer" size={32}/>
+			</button>
+		</div>
 
 		<p class="text-sm text-muted-foreground">Settings page</p>
 		<Separator class="mt-4"></Separator>
