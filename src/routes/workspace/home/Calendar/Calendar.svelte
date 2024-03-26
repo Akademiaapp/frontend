@@ -45,7 +45,6 @@
 	}
 
 	function checkOverlap(events) {
-		console.log(events);
 		// Sort events by start time
 		// events.sort((a, b) => a.start - b.start);
 
@@ -67,9 +66,6 @@
 				}
 
 				j++;
-				// console.log(i + j);
-				// console.log(events[i + j]);
-				// console.log(events[i + j].start);
 			}
 		}
 
