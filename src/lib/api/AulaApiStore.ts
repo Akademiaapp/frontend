@@ -1,8 +1,9 @@
+import { getAulaUrl } from '@/utils';
 import { get, writable } from 'svelte/store';
 
 export const loginInfo = writable(null);
 
-const URL = 'http://192.168.1.76:8080/';
+const URL = getAulaUrl();
 
 export async function logintoAula(username: string, password: string) {
 	const payload = {
