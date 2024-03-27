@@ -50,10 +50,12 @@
 
 		let eventsToDelete = [];
 
-		for (let i = 0; i < events.length - 1; i++) {
+		console.log(events.length);
+		const len = events.length;
+		for (let i = 0; i < len - 1; i++) {
 			let j = 1;
 
-			while (events[i].end >= events[i + j].start) {
+			while (j < len - i && events[i].end >= events[i + j].start) {
 				if (events[i].end > events[i + j].start && events[i].x != '50%') {
 					events[i + j].x = '50%';
 				}
@@ -119,6 +121,7 @@
 				};
 			}
 		} catch (e) {
+			console.error(e);
 			state = 'failed';
 		}
 	});
