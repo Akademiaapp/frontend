@@ -1,9 +1,10 @@
 import { apiDownStore } from './apiStore';
 import { keycloakState, userInfo } from '../../authStore';
 import { get } from 'svelte/store';
+import { getApiUrl } from '@/utils';
 
 class ApiHandler {
-	static baseUrl = 'https://api.akademia.cc';
+	static baseUrl = getApiUrl();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {

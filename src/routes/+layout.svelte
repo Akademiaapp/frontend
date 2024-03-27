@@ -10,6 +10,7 @@
 	import 'katex/dist/katex.min.css';
 	import { page } from '$app/stores';
 	import { Toaster } from '@/components/ui/sonner';
+	import { getAuthUrl } from '@/utils';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -29,7 +30,7 @@
 
 	keycloakState.set(
 		new Keycloak({
-			url: 'https://auth.akademia.cc/',
+			url: getAuthUrl(),
 			realm: 'akademia',
 			clientId: 'akademia-frontend'
 		})
