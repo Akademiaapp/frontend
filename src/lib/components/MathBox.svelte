@@ -4,7 +4,10 @@
 	import 'mathlive';
 	import { ComputeEngine } from '@cortex-js/compute-engine';
 	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
-	export let value;
+	import { NodeViewContent } from 'svelte-tiptap';
+	import { HelpCircleIcon } from 'lucide-svelte';
+	import { editor } from '../../routes/workspace/editor/editorStore';
+	export let value = '';
 
 	function isEquation(str): boolean {
 		const pattern = /[^=]*[a-z]+[^=]*=[^=]+|[^=]+=[^=]*[a-z]+[^=]*/;
@@ -24,6 +27,11 @@
 	}
 
 	function handleKeyDown(event) {
+		if (event.data === 'insertLineBreak') {
+			document.querySelector('.tiptap').focus();
+			$editor.commands.setTextSelection($editor.state.selection.$to.pos);
+		}
+
 		value = mf.value;
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
 		const r = mf.expression.evaluate();
@@ -32,10 +40,10 @@
 			latexResult = r.latex;
 
 			try {
-				if (isEquation(mf.value)) {
-					const letter = findFirstLowerCaseSymbol(mf.value);
-					console.log(convertLatexToAsciiMath(mf.value));
-					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(mf.value)]);
+				if (isEquation(value)) {
+					const letter = findFirstLowerCaseSymbol(value);
+					console.log(convertLatexToAsciiMath(value));
+					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(value)]);
 					console.log(nv.x);
 
 					numResult = Object.entries(nv)
@@ -70,33 +78,74 @@
 
 	onMount(() => {
 		mf.addEventListener('input', handleKeyDown);
+
+		mf.addEventListener('move-out', (event) => {
+			console.log('move-out', event.detail.direction);
+
+			event.preventDefault();
+
+			document.querySelector('.tiptap').focus();
+			if (event.detail.direction === 'forward') {
+				$editor.commands.setTextSelection($editor.state.selection.$to.pos);
+			}
+			if (event.detail.direction === 'backward') {
+				$editor.commands.setTextSelection($editor.state.selection.$from.pos);
+			}
+		});
+
+		// 	console.log('dhdh');
+		// 	const { key } = event;
+		// 	const target = event.target as HTMLInputElement;
+		// 	console.log(mf.selection);
+
+		// 	console.log(
+		// 		'key',
+		// 		key,
+		// 		'selectionStart',
+		// 		selectionStart,
+		// 		'selectionEnd',
+		// 		selectionEnd,
+		// 		'value',
+		// 		value
+		// 	);
+
+		// 	if (
+		// 		(key === 'ArrowLeft' && selectionStart === 0) ||
+		// 		(key === 'ArrowRight' && selectionEnd === value.length)
+		// 	) {
+		// 		console.log('Attempted to move outside the input');
+		// 	}
+		// });
 	});
 
-	let latexResult = null;
-	let numResult = null;
+	export let latexResult = null;
+	export let numResult = null;
 
 	let oldRes;
+
+	let cont;
 </script>
 
 <!-- <input type="text" class="m-20 bg-background p-3 text-3xl" bind:value on:keydown={handleKeyDown} /> -->
 
-<div class="overflow-hidden rounded-lg border bg-background pr-6 text-2xl">
+<button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
 	<math-field
 		virtual-keyboard-mode="onfocus"
 		virtual-keyboard-theme="apple"
-		class="rounded-none border-b-2 border-b-primary/50 p-2 px-4 outline-none focus:border-b-primary/100"
+		class="rounded-none border-b-2 border-b-primary/50 p-1 px-2 outline-none focus:border-b-primary/100"
 		bind:this={mf}
 	>
+		<slot />
 	</math-field>
 	<span class="mx-auto h-full text-foreground" class:text-muted-foreground={oldRes}>
-		<span class="ML__cmr mr-4">=</span>
+		<span class="ML__cmr mr-2">=</span>
 
 		{#if latexResult != null}
 			{@html convertLatexToMarkup(latexResult)}
 		{/if}
 		{#if numResult != undefined && numResult.toString() != latexResult.toString()}
-			<span class="ML__cmr mx-3">≈</span>
+			<span class="ML__cmr mx-2">≈</span>
 			<div class="ML__latex mr-auto">{numResult}</div>
 		{/if}
 	</span>
-</div>
+</button>
