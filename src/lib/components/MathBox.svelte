@@ -22,7 +22,7 @@
 			console.log(latexResult, numResult);
 		}
 	}
-	
+
 	// console.log(b.value);
 	// console.log(a.latex, b.latex, 'isEqual?');
 	// console.log(a.isEqual(b));
@@ -39,23 +39,22 @@
 
 <!-- <input type="text" class="m-20 bg-background p-3 text-3xl" bind:value on:keydown={handleKeyDown} /> -->
 
-	<div class="overflow-hidden rounded-lg border bg-background pr-6 text-2xl">
-		<math-field
-			virtual-keyboard-mode="onfocus"
-			virtual-keyboard-theme="apple"
-			class="rounded-none border-b-2 border-b-primary/50 p-2 px-4 outline-none focus:border-b-primary/100"
-			bind:this={mf}
-		>
-		</math-field>
+<div class="overflow-hidden rounded-lg border bg-background pr-6 text-2xl">
+	<math-field
+		virtual-keyboard-mode="onfocus"
+		virtual-keyboard-theme="apple"
+		class="rounded-none border-b-2 border-b-primary/50 p-2 px-4 outline-none focus:border-b-primary/100"
+		bind:this={mf}
+	>
+	</math-field>
 
-		<span class="ML__cmr mr-4">=</span>
+	<span class="ML__cmr mr-4">=</span>
 
-		{#if latexResult != null}
-			{@html convertLatexToMarkup(latexResult)}
-		{/if}
-		{#if numResult != undefined && numResult.toString() != latexResult.toString()}
-			<span class="ML__cmr mx-3">≈</span>
-			<div class="ML__latex">{numResult}</div>
-		{/if}
-	</div>
+	{#if latexResult != null}
+		{@html convertLatexToMarkup(latexResult)}
+	{/if}
+	{#if numResult != undefined && numResult.toString() != latexResult.toString()}
+		<span class="ML__cmr mx-3">≈</span>
+		<div class="ML__latex">{numResult}</div>
+	{/if}
 </div>
