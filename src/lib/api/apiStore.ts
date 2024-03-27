@@ -12,7 +12,6 @@ export class FileInfo {
 	fileType: string = 'document';
 
 	constructor(info) {
-		this.fileType = 'document';
 		this.id = `${this.fileType}.${info.id}`;
 		this.name = info.name;
 		this.data = info.data;
@@ -90,10 +89,11 @@ export class AssignmentAnswer extends Assignment {
 	progress: AssignmentProgress;
 	answer_id: string;
 
-	fileType = 'assignments';
+	fileType = 'assignmentAnswer';
 
 	constructor(info) {
 		super(info);
+		this.id = `${this.fileType}.${info.id}`;
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];

@@ -44,8 +44,8 @@
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
-				goto('/workspace/home');
 				throw new Error('Authentication failed');
+				// goto('/workspace/home');
 			},
 			onConnect: () => {
 				if ($editor) {

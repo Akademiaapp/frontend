@@ -73,12 +73,12 @@ export function getApiUrl() {
 
 export function getCollaborationUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://collaboration.akademia.cc';
+		return 'wss://collaboration.akademia.cc';
 	} else {
 		if (env.PUBLIC_COLLABORATION_URL) {
 			return env.PUBLIC_COLLABORATION_URL;
 		} else {
-			return 'https://collaboration.akademia.cc'
+			return 'wss://collaboration.akademia.cc'
 		}
 	}
 }
