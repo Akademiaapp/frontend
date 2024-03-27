@@ -1,11 +1,18 @@
 <script lang="ts">
 	import type { NodeViewProps } from '@tiptap/core';
-
 	export let node: NodeViewProps['node'];
+	export let updateAttributes: NodeViewProps['updateAttributes'];
 	export let editor: NodeViewProps['editor'];
+
 	export let getPos: NodeViewProps['getPos'];
 	import MathBox from '@/components/MathBox.svelte';
 	import { NodeViewContent, NodeViewWrapper } from 'svelte-tiptap';
+
+	let value;
+
+	let startVal = node.attrs.count;
+
+	$: updateAttributes({ count: value });
 </script>
 
 <NodeViewWrapper as="span">
@@ -17,7 +24,9 @@
 			editor.commands.setNodeSelection(getPos());
 		}}
 	>
-		<MathBox></MathBox>
+		<MathBox bind:value>
+			{startVal}
+		</MathBox>
 	</button>
 </NodeViewWrapper>
 

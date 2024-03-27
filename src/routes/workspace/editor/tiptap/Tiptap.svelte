@@ -14,6 +14,7 @@
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { keycloakState, userInfo } from '../../../../authStore';
+	import { MathExtension } from './extensions/MathExtension';
 
 	let provider: HocuspocusProvider;
 
@@ -81,7 +82,8 @@
 									return '';
 								},
 								showOnlyCurrent: false
-							})
+							}),
+							MathExtension
 						],
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
@@ -149,6 +151,10 @@
 		}
 	});
 </script>
+
+<svelte:head>
+	<link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive-static.css" />
+</svelte:head>
 
 <EditorContent editor={$editor} />
 

@@ -40,13 +40,21 @@ export const MathExtension = Node.create({
 				this.editor.commands.insertContent('<math-component></math-component>');
 				setTimeout(() => {
 					const elem: HTMLSpanElement = this.editor.view.nodeDOM(
-						this.editor.state.selection.from - 2
+						this.editor.state.selection.from - 1
 					);
 
 					console.log(elem);
 
 					console.log(elem.querySelector('math-field').focus());
 				}, 10);
+			}
+		};
+	},
+
+	addAttributes() {
+		return {
+			count: {
+				default: '1+1'
 			}
 		};
 	}

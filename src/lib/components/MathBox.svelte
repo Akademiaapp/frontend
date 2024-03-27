@@ -28,8 +28,9 @@
 
 	function handleKeyDown(event) {
 		if (event.data === 'insertLineBreak') {
-			document.querySelector('.tiptap').focus();
+			document.querySelector('.tiptap').focus({ preventScroll: true });
 			$editor.commands.setTextSelection($editor.state.selection.$to.pos);
+			$editor.commands.enter();
 		}
 
 		value = mf.value;
@@ -84,7 +85,7 @@
 
 			event.preventDefault();
 
-			document.querySelector('.tiptap').focus();
+			document.querySelector('.tiptap').focus({ preventScroll: true });
 			if (event.detail.direction === 'forward') {
 				$editor.commands.setTextSelection($editor.state.selection.$to.pos);
 			}
