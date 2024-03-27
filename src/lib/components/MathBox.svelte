@@ -29,7 +29,6 @@
 	let mf: MathfieldElement;
 
 	onMount(() => {
-		mf.focus();
 		mf.addEventListener('input', handleKeyDown);
 	});
 
