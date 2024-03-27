@@ -2,15 +2,9 @@
 	import { onMount } from 'svelte';
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
-	import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
-	import {
-		convertLatexToMarkup,
-		MathfieldElement,
-		type Mathfield,
-		convertLatexToAsciiMath
-	} from 'mathlive';
-	let value = '';
-	let ce = new ComputeEngine();
+	import { ComputeEngine } from '@cortex-js/compute-engine';
+	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
+	export let value;
 
 	function isEquation(str): boolean {
 		const pattern = /[^=]*[a-z]+[^=]*=[^=]+|[^=]+=[^=]*[a-z]+[^=]*/;
@@ -30,6 +24,7 @@
 	}
 
 	function handleKeyDown(event) {
+		value = mf.value;
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
 		const r = mf.expression.evaluate();
 		// console.log(nerdamer('1/PI').evaluate().value());
@@ -40,14 +35,16 @@
 				if (isEquation(mf.value)) {
 					const letter = findFirstLowerCaseSymbol(mf.value);
 					console.log(convertLatexToAsciiMath(mf.value));
-					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(mf.value)]).toString();
-					console.log(nv);
+					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(mf.value)]);
+					console.log(nv.x);
 
-					numResult = nv.replace(',', ' = ');
+					numResult = Object.entries(nv)
+						.map(([k, v]) => k + ' = ' + v)
+						.join(', ');
 				} else {
 					const nv = nerdamer.convertFromLaTeX(latexResult).evaluate();
 					console.log(+nv);
-					if (nv) {
+					if (+nv) {
 						numResult = Math.round(nv * 100000) / 100000;
 					} else {
 						numResult = null;
@@ -91,7 +88,7 @@
 		bind:this={mf}
 	>
 	</math-field>
-	<span class="text-foreground" class:text-muted-foreground={oldRes}>
+	<span class="mx-auto h-full text-foreground" class:text-muted-foreground={oldRes}>
 		<span class="ML__cmr mr-4">=</span>
 
 		{#if latexResult != null}
@@ -99,7 +96,7 @@
 		{/if}
 		{#if numResult != undefined && numResult.toString() != latexResult.toString()}
 			<span class="ML__cmr mx-3">≈</span>
-			<div class="ML__latex">{numResult}</div>
+			<div class="ML__latex mr-auto">{numResult}</div>
 		{/if}
 	</span>
 </div>
