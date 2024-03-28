@@ -22,6 +22,10 @@
 		{
 			value: 'edit',
 			label: 'Kan redigere'
+		}, 
+		{
+			value: 'owner',
+			label: 'Ejer'
 		}
 	];
 
@@ -182,7 +186,7 @@
 							<Select.Trigger class="ml-auto w-[110px]">
 								<Select.Value placeholder="Select" />
 							</Select.Trigger>
-							<Select.Content>
+							<Select.Content class="w-8">
 								{#each permissions as permission}
 									<Select.Item value={permission.value} label={permission.label}
 										>{permission.label}</Select.Item

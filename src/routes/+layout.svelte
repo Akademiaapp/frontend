@@ -9,6 +9,8 @@
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
 	import { page } from '$app/stores';
+	import { Toaster } from '@/components/ui/sonner';
+	import { getAuthUrl } from '@/utils';
 	export let themeName = `dark`;
 
 	const themes = {
@@ -28,7 +30,7 @@
 
 	keycloakState.set(
 		new Keycloak({
-			url: 'https://auth.akademia.cc/',
+			url: getAuthUrl(),
 			realm: 'akademia',
 			clientId: 'akademia-frontend'
 		})
@@ -86,7 +88,7 @@
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
 	/>
 	<link rel="stylesheet" href="/themes/{currentTheme[$themeVariant]}.css" />
-	<meta name="color-scheme" content={$themeVariant} />
+	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
 {#if $keycloakState.authenticated || $page.url.pathname.includes('/onboarding')}
@@ -94,6 +96,8 @@
 		<slot />
 	</div>
 {/if}
+
+<Toaster />
 
 <style>
 	.app {

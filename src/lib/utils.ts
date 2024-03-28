@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
+import { env } from '$env/dynamic/public';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -54,3 +55,54 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export function getApiUrl() {
+	console.log(import.meta.env);
+	console.log(env);
+	if (import.meta.env.PROD) {
+		console.log('hey!');
+		return 'https://api.akademia.cc';
+	} else {
+		if (env.PUBLIC_API_URL) {
+			return env.PUBLIC_API_URL;
+		} else {
+			return 'https://api.akademia.cc';
+		}
+	}
+}
+
+export function getCollaborationUrl() {
+	if (import.meta.env.PROD) {
+		return 'wss://collaboration.akademia.cc';
+	} else {
+		if (env.PUBLIC_COLLABORATION_URL) {
+			return env.PUBLIC_COLLABORATION_URL;
+		} else {
+			return 'wss://collaboration.akademia.cc';
+		}
+	}
+}
+
+export function getAuthUrl() {
+	if (import.meta.env.PROD) {
+		return 'https://auth.akademia.cc';
+	} else {
+		if (env.PUBLIC_AUTH_URL) {
+			return env.PUBLIC_AUTH_URL;
+		} else {
+			return 'https://auth.akademia.cc';
+		}
+	}
+}
+
+export function getAulaUrl() {
+	if (import.meta.env.PROD) {
+		return 'https://aula.akademia.cc/';
+	} else {
+		if (env.PUBLIC_AULA_URL) {
+			return env.PUBLIC_AULA_URL;
+		} else {
+			return 'https://aula.akademia.cc/'
+		}
+	}
+}

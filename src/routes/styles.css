@@ -196,3 +196,13 @@ button.hover {
 	height: calc(100vh - var(--pad) * 2);
 	/* overflow-y: hidden; */
 }
+
+.text-0 {
+	color: var(--color-text-0);
+}
+.text-1 {
+	color: var(--color-text-1);
+}
+.text-2 {
+	color: var(--color-text-2);
+}

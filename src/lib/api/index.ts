@@ -1,9 +1,10 @@
 import { apiDownStore } from './apiStore';
 import { keycloakState, userInfo } from '../../authStore';
 import { get } from 'svelte/store';
+import { getApiUrl } from '@/utils';
 
 class ApiHandler {
-	static baseUrl = 'https://api.akademia.cc';
+	static baseUrl = getApiUrl();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
@@ -72,9 +73,13 @@ class ApiHandler {
 			'POST'
 		);
 	};
-	getAssignments = () => {
+	getAssignmentAnswers = () => {
 		return this.callApi('/assignments');
 	};
+
+	// getAssignments = () => {
+	// 	return this.callApi('/assignments');
+	// };
 
 	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(

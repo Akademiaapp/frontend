@@ -1,6 +1,7 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import api from '.';
 import type { UserInfo } from '../../authStore';
+import { goto } from '$app/navigation';
 
 export class FileInfo {
 	id: string;
@@ -12,7 +13,6 @@ export class FileInfo {
 	fileType: string = 'document';
 
 	constructor(info) {
-		this.fileType = 'document';
 		this.id = `${this.fileType}.${info.id}`;
 		this.name = info.name;
 		this.data = info.data;
@@ -28,7 +28,13 @@ export class FileInfo {
 		return this.updateInfo({ name: newName });
 	});
 
+	open() {
+		currentFile.set(this);
+		goto(`/workspace/editor?id=${this.id}`);
+	}
+
 	delete() {
+		documentStore.update((files) => files.filter((file) => file.id !== this.id));
 		return api.callApi(this.path, {}, 'DELETE');
 	}
 
@@ -62,22 +68,42 @@ export class DocumentInfo extends FileInfo {
 }
 
 export enum AssignmentProgress {
-	NotStarted,
-	InProgress,
-	Submitted,
-	Graded
+	NOT_STARTED,
+	IN_PROGRESS,
+	SUBMITTED,
+	GRADED
 }
 
 export class Assignment extends FileInfo {
 	due_date: string;
-	progress: AssignmentProgress;
+	assignment_answers;
+	asigned_groups_ids: string[];
+	isPublic: boolean;
+	teacherId: string;
 
 	fileType = 'assignments';
 
 	constructor(info) {
 		super(info);
 		this.due_date = info.due_date;
-		this.progress = AssignmentProgress[info.progress as keyof typeof AssignmentProgress];
+		this.assignment_answers = info.assignment_answers;
+		this.isPublic = info.isPublic;
+		this.teacherId = info.teacherId;
+	}
+}
+
+export class AssignmentAnswer extends Assignment {
+	progress: AssignmentProgress;
+	answer_id: string;
+
+	fileType = 'assignmentAnswer';
+
+	constructor(info) {
+		super(info);
+		this.id = `${this.fileType}.${info.id}`;
+		this.due_date = info.due_date;
+		this.answer_id = info.answer_id;
+		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 	}
 }
 
@@ -110,7 +136,7 @@ export function updateUserInfo(state: UserInfo) {
 
 // Explicitly specify the type of the store
 export const documentStore = writable<DocumentInfo[]>([]);
-export const assignmentStore = writable<Assignment[]>([]);
+export const assignmentStore = writable<AssignmentAnswer[]>([]);
 
 export const currentFile = writable<FileInfo>(null);
 
@@ -119,15 +145,29 @@ interface userInfo {
 }
 export const userInfo = writable<userInfo>();
 
-export async function updateAssignments() {
-	const response = await api.getAssignments();
+export async function updateAssignmentsAnswers() {
+	const response = await api.getAssignmentAnswers();
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
 	}
 	const json = await response.json();
 
-	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
-	console.log('updated assignments', json);
+	assignmentStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
+	console.log('updated assignments', get(assignmentStore));
+}
+
+export async function newDocument(name: string, open: boolean = true) {
+	const response = await api.createDocument(name);
+	if (!response) {
+		throw new Error('Could not create document due to no response');
+	}
+	const json = await response.json();
+	const newDoc = new DocumentInfo(json);
+
+	if (open) {
+		newDoc.open();
+	}
+	documentStore.update((files) => [...files, newDoc]);
 }
 
 export const apiDownStore = writable<boolean>(false);

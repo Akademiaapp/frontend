@@ -24,12 +24,6 @@
 		}
 	});
 
-	function openFile(file: FileInfo) {
-		goto('editor?id=' + file.id);
-		isSeaching = false;
-		currentFile.set(file);
-	}
-
 	export let tooltip = '';
 </script>
 
@@ -42,7 +36,12 @@
 		<Command.Empty>Ingen resultater.</Command.Empty>
 		<Command.Group heading="Filer">
 			{#each $documentStore as file}
-				<Command.Item onSelect={() => openFile(file)}>
+				<Command.Item
+					onSelect={() => {
+						file.open();
+						isSeaching = false;
+					}}
+				>
 					<File strokeWidth={1.5}></File>
 					{file.name}
 				</Command.Item>
