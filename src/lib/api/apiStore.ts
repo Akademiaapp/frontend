@@ -1,6 +1,7 @@
 import { get, writable } from 'svelte/store';
 import api from '.';
 import type { UserInfo } from '../../authStore';
+import { goto } from '$app/navigation';
 
 export class FileInfo {
 	id: string;
@@ -27,7 +28,13 @@ export class FileInfo {
 		return this.updateInfo({ name: newName });
 	});
 
+	open() {
+		currentFile.set(this);
+		goto(`/workspace/editor?id=${this.id}`);
+	}
+
 	delete() {
+		documentStore.update((files) => files.filter((file) => file.id !== this.id));
 		return api.callApi(this.path, {}, 'DELETE');
 	}
 
@@ -147,6 +154,20 @@ export async function updateAssignmentsAnswers() {
 
 	assignmentStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
 	console.log('updated assignments', get(assignmentStore));
+}
+
+export async function newDocument(name: string, open: boolean = true) {
+	const response = await api.createDocument(name);
+	if (!response) {
+		throw new Error('Could not create document due to no response');
+	}
+	const json = await response.json();
+	const newDoc = new DocumentInfo(json);
+
+	if (open) {
+		newDoc.open();
+	}
+	documentStore.update((files) => [...files, newDoc]);
 }
 
 export const apiDownStore = writable<boolean>(false);

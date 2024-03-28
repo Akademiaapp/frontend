@@ -24,11 +24,12 @@
 			console.log('What??', id);
 			console.log('What????', documentType);
 			fileContent.id = id.split('.')[1];
-			if (documentType === "document") {
+
+			if (documentType === 'document') {
 				currentFile.set(new FileInfo(fileContent));
-			} else if (documentType === "assignmentAnswer") {
+			} else if (documentType === 'assignmentAnswer') {
 				currentFile.set(new AssignmentAnswer(fileContent));
-			} else if (documentType === "assignment") {
+			} else if (documentType === 'assignment') {
 				currentFile.set(new Assignment(fileContent));
 			}
 		});

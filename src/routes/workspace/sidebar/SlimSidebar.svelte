@@ -5,6 +5,7 @@
 	import QuickAction from '../quickActions/QuickAction.svelte';
 	import SearchQ from '../quickActions/SearchQ.svelte';
 	import AulaNotif from './AulaNotif.svelte';
+	import { newDocument } from '@/api/apiStore';
 
 	export let isExpanded;
 </script>
@@ -38,7 +39,7 @@
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="frontground br-2">
-			<QuickAction tooltip="New file">
+			<QuickAction tooltip="New file" action={() => newDocument('Uden titel')}>
 				<File size="29"></File>
 			</QuickAction>
 			<QuickAction tooltip="New note">
