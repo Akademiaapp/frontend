@@ -3,33 +3,22 @@
 	import SearchQ from './SearchQ.svelte';
 	import QuickAction from './QuickAction.svelte';
 	import { page } from '$app/stores';
+
+	export let isTimerVisible: boolean;
 </script>
 
-<div class="cont">
-	<QuickAction
-		icon="home"
-		action={() => goto('home')}
-		active={$page.route.id?.includes('workspace/home')}
-	/>
-	<SearchQ></SearchQ>
-	<QuickAction icon="alarm" />
-</div>
+<QuickAction
+	icon="home"
+	action={() => goto('/workspace/home')}
+	active={$page.route.id?.includes('workspace/home')}
+/>
+<SearchQ></SearchQ>
+
+<QuickAction
+	icon="alarm"
+	action={() => (isTimerVisible = !isTimerVisible)}
+	active={isTimerVisible}
+/>
 
 <style lang="scss">
-	.cont {
-		display: flex;
-		gap: 0.5rem;
-	}
-
-	span {
-		font-size: 2rem;
-
-		color: #7f7f7f;
-		transition: color 1s;
-		position: absolute;
-		&:hover {
-			color: black;
-			// font-variation-settings: 'FILL' 1;
-		}
-	}
 </style>

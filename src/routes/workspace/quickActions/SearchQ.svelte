@@ -1,19 +1,14 @@
 <script lang="ts">
-	import { fade, slide } from 'svelte/transition';
 	import QuickAction from './QuickAction.svelte';
-	import fadeScale from '$lib/transitions/fade-scale';
-	import { getContext, setContext, tick } from 'svelte';
-	import { expoOut, quadIn, quadInOut, quadOut, sineInOut, sineOut } from 'svelte/easing';
+	import { getContext } from 'svelte';
 	import * as Command from '$lib/components/ui/command';
 	import { currentFile, documentStore, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
-	import { BookPlus, File, FilePen, FilePlus2, NotebookPen, Plus } from 'lucide-svelte';
+	import { BookPlus, File, FilePen, NotebookPen } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
-	import type ApiHandler from '@/api';
+	import api from '@/api';
 	import randomName from '@/randomName';
 	let isSeaching = false;
-
-	const api = getContext('api') as ApiHandler;
 
 	window.addEventListener('keydown', (ev) => {
 		if (ev.key == 'p' && ev.ctrlKey) {
@@ -29,14 +24,11 @@
 		}
 	});
 
-	function openFile(file: FileInfo) {
-		goto('editor?id=' + file.id);
-		isSeaching = false;
-		currentFile.set(file);
-	}
+	export let tooltip = '';
 </script>
 
-<QuickAction icon="search" action={() => (isSeaching = true)} active={isSeaching}></QuickAction>
+<QuickAction icon="search" {tooltip} action={() => (isSeaching = true)} active={isSeaching}
+></QuickAction>
 
 <Command.Dialog bind:open={isSeaching}>
 	<Command.Input placeholder="Indtast en kommando eller søg..." />
@@ -44,7 +36,12 @@
 		<Command.Empty>Ingen resultater.</Command.Empty>
 		<Command.Group heading="Filer">
 			{#each $documentStore as file}
-				<Command.Item onSelect={() => openFile(file)}>
+				<Command.Item
+					onSelect={() => {
+						file.open();
+						isSeaching = false;
+					}}
+				>
 					<File strokeWidth={1.5}></File>
 					{file.name}
 				</Command.Item>

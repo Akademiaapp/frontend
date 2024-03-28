@@ -1,14 +1,15 @@
 <script lang="ts">
+	import Asign from './Asign.svelte';
 	import { themeVariant } from '../../../store';
-	import ApiHandler from '../../../../lib/api';
+	import api from '../../../../lib/api';
 
 	import { getContext } from 'svelte';
 	import ShareDocument from './ShareDocument.svelte';
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
-
-	const api = getContext('api') as ApiHandler;
+	import { currentFile } from '@/api/apiStore';
+	import Assignment from '../../home/activeFiles/Assignment.svelte';
 
 	let selection = $editor;
 
@@ -83,7 +84,11 @@
 			</div>
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
-			<ShareDocument />
+			{#if $currentFile instanceof Assignment}
+				<Asign />
+			{:else}
+				<ShareDocument />
+			{/if}
 			<MoreActions></MoreActions>
 		</div>
 	</div>

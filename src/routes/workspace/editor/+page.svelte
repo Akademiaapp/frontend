@@ -1,20 +1,17 @@
 <script lang="ts">
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
-	import Workspace from '../+layout.svelte';
-	import { getContext } from 'svelte';
-	import ApiHandler from '@/api';
+	import api from '@/api';
 	import type { Readable } from 'svelte/store';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
-	import { currentFile, FileInfo } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, currentFile, FileInfo } from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
-	const api = new ApiHandler(<Readable<AuthorizerState>>getContext('authorizerContext'));
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
+	var documentType = id.split('.')[0];
 
 	if (!id) {
 		goto('/workspace/home');
@@ -23,8 +20,18 @@
 	api.getDocument(id || '').then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
-			console.log(fileContent);
-			currentFile.set(new FileInfo(fileContent));
+			console.log('hey!', fileContent);
+			console.log('What??', id);
+			console.log('What????', documentType);
+			fileContent.id = id.split('.')[1];
+
+			if (documentType === 'document') {
+				currentFile.set(new FileInfo(fileContent));
+			} else if (documentType === 'assignmentAnswer') {
+				currentFile.set(new AssignmentAnswer(fileContent));
+			} else if (documentType === 'assignment') {
+				currentFile.set(new Assignment(fileContent));
+			}
 		});
 	});
 </script>
@@ -42,6 +49,7 @@
 
 <style>
 	.editor {
+		height: 100%;
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;

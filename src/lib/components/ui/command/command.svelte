@@ -12,7 +12,7 @@
 
 <CommandPrimitive.Root
 	class={cn(
-		'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
+		'br-2 flex h-full w-full flex-col overflow-hidden border bg-popover text-popover-foreground',
 		className
 	)}
 	bind:value

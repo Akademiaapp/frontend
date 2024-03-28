@@ -12,12 +12,15 @@
 		const maxScale = (window.innerWidth - 250) / 950;
 		scale = Math.min(scale, maxScale);
 	}
+
+	let connected;
 </script>
 
-<div class="editor_wrapper" style:display={$editor ? null : 'none'} on:wheel={onScroll}>
+<!-- content here -->
+<div class="editor_wrapper" style:display={connected ? null : 'none'} on:wheel={onScroll}>
 	<div id="pages" style:scale>
 		<div class="page">
-			<Tiptap />
+			<Tiptap bind:connected />
 		</div>
 		<div class="page"></div>
 	</div>
