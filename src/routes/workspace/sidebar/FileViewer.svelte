@@ -64,23 +64,24 @@
 		overflow-y: hidden;
 	}
 
-	.files::-webkit-scrollbar {
-		height: 0;
-		width: 10px;
-		background-color: hsl(0, 0, 0, 0.04);
-		background-color: transparent;
-	}
-
-	.files::-webkit-scrollbar-thumb {
-		background-color: hsl(0, 0, 0, 0.1);
-	}
-
 	.files {
 		display: flex;
 		flex-direction: column;
 		gap: 0.2rem;
 		font-size: 1.05rem;
 		overflow-y: auto;
+		width: 300px;
+
+		&::-webkit-scrollbar {
+			height: 0;
+			width: 10px;
+			background-color: hsl(0, 0%, 0%, 0.04);
+			background-color: transparent;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: hsl(0, 0%, 0%, 0.1);
+		}
 	}
 
 	button {
