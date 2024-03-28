@@ -8,6 +8,7 @@
 	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	export let value = '';
+	export let expression;
 
 	function isEquation(str): boolean {
 		const pattern = /[^=]*[a-z]+[^=]*=[^=]+|[^=]+=[^=]*[a-z]+[^=]*/;
@@ -33,10 +34,14 @@
 			$editor.commands.enter();
 		}
 
+		if (!mf || !mf.expression) return;
+		console.log('mf: ', mf);
 		value = mf.value;
+		console.log('value: ', value);
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
+
 		const r = mf.expression.evaluate();
-		// console.log(nerdamer('1/PI').evaluate().value());
+
 		if (r.isValid) {
 			latexResult = r.latex;
 
@@ -78,6 +83,13 @@
 	let mf: MathfieldElement;
 
 	onMount(() => {
+		try {
+			setTimeout(() => {
+				handleKeyDown({ data: '' });
+			}, 1);
+		} catch (e) {
+			console.error(e);
+		}
 		mf.addEventListener('input', handleKeyDown);
 
 		mf.addEventListener('move-out', (event) => {

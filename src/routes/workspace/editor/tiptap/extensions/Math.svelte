@@ -12,7 +12,11 @@
 
 	let startVal = node.attrs.count;
 
-	$: updateAttributes({ count: value });
+	$: try {
+		updateAttributes({ count: value });
+	} catch (e) {
+		console.error(e);
+	}
 </script>
 
 <NodeViewWrapper as="span">
