@@ -83,7 +83,7 @@
 </script>
 
 <div class="cont br-2 float-panel">
-	<div class="files">
+	<div class="files p-1">
 		<FileList {folders} {files}></FileList>
 	</div>
 	<div class="splitter"></div>
