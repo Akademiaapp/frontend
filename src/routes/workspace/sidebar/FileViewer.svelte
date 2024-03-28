@@ -4,16 +4,27 @@
 
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { DocumentInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { DocumentInfo, currentFile, documentStore, newDocument } from '@/api/apiStore';
 	import Document from '../home/activeFiles/Document.svelte';
+	import { onMount } from 'svelte';
 
 	export let files: DocumentInfo[] = $documentStore;
 
 	$: files = $documentStore;
+
+	let scrollElem;
+
+	let atBottom = false;
+
+	function onscroll(event) {
+		const { scrollHeight, scrollTop, clientHeight } = event.target;
+		console.log(scrollHeight, scrollTop, clientHeight);
+		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
+	}
 </script>
 
 <div class="cont br-2 float-panel">
-	<div class="files br-2">
+	<div class="files br-2 p-1" on:scroll={onscroll}>
 		{#each files as file}
 			<div>
 				<File
@@ -29,40 +40,41 @@
 		{/each}
 	</div>
 	<div class="splitter"></div>
-	<SideBarElem active={false}>
-		<button
-			on:click={async () => {
-				const newFile = await api.createDocument('Uden titel').then((response) => {
-					if (!response) return;
-					return response.json();
-				});
-				currentFile.set(new DocumentInfo(newFile));
-
-				console.log(newFile);
-				documentStore.update((before) => [...before, new DocumentInfo(newFile)]);
-			}}
-			class="reset no-bg size-full"
-		>
-			<span class="material-symbols-rounded icon-w-2">add</span>
-			<span>Ny fil</span>
-		</button>
-	</SideBarElem>
+	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
+		<SideBarElem active={false}>
+			<button on:click={() => newDocument('Uden title')} class="reset no-bg size-full">
+				<span class="material-symbols-rounded icon-w-2">add</span>
+				<span>Ny fil</span>
+			</button>
+		</SideBarElem>
+	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.splitter {
 		flex: 1;
 	}
 	.cont {
 		display: flex;
 		flex-direction: column;
-		gap: 0.2rem;
+
 		font-size: 1.05rem;
 		color: var(--color-text-2);
 		background-color: var(--color-bg-1);
-		padding: 0.2rem;
+
 		flex-grow: 1;
 		overflow-y: hidden;
+	}
+
+	.files::-webkit-scrollbar {
+		height: 0;
+		width: 10px;
+		background-color: hsl(0, 0, 0, 0.04);
+		background-color: transparent;
+	}
+
+	.files::-webkit-scrollbar-thumb {
+		background-color: hsl(0, 0, 0, 0.1);
 	}
 
 	.files {

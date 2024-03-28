@@ -149,4 +149,18 @@ export async function updateAssignmentsAnswers() {
 	console.log('updated assignments', get(assignmentStore));
 }
 
+export async function newDocument(name: string, open: boolean = true) {
+	const response = await api.createDocument(name);
+	if (!response) {
+		throw new Error('Could not create document due to no response');
+	}
+	const json = await response.json();
+	const newDoc = new DocumentInfo(json);
+
+	if (open) {
+		currentFile.set(newDoc);
+	}
+	documentStore.update((files) => [...files, newDoc]);
+}
+
 export const apiDownStore = writable<boolean>(false);
