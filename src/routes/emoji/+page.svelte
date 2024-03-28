@@ -6,7 +6,7 @@
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { tick } from 'svelte';
-	import sprite from '$lib/assets/sprite.svg';
+
 	import json from '$lib/emoji/emojis.json';
 
 	// const frameworks = [
@@ -47,7 +47,7 @@
 
 		cat.emojis.forEach((emoji) => {
 			const button = document.createElement('button');
-			button.innerHTML = `<svg width="25" height="25"><use href="${sprite}#${emoji.unicode}"></use></svg>`;
+			button.innerHTML = `<svg width="25" height="25"><use href="/sprite.svg/#${emoji.unicode}"></use></svg>`;
 			button.addEventListener('click', () => {
 				value = emoji.char;
 				closeAndFocusTrigger('trigger');
@@ -139,7 +139,7 @@
 											}}
 										>
 											<svg width="25" height="25">
-												<use href={`${sprite}#${emoji.unicode}`}>
+												<use href={`/sprite.svg/#${emoji.unicode}`}>
 													<title>{emoji.name}</title>
 												</use>
 											</svg>
@@ -176,5 +176,13 @@
 		flex-wrap: wrap;
 
 		max-width: 100%;
+
+		:global(button) {
+			padding: 0.2rem;
+			border-radius: 0.25rem;
+			&:hover {
+				background-color: rgb(var(--rgb), 0.1);
+			}
+		}
 	}
 </style>

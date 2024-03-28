@@ -1,5 +1,4 @@
 <script>
-	import sprite from '$lib/assets/sprite.svg';
 	export let emoji;
 
 	console.log(emoji);
@@ -15,7 +14,7 @@
 </script>
 
 <svg width="25" height="25">
-	<use href={`${sprite}#${emo}`}>
+	<use href={`/sprite.svg/#${emo}`}>
 		<title>{emoji}</title>
 	</use>
 </svg>
