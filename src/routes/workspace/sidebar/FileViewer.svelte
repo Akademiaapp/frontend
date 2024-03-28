@@ -1,15 +1,21 @@
 <script lang="ts">
 	import FileList from './FileList.svelte';
 	import File from './File.svelte';
-	import ApiHandler from '$lib/api';
+	import api from '$lib/api';
 
-	import { getContext, setContext } from 'svelte';
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { DocumentInfo, FileInfo, Folder, currentFile, documentStore } from '@/api/apiStore';
+	import {
+		DocumentInfo,
+		FileInfo,
+		Folder,
+		currentFile,
+		documentStore,
+		newDocument
+	} from '@/api/apiStore';
 	import FolderItem from './FolderItem.svelte';
-
-	const api = getContext('api') as ApiHandler;
+	import Document from '../home/activeFiles/Document.svelte';
+	import { onMount } from 'svelte';
 
 	export let folders: Folder[] = [
 		new Folder({
@@ -65,44 +71,63 @@
 		})
 	];
 
-	// $: files = $documentStore;
+	$: files = $documentStore;
+
+	let atBottom = true;
+
+	function onscroll(event) {
+		const { scrollHeight, scrollTop, clientHeight } = event.target;
+		console.log(scrollHeight, scrollTop, clientHeight);
+		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
+	}
 </script>
 
 <div class="cont br-2 float-panel">
 	<FileList {folders} {files}></FileList>
 	<div class="splitter"></div>
-	<SideBarElem active={false}>
-		<button
-			on:click={async () => {
-				const newFile = await api.createDocument(randomName()).then((response) => {
-					if (!response) return;
-					return response.json();
-				});
-				currentFile.set(newFile);
-				documentStore.update((before) => [...before, new DocumentInfo(newFile)]);
-			}}
-			class="reset no-bg size-full"
-		>
-			<span class="material-symbols-rounded icon-w-2">add</span>
-			<span>Ny fil</span>
-		</button>
-	</SideBarElem>
+	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
+		<SideBarElem active={false}>
+			<button on:click={() => newDocument('Uden title')} class="reset no-bg size-full">
+				<span class="material-symbols-rounded icon-w-2">add</span>
+				<span>Ny fil</span>
+			</button>
+		</SideBarElem>
+	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.splitter {
 		flex: 1;
 	}
 	.cont {
 		display: flex;
 		flex-direction: column;
-		gap: 0.2rem;
+
 		font-size: 1.05rem;
 		color: var(--color-text-2);
 		background-color: var(--color-bg-1);
-		padding: 0.2rem;
+
 		flex-grow: 1;
 		overflow-y: hidden;
+	}
+
+	.files::-webkit-scrollbar {
+		height: 0;
+		width: 10px;
+		background-color: hsl(0, 0, 0, 0.04);
+		background-color: transparent;
+	}
+
+	.files::-webkit-scrollbar-thumb {
+		background-color: hsl(0, 0, 0, 0.1);
+	}
+
+	.files {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		font-size: 1.05rem;
+		overflow-y: auto;
 	}
 
 	button {

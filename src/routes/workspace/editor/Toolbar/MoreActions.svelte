@@ -3,17 +3,15 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
-	import { getContext } from 'svelte';
-	import type ApiHandler from '@/api';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
+	import { keycloakState } from '../../../../authStore';
 	let isDeleteOpen = false;
 
-	const api = getContext('api') as ApiHandler;
 	function deleteActiveFile() {
 		console.log($currentFile);
 		if (!($currentFile instanceof FileInfo)) return;
-		$currentFile.delete(api).then((response) => {
+		$currentFile.delete().then((response) => {
 			if (!response || response.status !== 200) return;
 			console.log(response);
 			documentStore.update((prev) => prev.filter((it) => it !== $currentFile));
@@ -68,7 +66,7 @@
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 
-		<DropdownMenu.Item>
+		<DropdownMenu.Item on:click={() => $keycloakState.logout()}>
 			<LogOut size="15" strokeWidth="1.5"></LogOut>
 			Log ud
 		</DropdownMenu.Item>

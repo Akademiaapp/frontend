@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { capLength } from '$lib/utils/stringUtils';
-	import { goto } from '$app/navigation';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
 	import { currentFile, FileInfo } from '@/api/apiStore';

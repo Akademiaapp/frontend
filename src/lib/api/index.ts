@@ -1,18 +1,10 @@
-import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-import { get, type Readable } from 'svelte/store';
 import { apiDownStore } from './apiStore';
+import { keycloakState, userInfo } from '../../authStore';
+import { get } from 'svelte/store';
+import { getApiUrl } from '@/utils';
 
-export default class ApiHandler {
-	static baseUrl = 'https://akademia-api.arctix.dev';
-	static context: Readable<AuthorizerState>;
-
-	constructor(context: Readable<AuthorizerState>) {
-		ApiHandler.context = context;
-	}
-
-	getContext = () => {
-		return get(ApiHandler.context);
-	};
+class ApiHandler {
+	static baseUrl = getApiUrl();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
@@ -32,7 +24,7 @@ export default class ApiHandler {
 		// Add bearer token to headers
 		const headers = {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${get(ApiHandler.context)?.token?.access_token || ''}`
+			Authorization: `Bearer ${get(keycloakState).token}`
 		};
 
 		return fetch(
@@ -62,10 +54,10 @@ export default class ApiHandler {
 		return this.callApi('/documents/' + documentId);
 	};
 
-	getDocumentJson = (documentId: string) => {
-		return '';
-		//return this.callApi('/documents/' + documentId + '/json');
-	};
+	// getDocumentJson = (documentId: string) => {
+	// 	return '';
+	// 	//return this.callApi('/documents/' + documentId + '/json');
+	// };
 
 	getUserDocuments = () => {
 		return this.callApi('/documents');
@@ -76,14 +68,18 @@ export default class ApiHandler {
 			'/documents',
 			{
 				name: documentName,
-				user_id: get(ApiHandler.context).user?.id
+				user_id: get(userInfo).sub
 			},
 			'POST'
 		);
 	};
-	getAssignments = () => {
+	getAssignmentAnswers = () => {
 		return this.callApi('/assignments');
 	};
+
+	// getAssignments = () => {
+	// 	return this.callApi('/assignments');
+	// };
 
 	createAssignment = (documentId: string, assignmentName: string, due_date: Date) => {
 		return this.callApi(
@@ -97,3 +93,5 @@ export default class ApiHandler {
 		);
 	};
 }
+
+export default new ApiHandler();

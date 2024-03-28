@@ -1,39 +1,21 @@
 <script lang="ts">
 	import QuickBar from '../quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	import { Editor, EditorContent } from 'svelte-tiptap';
-	import type { AuthorizerState } from 'akademia-authorizer-svelte/types';
-	import { getContext } from 'svelte';
-	import type { Readable } from 'svelte/store';
-	import { EditorExtensions } from '@/editor/extensions';
-	import Document from '@tiptap/extension-document';
-	import { Title } from '../editor/tiptap/extensions/title';
-	import ApiHandler from '@/api';
-	export let sidebarVisible: boolean;
 
-	const api = getContext('api') as ApiHandler;
-
-	let state: AuthorizerState;
-
-	const store = getContext('authorizerContext') as Readable<AuthorizerState>;
-
-	store.subscribe((data: AuthorizerState) => {
-		state = data;
-		console.log('hahaahhaaggag 	', state);
-	});
+	export let sidebarVisible: boolean = true;
 
 	export let assignmentId: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
-	let editor = new Editor({
-		extensions: [
-			...EditorExtensions,
-			Title,
-			Document.extend({
-				content: 'title block+'
-			})
-		],
-		content: api.getDocumentJson(assignmentId),
-		editable: false
-	});
+	// let editor = new Editor({
+	// 	extensions: [
+	// 		...EditorExtensions,
+	// 		Title,
+	// 		Document.extend({
+	// 			content: 'title block+'
+	// 		})
+	// 	],
+	// 	content: api.getDocumentJson(assignmentId),
+	// 	editable: false
+	// });
 </script>
 
 <nav class="sideBar" class:hidden={!sidebarVisible}>
