@@ -16,7 +16,6 @@
 
 	function onscroll(event) {
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
-		console.log(scrollHeight, scrollTop, clientHeight);
 		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
 	}
 </script>
