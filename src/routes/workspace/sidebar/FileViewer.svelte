@@ -122,11 +122,12 @@
 		gap: 0.2rem;
 		font-size: 1.05rem;
 		overflow-y: auto;
+		width: 300px;
 
 		&::-webkit-scrollbar {
 			height: 0;
 			width: 10px;
-			background-color: hsl(0, 0, 0, 0.04);
+			background-color: hsl(0, 0%, 0%, 0.04);
 			background-color: transparent;
 		}
 
