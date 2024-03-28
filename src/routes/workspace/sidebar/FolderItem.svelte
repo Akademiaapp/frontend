@@ -20,7 +20,7 @@
 				on:click={() => {
 					open = !open;
 				}}
-				class="openbox ro origin-center"
+				class="openbox origin-center"
 				class:rotate-90={open}
 			>
 				<ChevronRight size={20}></ChevronRight>

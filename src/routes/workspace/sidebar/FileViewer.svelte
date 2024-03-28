@@ -16,58 +16,55 @@
 	import FolderItem from './FolderItem.svelte';
 	import Document from '../home/activeFiles/Document.svelte';
 	import { onMount } from 'svelte';
+	import Category from './Category.svelte';
 
-	export let folders: Folder[] = [
-		new Folder({
-			name: 'test-1',
-			subFolders: [],
-			files: [
-				new FileInfo({
-					id: '1',
-					name: 'test-1',
-					data: '1',
-					created: new Date().toDateString(),
-					updated: new Date().toDateString()
-				}),
-				new FileInfo({
-					id: '1',
-					name: 'test-2',
-					data: '1',
-					created: new Date().toDateString(),
-					updated: new Date().toDateString()
-				})
-			]
+	const testFiles = [
+		new FileInfo({
+			id: '1',
+			name: 'Noget',
+			data: '1',
+			created: new Date().toDateString(),
+			updated: new Date().toDateString()
+		}),
+		new FileInfo({
+			id: '1',
+			name: 'ABC',
+			data: '1',
+			created: new Date().toDateString(),
+			updated: new Date().toDateString()
 		})
 	];
 
-	export let files: DocumentInfo[] = [
-		new FileInfo({
-			id: '1',
-			name: 'test-1',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
+	export let folders: Folder[] = [
+		new Folder({
+			name: 'Dansk',
+			emoji: '🇩🇰',
+			subFolders: [],
+			files: testFiles
 		}),
-		new FileInfo({
-			id: '1',
-			name: 'test-2',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
+		new Folder({
+			name: 'Engelsk',
+			emoji: '🇬🇧',
+			subFolders: [],
+			files: testFiles
 		}),
-		new FileInfo({
-			id: '1',
-			name: 'test-3',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
+		new Folder({
+			name: 'Fransk',
+			emoji: '🇫🇷',
+			subFolders: [],
+			files: testFiles
 		}),
-		new FileInfo({
-			id: '1',
-			name: 'test-4',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
+		new Folder({
+			name: 'Matematik',
+			emoji: '🧮',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Fysik/Kemi',
+			emoji: '🧪',
+			subFolders: [],
+			files: testFiles
 		})
 	];
 
@@ -77,14 +74,20 @@
 
 	function onscroll(event) {
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
-		console.log(scrollHeight, scrollTop, clientHeight);
 		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
 	}
+
+	let filesElem;
+
+	onMount(() => {
+		onscroll({ target: document.querySelector('.files') });
+	});
 </script>
 
 <div class="cont br-2 float-panel">
-	<div class="files p-1">
-		<FileList {folders} {files}></FileList>
+	<div class="files p-1" on:scroll={onscroll} bind:this={filesElem}>
+		<Category name="Fag" {folders}></Category>
+		<Category name="Andet" {files}></Category>
 	</div>
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
@@ -128,7 +131,7 @@
 		}
 
 		&::-webkit-scrollbar-thumb {
-			background-color: hsl(0, 0, 0, 0.1);
+			background-color: hsl(0, 0%, 0%, 0.1);
 		}
 	}
 
