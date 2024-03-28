@@ -25,6 +25,6 @@
 		flex-direction: column;
 		gap: 0.2rem;
 		font-size: 1.05rem;
-		overflow-y: auto;
+		overflow-y: hidden;
 	}
 </style>
