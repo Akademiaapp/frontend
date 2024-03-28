@@ -1,6 +1,7 @@
 import { get, writable } from 'svelte/store';
 import api from '.';
 import type { UserInfo } from '../../authStore';
+import { goto } from '$app/navigation';
 
 export class FileInfo {
 	id: string;
@@ -26,6 +27,11 @@ export class FileInfo {
 	rename = api.debounce((newName: string) => {
 		return this.updateInfo({ name: newName });
 	});
+
+	open() {
+		currentFile.set(this);
+		goto(`/workspace/editor?id=${this.id}`);
+	}
 
 	delete() {
 		documentStore.update((files) => files.filter((file) => file.id !== this.id));
@@ -159,7 +165,7 @@ export async function newDocument(name: string, open: boolean = true) {
 	const newDoc = new DocumentInfo(json);
 
 	if (open) {
-		currentFile.set(newDoc);
+		newDoc.open();
 	}
 	documentStore.update((files) => [...files, newDoc]);
 }
