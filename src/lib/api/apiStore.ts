@@ -28,6 +28,7 @@ export class FileInfo {
 	});
 
 	delete() {
+		documentStore.update((files) => files.filter((file) => file.id !== this.id));
 		return api.callApi(this.path, {}, 'DELETE');
 	}
 
