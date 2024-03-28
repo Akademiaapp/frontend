@@ -28,7 +28,7 @@
 				<File
 					name={file?.name}
 					onClick={() => {
-						currentFile.set(file);
+						file.open();
 					}}
 					active={file?.id == $currentFile?.id}
 					id={file?.id}
