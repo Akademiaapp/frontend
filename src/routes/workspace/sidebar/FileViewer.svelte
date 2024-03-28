@@ -12,9 +12,7 @@
 
 	$: files = $documentStore;
 
-	let scrollElem;
-
-	let atBottom = false;
+	let atBottom = true;
 
 	function onscroll(event) {
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
