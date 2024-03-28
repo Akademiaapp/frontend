@@ -5,6 +5,7 @@
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import { DocumentInfo, currentFile, documentStore } from '@/api/apiStore';
+	import Document from '../home/activeFiles/Document.svelte';
 
 	export let files: DocumentInfo[] = $documentStore;
 
@@ -31,11 +32,13 @@
 	<SideBarElem active={false}>
 		<button
 			on:click={async () => {
-				const newFile = await api.createDocument(randomName()).then((response) => {
+				const newFile = await api.createDocument('Uden titel').then((response) => {
 					if (!response) return;
 					return response.json();
 				});
-				currentFile.set(newFile);
+				currentFile.set(new DocumentInfo(newFile));
+
+				console.log(newFile);
 				documentStore.update((before) => [...before, new DocumentInfo(newFile)]);
 			}}
 			class="reset no-bg size-full"
