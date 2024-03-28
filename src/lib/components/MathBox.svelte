@@ -28,6 +28,7 @@
 	}
 
 	function handleKeyDown(event) {
+		console.log(event);
 		if (event.data === 'insertLineBreak') {
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			$editor.commands.setTextSelection($editor.state.selection.$to.pos);

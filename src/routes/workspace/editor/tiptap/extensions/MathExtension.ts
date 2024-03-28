@@ -39,14 +39,8 @@ export const MathExtension = Node.create({
 			'Mod-m': () => {
 				this.editor.commands.insertContent('<math-component></math-component>');
 				setTimeout(() => {
-					const elem: HTMLSpanElement = this.editor.view.nodeDOM(
-						this.editor.state.selection.from - 1
-					);
-
-					console.log(elem);
-
-					console.log(elem.querySelector('math-field').focus());
-				}, 10);
+					this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
+				}, 1);
 			}
 		};
 	},
@@ -54,7 +48,7 @@ export const MathExtension = Node.create({
 	addAttributes() {
 		return {
 			count: {
-				default: '1+1'
+				default: ''
 			}
 		};
 	}
