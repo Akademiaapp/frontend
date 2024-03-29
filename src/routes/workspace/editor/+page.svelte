@@ -5,7 +5,14 @@
 	import type { Readable } from 'svelte/store';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
-	import { Assignment, AssignmentAnswer, currentFile, FileInfo } from '@/api/apiStore';
+	import {
+		Assignment,
+		AssignmentAnswer,
+		currentFile,
+		DocumentInfo,
+		documentStore,
+		FileInfo
+	} from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
 
@@ -17,7 +24,7 @@
 		goto('/workspace/home');
 	}
 
-	api.getDocument(id || '').then((file) => {
+	api.getDocument(id).then((file) => {
 		if (!file) return;
 		file.json().then((fileContent) => {
 			console.log('hey!', fileContent);
@@ -26,7 +33,7 @@
 			fileContent.id = id.split('.')[1];
 
 			if (documentType === 'document') {
-				currentFile.set(new FileInfo(fileContent));
+				currentFile.set(new DocumentInfo(fileContent));
 			} else if (documentType === 'assignmentAnswer') {
 				currentFile.set(new AssignmentAnswer(fileContent));
 			} else if (documentType === 'assignment') {

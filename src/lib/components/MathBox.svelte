@@ -15,6 +15,8 @@
 		return pattern.test(str);
 	}
 
+	let isEq = false;
+
 	function findFirstLowerCaseSymbol(inputString) {
 		const regex = /[a-z]/; // Matches the first lowercase letter (a-z)
 
@@ -48,6 +50,7 @@
 
 			try {
 				if (isEquation(value)) {
+					isEq = true;
 					const letter = findFirstLowerCaseSymbol(value);
 					console.log(convertLatexToAsciiMath(value));
 					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(value)]);
@@ -152,13 +155,18 @@
 		<slot />
 	</math-field>
 	<span class="mx-auto h-full text-foreground" class:text-muted-foreground={oldRes}>
-		<span class="ML__cmr mr-2">=</span>
+		{#if !isEq}
+			<span class="ML__cmr mr-2">=</span>
 
-		{#if latexResult != null}
-			{@html convertLatexToMarkup(latexResult)}
-		{/if}
-		{#if numResult != undefined && numResult.toString() != latexResult.toString()}
-			<span class="ML__cmr mx-2">≈</span>
+			{#if latexResult != null}
+				{@html convertLatexToMarkup(latexResult)}
+			{/if}
+			{#if numResult != undefined && numResult.toString() != latexResult.toString()}
+				<span class="ML__cmr mx-2">≈</span>
+				<div class="ML__latex mr-auto">{numResult}</div>
+			{/if}
+		{:else}
+			<span class="ML__cmr mr-2">|</span>
 			<div class="ML__latex mr-auto">{numResult}</div>
 		{/if}
 	</span>
