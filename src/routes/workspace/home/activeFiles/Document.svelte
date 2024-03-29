@@ -4,7 +4,7 @@
 	export let type: string = 'document';
 </script>
 
-<a href={'/workspace/editor?id=' + id} class="reset cont frontground">
+<a href={'/workspace/editor?id=' + id + '?type=' + type} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 	</div>
