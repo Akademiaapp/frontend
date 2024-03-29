@@ -38,8 +38,8 @@
 		}
 	];
 
-	const tg = new TourGuideClient({});
 	onMount(() => {
+		const tg = new TourGuideClient({});
 		tg.refresh();
 		tg.addSteps(steps);
 
@@ -48,12 +48,5 @@
 		});
 
 		tg.start(); // Start the tour
-	});
-
-	onDestroy(() => {
-		// Clean up the tour
-		// tg.destroy();
-		tg.exit();
-		tg.destroyListeners();
 	});
 </script>

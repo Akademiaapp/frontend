@@ -21,8 +21,6 @@
 	import { canProceed, userType } from './onboardingStores.js';
 	import { setContext } from 'svelte';
 
-	$: console.log($userType);
-
 	let currentProgress = 1;
 	export let data;
 	let urls: string[];
@@ -34,14 +32,12 @@
 			'3',
 			'4',
 			'5',
-			$userType !== 'tester' ? 'vaelg-skole' : null,
+			$userType !== 'TESTER' ? 'vaelg-skole' : null,
 			'done'
 		].filter((it) => it !== null);
 	}
 
 	$: currentProgress = urls.indexOf(data.url.split('/').pop());
-
-	$: console.log(urls, currentProgress, data.url.split('/').pop());
 
 	export let movePage = (direction: number) =>
 		function () {
@@ -50,7 +46,6 @@
 
 			currentProgress += direction;
 
-			console.log(urls[currentProgress], currentProgress);
 			goto('/onboarding/' + urls[currentProgress]);
 
 			// cheecky hack to make the button from the fist page transition forward.

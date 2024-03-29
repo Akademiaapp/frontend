@@ -3,11 +3,7 @@ import api from '@/api';
 
 export async function redirect() {
 	// check if the user is correctly set up
-
-	const req = await api.callApi('isUserSetupCurrecly', null, 'GET');
-	// const isUserSetupCurrecly = (await req.json()).isUserSetupCurrecly;
-	const isUserSetupCurrecly = true;
-	//TODO: change to actual fetching the data
+	const isUserSetupCurrecly = await isUserSetupCurrectly();
 
 	if (!isUserSetupCurrecly) {
 		// if not, redirect to the onboarding
@@ -16,4 +12,17 @@ export async function redirect() {
 		// else redirect to the workspace
 		goto('/workspace');
 	}
+}
+
+export async function isUserSetupCurrectly() {
+	const req = await api.callApi('/users/self', null, 'GET');
+	const json = await req.json();
+	console.log(json);
+
+	return !(
+		json.schoolId === null ||
+		json.schoolId === undefined ||
+		json.type === null ||
+		json.type === undefined
+	);
 }

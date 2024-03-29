@@ -27,6 +27,16 @@ class ApiHandler {
 			Authorization: `Bearer ${get(keycloakState).token}`
 		};
 
+		console.log(options);
+
+		console.log(
+			url +
+				'?' +
+				new URLSearchParams({
+					...options
+				})
+		);
+
 		return fetch(
 			url +
 				'?' +
