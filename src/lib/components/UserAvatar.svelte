@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { keycloakUserInfo } from './../../authStore.ts';
 	import { userInfo } from '@/api/apiStore';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from './ui/button';
@@ -17,7 +18,7 @@
 		User,
 		UserPlus,
 		Users,
-		SquareX,
+		SquareX
 	} from 'lucide-svelte';
 	import { keycloakState } from '../../authStore';
 	import { goto } from '$app/navigation';
@@ -77,9 +78,9 @@
 			</DropdownMenu.Item>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
-	{#if name}
+	{#if name && $userInfo}
 		<p>
-			{$userInfo.name}
+			{$userInfo.first_name}
 		</p>
 	{/if}
 </div>

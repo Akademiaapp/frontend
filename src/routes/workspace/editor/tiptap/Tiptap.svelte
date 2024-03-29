@@ -13,7 +13,7 @@
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { keycloakState, userInfo } from '../../../../authStore';
+	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
 
 	let provider: HocuspocusProvider;
 
@@ -60,7 +60,7 @@
 							CollaborationCursor.configure({
 								provider: provider,
 								user: {
-									name: $userInfo.preferred_username,
+									name: $keycloakUserInfo.preferred_username,
 									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 								}
 							}),

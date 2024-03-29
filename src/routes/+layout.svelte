@@ -2,7 +2,7 @@
 	import '../app.pcss';
 	import { themeVariant } from './store';
 	import Keycloak from 'keycloak-js';
-	import { userInfo, type UserInfo, keycloakState } from '../authStore';
+	import { keycloakUserInfo, type KeycloakUserInfo, keycloakState } from '../authStore';
 	import { goto } from '$app/navigation';
 
 	import './styles.css';
@@ -47,7 +47,7 @@
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					userInfo.set({ ...userInfoKc } as UserInfo);
+					keycloakUserInfo.set({ ...userInfoKc } as KeycloakUserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
 					setInterval(() => {

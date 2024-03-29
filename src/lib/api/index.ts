@@ -1,5 +1,5 @@
 import { apiDownStore } from './apiStore';
-import { keycloakState, userInfo } from '../../authStore';
+import { keycloakState, keycloakUserInfo } from '../../authStore';
 import { get } from 'svelte/store';
 import { getApiUrl } from '@/utils';
 
@@ -78,7 +78,7 @@ class ApiHandler {
 			'/documents',
 			{
 				name: documentName,
-				user_id: get(userInfo).sub
+				user_id: get(keycloakUserInfo).sub
 			},
 			'POST'
 		);
