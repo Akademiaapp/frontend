@@ -38,7 +38,7 @@
 				<p class="">Der er ingen afleveringer</p>
 			{/if}
 		</div>
-		{#if ($userInfo && $userInfo.type == 'TEACHER') || $userInfo.type == 'TESTER'}
+		{#if $userInfo && ($userInfo.type == 'TEACHER' || $userInfo.type == 'TESTER')}
 			<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
 				<Plus size="19" />
 				Opret aflevering
