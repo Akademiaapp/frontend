@@ -3,13 +3,22 @@
 	import { goto } from '$app/navigation';
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
+	import api from '@/api';
+	import { selectedSchool, selectedSchoolId, userType } from '../onboardingStores';
 
 	let isLoading = true;
 
 	onMount(async () => {
+		console.log('selectedSchool: ', $selectedSchool);
+		await api.callApi('/users/self', { school: $selectedSchool }, 'PUT');
+		console.log('userType: ', $userType);
+		await api.callApi('/users/self', { type: $userType }, 'PUT');
+		console.log('selectedSchoolId: ', $selectedSchoolId);
+		await api.callApi('/users/self', { schoolId: $selectedSchoolId }, 'PUT');
 		await new Promise((resolve) => setTimeout(resolve, 1000));
+
 		isLoading = false;
-		await new Promise((resolve) => setTimeout(resolve, 2500));
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 		goto('/workspace/home/guide');
 	});
 </script>

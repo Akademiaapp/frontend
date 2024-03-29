@@ -3,8 +3,8 @@
 
 	// import { type TourGuideOptions } from '@sjmc11/tourguidejs/src/core/options.ts';
 	import { TourGuideClient } from '@sjmc11/tourguidejs/src/Tour'; // JS
-
-	const tg = new TourGuideClient({});
+	import { onDestroy, onMount } from 'svelte';
+	import { tryGc } from 'yjs';
 
 	const steps = [
 		{
@@ -37,15 +37,16 @@
 			order: 4
 		}
 	];
-	tg.addSteps(steps);
 
-	console.log(steps);
+	onMount(() => {
+		const tg = new TourGuideClient({});
+		tg.refresh();
+		tg.addSteps(steps);
 
-	tg.onAfterExit(() => {
-		goto('/workspace/home');
+		tg.onAfterExit(() => {
+			goto('/workspace/home');
+		});
+
+		tg.start(); // Start the tour
 	});
-
-	tg.start(); // Start the tour
-
-	console.log('hi');
 </script>

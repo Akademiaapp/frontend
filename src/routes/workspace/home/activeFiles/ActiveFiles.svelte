@@ -2,19 +2,22 @@
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File } from 'lucide-svelte';
-	import { documentStore, userInfo, assignmentStore } from '@/api/apiStore';
+	import { documentStore, assignmentAnswerStore } from '@/api/apiStore';
+	import { keycloakUserInfo } from '../../../../authStore';
 
-	console.log('assignments', $assignmentStore);
+	console.log('assignments', $assignmentAnswerStore);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
-	<h1>Velkommen, {$userInfo.name}</h1>
+	<h1>
+		Velkommen, {$keycloakUserInfo.given_name}
+	</h1>
 	<h2>
 		<Target />
 		Afleveringer
 	</h2>
 	<div class="filelist">
-		{#each $assignmentStore as assignment}
+		{#each $assignmentAnswerStore as assignment}
 			<Assignment
 				name={assignment.name}
 				progress={assignment.progress}
@@ -29,7 +32,7 @@
 				})}
 			/>
 		{/each}
-		{#if $assignmentStore.length == 0}
+		{#if $assignmentAnswerStore.length == 0}
 			<p class="">Der er ingen afleveringer</p>
 		{/if}
 	</div>

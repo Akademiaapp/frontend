@@ -97,12 +97,12 @@ export function getAuthUrl() {
 
 export function getAulaUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://aula.akademia.cc';
+		return 'https://aula.akademia.cc/';
 	} else {
 		if (env.PUBLIC_AULA_URL) {
 			return env.PUBLIC_AULA_URL;
 		} else {
-			return 'http://192.168.1.76:8080/';
+			return 'https://aula.akademia.cc/'
 		}
 	}
 }

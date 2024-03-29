@@ -13,7 +13,8 @@
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { keycloakState, userInfo } from '../../../../authStore';
+	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
+	import { MathExtension } from './extensions/MathExtension';
 
 	let provider: HocuspocusProvider;
 
@@ -60,7 +61,7 @@
 							CollaborationCursor.configure({
 								provider: provider,
 								user: {
-									name: $userInfo.preferred_username,
+									name: $keycloakUserInfo.preferred_username,
 									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 								}
 							}),
@@ -81,7 +82,8 @@
 									return '';
 								},
 								showOnlyCurrent: false
-							})
+							}),
+							MathExtension
 						],
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
@@ -150,6 +152,10 @@
 	});
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive-static.css" />
+</svelte:head>
+
 <EditorContent editor={$editor} />
 
 <style lang="scss">
@@ -158,6 +164,14 @@
 		margin-top: 1rem;
 
 		max-width: 100%;
+	}
+
+	:global(.page > div) {
+		height: 100%;
+	}
+
+	:global(.tiptap) {
+		height: 100%;
 	}
 
 	button.active {
