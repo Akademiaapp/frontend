@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { userInfo } from './../../../../lib/api/apiStore';
+	import { assignmentStore, userInfo } from './../../../../lib/api/apiStore';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File, Plus } from 'lucide-svelte';
 	import { documentStore, assignmentAnswerStore, newDocument, newAssignment } from '@/api/apiStore';
 	import { keycloakUserInfo } from '../../../../authStore';
 	import Button from '@/components/ui/button/button.svelte';
+	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
-	console.log('assignments', $assignmentAnswerStore);
+	console.log('assignments', $assignmentStore);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -21,7 +22,7 @@
 	<div class="mb-7">
 		<div class="filelist">
 			{#each $assignmentAnswerStore as assignment}
-				<Assignment
+				<AssignmentAnswer
 					name={assignment.name}
 					progress={assignment.progress}
 					id={assignment.answer_id}
@@ -34,7 +35,19 @@
 					})}
 				/>
 			{/each}
-			{#if $assignmentAnswerStore.length == 0}
+			{#each $assignmentStore as assignment}
+				<Assignment
+					assingment={assignment}
+					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric'
+					})}
+				/>
+			{/each}
+			{#if $assignmentAnswerStore.length == 0 && $assignmentStore.length == 0}
 				<p class="">Der er ingen afleveringer</p>
 			{/if}
 		</div>

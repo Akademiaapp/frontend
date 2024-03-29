@@ -1,21 +1,31 @@
 <script lang="ts">
-	import { Assignment, AssignmentProgress } from '@/api/apiStore';
+	import { AssignmentProgress } from '@/api/apiStore';
 	import { Check } from 'lucide-svelte';
-	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
-	export let assingment: Assignment;
+	export let name: string;
 	export let date: string | undefined = undefined;
+	export let progress: AssignmentProgress = null;
+	export let id: string;
 
 	let progressNumber = 5;
 	let finished = false;
+	console.log(progress);
+
+	if (progress == AssignmentProgress.NOT_STARTED || progress == undefined) {
+		progressNumber = 5;
+	} else if (progress == AssignmentProgress.IN_PROGRESS) {
+		progressNumber = 50;
+	} else if (progress == AssignmentProgress.SUBMITTED) {
+		progressNumber = 100;
+	} else if (progress == AssignmentProgress.GRADED) {
+		finished = true;
+		progressNumber = 100;
+	}
 </script>
 
-<a
-	href={'/workspace/editor?id=' + assingment.id + '&type=' + assingment.fileType}
-	class="reset cont frontground"
->
+<a href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'} class="reset cont frontground">
 	<div class="text">
-		<p class="name">{assingment.name}</p>
+		<p class="name">{name}</p>
 		<p class="date">Afleveringsdato {date}</p>
 	</div>
 	{#if !finished}

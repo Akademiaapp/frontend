@@ -179,6 +179,18 @@ export async function updateAssignmentsAnswers() {
 	console.log('updated assignments', get(assignmentAnswerStore));
 }
 
+export async function updateAssignments() {
+	const response = await api.getAssignments();
+	if (!response) {
+		throw new Error('Could not update assignments due to no response');
+	}
+	const json = await response.json();
+	console.log(json);
+
+	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
+	console.log('updated assignments');
+}
+
 export async function newDocument(name: string, open: boolean = true) {
 	const response = await api.createDocument(name);
 	if (!response) {

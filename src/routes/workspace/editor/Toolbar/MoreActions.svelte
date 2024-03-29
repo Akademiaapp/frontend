@@ -64,12 +64,6 @@
 				Slet
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
-		<DropdownMenu.Separator />
-
-		<DropdownMenu.Item on:click={() => $keycloakState.logout()}>
-			<LogOut size="15" strokeWidth="1.5"></LogOut>
-			Log ud
-		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
 

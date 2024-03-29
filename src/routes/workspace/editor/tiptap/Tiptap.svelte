@@ -4,10 +4,10 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor } from '../editorStore';
-	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { Assignment, FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
-	import Assignment from '../../home/activeFiles/Assignment.svelte';
+
 	import { getCollaborationUrl } from '@/utils';
 
 	let provider: HocuspocusProvider;
@@ -22,6 +22,7 @@
 		console.log('Assignment');
 	}
 
+	$: console.log('currentFile: ', $currentFile instanceof Assignment);
 	$: console.log('currentFile: ', $currentFile);
 
 	export let connected = false;
