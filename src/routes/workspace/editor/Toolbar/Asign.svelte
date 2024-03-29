@@ -26,7 +26,7 @@
 		<Dialog.Header>
 			<Dialog.Title>Tildel '{$currentFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
-				Dette vil gøre det muligt for de tildelte personer at besvare opgaven.
+				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
 		</Dialog.Header>
 		<div class="flex w-full items-end gap-2">
