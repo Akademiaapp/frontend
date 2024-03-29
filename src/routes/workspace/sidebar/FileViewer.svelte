@@ -25,12 +25,11 @@
 		{#each files as file}
 			<div>
 				<File
-					name={file?.name}
+					{file}
 					onClick={() => {
 						file.open();
 					}}
 					active={file?.id == $currentFile?.id}
-					id={file?.id}
 				></File>
 			</div>
 			<!-- content here -->

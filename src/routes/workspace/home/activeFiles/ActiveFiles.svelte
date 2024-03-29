@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { userInfo } from './../../../../lib/api/apiStore.ts';
+	import { userInfo } from './../../../../lib/api/apiStore';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File, Plus } from 'lucide-svelte';

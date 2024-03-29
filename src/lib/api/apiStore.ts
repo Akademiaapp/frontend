@@ -30,7 +30,7 @@ export class FileInfo {
 
 	open() {
 		currentFile.set(this);
-		console.log(`going to /workspace/editor?id=${this.id}`);
+		console.log(`going to /workspace/editor?id=${this.id}?type=${this.fileType}`);
 		goto(`/workspace/editor?id=${this.id}?type=${this.fileType}`);
 	}
 

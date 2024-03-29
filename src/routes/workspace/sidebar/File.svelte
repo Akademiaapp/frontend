@@ -1,19 +1,19 @@
-<script>
+<script lang="ts">
+	import { FileInfo } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
-	export let name = 'fileName';
-	export let id = '';
+	export let file: FileInfo;
 	export let onClick = () => {};
 	export let active = false;
 </script>
 
 <SideBarElem {active}>
-	<a on:click={onClick} href="editor?id={id}" class="reset" class:active>
+	<a on:click={onClick} href="editor?id={file.id}&type" class="reset" class:active>
 		<div>
 			<File size={20}></File>
 		</div>
-		<span class="name">{capLength(name, 20)}</span>
+		<span class="name">{capLength(file.name, 20)}</span>
 	</a>
 </SideBarElem>
 
