@@ -8,6 +8,7 @@
 	let open = false;
 
 	function asign() {
+		if ($currentFile instanceof Assignment) $currentFile.assign();
 		open = false;
 	}
 </script>
@@ -29,7 +30,7 @@
 		</Dialog.Header>
 		<div class="flex w-full items-end gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Nej</Button>
-			<Button class="flex-1" on:click={asign}>Ja</Button>
+			<Button class="flex-1" on:click={asign}>Ja, tildel</Button>
 		</div>
 	</Dialog.Content>
 </Dialog.Root>

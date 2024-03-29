@@ -11,8 +11,9 @@ export class FileInfo {
 
 	fileType: string = 'document';
 
-	constructor(info) {
-		this.id = `${this.fileType}.${info.id}`;
+	constructor(info, fileType = 'document') {
+		this.fileType = fileType;
+		this.id = info.id;
 		this.name = info.name;
 		this.data = info.data;
 		this.created_at = info.created_at;
@@ -30,7 +31,7 @@ export class FileInfo {
 	open() {
 		currentFile.set(this);
 		console.log(`going to /workspace/editor?id=${this.id}`);
-		goto(`/workspace/editor?id=${this.id}`);
+		goto(`/workspace/editor?id=${this.id}?type=${this.fileType}`);
 	}
 
 	delete() {
@@ -83,11 +84,8 @@ export class Assignment extends FileInfo {
 	isPublic: boolean;
 	teacherId: string;
 
-	fileType = 'assignments';
-
-	constructor(info) {
-		super(info);
-		this.id = info.id;
+	constructor(info, fileType = 'assignments') {
+		super(info, fileType);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
@@ -98,16 +96,18 @@ export class Assignment extends FileInfo {
 	async getMembers() {
 		return [];
 	}
+
+	async assign() {
+		return api.callApi(this.path + '/deploy', null, 'POST');
+	}
 }
 
 export class AssignmentAnswer extends Assignment {
 	progress: AssignmentProgress;
 	answer_id: string;
 
-	fileType = 'assignmentAnswer';
-
 	constructor(info) {
-		super(info);
+		super(info, 'assignmentAnswer');
 		this.id = `${this.fileType}.${info.id}`;
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
