@@ -25,7 +25,7 @@ export class FileInfo {
 	}
 
 	rename = api.debounce((newName: string) => {
-		return this.updateInfo({ name: newName });
+		return this.updateInfo({ name: newName == '' ? 'Unavngivet' : newName });
 	});
 
 	open() {
@@ -212,7 +212,7 @@ export async function newAssignment(
 	const response = await api.callApi(
 		'/assignments',
 		{
-			name: name,
+			name: name == '' ? 'Unavngivet' : name,
 			due_date: new Date(
 				dueDate.getFullYear(),
 				dueDate.getMonth(),
