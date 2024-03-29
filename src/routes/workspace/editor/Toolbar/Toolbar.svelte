@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Asign from './Asign.svelte';
 	import { themeVariant } from '../../../store';
-	import api from '../../../../lib/api';
 
-	import { getContext } from 'svelte';
 	import ShareDocument from './ShareDocument.svelte';
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
