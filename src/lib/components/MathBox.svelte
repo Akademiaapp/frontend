@@ -49,8 +49,8 @@
 			latexResult = r.latex;
 
 			try {
-				if (isEquation(value)) {
-					isEq = true;
+				isEq = isEquation(value);
+				if (isEq) {
 					const letter = findFirstLowerCaseSymbol(value);
 					console.log(convertLatexToAsciiMath(value));
 					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(value)]);
