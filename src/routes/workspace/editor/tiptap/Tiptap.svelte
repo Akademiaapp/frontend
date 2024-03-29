@@ -1,23 +1,13 @@
 <script lang="ts">
-	import Assignment from './../../home/activeFiles/Assignment.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
-	import Collaboration from '@tiptap/extension-collaboration';
-	import { EditorExtensions } from '$lib/editor/extensions';
-	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
-	import { goto } from '$app/navigation';
-	import TableOfContents from '../../TableOfContents';
-	import Document from '@tiptap/extension-document';
-	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
-	import { MathExtension } from './extensions/MathExtension';
-	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
+	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
+	import Assignment from '../../home/activeFiles/Assignment.svelte';
 
 	let provider: HocuspocusProvider;
 
@@ -27,9 +17,15 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
+	$: if ($currentFile instanceof Assignment) {
+		console.log('Assignment');
+	}
+
+	$: console.log('currentFile: ', $currentFile);
+
 	export let connected = false;
 
-	// $: console.log('token: ', $keycloakState.token);
+	$: console.log('token: ', $keycloakState.token);
 
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
@@ -61,7 +57,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: getExtensions(provider),
+						extensions: getExtensions(provider, $currentFile instanceof Assignment),
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;

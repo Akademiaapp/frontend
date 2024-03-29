@@ -24,23 +24,26 @@
 		goto('/workspace/home');
 	}
 
-	api.getDocument(id).then((file) => {
-		if (!file) return;
-		file.json().then((fileContent) => {
-			console.log('hey!', fileContent);
-			console.log('What??', id);
-			console.log('What????', documentType);
-			fileContent.id = id.split('.')[1];
+	if (!$currentFile) {
+		console.log('curr', $currentFile);
+		api.getDocument(id).then((file) => {
+			if (!file) return;
+			file.json().then((fileContent) => {
+				console.log('hey!', fileContent);
+				console.log('What??', id);
+				console.log('What????', documentType);
+				fileContent.id = id.split('.')[1];
 
-			if (documentType === 'document') {
-				currentFile.set(new DocumentInfo(fileContent));
-			} else if (documentType === 'assignmentAnswer') {
-				currentFile.set(new AssignmentAnswer(fileContent));
-			} else if (documentType === 'assignment') {
-				currentFile.set(new Assignment(fileContent));
-			}
+				if (documentType === 'document') {
+					currentFile.set(new DocumentInfo(fileContent));
+				} else if (documentType === 'assignmentAnswer') {
+					currentFile.set(new AssignmentAnswer(fileContent));
+				} else if (documentType === 'assignment') {
+					currentFile.set(new Assignment(fileContent));
+				}
+			});
 		});
-	});
+	}
 </script>
 
 <svelte:head>

@@ -1,15 +1,9 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { BookCheck, BookCopy, UserRoundPlus } from 'lucide-svelte';
+	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import * as Select from '$lib/components/ui/select';
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { Separator } from '$lib/components/ui/separator';
-	import { getContext, onMount } from 'svelte';
-	import api from '@/api';
-	import { FileInfo, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
 
 	let open = false;
 

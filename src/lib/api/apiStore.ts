@@ -20,7 +20,7 @@ export class FileInfo {
 	}
 
 	get path() {
-		return `/documents/${this.id}`;
+		return `/${this.fileType}/${this.id}`;
 	}
 
 	rename = api.debounce((newName: string) => {
@@ -29,6 +29,7 @@ export class FileInfo {
 
 	open() {
 		currentFile.set(this);
+		console.log(`going to /workspace/editor?id=${this.id}`);
 		goto(`/workspace/editor?id=${this.id}`);
 	}
 
@@ -48,8 +49,10 @@ export class FileInfo {
 	}
 
 	// Gets the members of the file from the api
-	getMembers() {
-		return api.callApi(this.path + '/users');
+	async getMembers() {
+		const res = await api.callApi(this.path + '/users');
+		const json = await res.json();
+		return json;
 	}
 
 	// Requests the api to update information
@@ -84,11 +87,16 @@ export class Assignment extends FileInfo {
 
 	constructor(info) {
 		super(info);
+		this.id = info.id;
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
+	}
+
+	async getMembers() {
+		return [];
 	}
 }
 
@@ -184,6 +192,44 @@ export async function newDocument(name: string, open: boolean = true) {
 		newDoc.open();
 	}
 	documentStore.update((files) => [...files, newDoc]);
+}
+export async function newAssignment(
+	name: string = '',
+	dueDate: Date = tomorrow(),
+	open: boolean = true
+) {
+	const response = await api.callApi(
+		'/assignments',
+		{
+			name: name,
+			due_date: new Date(
+				dueDate.getFullYear(),
+				dueDate.getMonth(),
+				dueDate.getDate(),
+				23,
+				45
+			).toISOString()
+		},
+		'POST'
+	);
+	if (!response) {
+		throw new Error('Could not create document due to no response');
+	}
+	const json = await response.json();
+	const newAssignment = new Assignment(json);
+
+	if (open) {
+		newAssignment.open();
+	}
+	assignmentStore.update((files) => [...files, newAssignment]);
+}
+
+function tomorrow(): Date {
+	const today = new Date();
+	const tomorrow = new Date(today);
+	tomorrow.setDate(tomorrow.getDate() + 1);
+
+	return tomorrow;
 }
 
 export const apiDownStore = writable<boolean>(false);

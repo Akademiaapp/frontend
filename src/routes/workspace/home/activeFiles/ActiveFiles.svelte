@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
-	import { Notebook, Target, File } from 'lucide-svelte';
-	import { documentStore, assignmentAnswerStore } from '@/api/apiStore';
+	import { Notebook, Target, File, Plus } from 'lucide-svelte';
+	import { documentStore, assignmentAnswerStore, newDocument, newAssignment } from '@/api/apiStore';
 	import { keycloakUserInfo } from '../../../../authStore';
+	import Button from '@/components/ui/button/button.svelte';
 
 	console.log('assignments', $assignmentAnswerStore);
 </script>
@@ -16,31 +17,37 @@
 		<Target />
 		Afleveringer
 	</h2>
-	<div class="filelist">
-		{#each $assignmentAnswerStore as assignment}
-			<Assignment
-				name={assignment.name}
-				progress={assignment.progress}
-				id={assignment.answer_id}
-				assignmentId={assignment.id}
-				date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-					hour: 'numeric',
-					minute: 'numeric'
-				})}
-			/>
-		{/each}
-		{#if $assignmentAnswerStore.length == 0}
-			<p class="">Der er ingen afleveringer</p>
-		{/if}
+	<div class="mb-7">
+		<div class="filelist">
+			{#each $assignmentAnswerStore as assignment}
+				<Assignment
+					name={assignment.name}
+					progress={assignment.progress}
+					id={assignment.answer_id}
+					assignmentId={assignment.id}
+					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric'
+					})}
+				/>
+			{/each}
+			{#if $assignmentAnswerStore.length == 0}
+				<p class="">Der er ingen afleveringer</p>
+			{/if}
+		</div>
+		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
+			<Plus size="19" />
+			Opret aflevering
+		</Button>
 	</div>
 	<h2>
 		<File />
 		Dokumenter
 	</h2>
-	<div class="filelist">
+	<div class="filelist mb-7">
 		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
@@ -52,7 +59,7 @@
 		<Notebook />
 		Noter
 	</h2>
-	<div class="filelist">
+	<div class="filelist mb-7">
 		{#each $documentStore as f}
 			<Document name={f.name} id={f.id}></Document>
 		{/each}
@@ -85,6 +92,5 @@
 		gap: var(--gap);
 		height: auto;
 		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-		margin-bottom: 2rem;
 	}
 </style>

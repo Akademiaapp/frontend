@@ -10,7 +10,7 @@ import { get } from 'svelte/store';
 import { keycloakUserInfo } from '../../../../authStore';
 import Document from '@tiptap/extension-document';
 
-export default function getExtensions(provider) {
+export default function getExtensions(provider, isAssignment = false) {
 	return [
 		...EditorExtensions,
 		CollaborationCursor.configure({
@@ -24,7 +24,7 @@ export default function getExtensions(provider) {
 			document: provider.document
 		}),
 		Document.extend({
-			content: 'title block+'
+			content: isAssignment ? 'title metaSettings block+' : 'title block+'
 		}),
 		TableOfContents,
 		Title,
@@ -39,6 +39,6 @@ export default function getExtensions(provider) {
 			showOnlyCurrent: false
 		}),
 		MathExtension,
-		false ? MetaSettingsExtension : null
+		isAssignment ? MetaSettingsExtension : null
 	];
 }
