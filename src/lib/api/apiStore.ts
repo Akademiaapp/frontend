@@ -9,7 +9,7 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	fileType: string = 'document';
+	fileType: string = 'documents';
 
 	constructor(info, fileType = 'document') {
 		this.fileType = fileType;
@@ -63,7 +63,7 @@ export class FileInfo {
 }
 
 export class DocumentInfo extends FileInfo {
-	fileType = 'document';
+	fileType = 'documents';
 
 	constructor(info) {
 		super(info);
