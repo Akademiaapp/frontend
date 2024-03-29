@@ -11,7 +11,7 @@ export class FileInfo {
 
 	fileType: string = 'documents';
 
-	constructor(info, fileType = 'document') {
+	constructor(info, fileType = 'documents') {
 		this.fileType = fileType;
 		this.id = info.id;
 		this.name = info.name;
