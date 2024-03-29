@@ -5,28 +5,34 @@
 	import Document from '@tiptap/extension-document';
 	import { EditorExtensions } from '@/editor/extensions';
 	import { MetaSettingsExtension } from '../editor/tiptap/extensions/MetaSettingsExtension';
+	import { MathExtension } from '../editor/tiptap/extensions/MathExtension';
 
-	let editor: Readable<Editor>;
+	import { editor } from '../editor/editorStore';
 
 	onMount(() => {
-		editor = createEditor({
-			extensions: [
-				...EditorExtensions,
-				Document.extend({
-					content: 'metaSettings block+'
-				}),
-				,
-				MetaSettingsExtension
-			],
-			content: `
+		editor.set(
+			new Editor({
+				extensions: [...EditorExtensions, Document, MathExtension],
+				content: `
         <p>This is still the text editor you’re used to, but enriched with node views.</p>
-        <meta-settings-component></meta-settings-component>
         <p>Did you see that? That’s a Svelte component. We are really living in the future.</p>
+		<p>Here is a math component: <math-component>1+1</math-component></p>
+		
       `
-		});
+			})
+		);
 	});
 </script>
 
-<div class="m-5">
+<svelte:head>
+	<link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive-static.css" />
+</svelte:head>
+<div class="m-5 bg-background p-5">
 	<EditorContent editor={$editor} />
 </div>
+
+<style>
+	:global(.tiptap) {
+		padding: 2rem;
+	}
+</style>

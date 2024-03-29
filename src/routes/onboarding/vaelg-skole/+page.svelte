@@ -8,10 +8,10 @@
 		CommandList,
 		CommandSeparator
 	} from '@/components/ui/command';
-	import { canProceed, selectedSchool, userType } from '../onboardingStores';
+	import { canProceed, selectedSchool, selectedSchoolId } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 
-	canProceed.set(false);
+	canProceed.set($selectedSchool != '');
 
 	let schools = [
 		'Sct. Jørgens skole - Næstved',
@@ -43,8 +43,9 @@
 	function selectSchool(school) {
 		canProceed.set(true);
 		selectedSchool.set(school);
+		selectedSchoolId.set('1');
 
-		el = document.querySelector('input');
+		const el = document.querySelector('input');
 		el.blur();
 	}
 

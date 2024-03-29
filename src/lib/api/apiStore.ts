@@ -1,6 +1,5 @@
 import { get, writable } from 'svelte/store';
 import api from '.';
-import type { UserInfo } from '../../authStore';
 import { goto } from '$app/navigation';
 
 export class FileInfo {
@@ -87,6 +86,7 @@ export class Assignment extends FileInfo {
 		super(info);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
+		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
 	}
@@ -136,30 +136,46 @@ export async function updateDocuments() {
 	console.log('updated files');
 }
 
-function getUserName(state: UserInfo): string {
-	if (!state.sub) return '';
-	const name =
-		state.given_name === '' ? state.preferred_username.split(/[@.]/)[0] : state.given_name;
-	if (typeof name === 'string') {
-		return name;
-	} else {
-		return 'User';
-	}
-}
-export function updateUserInfo(state: UserInfo) {
-	userInfo.set({ name: getUserName(state) });
+export async function updateUserInfo() {
+	userInfo.set(await api.callApi('/users/self').then((response) => response.json()));
 }
 
 // Explicitly specify the type of the store
 export const documentStore = writable<DocumentInfo[]>([]);
-export const assignmentStore = writable<AssignmentAnswer[]>([]);
+export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
+export const assignmentStore = writable<Assignment[]>([]);
 
 export const currentFile = writable<FileInfo>(null);
 
-interface userInfo {
-	name: string;
+interface FilePermission {
+	id: string;
+	user_id: string;
+	permission: string;
+	document_id: string;
 }
-export const userInfo = writable<userInfo>();
+
+interface School {
+	id: string;
+	name: string;
+	address: string;
+}
+
+interface UserInfo {
+	id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	created_at: string;
+	updated_at: string;
+	schoolId: string;
+	type: string;
+	school: School;
+	user_group: [];
+	assignment: [];
+	assignment_answer: [];
+	file_permission: FilePermission[];
+}
+export const userInfo = writable<UserInfo>();
 
 export async function updateAssignmentsAnswers() {
 	const response = await api.getAssignmentAnswers();
@@ -168,8 +184,8 @@ export async function updateAssignmentsAnswers() {
 	}
 	const json = await response.json();
 
-	assignmentStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
-	console.log('updated assignments', get(assignmentStore));
+	assignmentAnswerStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
+	console.log('updated assignments', get(assignmentAnswerStore));
 }
 
 export async function newDocument(name: string, open: boolean = true) {

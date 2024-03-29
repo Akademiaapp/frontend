@@ -2,7 +2,7 @@
 	import '../app.pcss';
 	import { themeVariant } from './store';
 	import Keycloak from 'keycloak-js';
-	import { userInfo, type UserInfo, keycloakState } from '../authStore';
+	import { keycloakUserInfo, type KeycloakUserInfo, keycloakState } from '../authStore';
 	import { goto } from '$app/navigation';
 
 	import './styles.css';
@@ -47,7 +47,7 @@
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					userInfo.set({ ...userInfoKc } as UserInfo);
+					keycloakUserInfo.set({ ...userInfoKc } as KeycloakUserInfo);
 					console.log('User info:', userInfoKc);
 					console.log('Token:', $keycloakState.token);
 					setInterval(() => {
@@ -64,14 +64,17 @@
 				});
 			} else {
 				console.log('Not authenticated');
-				// reload page
-				if ($page.url.pathname.endsWith('/register')) {
-					window.location.href = $keycloakState.createRegisterUrl({
-						redirectUri: window.location.hostname + '/onboarding'
-					});
-				} else {
-					$keycloakState.login();
+				if (!$page.url.pathname.includes('/onboarding')) {
+					goto('/onboarding/login');
 				}
+				// reload page
+				// if ($page.url.pathname.endsWith('/register')) {
+				// 	window.location.href = $keycloakState.createRegisterUrl({
+				// 		redirectUri: window.location.hostname + '/onboarding'
+				// 	});
+				// } else {
+				// 	$keycloakState.login();
+				// }
 			}
 		})
 		.catch((e) => {
@@ -88,7 +91,7 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if $keycloakState.authenticated}
+{#if $keycloakState.authenticated || $page.url.pathname.includes('/onboarding')}
 	<div class="app">
 		<slot />
 	</div>
