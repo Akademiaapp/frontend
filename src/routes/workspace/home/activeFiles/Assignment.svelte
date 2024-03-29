@@ -6,7 +6,7 @@
 	export let date: string | undefined = undefined;
 	export let progress: AssignmentProgress = null;
 	export let id: string;
-	
+
 	let progressNumber = 5;
 	let finished = false;
 	console.log(progress);
@@ -24,7 +24,7 @@
 </script>
 
 <a
-	href={'/workspace/editor?id=assignmentAnswer.' + id + '&type=assignment'}
+	href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'}
 	class="reset cont frontground"
 >
 	<div class="text">
