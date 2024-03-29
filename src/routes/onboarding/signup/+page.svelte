@@ -4,28 +4,13 @@
 	import { goto } from '$app/navigation';
 	import { keycloakState } from '../../../authStore';
 	import api from '@/api';
+	import { redirect } from '@/utils/onboardingUtils';
 
 	let isLoading = false;
 
 	$: if ($keycloakState.authenticated) {
-		redirect().catch(console.error);
-	}
-
-	async function redirect() {
-		// check if the user is correctly set up
 		isLoading = true;
-		const req = await api.callApi('isUserSetupCurrecly', null, 'GET');
-		// const isUserSetupCurrecly = (await req.json()).isUserSetupCurrecly;
-		const isUserSetupCurrecly = true;
-		//TODO: change to actual fetching the data
-
-		if (!isUserSetupCurrecly) {
-			// if not, redirect to the onboarding
-			goto('/onboarding');
-		} else {
-			// else redirect to the workspace
-			goto('/workspace');
-		}
+		redirect().catch(console.error);
 	}
 </script>
 
@@ -52,7 +37,10 @@
 					Terms of Service
 				</a>{' '}
 				and{' '}
-				<a href="https://akademia.cc/privacy-policy" class="underline underline-offset-4 hover:text-primary">
+				<a
+					href="https://akademia.cc/privacy-policy"
+					class="underline underline-offset-4 hover:text-primary"
+				>
 					Privacy Policy
 				</a>
 				.
