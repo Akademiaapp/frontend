@@ -28,6 +28,8 @@
 
 	export let connected = false;
 
+	// $: console.log('token: ', $keycloakState.token);
+
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
 			return;
@@ -71,7 +73,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title metaSettings block+'
+								content: 'title block+'
 							}),
 							TableOfContents,
 							Title,
