@@ -32,11 +32,11 @@
 				console.log('What??', id);
 				console.log('What????', documentType);
 
-				if (documentType === 'document') {
+				if (documentType === 'documents') {
 					currentFile.set(new DocumentInfo(fileContent));
-				} else if (documentType === 'assignmentAnswer') {
+				} else if (documentType === 'assignmentAnswers') {
 					currentFile.set(new AssignmentAnswer(fileContent));
-				} else if (documentType === 'assignment') {
+				} else if (documentType === 'assignments') {
 					currentFile.set(new Assignment(fileContent));
 				}
 			});
