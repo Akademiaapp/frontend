@@ -206,3 +206,16 @@ button.hover {
 .text-2 {
 	color: var(--color-text-2);
 }
+
+math-field {
+	color-scheme: light;
+}
+
+math-field::part(virtual-keyboard-toggle) {
+	display: none;
+}
+
+/* Hide the menu toggle */
+math-field::part(menu-toggle) {
+	display: none;
+}
