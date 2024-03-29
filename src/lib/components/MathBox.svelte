@@ -60,7 +60,7 @@
 						.map(([k, v]) => k + ' = ' + v)
 						.join(', ');
 				} else {
-					const nv = nerdamer.convertFromLaTeX(latexResult).evaluate();
+					const nv = nerdamer(convertLatexToAsciiMath(value)).evaluate();
 					console.log(+nv);
 					if (+nv) {
 						numResult = Math.round(nv * 100000) / 100000;
