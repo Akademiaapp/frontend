@@ -1,13 +1,12 @@
 <script>
 	import ActiveFiles from './activeFiles/ActiveFiles.svelte';
-	import Workspace from '../+layout.svelte';
 	import Calendar from './Calendar/Calendar.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { getApiUrl } from '@/utils';
+	import { getCollaborationUrl } from '@/utils';
 
 	currentFile.set(null);
 
-	console.log("url: ", getApiUrl());
+	console.log("url: ", getCollaborationUrl());
 </script>
 
 <svelte:head>

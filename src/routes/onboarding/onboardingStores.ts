@@ -6,4 +6,6 @@ export const canProceed = writable(true);
 export const nextUrl = writable('');
 
 export const userType = writable('');
+
 export const selectedSchool = writable('');
+export const selectedSchoolId = writable('');

@@ -13,7 +13,7 @@
 	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { keycloakState, userInfo } from '../../../../authStore';
+	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
 	import { MathExtension } from './extensions/MathExtension';
 
 	let provider: HocuspocusProvider;
@@ -45,8 +45,8 @@
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
-				goto('/workspace/home');
 				throw new Error('Authentication failed');
+				// goto('/workspace/home');
 			},
 			onConnect: () => {
 				if ($editor) {
@@ -61,7 +61,7 @@
 							CollaborationCursor.configure({
 								provider: provider,
 								user: {
-									name: $userInfo.preferred_username,
+									name: $keycloakUserInfo.preferred_username,
 									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
 								}
 							}),
@@ -164,6 +164,14 @@
 		margin-top: 1rem;
 
 		max-width: 100%;
+	}
+
+	:global(.page > div) {
+		height: 100%;
+	}
+
+	:global(.tiptap) {
+		height: 100%;
 	}
 
 	button.active {

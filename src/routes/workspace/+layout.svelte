@@ -3,11 +3,11 @@
 	import Sidebar from './sidebar/Sidebar.svelte';
 	import { updateDocuments, updateUserInfo, updateAssignmentsAnswers } from '@/api/apiStore';
 	import ApiDown from '@/components/ApiDown.svelte';
-	import { userInfo } from '../../authStore';
+	import { keycloakUserInfo } from '../../authStore';
 
 	updateDocuments();
 	updateAssignmentsAnswers();
-	updateUserInfo($userInfo);
+	updateUserInfo();
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');

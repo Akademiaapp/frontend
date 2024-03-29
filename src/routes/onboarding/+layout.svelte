@@ -21,8 +21,6 @@
 	import { canProceed, userType } from './onboardingStores.js';
 	import { setContext } from 'svelte';
 
-	$: console.log($userType);
-
 	let currentProgress = 1;
 	export let data;
 	let urls: string[];
@@ -34,14 +32,12 @@
 			'3',
 			'4',
 			'5',
-			$userType !== 'tester' ? 'vaelg-skole' : null,
+			$userType !== 'TESTER' ? 'vaelg-skole' : null,
 			'done'
 		].filter((it) => it !== null);
 	}
 
 	$: currentProgress = urls.indexOf(data.url.split('/').pop());
-
-	$: console.log(urls, currentProgress, data.url.split('/').pop());
 
 	export let movePage = (direction: number) =>
 		function () {
@@ -50,7 +46,6 @@
 
 			currentProgress += direction;
 
-			console.log(urls[currentProgress], currentProgress);
 			goto('/onboarding/' + urls[currentProgress]);
 
 			// cheecky hack to make the button from the fist page transition forward.
@@ -67,13 +62,16 @@
 		opacity: 1
 	};
 
+	let hello = 'hello';
+
 	let hasBeen = [];
 </script>
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
 	<div class="cont br-3 border">
-		<div class="relative flex-1 overflow-y-clip">
+		<div class="relative flex-1">
 			{#key data.url}
+				<!-- {#if data.url.endsWith('signup')} -->
 				<div
 					in:fly={{ ...anim, x: movingForward ? '120%' : '-120%' }}
 					out:fly={{
@@ -84,9 +82,14 @@
 				>
 					<slot />
 				</div>
+				<!-- {:else}
+					<div class="content">
+						<slot />
+					</div>
+				{/if} -->
 			{/key}
 		</div>
-		{#if data.url !== '/onboarding/' && data.url !== '/onboarding'}
+		{#if data.url !== '/onboarding/' && data.url !== '/onboarding' && data.url !== '/onboarding/login' && data.url !== '/onboarding/signup'}
 			<div class="mb-5 flex items-center justify-between gap-3" in:fade={{ delay: 400 }}>
 				<Button variant="outline" size="icon" on:click={movePage(-1)}
 					><ChevronLeft></ChevronLeft></Button

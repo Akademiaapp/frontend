@@ -60,25 +60,25 @@ export function getApiUrl() {
 	console.log(import.meta.env);
 	console.log(env);
 	if (import.meta.env.PROD) {
-		console.log("hey!")
+		console.log('hey!');
 		return 'https://api.akademia.cc';
 	} else {
 		if (env.PUBLIC_API_URL) {
 			return env.PUBLIC_API_URL;
 		} else {
-			return 'https://api.akademia.cc'
+			return 'https://api.akademia.cc';
 		}
 	}
 }
 
 export function getCollaborationUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://collaboration.akademia.cc';
+		return 'wss://collaboration.akademia.cc';
 	} else {
 		if (env.PUBLIC_COLLABORATION_URL) {
 			return env.PUBLIC_COLLABORATION_URL;
 		} else {
-			return 'https://collaboration.akademia.cc'
+			return 'wss://collaboration.akademia.cc';
 		}
 	}
 }
@@ -90,19 +90,19 @@ export function getAuthUrl() {
 		if (env.PUBLIC_AUTH_URL) {
 			return env.PUBLIC_AUTH_URL;
 		} else {
-			return 'https://auth.akademia.cc'
+			return 'https://auth.akademia.cc';
 		}
 	}
 }
 
 export function getAulaUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://aula.akademia.cc';
+		return 'https://aula.akademia.cc/';
 	} else {
 		if (env.PUBLIC_AULA_URL) {
 			return env.PUBLIC_AULA_URL;
 		} else {
-			return 'https://aula.akademia.cc'
+			return 'https://aula.akademia.cc/'
 		}
 	}
 }

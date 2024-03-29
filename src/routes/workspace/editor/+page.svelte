@@ -5,7 +5,7 @@
 	import type { Readable } from 'svelte/store';
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
-	import { currentFile, FileInfo } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, currentFile, FileInfo } from '@/api/apiStore';
 
 	let editor: Readable<Editor>;
 
@@ -22,7 +22,16 @@
 		file.json().then((fileContent) => {
 			console.log('hey!', fileContent);
 			console.log('What??', id);
-			if (id) currentFile.set(new FileInfo(fileContent));
+			console.log('What????', documentType);
+			fileContent.id = id.split('.')[1];
+
+			if (documentType === 'document') {
+				currentFile.set(new FileInfo(fileContent));
+			} else if (documentType === 'assignmentAnswer') {
+				currentFile.set(new AssignmentAnswer(fileContent));
+			} else if (documentType === 'assignment') {
+				currentFile.set(new Assignment(fileContent));
+			}
 		});
 	});
 </script>
