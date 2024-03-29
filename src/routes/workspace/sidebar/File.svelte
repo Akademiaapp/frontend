@@ -9,7 +9,7 @@
 </script>
 
 <SideBarElem {active}>
-	<a on:click={onClick} href="editor?id={file.id}&type" class="reset" class:active>
+	<a on:click={onClick} href="editor?id={file.id}&type={file.type}" class="reset" class:active>
 		<div>
 			<File size={20}></File>
 		</div>
