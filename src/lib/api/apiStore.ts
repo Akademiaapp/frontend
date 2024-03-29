@@ -107,7 +107,7 @@ export class AssignmentAnswer extends Assignment {
 	answer_id: string;
 
 	constructor(info) {
-		super(info, 'assignmentAnswer');
+		super(info, 'assignmentAnswers');
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
