@@ -64,14 +64,17 @@
 				});
 			} else {
 				console.log('Not authenticated');
-				// reload page
-				if ($page.url.pathname.endsWith('/register')) {
-					window.location.href = $keycloakState.createRegisterUrl({
-						redirectUri: window.location.hostname + '/onboarding'
-					});
-				} else {
-					$keycloakState.login();
+				if (!$page.url.pathname.includes('/onboarding')) {
+					goto('/onboarding/login');
 				}
+				// reload page
+				// if ($page.url.pathname.endsWith('/register')) {
+				// 	window.location.href = $keycloakState.createRegisterUrl({
+				// 		redirectUri: window.location.hostname + '/onboarding'
+				// 	});
+				// } else {
+				// 	$keycloakState.login();
+				// }
 			}
 		})
 		.catch((e) => {
@@ -88,7 +91,7 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if $keycloakState.authenticated}
+{#if $keycloakState.authenticated || $page.url.pathname.includes('/onboarding')}
 	<div class="app">
 		<slot />
 	</div>
