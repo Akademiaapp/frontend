@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { userInfo } from './../../../../lib/api/apiStore.ts';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File, Plus } from 'lucide-svelte';
@@ -37,10 +38,12 @@
 				<p class="">Der er ingen afleveringer</p>
 			{/if}
 		</div>
-		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
-			<Plus size="19" />
-			Opret aflevering
-		</Button>
+		{#if $userInfo && $userInfo.type == 'TEACHER'}
+			<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
+				<Plus size="19" />
+				Opret aflevering
+			</Button>
+		{/if}
 	</div>
 	<h2>
 		<File />
