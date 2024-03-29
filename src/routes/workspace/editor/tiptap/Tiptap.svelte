@@ -17,6 +17,7 @@
 	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
 	import { MathExtension } from './extensions/MathExtension';
 	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
+	import getExtensions from './getExtensions';
 
 	let provider: HocuspocusProvider;
 
@@ -60,36 +61,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: [
-							...EditorExtensions,
-							CollaborationCursor.configure({
-								provider: provider,
-								user: {
-									name: $keycloakUserInfo.preferred_username,
-									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
-								}
-							}),
-							Collaboration.configure({
-								document: provider.document
-							}),
-							Document.extend({
-								content: 'title block+'
-							}),
-							TableOfContents,
-							Title,
-							Placeholder.configure({
-								placeholder: ({ node }) => {
-									if (node.type.name === 'title') {
-										return 'Uden titel';
-									}
-
-									return '';
-								},
-								showOnlyCurrent: false
-							}),
-							MathExtension,
-							false ? MetaSettingsExtension : null
-						],
+						extensions: getExtensions(provider),
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
