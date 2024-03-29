@@ -6,8 +6,7 @@
 	export let date: string | undefined = undefined;
 	export let progress: AssignmentProgress = null;
 	export let id: string;
-	export let assignmentId: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
-
+	
 	let progressNumber = 5;
 	let finished = false;
 	console.log(progress);
