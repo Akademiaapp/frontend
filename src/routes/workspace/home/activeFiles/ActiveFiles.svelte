@@ -48,7 +48,7 @@
 	</h2>
 	<div class="filelist mb-7">
 		{#each $documentStore as f}
-			<Document name={f.name} id={f.id} type="document"></Document>
+			<Document name={f.name} id={f.id} type="documents"></Document>
 		{/each}
 		{#if $documentStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
@@ -60,7 +60,7 @@
 	</h2>
 	<div class="filelist mb-7">
 		{#each $documentStore as f}
-			<Document name={f.name} id={f.id} type="document"></Document>
+			<Document name={f.name} id={f.id} type="documents"></Document>
 			<!-- !TODO Change above type to note -->
 		{/each}
 		{#if $documentStore.length == 0}
