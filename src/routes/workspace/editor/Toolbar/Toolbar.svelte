@@ -6,8 +6,7 @@
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
-	import { currentFile } from '@/api/apiStore';
-	import Assignment from '../../home/activeFiles/Assignment.svelte';
+	import { Assignment, currentFile } from '@/api/apiStore';
 
 	let selection = $editor;
 

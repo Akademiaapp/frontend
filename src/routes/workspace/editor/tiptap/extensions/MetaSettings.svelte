@@ -15,18 +15,36 @@
 		today
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
-	import { currentFile } from '@/api/apiStore';
+	import { Assignment, currentFile } from '@/api/apiStore';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
 	// This will set the date to tomorrow
-	let date: DateValue = today(getLocalTimeZone()).add({ days: 1 });
+	let jsDate = new Date(($currentFile as Assignment).due_date);
+	console.log(($currentFile as Assignment).due_date);
+	let [hours, minutes] = jsDate
+		.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
+		.split('.');
+	let time = `${hours}:${minutes}`;
 
-	$: date.toDate(getLocalTimeZone()).toISOString();
+	console.log(time);
+	console.log(jsDate);
+	console.log(jsDate.getFullYear(), jsDate.getMonth(), jsDate.getDate());
+	let date: DateValue = new CalendarDate(
+		jsDate.getFullYear(),
+		jsDate.getMonth() + 1,
+		jsDate.getDate()
+	);
 
-	let time = '23:45';
+	function getDateWithTime(date: DateValue, time: string) {
+		const [hours, minutes] = time.split(':').map(Number);
+		return new Date(date.toDate(getLocalTimeZone()).setHours(hours, minutes));
+	}
+
+	$: console.log(getDateWithTime(date, time).toISOString());
+	$: $currentFile.updateInfo({ due_date: getDateWithTime(date, time).toISOString() });
 
 	$: console.log(time);
 
@@ -61,7 +79,7 @@
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent class="w-auto p-0">
-					<Calendar bind:value={date} initialFocus />
+					<Calendar bind:value={date} initialFocus preventDeselect />
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>

@@ -3,8 +3,7 @@
 	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { currentFile } from '@/api/apiStore';
-	import Assignment from '../../home/activeFiles/Assignment.svelte';
+	import { Assignment, currentFile } from '@/api/apiStore';
 
 	let open = false;
 

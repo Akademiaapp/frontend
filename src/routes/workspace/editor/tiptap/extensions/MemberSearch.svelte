@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Assignment, currentFile } from '@/api/apiStore';
 	import {
 		Command,
 		CommandEmpty,
@@ -16,13 +17,30 @@
 
 	let value: string;
 
-	let selectedMembers: string[] = ['9.A'];
+	let selectedMembers = [];
 
 	let members = ['Emma Johnson', 'Aiden Smith', 'Sophia Davis', 'Liam Wilson', 'Olivia Thompson'];
 
-	let groups = ['9.A', '9.B', '9.C', '8.A', '8.B', '8.C', '7.A', '7.B', '7.C'];
+	let groups = [
+		{ id: '', name: '9.A' },
+		{ id: 'c4cc331c-09d3-4f8f-aec8-11cf30389773', name: '9.B' },
+		{ id: 'hej', name: '9.C' },
+		{ id: '', name: '8.A' },
+		{ id: '', name: '8.B' },
+		{ id: '', name: '8.C' },
+		{ id: '', name: '7.A' },
+		{ id: '', name: '7.B' },
+		{ id: '', name: '7.C' }
+	];
 
-	function addMember(member: string) {
+	$: updateServerSideSelectedMembers(selectedMembers);
+
+	function updateServerSideSelectedMembers(selectedMembers) {
+		($currentFile as Assignment).updateInfo({
+			asigned_groups_ids: selectedMembers.map((member) => member.id).filter((id) => id)
+		});
+	}
+	function addMember(member) {
 		if (!selectedMembers.includes(member)) {
 			selectedMembers = [...selectedMembers, member];
 		}
@@ -58,7 +76,7 @@
 							<X size="10"></X>
 						</button>
 						<p>
-							{member}
+							{member.name}
 						</p>
 					</div>
 				</div>
@@ -71,14 +89,15 @@
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading="Grupper">
 					{#each groups as group}
-						<CommandItem onSelect={() => addMember(group)}>{group}</CommandItem>
+						<CommandItem onSelect={() => addMember(group)}>{group.name}</CommandItem>
 					{/each}
 				</CommandGroup>
 				<CommandSeparator />
 				<CommandGroup heading="Elever">
 					{#each members as member}
-						<CommandItem on:click={() => addMember(member)} onSelect={() => addMember(member)}
-							>{member}</CommandItem
+						<CommandItem
+							on:click={() => addMember({ name: member, id: null })}
+							onSelect={() => addMember({ name: member, id: null })}>{member}</CommandItem
 						>
 					{/each}
 				</CommandGroup>
