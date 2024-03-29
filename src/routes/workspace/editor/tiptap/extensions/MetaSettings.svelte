@@ -15,6 +15,7 @@
 		today
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
+	import { currentFile } from '@/api/apiStore';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
@@ -22,6 +23,16 @@
 
 	// This will set the date to tomorrow
 	let date: DateValue = today(getLocalTimeZone()).add({ days: 1 });
+
+	$: date.toDate(getLocalTimeZone()).toISOString();
+
+	let time = '23:45';
+
+	$: console.log(time);
+
+	// $: $currentFile.updateInfo({
+	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
+	// });
 </script>
 
 <NodeViewWrapper>
@@ -53,8 +64,8 @@
 					<Calendar bind:value={date} initialFocus />
 				</PopoverContent>
 			</Popover>
-			<p>kl.</p>
-			<Input type="time" class="h-full w-24 border-none text-base"></Input>
+			<p class="pl-3">kl.</p>
+			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time}></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>

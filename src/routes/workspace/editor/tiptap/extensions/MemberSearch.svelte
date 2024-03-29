@@ -30,7 +30,7 @@
 	}
 </script>
 
-<Command class="grid overflow-visible">
+<Command class="grid overflow-visible border-none">
 	<div
 		class={`absolute box-content w-[400px] rounded-md border-input bg-background ${focused && 'border drop-shadow-md'}`}
 	>

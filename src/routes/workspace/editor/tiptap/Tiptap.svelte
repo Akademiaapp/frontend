@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Assignment from './../../home/activeFiles/Assignment.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
@@ -15,6 +16,7 @@
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
 	import { MathExtension } from './extensions/MathExtension';
+	import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 
 	let provider: HocuspocusProvider;
 
@@ -69,7 +71,7 @@
 								document: provider.document
 							}),
 							Document.extend({
-								content: 'title block+'
+								content: 'title metaSettings block+'
 							}),
 							TableOfContents,
 							Title,
@@ -83,7 +85,8 @@
 								},
 								showOnlyCurrent: false
 							}),
-							MathExtension
+							MathExtension,
+							false ? MetaSettingsExtension : null
 						],
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
