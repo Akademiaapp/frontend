@@ -108,7 +108,6 @@ export class AssignmentAnswer extends Assignment {
 
 	constructor(info) {
 		super(info, 'assignmentAnswer');
-		this.id = `${this.fileType}.${info.id}`;
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];

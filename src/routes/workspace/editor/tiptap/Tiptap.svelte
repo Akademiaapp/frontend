@@ -8,6 +8,7 @@
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 	import Assignment from '../../home/activeFiles/Assignment.svelte';
+	import { getCollaborationUrl } from '@/utils';
 
 	let provider: HocuspocusProvider;
 
@@ -40,7 +41,7 @@
 			provider.destroy();
 		}
 		provider = new HocuspocusProvider({
-			url: 'wss://collaboration.akademia.cc',
+			url: getCollaborationUrl(),
 			token: 'Bearer ' + $keycloakState.token,
 			name: `${initcurrentFile.fileType}.${initcurrentFile.id}`,
 			onAuthenticationFailed: () => {
