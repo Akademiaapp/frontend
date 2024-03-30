@@ -93,25 +93,25 @@
 
 	const text_types = [
 		{
-			label: 'Heading 1',
+			label: 'Overskrift 1',
 			type: 'heading',
 			value: 'h1',
 			level: 1
 		},
 		{
-			label: 'Heading 2',
+			label: 'Overskrift 2',
 			type: 'heading',
 			value: 'h2',
 			level: 2
 		},
 		{
-			label: 'Heading 3',
+			label: 'Overskrift 3',
 			type: 'heading',
 			value: 'h3',
 			level: 3
 		},
 		{
-			label: 'Paragraph',
+			label: 'Normal tekst',
 			type: 'paragraph',
 			value: 'p'
 		},
