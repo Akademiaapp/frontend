@@ -327,7 +327,7 @@
 			<Image size="18" />
 		</ToolbarButton>
 		</div>
-		<div class="absolute right-0 flex h-12 gap-2">
+		<div class="absolute right-0 flex h-10 gap-2">
 			{#if $currentFile instanceof Assignment}
 				{#if isAssigned}
 					<SeeAnswers />
