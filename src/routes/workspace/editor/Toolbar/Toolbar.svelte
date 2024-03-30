@@ -3,7 +3,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
+	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -103,15 +103,10 @@
 
 {#if $editor && selection}
 	<div id="toolbar">
-		<!-- <div id="filepath">
-			<div class="color"></div>
-			<p class="filename">{activeFile}</p>
-		</div> -->
-		<!-- <div class="splitter"></div> -->
 		<div id="style-controls" class="br-2 bar frontground">
-			<div class="flex w-28 flex-wrap mr-2 gap-y-1">
+			<div class="flex w-[9.2rem] flex-wrap mr-1 gap-y-1">
 				<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
-					<Select.Trigger class="w-32 h-8">
+					<Select.Trigger class="w-36 h-8">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -127,34 +122,20 @@
 					</Select.Content>
 					<Select.Input name="selectedTextType" />
 				</Select.Root>
-				<div>
-					<input
-						type="color"
-						on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
-						value={$editor.getAttributes('textStyle').color}
-						id="text-color"
-						class="absolute invisible"
-					/>
-					<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
-						><Brush size="18" /></label
-					>
-				</div>
 				<ToolbarButton
-					onClick={(event) => nodeOrSelected().toggleBold().run()}
-					title="Fed skrift"
-					selected={selection.isActive('bold')}
+				onClick={(event) => nodeOrSelected().toggleBold().run()}
+				title="Fed skrift"
+				selected={selection.isActive('bold')}
 				>
-					<Bold size="18" />
-				</ToolbarButton>
-				<ToolbarButton
-					onClick={(event) => nodeOrSelected().toggleItalic().run()}
-					title="Korsiv"
-					selected={selection.isActive('italic')}
+				<Bold size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleItalic().run()}
+				title="Korsiv"
+				selected={selection.isActive('italic')}
 				>
-					<Italic size="18" />
-				</ToolbarButton>
-			</div>
-			<div class="border-l-[0.8px] border-gray-400 opacity-50 h-8" />
+				<Italic size="18" />
+			</ToolbarButton>
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleUnderline().run()}
 				title="Understreget"
@@ -170,126 +151,147 @@
 				<Strikethrough size="18" />
 			</ToolbarButton>
 			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
-				title="Eksponent"
-				selected={selection.isActive('superscript')}
+				onClick={(event) => $editor.chain().focus().toggleHighlight().run()}
+				title="Highlight"
+				selected={selection.isActive('highlight')}
 			>
-				<Superscript size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleSubscript().run()}
-				title="Indeks"
-				selected={selection.isActive('subscript')}
-			>
-				<Subscript size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={setLink}
-				title="Link"
-				selected={selection.isActive('link')}
-			>
-				<Link size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleCode().run()}
-				title="Kode"
-				selected={selection.isActive('code')}
-			>
-				<Code size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
-				title="Kodeblok"
-				selected={selection.isActive('codeBlock')}	
-			>
-				<CodeSquare size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
-				title="Sorteret liste"
-				selected={selection.isActive('orderedList')}
-			>
-				<ListOrdered size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleBulletList().run()}
-				title="Punktopstilling"
-				selected={selection.isActive('bulletList')}
-			>
-				<List size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleTaskList().run()}
-				title="Todo liste"
-				selected={selection.isActive('taskList')}
-			>
-				<ListTodo size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
-				title="Citat"
-				selected={selection.isActive('blockquote')}
-			>
-				<MessageSquareQuote size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
-				title="Horizontal linje"
-				selected={false}
-			>
-				<Minus size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().undo().run()}
-				title="Fortryd"
-				selected={false}
-			>
-				<Undo size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().redo().run()}
-				title="Gentag"
-				selected={false}
-			>
-				<Redo size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
-				title="Venstrejusteret"
-				selected={selection.isActive({ textAlign: 'left' })}
-			>
-				<AlignLeft size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
-				title="Centreret"
-				selected={selection.isActive({ textAlign: 'center' })}
-			>
-				<AlignCenter size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
-				title="Højrejusteret"
-				selected={selection.isActive({ textAlign: 'right' })}
-			>
-				<AlignRight size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
-				title="Lige margener"
-				selected={selection.isActive({ textAlign: 'justify' })}
-			>
-				<AlignJustify size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setMath().run()}
-				title="Matematik felt"
-				selected={selection.isActive('math')}
-			>
-				<Calculator size="18" />
+				<Highlighter size="18" />
 			</ToolbarButton>
 		</div>
-		<div class="absolute right-0 flex h-full gap-2">
+		<div class="border-l-[0.8px] border-gray-400 opacity-50 h-[4.5rem]" />
+		<div>
+			<input
+				type="color"
+				on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
+				value={$editor.getAttributes('textStyle').color}
+				id="text-color"
+				class="absolute invisible"
+			/>
+			<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
+				><Brush size="18" /></label
+			>
+		</div>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+			title="Eksponent"
+			selected={selection.isActive('superscript')}
+		>
+			<Superscript size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+			title="Indeks"
+			selected={selection.isActive('subscript')}
+		>
+			<Subscript size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={setLink}
+			title="Link"
+			selected={selection.isActive('link')}
+		>
+			<Link size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleCode().run()}
+			title="Kode"
+			selected={selection.isActive('code')}
+		>
+			<Code size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+			title="Kodeblok"
+			selected={selection.isActive('codeBlock')}	
+		>
+			<CodeSquare size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
+			title="Sorteret liste"
+			selected={selection.isActive('orderedList')}
+		>
+			<ListOrdered size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleBulletList().run()}
+			title="Punktopstilling"
+			selected={selection.isActive('bulletList')}
+		>
+			<List size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleTaskList().run()}
+			title="Todo liste"
+			selected={selection.isActive('taskList')}
+		>
+			<ListTodo size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
+			title="Citat"
+			selected={selection.isActive('blockquote')}
+		>
+			<MessageSquareQuote size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
+			title="Horizontal linje"
+			selected={false}
+		>
+			<Minus size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().undo().run()}
+			title="Fortryd"
+			selected={false}
+		>
+			<Undo size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().redo().run()}
+			title="Gentag"
+			selected={false}
+		>
+			<Redo size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
+			title="Venstrejusteret"
+			selected={selection.isActive({ textAlign: 'left' })}
+		>
+			<AlignLeft size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
+			title="Centreret"
+			selected={selection.isActive({ textAlign: 'center' })}
+		>
+			<AlignCenter size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
+			title="Højrejusteret"
+			selected={selection.isActive({ textAlign: 'right' })}
+		>
+			<AlignRight size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
+			title="Lige margener"
+			selected={selection.isActive({ textAlign: 'justify' })}
+		>
+			<AlignJustify size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={(event) => $editor.chain().focus().setMath().run()}
+			title="Matematik felt"
+			selected={selection.isActive('math')}
+		>
+			<Calculator size="18" />
+		</ToolbarButton>
+		</div>
+		<div class="absolute right-0 flex h-12 gap-2">
 			{#if $currentFile instanceof Assignment}
 				{#if isAssigned}
 					<SeeAnswers />
