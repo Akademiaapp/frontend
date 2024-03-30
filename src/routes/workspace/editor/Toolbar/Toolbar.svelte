@@ -2,7 +2,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Bold, Brush, Code, CodeSquare, Italic, Link, Strikethrough, Subscript, Superscript, Underline } from 'lucide-svelte';
+	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Code, CodeSquare, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -198,13 +198,83 @@
 			>
 				<CodeSquare size="18" />
 			</ToolbarButton>
-			<!-- <ToolbarButton
-				onClick={(event) => }
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
 				title="Sorteret liste"
-				selected={}
+				selected={selection.isActive('orderedList')}
 			>
-				<SortNumericAsc size="18" />
-			</ToolbarButton> -->
+				<ListOrdered size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBulletList().run()}
+				title="Punktopstilling"
+				selected={selection.isActive('bulletList')}
+			>
+				<List size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleTaskList().run()}
+				title="Todo liste"
+				selected={selection.isActive('taskList')}
+			>
+				<ListTodo size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
+				title="Citat"
+				selected={selection.isActive('blockquote')}
+			>
+				<MessageSquareQuote size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
+				title="Horizontal linje"
+				selected={false}
+			>
+				<Minus size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().undo().run()}
+				title="Fortryd"
+				selected={false}
+			>
+				<Undo size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().redo().run()}
+				title="Gentag"
+				selected={false}
+			>
+				<Redo size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
+				title="Venstrejusteret"
+				selected={selection.isActive({ textAlign: 'left' })}
+			>
+				<AlignLeft size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
+				title="Centreret"
+				selected={selection.isActive({ textAlign: 'center' })}
+			>
+				<AlignCenter size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
+				title="Højrejusteret"
+				selected={selection.isActive({ textAlign: 'right' })}
+			>
+				<AlignRight size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
+				title="Lige margener"
+				selected={selection.isActive({ textAlign: 'justify' })}
+			>
+				<AlignJustify size="18" />
+			</ToolbarButton>
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
@@ -223,7 +293,7 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
-		height: 5rem;
+		height: 3rem;
 		width: 100%;
 		display: flex;
 

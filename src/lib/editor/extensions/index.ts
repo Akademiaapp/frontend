@@ -20,12 +20,11 @@ import Superscript from '@tiptap/extension-superscript';
 import Image from '@tiptap/extension-image';
 import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
-
-import Mathematics from '@tiptap-pro/extension-mathematics';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import {common, createLowlight} from 'lowlight'
+import TextAlign from '@tiptap/extension-text-align';
 
 const lowlight = createLowlight(common)
 
@@ -55,7 +54,9 @@ export const EditorExtensions = [
 	Image,
 	TextStyle,
 	Color,
-	Mathematics,
 	Underline,
-	Link
+	Link,
+	TextAlign.configure({
+		types: ['paragraph', 'heading'],
+	}),
 ];
