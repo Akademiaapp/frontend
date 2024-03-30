@@ -6,7 +6,7 @@
 
 	currentFile.set(null);
 
-	console.log("url: ", getCollaborationUrl());
+	console.log('url: ', getCollaborationUrl());
 </script>
 
 <svelte:head>

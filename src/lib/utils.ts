@@ -102,7 +102,7 @@ export function getAulaUrl() {
 		if (env.PUBLIC_AULA_URL) {
 			return env.PUBLIC_AULA_URL;
 		} else {
-			return 'https://aula.akademia.cc/'
+			return 'https://aula.akademia.cc/';
 		}
 	}
 }
