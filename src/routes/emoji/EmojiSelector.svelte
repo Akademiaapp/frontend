@@ -89,46 +89,45 @@
 			{/if}
 		</Button>
 	</Popover.Trigger>
-	{#if open}
-		<!-- content here -->
-		<Popover.Content side="right" sideOffset={10} class="w-auto p-0">
-			<Command.Root>
-				<Command.Input bind:value={searchVal} placeholder="Search framework..." />
-				<div class="max-h-[400px] overflow-y-auto overflow-x-clip">
-					{#if searchVal == ''}
-						{#each json as category, i}
-							<Command.Group heading={category.name}>
-								<div class="group heji{i}" role="group"></div>
-							</Command.Group>
-							<Command.Separator />
-						{/each}
-					{:else}
-						<div class="group" role="group">
-							<div>
-								{#each json as category}
-									{#each category.emojis.filter( (e) => e.name.includes(searchVal) ) as emoji (emoji.unicode)}
-										<button
-											on:click={() => {
-												value = emoji.char;
-												closeAndFocusTrigger(ids.trigger);
-											}}
-										>
-											<svg width="25" height="25">
-												<use href={`/sprite.svg/#${emoji.unicode}`}>
-													<title>{emoji.name}</title>
-												</use>
-											</svg>
-										</button>
-									{/each}
+
+	<!-- content here -->
+	<Popover.Content side="right" sideOffset={10} class="w-auto p-0">
+		<Command.Root>
+			<Command.Input bind:value={searchVal} placeholder="Search framework..." />
+			<div class="content max-h-[400px] overflow-y-auto overflow-x-clip">
+				{#if searchVal == ''}
+					{#each json as category, i}
+						<Command.Group heading={category.name}>
+							<div class="group heji{i}" role="group"></div>
+						</Command.Group>
+						<Command.Separator />
+					{/each}
+				{:else}
+					<div class="group" role="group">
+						<div>
+							{#each json as category}
+								{#each category.emojis.filter( (e) => e.name.includes(searchVal) ) as emoji (emoji.unicode)}
+									<button
+										on:click={() => {
+											value = emoji.char;
+											closeAndFocusTrigger(ids.trigger);
+										}}
+									>
+										<svg width="25" height="25">
+											<use href={`/sprite.svg/#${emoji.unicode}`}>
+												<title>{emoji.name}</title>
+											</use>
+										</svg>
+									</button>
 								{/each}
-							</div>
+							{/each}
 						</div>
-					{/if}
-				</div>
-				<!-- <Command.Empty>No framework found.</Command.Empty> -->
-			</Command.Root>
-		</Popover.Content>
-	{/if}
+					</div>
+				{/if}
+			</div>
+			<!-- <Command.Empty>No framework found.</Command.Empty> -->
+		</Command.Root>
+	</Popover.Content>
 </Popover.Root>
 
 <style lang="scss">
@@ -143,7 +142,7 @@
 		padding: 0.25rem;
 	}
 
-	:global([role='group'] div) {
+	.content :global([role='group'] div) {
 		/* max-height: 200px; */
 
 		display: grid;
