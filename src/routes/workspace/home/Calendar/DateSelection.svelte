@@ -26,19 +26,22 @@
 	const moveDays = (days: number) => () => {
 		value = value.add({ days: days });
 	};
+
+	let open = false;
 </script>
 
 <div class="flex gap-0.5 pt-0.5">
 	<Button variant="floating" size="sm" class="h-8 w-8 p-1.5" on:click={moveDays(-1)}>
 		<ChevronLeft></ChevronLeft>
 	</Button>
-	<Popover.Root>
+	<Popover.Root bind:open>
 		<Popover.Trigger asChild let:builder>
 			<Button
 				variant="floating"
 				class={cn(
 					' h-8 justify-start px-2 text-left font-normal',
-					!value && 'text-muted-foreground'
+					!value && 'text-muted-foreground',
+					open && 'bg-muted/50'
 				)}
 				builders={[builder]}
 			>
