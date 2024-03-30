@@ -1,19 +1,17 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { BookCheck, BookCopy, UserRoundPlus } from 'lucide-svelte';
+	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import * as Select from '$lib/components/ui/select';
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { Separator } from '$lib/components/ui/separator';
-	import { getContext, onMount } from 'svelte';
-	import api from '@/api';
-	import { FileInfo, currentFile } from '@/api/apiStore';
+	import { Assignment, currentFile } from '@/api/apiStore';
 
 	let open = false;
 
-	function asign() {
+	export let isAssigned: boolean;
+
+	async function assignCurrentFile() {
+		if ($currentFile instanceof Assignment) await $currentFile.assign();
+		isAssigned = true;
 		open = false;
 	}
 </script>
@@ -30,12 +28,12 @@
 		<Dialog.Header>
 			<Dialog.Title>Tildel '{$currentFile?.name || ''}'</Dialog.Title>
 			<Dialog.Description>
-				Dette vil gøre det muligt for de tildelte personer at besvare opgaven.
+				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
 		</Dialog.Header>
 		<div class="flex w-full items-end gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Nej</Button>
-			<Button class="flex-1" on:click={asign}>Ja</Button>
+			<Button class="flex-1" on:click={assignCurrentFile}>Ja, tildel</Button>
 		</div>
 	</Dialog.Content>
 </Dialog.Root>

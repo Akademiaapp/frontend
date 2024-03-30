@@ -22,7 +22,7 @@
 		{
 			value: 'edit',
 			label: 'Kan redigere'
-		}, 
+		},
 		{
 			value: 'owner',
 			label: 'Ejer'
@@ -66,33 +66,32 @@
 
 	$: $currentFile instanceof FileInfo && findMembers($currentFile);
 
-	function findMembers(activeFile: FileInfo) {
+	async function findMembers(activeFile: FileInfo) {
 		people = [];
 
-		$currentFile.getMembers().then((response) => {
-			response.json().then((members: User[]) => {
-				console.log(members);
-				members.forEach((member) => {
-					// Only add people who aren't already in the list
-					if (people.find((person) => person.email == member.email)) return;
-					people.push({
-						name:
-							member.given_name ||
-							member.preferred_username ||
-							member.nickname ||
-							member.family_name ||
-							member.middle_name ||
-							member.email.split('@')[0],
-						email: member.email,
-						avatar: member.picture || '',
-						permission: permissions[0]
-					});
-				});
-				console.log(people);
-				people = people;
+		const members = await $currentFile.getMembers();
+
+		console.log(members);
+		members.forEach((member) => {
+			// Only add people who aren't already in the list
+			if (people.find((person) => person.email == member.email)) return;
+			people.push({
+				name:
+					member.given_name ||
+					member.preferred_username ||
+					member.nickname ||
+					member.family_name ||
+					member.middle_name ||
+					member.email.split('@')[0],
+				email: member.email,
+				avatar: member.picture || '',
+				permission: permissions[0]
 			});
 		});
+		console.log(people);
+		people = people;
 	}
+
 	function copyLinkToClipboard() {
 		var copyText = document.getElementById('copy-link') as HTMLInputElement;
 		copyText.select();

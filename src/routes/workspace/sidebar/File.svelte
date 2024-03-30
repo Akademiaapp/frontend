@@ -1,13 +1,10 @@
 <script lang="ts">
+	import { FileInfo } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
-	import { currentFile, FileInfo } from '@/api/apiStore';
 	export let file: FileInfo;
-
-	export let onClick = () => {
-		currentFile.set(file);
-	};
+	export let onClick = () => {};
 	export let active = false;
 
 	$: if ($currentFile instanceof FileInfo) {
@@ -16,7 +13,7 @@
 </script>
 
 <SideBarElem {active}>
-	<a on:click={onClick} href="editor?id={file.id}" class="reset" class:active>
+	<a on:click={onClick} href="editor?id={file.id}&type={file.fileType}" class="reset" class:active>
 		<div>
 			<File size={20}></File>
 		</div>

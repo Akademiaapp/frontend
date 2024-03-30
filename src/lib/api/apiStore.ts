@@ -9,10 +9,13 @@ export class FileInfo {
 	created_at: string;
 	updated_at: string;
 
-	fileType: string = 'document';
+	fileType: string = 'documents';
 
-	constructor(info) {
-		this.id = `${this.fileType}.${info.id}`;
+	store = documentStore;
+
+	constructor(info, fileType = 'documents') {
+		this.fileType = fileType;
+		this.id = info.id;
 		this.name = info.name;
 		this.data = info.data;
 		this.created_at = info.created_at;
@@ -20,16 +23,21 @@ export class FileInfo {
 	}
 
 	get path() {
-		return `/documents/${this.id}`;
+		return `/${this.fileType}/${this.id}`;
 	}
 
-	rename = api.debounce((newName: string) => {
-		return this.updateInfo({ name: newName });
+	_rename: (newName: string) => void = api.debounce((newName: string) => {
+		return this.updateInfo({ name: newName == '' ? 'Unavngivet' : newName });
 	});
+
+	rename(newName: string) {
+		this._rename(newName);
+	}
 
 	open() {
 		currentFile.set(this);
-		goto(`/workspace/editor?id=${this.id}`);
+		console.log(`going to /workspace/editor?id=${this.id}?type=${this.fileType}`);
+		goto(`/workspace/editor?id=${this.id}?type=${this.fileType}`);
 	}
 
 	delete() {
@@ -48,8 +56,10 @@ export class FileInfo {
 	}
 
 	// Gets the members of the file from the api
-	getMembers() {
-		return api.callApi(this.path + '/users');
+	async getMembers() {
+		const res = await api.callApi(this.path + '/users');
+		const json = await res.json();
+		return json;
 	}
 
 	// Requests the api to update information
@@ -59,7 +69,7 @@ export class FileInfo {
 }
 
 export class DocumentInfo extends FileInfo {
-	fileType = 'document';
+	fileType = 'documents';
 
 	constructor(info) {
 		super(info);
@@ -80,30 +90,67 @@ export class Assignment extends FileInfo {
 	isPublic: boolean;
 	teacherId: string;
 
-	fileType = 'assignments';
+	store = assignmentStore;
 
-	constructor(info) {
-		super(info);
+	constructor(info, fileType = 'assignments') {
+		super(info, fileType);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
 	}
+
+	async getMembers() {
+		return [];
+	}
+
+	async assign() {
+		this.isPublic = true;
+		return api.callApi(this.path + '/deploy', null, 'POST');
+	}
+
+	rename(newName) {
+		this.store.update((assignments) => {
+			const index = assignments.findIndex((assignment) => assignment.id === this.id);
+			if (index == -1) return assignments;
+			assignments[index].name = newName;
+			return assignments;
+		});
+		return super.rename(newName);
+	}
 }
 
-export class AssignmentAnswer extends Assignment {
+export class AssignmentAnswer extends FileInfo {
 	progress: AssignmentProgress;
 	answer_id: string;
+	due_date: string;
+	assignment_answers;
+	asigned_groups_ids: string[];
+	isPublic: boolean;
+	teacherId: string;
 
-	fileType = 'assignmentAnswer';
+	store = assignmentAnswerStore;
 
 	constructor(info) {
-		super(info);
-		this.id = `${this.fileType}.${info.id}`;
+		super(info, 'assignmentAnswers');
+		this.assignment_answers = info.assignment_answers;
+		this.asigned_groups_ids = info.asigned_groups_ids;
+		this.isPublic = info.isPublic;
+		this.teacherId = info.teacherId;
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
+	}
+
+	rename(newName) {
+		assignmentAnswerStore.update((assignments) => {
+			const index = assignments.findIndex((assignment) => assignment.id === this.id);
+			if (index == -1) return assignments;
+			assignments[index].name = newName;
+			return assignments;
+		});
+		return super.rename(newName);
 	}
 }
 
@@ -188,6 +235,18 @@ export async function updateAssignmentsAnswers() {
 	console.log('updated assignments', get(assignmentAnswerStore));
 }
 
+export async function updateAssignments() {
+	const response = await api.getAssignments();
+	if (!response) {
+		throw new Error('Could not update assignments due to no response');
+	}
+	const json = await response.json();
+	console.log(json);
+
+	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
+	console.log('updated assignments');
+}
+
 export async function newDocument(name: string, open: boolean = true) {
 	const response = await api.createDocument(name);
 	if (!response) {
@@ -200,6 +259,44 @@ export async function newDocument(name: string, open: boolean = true) {
 		newDoc.open();
 	}
 	documentStore.update((files) => [...files, newDoc]);
+}
+export async function newAssignment(
+	name: string = '',
+	dueDate: Date = tomorrow(),
+	open: boolean = true
+) {
+	const response = await api.callApi(
+		'/assignments',
+		{
+			name: name == '' ? 'Unavngivet' : name,
+			due_date: new Date(
+				dueDate.getFullYear(),
+				dueDate.getMonth(),
+				dueDate.getDate(),
+				23,
+				45
+			).toISOString()
+		},
+		'POST'
+	);
+	if (!response) {
+		throw new Error('Could not create document due to no response');
+	}
+	const json = await response.json();
+	const newAssignment = new Assignment(json);
+
+	if (open) {
+		newAssignment.open();
+	}
+	assignmentStore.update((files) => [...files, newAssignment]);
+}
+
+function tomorrow(): Date {
+	const today = new Date();
+	const tomorrow = new Date(today);
+	tomorrow.setDate(tomorrow.getDate() + 1);
+
+	return tomorrow;
 }
 
 export const apiDownStore = writable<boolean>(false);

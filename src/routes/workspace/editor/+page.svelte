@@ -18,29 +18,30 @@
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
-	var documentType = id.split('.')[0];
+	var documentType = urlParams.get('type');
 
 	if (!id) {
 		goto('/workspace/home');
 	}
 
-	api.getDocument(id).then((file) => {
-		if (!file) return;
-		file.json().then((fileContent) => {
-			console.log('hey!', fileContent);
-			console.log('What??', id);
-			console.log('What????', documentType);
-			fileContent.id = id.split('.')[1];
+	if (!$currentFile) {
+		api.callApi(`/${documentType}/${id}`, null, 'GET').then((file) => {
+			if (!file) return;
+			file.json().then((fileContent) => {
+				console.log('hey!', fileContent);
+				console.log('What??', id);
+				console.log('What????', documentType);
 
-			if (documentType === 'document') {
-				currentFile.set(new DocumentInfo(fileContent));
-			} else if (documentType === 'assignmentAnswer') {
-				currentFile.set(new AssignmentAnswer(fileContent));
-			} else if (documentType === 'assignment') {
-				currentFile.set(new Assignment(fileContent));
-			}
+				if (documentType === 'documents') {
+					currentFile.set(new DocumentInfo(fileContent));
+				} else if (documentType === 'assignmentAnswers') {
+					currentFile.set(new AssignmentAnswer(fileContent));
+				} else if (documentType === 'assignments') {
+					currentFile.set(new Assignment(fileContent));
+				}
+			});
 		});
-	});
+	}
 </script>
 
 <svelte:head>
