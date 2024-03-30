@@ -98,6 +98,7 @@ export class Assignment extends FileInfo {
 	}
 
 	async assign() {
+		this.isPublic = true;
 		return api.callApi(this.path + '/deploy', null, 'POST');
 	}
 }

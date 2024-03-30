@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 	import { themeVariant } from '../../../store';
 
@@ -20,6 +21,8 @@
 	$: themeVariant.set(checked ? 'dark' : 'light');
 
 	let textcolor: string;
+
+	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -82,7 +85,11 @@
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
-				<Assign />
+				{#if isAssigned}
+					<SeeAnswers />
+				{:else}
+					<Assign bind:isAssigned />
+				{/if}
 			{:else}
 				<ShareDocument />
 			{/if}
