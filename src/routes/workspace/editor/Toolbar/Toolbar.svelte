@@ -2,7 +2,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Code, CodeSquare, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
+	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -274,6 +274,13 @@
 				selected={selection.isActive({ textAlign: 'justify' })}
 			>
 				<AlignJustify size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setMath().run()}
+				title="Matematik felt"
+				selected={selection.isActive('math')}
+			>
+				<Calculator size="18" />
 			</ToolbarButton>
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
