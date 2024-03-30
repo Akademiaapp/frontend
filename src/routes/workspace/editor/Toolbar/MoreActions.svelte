@@ -2,7 +2,7 @@
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
-	import { MoreHorizontal, Trash2, LogOut, Download, Printer } from 'lucide-svelte';
+	import { MoreHorizontal, Trash2, LogOut, Download, Printer, Users } from 'lucide-svelte';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	import { keycloakState } from '../../../../authStore';
@@ -30,6 +30,8 @@
 		// 	css: ['/css/styles.css', '/css/tiptap-styles.scss']
 		// });
 	}
+
+	export let isShareOpen;
 </script>
 
 <DropdownMenu.Root>
@@ -57,6 +59,13 @@
 			<DropdownMenu.Item on:click={printFile}>
 				<Printer size="15" strokeWidth="1.5"></Printer>
 				Print
+			</DropdownMenu.Item>
+		</DropdownMenu.Group>
+		<DropdownMenu.Separator />
+		<DropdownMenu.Group>
+			<DropdownMenu.Item on:click={() => (isShareOpen = true)}>
+				<Users size="15" strokeWidth="1.5"></Users>
+				Inviter
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />

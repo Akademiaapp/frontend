@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore.ts';
 	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 	import { themeVariant } from '../../../store';
@@ -8,6 +9,7 @@
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
+	import Aflever from './Aflever.svelte';
 
 	let selection = $editor;
 
@@ -33,6 +35,8 @@
 			return $editor.chain().focus();
 		}
 	}
+
+	let isShareOpen = false;
 </script>
 
 {#if $editor}
@@ -90,10 +94,11 @@
 				{:else}
 					<Assign bind:isAssigned />
 				{/if}
-			{:else}
-				<ShareDocument />
+			{:else if $currentFile instanceof AssignmentAnswer}
+				<Aflever />
 			{/if}
-			<MoreActions></MoreActions>
+			<ShareDocument bind:open={isShareOpen} showTrigger={$currentFile instanceof DocumentInfo} />
+			<MoreActions bind:isShareOpen></MoreActions>
 		</div>
 	</div>
 {/if}
