@@ -54,8 +54,6 @@
 						$keycloakState.updateToken(70).then((refreshed) => {
 							if (refreshed) {
 								console.log('Token refreshed');
-							} else {
-								console.log('Token not refreshed, valid for another 70 seconds');
 							}
 						});
 					}, 6000);
