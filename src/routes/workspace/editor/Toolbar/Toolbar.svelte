@@ -68,7 +68,7 @@
 
 </script>
 
-{#if $editor}
+{#if $editor && selection}
 	<div id="toolbar">
 		<!-- <div id="filepath">
 			<div class="color"></div>
@@ -101,8 +101,8 @@
 					id="text-color"
 					class="absolute invisible"
 				/>
-				<label class="text-color" for="text-color" style={'color: ' + $editor.getAttributes('textStyle').color}
-					><Brush size="18" color={selection.getAttributes('textStyle').color} /></label
+				<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
+					><Brush size="18" /></label
 				>
 			</div>
 			<ToolbarButton
