@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FileInfo } from '@/api/apiStore';
+	import { FileInfo, currentFile } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
