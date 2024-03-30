@@ -2,19 +2,13 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
-	import Collaboration from '@tiptap/extension-collaboration';
-	import { EditorExtensions } from '$lib/editor/extensions';
-	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { HocuspocusProvider } from '@hocuspocus/provider';
-	import { goto } from '$app/navigation';
-	import TableOfContents from '../../TableOfContents';
-	import Document from '@tiptap/extension-document';
-	import Placeholder from '@tiptap/extension-placeholder';
-	import { Title } from './extensions/title';
 	import { editor } from '../editorStore';
-	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
-	import { keycloakState, keycloakUserInfo } from '../../../../authStore';
-	import { MathExtension } from './extensions/MathExtension';
+	import { Assignment, FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { keycloakState } from '../../../../authStore';
+	import getExtensions from './getExtensions';
+
+	import { getCollaborationUrl } from '@/utils';
 
 	let provider: HocuspocusProvider;
 
@@ -24,7 +18,16 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
+	$: if ($currentFile instanceof Assignment) {
+		console.log('Assignment');
+	}
+
+	$: console.log('currentFile: ', $currentFile instanceof Assignment);
+	$: console.log('currentFile: ', $currentFile);
+
 	export let connected = false;
+
+	$: console.log('token: ', $keycloakState.token);
 
 	function initializeTiptap(initcurrentFile: FileInfo | null) {
 		if (!initcurrentFile) {
@@ -39,9 +42,9 @@
 			provider.destroy();
 		}
 		provider = new HocuspocusProvider({
-			url: 'wss://collaboration.akademia.cc',
+			url: getCollaborationUrl(),
 			token: 'Bearer ' + $keycloakState.token,
-			name: initcurrentFile.id,
+			name: `${initcurrentFile.fileType}.${initcurrentFile.id}`,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -56,35 +59,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: [
-							...EditorExtensions,
-							CollaborationCursor.configure({
-								provider: provider,
-								user: {
-									name: $keycloakUserInfo.preferred_username,
-									color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
-								}
-							}),
-							Collaboration.configure({
-								document: provider.document
-							}),
-							Document.extend({
-								content: 'title block+'
-							}),
-							TableOfContents,
-							Title,
-							Placeholder.configure({
-								placeholder: ({ node }) => {
-									if (node.type.name === 'title') {
-										return 'Uden titel';
-									}
-
-									return '';
-								},
-								showOnlyCurrent: false
-							}),
-							MathExtension
-						],
+						extensions: getExtensions(provider, $currentFile instanceof Assignment),
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
@@ -100,7 +75,7 @@
 									newState.name = title;
 									const id = newState.id;
 									// Update the value for the specified key
-									documentStore.update((prev: FileInfo[]): FileInfo[] => {
+									$currentFile.store.update((prev: FileInfo[]): FileInfo[] => {
 										return prev.map((it) => {
 											if (it.id == id) return newState;
 											return it;

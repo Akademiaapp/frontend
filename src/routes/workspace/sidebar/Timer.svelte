@@ -24,7 +24,7 @@
 		if (isStarted) {
 			remainingTime -= 1;
 		}
-	}, 1);
+	}, 1000);
 
 	$: console.log(remainingTime);
 	$: console.log(value);

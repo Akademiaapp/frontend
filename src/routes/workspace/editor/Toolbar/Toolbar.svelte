@@ -1,15 +1,13 @@
 <script lang="ts">
-	import Asign from './Asign.svelte';
+	import SeeAnswers from './SeeAnswers.svelte';
+	import Assign from './Assign.svelte';
 	import { themeVariant } from '../../../store';
-	import api from '../../../../lib/api';
 
-	import { getContext } from 'svelte';
 	import ShareDocument from './ShareDocument.svelte';
 	import { Brush } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
-	import { currentFile } from '@/api/apiStore';
-	import Assignment from '../../home/activeFiles/Assignment.svelte';
+	import { Assignment, currentFile } from '@/api/apiStore';
 
 	let selection = $editor;
 
@@ -23,6 +21,8 @@
 	$: themeVariant.set(checked ? 'dark' : 'light');
 
 	let textcolor: string;
+
+	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -85,7 +85,11 @@
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
-				<Asign />
+				{#if isAssigned}
+					<SeeAnswers />
+				{:else}
+					<Assign bind:isAssigned />
+				{/if}
 			{:else}
 				<ShareDocument />
 			{/if}

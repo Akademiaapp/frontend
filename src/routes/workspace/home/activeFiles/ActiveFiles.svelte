@@ -1,11 +1,14 @@
 <script lang="ts">
+	import { assignmentStore, userInfo } from './../../../../lib/api/apiStore';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
-	import { Notebook, Target, File } from 'lucide-svelte';
-	import { documentStore, assignmentAnswerStore } from '@/api/apiStore';
+	import { Notebook, Target, File, Plus } from 'lucide-svelte';
+	import { documentStore, assignmentAnswerStore, newDocument, newAssignment } from '@/api/apiStore';
 	import { keycloakUserInfo } from '../../../../authStore';
+	import Button from '@/components/ui/button/button.svelte';
+	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
-	console.log('assignments', $assignmentAnswerStore);
+	console.log('assignments', $assignmentStore);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -16,33 +19,52 @@
 		<Target />
 		Afleveringer
 	</h2>
-	<div class="filelist">
-		{#each $assignmentAnswerStore as assignment}
-			<Assignment
-				name={assignment.name}
-				progress={assignment.progress}
-				id={assignment.answer_id}
-				assignmentId={assignment.id}
-				date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-					hour: 'numeric',
-					minute: 'numeric'
-				})}
-			/>
-		{/each}
-		{#if $assignmentAnswerStore.length == 0}
-			<p class="">Der er ingen afleveringer</p>
+	<div class="mb-7">
+		<div class="filelist">
+			{#each $assignmentAnswerStore as assignment}
+				<AssignmentAnswer
+					name={assignment.name}
+					progress={assignment.progress}
+					id={assignment.answer_id}
+					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric'
+					})}
+				/>
+			{/each}
+			{#each $assignmentStore as assignment}
+				<Assignment
+					assingment={assignment}
+					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric'
+					})}
+				/>
+			{/each}
+			{#if $assignmentAnswerStore.length == 0 && $assignmentStore.length == 0}
+				<p class="">Der er ingen afleveringer</p>
+			{/if}
+		</div>
+		{#if $userInfo && ($userInfo.type == 'TEACHER' || $userInfo.type == 'TESTER')}
+			<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
+				<Plus size="19" />
+				Opret aflevering
+			</Button>
 		{/if}
 	</div>
 	<h2>
 		<File />
 		Dokumenter
 	</h2>
-	<div class="filelist">
+	<div class="filelist mb-7">
 		{#each $documentStore as f}
-			<Document name={f.name} id={f.id}></Document>
+			<Document name={f.name} id={f.id} type="documents"></Document>
 		{/each}
 		{#if $documentStore.length == 0}
 			<p class="">Der er ingen dokumenter</p>
@@ -52,9 +74,10 @@
 		<Notebook />
 		Noter
 	</h2>
-	<div class="filelist">
+	<div class="filelist mb-7">
 		{#each $documentStore as f}
-			<Document name={f.name} id={f.id}></Document>
+			<Document name={f.name} id={f.id} type="documents"></Document>
+			<!-- !TODO Change above type to note -->
 		{/each}
 		{#if $documentStore.length == 0}
 			<p class="">Der er ingen noter</p>
@@ -85,6 +108,5 @@
 		gap: var(--gap);
 		height: auto;
 		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-		margin-bottom: 2rem;
 	}
 </style>

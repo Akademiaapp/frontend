@@ -49,8 +49,8 @@
 			latexResult = r.latex;
 
 			try {
-				if (isEquation(value)) {
-					isEq = true;
+				isEq = isEquation(value);
+				if (isEq) {
 					const letter = findFirstLowerCaseSymbol(value);
 					console.log(convertLatexToAsciiMath(value));
 					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(value)]);
@@ -60,7 +60,7 @@
 						.map(([k, v]) => k + ' = ' + v)
 						.join(', ');
 				} else {
-					const nv = nerdamer.convertFromLaTeX(latexResult).evaluate();
+					const nv = nerdamer(convertLatexToAsciiMath(value)).evaluate();
 					console.log(+nv);
 					if (+nv) {
 						numResult = Math.round(nv * 100000) / 100000;

@@ -6,15 +6,17 @@
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	import { keycloakState } from '../../../../authStore';
+	import { get } from 'svelte/store';
 	let isDeleteOpen = false;
 
 	function deleteActiveFile() {
 		console.log($currentFile);
 		if (!($currentFile instanceof FileInfo)) return;
 		$currentFile.delete().then((response) => {
+			console.log(get($currentFile.store));
 			if (!response || response.status !== 200) return;
 			console.log(response);
-			documentStore.update((prev) => prev.filter((it) => it !== $currentFile));
+			$currentFile.store.update((prev) => prev.filter((it) => it.id !== $currentFile.id));
 			currentFile.set(null);
 		});
 		isDeleteOpen = false;
@@ -64,12 +66,6 @@
 				Slet
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
-		<DropdownMenu.Separator />
-
-		<DropdownMenu.Item on:click={() => $keycloakState.logout()}>
-			<LogOut size="15" strokeWidth="1.5"></LogOut>
-			Log ud
-		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
 

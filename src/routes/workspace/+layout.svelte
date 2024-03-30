@@ -1,12 +1,17 @@
 <script lang="ts">
 	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import { updateDocuments, updateUserInfo, updateAssignmentsAnswers } from '@/api/apiStore';
+	import {
+		updateDocuments,
+		updateUserInfo,
+		updateAssignmentsAnswers,
+		updateAssignments
+	} from '@/api/apiStore';
 	import ApiDown from '@/components/ApiDown.svelte';
-	import { keycloakUserInfo } from '../../authStore';
 
 	updateDocuments();
 	updateAssignmentsAnswers();
+	updateAssignments();
 	updateUserInfo();
 
 	var urlParams = new URLSearchParams(window.location.search);

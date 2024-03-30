@@ -1,10 +1,10 @@
 <script>
 	export let active = false;
 
-	export let clickable = false;
+	export let clickable = true;
 </script>
 
-<div class:active class="br-1">
+<div class:active class:clickable class="br-1">
 	<slot />
 </div>
 
@@ -15,7 +15,7 @@
 		font-weight: 500;
 	}
 
-	div:hover {
+	.clickable:hover {
 		background-color: color-mix(in srgb, var(--color-text-0) 10%, transparent);
 	}
 

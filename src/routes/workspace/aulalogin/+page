@@ -1,0 +1,27 @@
+<script>
+	let username = '';
+	let password = '';
+
+	function handleSubmit() {
+		// Handle form submission here
+		console.log('Username:', username);
+		console.log('Password:', password);
+
+		sessionStorage.setItem('username', username);
+		sessionStorage.setItem('password', password);
+	}
+</script>
+
+<style>
+	/* Add your custom styles here */
+</style>
+
+<form on:submit|preventDefault="{handleSubmit}">
+	<label for="username">Username:</label>
+	<input type="text" id="username" bind:value="{username}" />
+
+	<label for="password">Password:</label>
+	<input type="password" id="password" bind:value="{password}" />
+
+	<button type="submit">Submit</button>
+</form>

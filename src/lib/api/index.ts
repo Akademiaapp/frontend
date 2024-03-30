@@ -84,6 +84,9 @@ class ApiHandler {
 		);
 	};
 	getAssignmentAnswers = () => {
+		return this.callApi('/assignmentAnswers');
+	};
+	getAssignments = () => {
 		return this.callApi('/assignments');
 	};
 
