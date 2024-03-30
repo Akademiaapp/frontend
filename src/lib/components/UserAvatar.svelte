@@ -39,16 +39,16 @@
 				<!-- <img class="avatar br-2" src="" alt="User avatar" referrerpolicy="no-referrer" /> -->
 			</Button>
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content class="w-80">
+		<DropdownMenu.Content class="w-60">
 			<DropdownMenu.Label>My Account</DropdownMenu.Label>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Group>
 				<DropdownMenu.Item on:click={() => goto('/settings')}>
-					<Settings class="mr-2 h-4 w-4" />
+					<Settings class="h-4 w-4" />
 					<span>Settings</span>
 				</DropdownMenu.Item>
 				<DropdownMenu.Item on:click={() => goto('/settings/account')}>
-					<User class="mr-2 h-4 w-4" />
+					<User class="h-4 w-4" />
 					<span>Profile</span>
 				</DropdownMenu.Item>
 			</DropdownMenu.Group>
@@ -58,7 +58,7 @@
 					window.location.href = 'https://github.com/akademiaapp/';
 				}}
 			>
-				<Github class="mr-2 h-4 w-4" />
+				<Github class="h-4 w-4" />
 				<span>GitHub</span>
 			</DropdownMenu.Item>
 			<DropdownMenu.Item
@@ -66,7 +66,7 @@
 					window.location.href = 'https://status.akademia.cc/';
 				}}
 			>
-				<Cloud class="mr-2 h-4 w-4" />
+				<Cloud class="h-4 w-4" />
 				<span>API Status</span>
 			</DropdownMenu.Item>
 			<DropdownMenu.Separator />
@@ -75,7 +75,7 @@
 					$keycloakState.logout();
 				}}
 			>
-				<LogOut class="mr-2 h-4 w-4" />
+				<LogOut class="h-4 w-4" />
 				<span>Log out</span>
 			</DropdownMenu.Item>
 		</DropdownMenu.Content>
