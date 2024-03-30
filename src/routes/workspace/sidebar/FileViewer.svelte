@@ -85,7 +85,7 @@
 </script>
 
 <div class="cont br-2 float-panel">
-	<div class="files p-1" on:scroll={onscroll} bind:this={filesElem}>
+	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
 		<Category name="Fag" open={false} {folders}></Category>
 		<Category name="Andet" {files}></Category>
 	</div>
@@ -123,7 +123,8 @@
 		font-size: 1.05rem;
 		overflow-y: auto;
 		width: 300px;
-
+	}
+	:global(.sidebar-scroll) {
 		&::-webkit-scrollbar {
 			height: 0;
 			width: 10px;

@@ -1,11 +1,28 @@
 <script lang="ts">
+	import SidebarAssignment from './SidebarAssignment.svelte';
 	import QuickBar from '../quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
+	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { editor } from '../editor/editorStore';
 	export let isExpanded: boolean;
 
 	let isTimerVisible: boolean;
+
+	let isAssignmentDescriptionOpen: boolean;
+
+	function updateIsAssignmentDescriptionOpen(isOpen) {
+		isAssignmentDescriptionOpen = isOpen;
+	}
+	$: updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
+	isAssignmentDescriptionOpen = true;
+
+	$: $editor.on('focus', () => {
+		updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
+	});
+
+	$: console.log($currentFile instanceof AssignmentAnswer);
 </script>
 
 <div class="cont br-2 float-panel">
@@ -23,7 +40,11 @@
 	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible /></div>
 </div>
 
-<FileViewer></FileViewer>
+{#if isAssignmentDescriptionOpen}
+	<SidebarAssignment bind:isAssignmentDescriptionOpen />
+{:else}
+	<FileViewer></FileViewer>
+{/if}
 
 <Timer bind:visible={isTimerVisible}></Timer>
 

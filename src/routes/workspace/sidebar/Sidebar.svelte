@@ -7,7 +7,6 @@
 <nav class="sideBar">
 	{#if isExpanded}
 		<WideSidebar bind:isExpanded />
-		<!-- content here -->
 	{:else}
 		<SlimSidebar bind:isExpanded />
 	{/if}
@@ -16,7 +15,7 @@
 <style>
 	.sideBar {
 		pointer-events: auto;
-		resize: horizontal;
+		resize: block;
 		display: flex;
 		gap: 0.75rem;
 		flex-direction: column;

@@ -19,7 +19,7 @@
 		<p class="date">Afleveringsdato {date}</p>
 	</div>
 	{#if !finished}
-		<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<circle class="bg-circle" cx="11" cy="11" r="9" pathLength="100" stroke-width="3" />
 			<circle
 				class="progress-circle"
@@ -33,7 +33,7 @@
 				stroke-width="3"
 				style="stroke-dashoffset: {100 - progressNumber};"
 			/>
-		</svg>
+		</svg> -->
 	{:else}
 		<Check color="#2cde00" />
 	{/if}
