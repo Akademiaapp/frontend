@@ -10,19 +10,10 @@ import { get } from 'svelte/store';
 import { keycloakUserInfo } from '../../../../authStore';
 import Document from '@tiptap/extension-document';
 
-export default function getExtensions(provider, isAssignment = false) {
+export default function getExtensions(provider = null, isAssignment = false) {
 	return [
 		...EditorExtensions,
-		CollaborationCursor.configure({
-			provider: provider,
-			user: {
-				name: get(keycloakUserInfo).preferred_username,
-				color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
-			}
-		}),
-		Collaboration.configure({
-			document: provider.document
-		}),
+		...(provider ? getCollabExtensions(provider) : []),
 		Document.extend({
 			content: isAssignment ? 'title metaSettings block+' : 'title block+'
 		}),
@@ -40,5 +31,20 @@ export default function getExtensions(provider, isAssignment = false) {
 		}),
 		MathExtension,
 		isAssignment ? MetaSettingsExtension : null
+	];
+}
+
+function getCollabExtensions(provider) {
+	return [
+		CollaborationCursor.configure({
+			provider: provider,
+			user: {
+				name: get(keycloakUserInfo).preferred_username,
+				color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
+			}
+		}),
+		Collaboration.configure({
+			document: provider.document
+		})
 	];
 }

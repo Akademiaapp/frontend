@@ -18,7 +18,7 @@
 	$: updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
 	isAssignmentDescriptionOpen = true;
 
-	$: $editor.on('focus', () => {
+	$: $editor?.on('focus', () => {
 		updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
 	});
 

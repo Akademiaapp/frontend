@@ -2,23 +2,29 @@
 	import QuickBar from '../quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import { ChevronLeft } from 'lucide-svelte';
+	import { EditorExtensions } from '@/editor/extensions';
+	import { Title } from '../editor/tiptap/extensions/title';
+	import Document from '@tiptap/extension-document';
+	import getExtensions from '../editor/tiptap/getExtensions';
+	import api from '@/api';
+	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	export let sidebarVisible: boolean = true;
 
-	export let assignmentId: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
+	export let assignmentId: string = '410f8d03-e429-4809-ab10-0829ce961796';
 
+	async function getDescription() {
+		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');
+		const json = await res.json();
+		console.log(json);
+		return json.data;
+	}
 	export let isAssignmentDescriptionOpen: boolean;
-	// let editor = new Editor({
-	// 	extensions: [
-	// 		...EditorExtensions,
-	// 		Title,
-	// 		Document.extend({
-	// 			content: 'title block+'
-	// 		})
-	// 	],
-	// 	content: api.getDocumentJson(assignmentId),
-	// 	editable: false
-	// });
+	let dfgdfg = new Editor({
+		extensions: getExtensions(null, false),
+		content: getDescription(),
+		editable: false
+	});
 </script>
 
 <div
@@ -33,40 +39,7 @@
 		Tilbage
 	</button>
 	<div class="assignment-tiptap">
-		<h1>Summum jus, summa injura - Analyse</h1>
-		<p>I denne time vil vi analysere billedet "Summum jus, summa injura"</p>
-		<p>
-			<strong
-				><em
-					>Erik Henningsens 'Summum jus, summa injuria. Barnemordet' fra<span
-						class="collaboration-cursor__caret ProseMirror-widget"
-						style="border-color: #678c6b"
-						contenteditable="false"
-						><div class="collaboration-cursor__label" style="background-color: #678c6b">
-							dbtracker.dk@gmail.com
-						</div></span
-					> 1889</em
-				></strong
-			>
-		</p>
-		<img
-			src="https://www.hirschsprung.dk/storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaGtCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c5ad5e056c3779faa020f14beb037772e00fc75a/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQXRBSGFRSXpCQT09IiwiZXhwIjpudWxsLCJwdXIiOiJ2YXJpYXRpb24ifX0=--918b982eee23d4bacc9db46fa526b6f6b97abd53/Henningsen-E-154-HBD.jpg"
-			contenteditable="false"
-			draggable="true"
-			class="ProseMirror-selectednode"
-		/>
-		<ol>
-			<li>
-				<p>Hvad mon titlen betyder? Spørg Google.&nbsp;</p>
-				<p>Hvad mener du om titlen?</p>
-			</li>
-			<li>
-				<p>
-					Kig på maleriet igen, hvad tror du, der er sket? Brug din viden om tiden fra dine noter.
-				</p>
-			</li>
-			<li><p><br class="ProseMirror-trailingBreak" /></p></li>
-		</ol>
+		<EditorContent editor={dfgdfg} />
 	</div>
 </div>
 
