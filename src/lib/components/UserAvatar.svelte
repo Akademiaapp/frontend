@@ -29,12 +29,15 @@
 	<DropdownMenu.Root portal={null}>
 		<DropdownMenu.Trigger asChild let:builder>
 			<Button builders={[builder]} variant="link" class="p-0">
-				<img
-					class="avatar br-2"
-					src="https://gravatar.com/avatar/9d9ca268a5cc1b4399c88aaee589922a"
-					alt="User avatar"
-					referrerpolicy="no-referrer"
-				/>
+				<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
+					{#if $userInfo}
+						<h3 class="m-0 -translate-y-[0.05rem] p-0 text-base">
+							{$userInfo.first_name[0]}{$userInfo.last_name[0] || ''}
+						</h3>
+					{/if}
+					<!-- <h3 class="-translate-y-[0.rem] m-0 p-0 text-sm">f</h3> -->
+				</div>
+				<!-- <img class="avatar br-2" src="" alt="User avatar" referrerpolicy="no-referrer" /> -->
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content class="w-80">
