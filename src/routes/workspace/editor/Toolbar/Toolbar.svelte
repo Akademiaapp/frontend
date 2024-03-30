@@ -1,25 +1,23 @@
 <script lang="ts">
 	import Asign from './Asign.svelte';
-	import { themeVariant } from '../../../store';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Brush } from 'lucide-svelte';
+	import { Bold, Brush, Italic } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
+	import * as Select from "$lib/components/ui/select/index.js";
+	import ToolbarButton from './ToolbarButton.svelte';
 
 	let selection = $editor;
 
-	export let checked = $themeVariant == 'dark';
+	let selectedType = 'p';
 
 	$: $editor?.on('selectionUpdate', () => {
 		selection = $editor;
+		selectedType = $editor.getAttributes('heading').level ? 'h' + $editor.getAttributes('heading').level : 'p';
 	});
 	$: $editor?.on('update', () => (selection = $editor));
-
-	$: themeVariant.set(checked ? 'dark' : 'light');
-
-	let textcolor: string;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -30,6 +28,44 @@
 			return $editor.chain().focus();
 		}
 	}
+
+	const text_types = [
+		{
+			label: 'Heading 1',
+			type: 'heading',
+			value: 'h1',
+			level: 1
+		},
+		{
+			label: 'Heading 2',
+			type: 'heading',
+			value: 'h2',
+			level: 2
+		},
+		{
+			label: 'Heading 3',
+			type: 'heading',
+			value: 'h3',
+			level: 3
+		},
+		{
+			label: 'Paragraph',
+			type: 'paragraph',
+			value: 'p'
+		},
+	];
+
+	function handleTextTypeSelection(event) {
+		if (event.type == 'heading') {
+			$editor.chain().focus().setHeading({ level: event.level }).run();
+		} else {
+			$editor.chain().focus().setParagraph().run();
+		}
+	}
+
+	let selectedTypeObject = text_types.find((type) => type.value == selectedType);
+	$: selectedType, selectedTypeObject = text_types.find((type) => type.value == selectedType);
+
 </script>
 
 {#if $editor}
@@ -40,45 +76,49 @@
 		</div> -->
 		<!-- <div class="splitter"></div> -->
 		<div id="style-controls" class="br-2 bar frontground">
-			<button
-				on:click={() => $editor.chain().focus().toggleHeading({ level: 1 }).run()}
-				class:active={selection?.isActive('heading', { level: 1 })}
-			>
-				H1
-			</button>
-			<button
-				on:click={() => $editor.chain().focus().toggleHeading({ level: 2 }).run()}
-				class:active={selection?.isActive('heading', { level: 2 })}
-			>
-				H2
-			</button>
-			<button
-				on:click={() => $editor.chain().focus().setParagraph().run()}
-				class:active={selection?.isActive('paragraph')}
-			>
-				P
-			</button>
-			<div class="smal-splitter"></div>
-			<div class="text-color h-full">
+			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
+				<Select.Trigger class="w-32 h-8">
+					<Select.Value />
+				</Select.Trigger>
+				<Select.Content>
+					{#each text_types as type}
+						<Select.Item
+							value={type.value}
+							label={type.label}
+							on:click={() => handleTextTypeSelection(type)}
+						>
+							{type.label}
+						</Select.Item>
+					{/each}
+				</Select.Content>
+				<Select.Input name="selectedTextType" />
+			</Select.Root>
+			<div>
 				<input
 					type="color"
 					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
 					value={$editor.getAttributes('textStyle').color}
 					id="text-color"
+					class="absolute invisible"
 				/>
-				<label for="text-color" style={'color: ' + $editor.getAttributes('textStyle').color}
-					><Brush size="15"></Brush></label
+				<label class="text-color" for="text-color" style={'color: ' + $editor.getAttributes('textStyle').color}
+					><Brush size="18" color={selection.getAttributes('textStyle').color} /></label
 				>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()} class="flex items-center"
-				><span class="material-symbols-rounded"> format_bold </span></button
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBold().run()}
+				title="Fed skrift"
+				selected={selection.isActive('bold')}
 			>
-			<div class="spacer"></div>
-
-			<div class="darkmode_toggle">
-				<input type="checkbox" id="mode_toggle" bind:checked />
-				<label for="mode_toggle"></label>
-			</div>
+				<Bold size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleItalic().run()}
+				title="Korsiv"
+				selected={selection.isActive('italic')}
+			>
+				<Italic size="18" />
+			</ToolbarButton>
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
@@ -97,6 +137,7 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
+		height: 5rem;
 		width: 100%;
 		display: flex;
 
@@ -114,6 +155,27 @@
 		// line-height: 1;
 		// text-size-adjust: 100%;
 	}
+
+    .toolbar-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35rem;
+        border-radius: 0.2rem;
+        transition: background-color 0.2s;
+        color: var(--text-color);
+    }
+
+    .toolbar-button:hover {
+        background-color: var(--color-overlay-0);
+    }
+
+    .toolbar-button.active {
+        background-color: var(--color-overlay-1);
+    }
 
 	button {
 		span {
@@ -146,39 +208,6 @@
 		right: 0;
 		height: -webkit-fill-available;
 		// height: 100%;
-	}
-
-	.darkmode_toggle label {
-		filter: invert(var(--invert-1));
-		color: var(--color-text-2);
-		cursor: pointer;
-		display: inline-block;
-		position: relative;
-		transition: all ease-in-out 0.5s;
-		width: 25px;
-		height: 25px;
-	}
-
-	.darkmode_toggle {
-		height: 25px;
-
-		input[type='checkbox'] {
-			display: none;
-		}
-
-		input[type='checkbox'] {
-			~ label {
-				background-image: url('/icons/light_mode.svg');
-				background-size: 15px;
-
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-
-			&:checked ~ label {
-				background-image: url('/icons/dark_mode.svg');
-			}
-		}
 	}
 
 	.color {
@@ -241,18 +270,13 @@
 	}
 
 	.text-color {
-		input {
-			visibility: hidden;
-			position: absolute;
-		}
-		label {
-			p {
-				color: var(--color-text-1);
-			}
-			// font-weight: bold;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.35rem !important;
+		transition: background-color 0.2s;
+		height: inherit;
 	}
 </style>
