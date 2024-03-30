@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Asign from './Asign.svelte';
+	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
 	import { Bold, Brush, Italic } from 'lucide-svelte';
@@ -122,7 +122,7 @@
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
-				<Asign />
+				<Assign />
 			{:else}
 				<ShareDocument />
 			{/if}
