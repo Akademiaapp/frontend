@@ -13,9 +13,8 @@ export class FileInfo {
 
 	store = documentStore;
 
-	constructor(info, fileType = 'documents', store = documentStore) {
+	constructor(info, fileType = 'documents') {
 		this.fileType = fileType;
-		this.store = store;
 		this.id = info.id;
 		this.name = info.name;
 		this.data = info.data;
@@ -94,7 +93,7 @@ export class Assignment extends FileInfo {
 	store = assignmentStore;
 
 	constructor(info, fileType = 'assignments') {
-		super(info, fileType, assignmentStore);
+		super(info, fileType);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
@@ -112,7 +111,7 @@ export class Assignment extends FileInfo {
 	}
 
 	rename(newName) {
-		assignmentStore.update((assignments) => {
+		this.store.update((assignments) => {
 			const index = assignments.findIndex((assignment) => assignment.id === this.id);
 			if (index == -1) return assignments;
 			assignments[index].name = newName;
@@ -134,7 +133,7 @@ export class AssignmentAnswer extends FileInfo {
 	store = assignmentAnswerStore;
 
 	constructor(info) {
-		super(info, 'assignmentAnswers', assignmentAnswerStore);
+		super(info, 'assignmentAnswers');
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;
