@@ -148,6 +148,15 @@
 		border-radius: 0.3rem;
 		background: #ffef0f;
 	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	
+		&.ProseMirror-selectednode {
+		  outline: 3px solid #B4D5FF;
+		}
+	}
 }
 
 h1,

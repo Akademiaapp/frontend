@@ -3,7 +3,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
+	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -60,6 +60,35 @@
 			.extendMarkRange('link')
 			.setLink({ href: url })
 			.run()
+	}
+
+	function setImage () {
+		const previousUrl = $editor.getAttributes('image').src
+		const url = window.prompt('URL', previousUrl)
+
+		// cancelled
+		if (url === null) {
+			return
+		}
+
+		// empty
+		if (url === '') {
+			$editor
+			.chain()
+			.focus()
+			.setImage({ src: null })
+			.run()
+
+			return
+		}
+
+		// update link
+		$editor
+			.chain()
+			.focus()
+			.setImage({ src: url })
+			.run()
+	
 	}
 
 	const text_types = [
@@ -289,6 +318,13 @@
 			selected={selection.isActive('math')}
 		>
 			<Calculator size="18" />
+		</ToolbarButton>
+		<ToolbarButton
+			onClick={setImage}
+			title="Billede"
+			selected={false}
+		>
+			<Image size="18" />
 		</ToolbarButton>
 		</div>
 		<div class="absolute right-0 flex h-12 gap-2">
