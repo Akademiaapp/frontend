@@ -7,8 +7,11 @@
 
 	let open = false;
 
-	function assignCurrentFile() {
-		if ($currentFile instanceof Assignment) $currentFile.assign();
+	export let isAssigned: boolean;
+
+	async function assignCurrentFile() {
+		if ($currentFile instanceof Assignment) await $currentFile.assign();
+		isAssigned = true;
 		open = false;
 	}
 </script>

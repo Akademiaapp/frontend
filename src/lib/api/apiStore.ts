@@ -11,6 +11,8 @@ export class FileInfo {
 
 	fileType: string = 'documents';
 
+	store = documentStore;
+
 	constructor(info, fileType = 'documents') {
 		this.fileType = fileType;
 		this.id = info.id;
@@ -24,9 +26,13 @@ export class FileInfo {
 		return `/${this.fileType}/${this.id}`;
 	}
 
-	rename = api.debounce((newName: string) => {
+	_rename: (newName: string) => void = api.debounce((newName: string) => {
 		return this.updateInfo({ name: newName == '' ? 'Unavngivet' : newName });
 	});
+
+	rename(newName: string) {
+		this._rename(newName);
+	}
 
 	open() {
 		currentFile.set(this);
@@ -84,6 +90,8 @@ export class Assignment extends FileInfo {
 	isPublic: boolean;
 	teacherId: string;
 
+	store = assignmentStore;
+
 	constructor(info, fileType = 'assignments') {
 		super(info, fileType);
 		this.due_date = info.due_date;
@@ -98,19 +106,67 @@ export class Assignment extends FileInfo {
 	}
 
 	async assign() {
+		this.isPublic = true;
 		return api.callApi(this.path + '/deploy', null, 'POST');
+	}
+
+	rename(newName) {
+		this.store.update((assignments) => {
+			const index = assignments.findIndex((assignment) => assignment.id === this.id);
+			if (index == -1) return assignments;
+			assignments[index].name = newName;
+			return assignments;
+		});
+		return super.rename(newName);
 	}
 }
 
-export class AssignmentAnswer extends Assignment {
+export class AssignmentAnswer extends FileInfo {
 	progress: AssignmentProgress;
 	answer_id: string;
+	due_date: string;
+	assignment_answers;
+	asigned_groups_ids: string[];
+	isPublic: boolean;
+	teacherId: string;
+
+	store = assignmentAnswerStore;
 
 	constructor(info) {
 		super(info, 'assignmentAnswers');
+		this.assignment_answers = info.assignment_answers;
+		this.asigned_groups_ids = info.asigned_groups_ids;
+		this.isPublic = info.isPublic;
+		this.teacherId = info.teacherId;
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
+	}
+
+	rename(newName) {
+		assignmentAnswerStore.update((assignments) => {
+			const index = assignments.findIndex((assignment) => assignment.id === this.id);
+			if (index == -1) return assignments;
+			assignments[index].name = newName;
+			return assignments;
+		});
+		return super.rename(newName);
+	}
+}
+
+export class Folder {
+	name: string;
+	subFolders: Folder[];
+	files: FileInfo[];
+	emoji: string = '';
+
+	constructor(info: { name: string; subFolders: Folder[]; files: FileInfo[]; emoji?: string }) {
+		this.name = info.name;
+		this.subFolders = info.subFolders;
+		this.files = info.files;
+		if (info.emoji) {
+			this.emoji = info.emoji;
+		}
 	}
 }
 

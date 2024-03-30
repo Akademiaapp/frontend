@@ -64,7 +64,7 @@
 
 		padding: 0.4rem 1rem;
 
-		gap: 2rem;
+		gap: 0.5rem;
 
 		transition: transform 300ms ease;
 

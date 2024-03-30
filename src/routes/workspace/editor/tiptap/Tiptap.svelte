@@ -75,7 +75,7 @@
 									newState.name = title;
 									const id = newState.id;
 									// Update the value for the specified key
-									documentStore.update((prev: FileInfo[]): FileInfo[] => {
+									$currentFile.store.update((prev: FileInfo[]): FileInfo[] => {
 										return prev.map((it) => {
 											if (it.id == id) return newState;
 											return it;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
@@ -18,6 +19,8 @@
 		selectedType = $editor.getAttributes('heading').level ? 'h' + $editor.getAttributes('heading').level : 'p';
 	});
 	$: $editor?.on('update', () => (selection = $editor));
+
+	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -285,7 +288,11 @@
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
-				<Assign />
+				{#if isAssigned}
+					<SeeAnswers />
+				{:else}
+					<Assign bind:isAssigned />
+				{/if}
 			{:else}
 				<ShareDocument />
 			{/if}
