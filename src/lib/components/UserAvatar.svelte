@@ -35,7 +35,6 @@
 							{$userInfo.first_name[0]}{$userInfo.last_name[0] || ''}
 						</h3>
 					{/if}
-					<!-- <h3 class="-translate-y-[0.rem] m-0 p-0 text-sm">f</h3> -->
 				</div>
 				<!-- <img class="avatar br-2" src="" alt="User avatar" referrerpolicy="no-referrer" /> -->
 			</Button>
