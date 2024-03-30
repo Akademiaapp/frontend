@@ -3,7 +3,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from 'lucide-svelte';
+	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Strikethrough, Subscript, Superscript, Underline, Redo2, Undo2 } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -275,14 +275,14 @@
 			title="Fortryd"
 			selected={false}
 		>
-			<Undo size="18" />
+			<Undo2 size="32" />
 		</ToolbarButton>
 		<ToolbarButton
 			onClick={(event) => $editor.chain().focus().redo().run()}
 			title="Gentag"
 			selected={false}
 		>
-			<Redo size="18" />
+			<Redo2 size="32" />
 		</ToolbarButton>
 		<ToolbarButton
 			onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
