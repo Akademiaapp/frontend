@@ -86,7 +86,7 @@
 
 <div class="cont br-2 float-panel">
 	<div class="files p-1" on:scroll={onscroll} bind:this={filesElem}>
-		<Category name="Fag" {folders}></Category>
+		<Category name="Fag" open={false} {folders}></Category>
 		<Category name="Andet" {files}></Category>
 	</div>
 	<div class="splitter"></div>
