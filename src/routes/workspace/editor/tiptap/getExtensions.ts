@@ -9,6 +9,7 @@ import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 import { get } from 'svelte/store';
 import { keycloakUserInfo } from '../../../../authStore';
 import Document from '@tiptap/extension-document';
+import { FontSize } from './extensions/FontSize';
 
 export default function getExtensions(provider = null, isAssignment = false) {
 	return [
@@ -30,7 +31,8 @@ export default function getExtensions(provider = null, isAssignment = false) {
 			showOnlyCurrent: false
 		}),
 		MathExtension,
-		isAssignment ? MetaSettingsExtension : null
+		isAssignment ? MetaSettingsExtension : null,
+		FontSize
 	];
 }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore.ts';
+	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore';
 	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 
@@ -11,14 +11,26 @@
 	import * as Select from "$lib/components/ui/select/index.js";
 	import ToolbarButton from './ToolbarButton.svelte';
 	import Aflever from './Aflever.svelte';
+	import Input from '@/components/ui/input/input.svelte';
+	import FontSelector from './FontSelector.svelte';
+	import * as Popover from "$lib/components/ui/popover/index.js";
+	import { Label } from '@/components/ui/label';
+	import { Button } from '@/components/ui/button';
 
 	let selection = $editor;
 
+	let selectedTextStyle = {
+		color: 'black',
+		fontSize: '12em',
+		fontFamily: 'NimbusSans-Regular',
+	};
 	let selectedType = 'p';
 
 	$: $editor?.on('selectionUpdate', () => {
 		selection = $editor;
+		console.log("attr: ", selection.getAttributes('textStyle'));
 		selectedType = $editor.getAttributes('heading').level ? 'h' + $editor.getAttributes('heading').level : 'p';
+		selectedTextStyle = selection.getAttributes('textStyle') as { color: string; fontSize: string, fontFamily: string };
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
@@ -134,28 +146,29 @@
 	let isShareOpen = false;
 </script>
 
-{#if $editor && selection}
+{#if $editor && selection && selectedTextStyle && selectedTypeObject}
 	<div id="toolbar">
 		<div id="style-controls" class="br-2 bar frontground">
-			<div class="flex w-[9.2rem] flex-wrap mr-1 gap-y-1">
-				<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
-					<Select.Trigger class="w-36 h-8">
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content>
-						{#each text_types as type}
-							<Select.Item
-								value={type.value}
-								label={type.label}
-								on:click={() => handleTextTypeSelection(type)}
-							>
-								{type.label}
-							</Select.Item>
-						{/each}
-					</Select.Content>
-					<Select.Input name="selectedTextType" />
-				</Select.Root>
-				<ToolbarButton
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().undo().run()}
+				title="Fortryd"
+				selected={false}
+			>
+				<Undo2 size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().redo().run()}
+				title="Gentag"
+				selected={false}
+			>
+				<Redo2 size="18" />
+			</ToolbarButton>
+			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 m-2"/>
+			<div class="flex">
+				<FontSelector />
+				<Input type="number" class="h-8 w-[3.2rem] rounded-l-none border-l-0 pr-[2.5px] pl-2" placeholder="16" value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g,'') : '12'} on:change={(event) => $editor.chain().focus().setFontSize(event.target?.value + 'pt').run()}/>
+			</div>
+			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleBold().run()}
 				title="Fed skrift"
 				selected={selection.isActive('bold')}
@@ -190,146 +203,157 @@
 			>
 				<Highlighter size="18" />
 			</ToolbarButton>
-		</div>
-		<div class="border-l-[0.8px] border-gray-400 opacity-50 h-[4.5rem]" />
-		<div>
-			<input
-				type="color"
-				on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
-				value={$editor.getAttributes('textStyle').color}
-				id="text-color"
-				class="absolute invisible"
-			/>
-			<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
-				><Brush size="18" /></label
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8"><AlignLeft size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex">
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
+							title="Venstrejusteret"
+							selected={selection.isActive({ textAlign: 'left' })}
+						>
+							<AlignLeft size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
+							title="Centreret"
+							selected={selection.isActive({ textAlign: 'center' })}
+						>
+							<AlignCenter size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
+							title="Højrejusteret"
+							selected={selection.isActive({ textAlign: 'right' })}
+						>
+							<AlignRight size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
+							title="Lige margener"
+							selected={selection.isActive({ textAlign: 'justify' })}
+						>
+							<AlignJustify size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<div class="border-l-[0.8px] border-gray-400 opacity-50 h-[2rem]" />
+			<div>
+				<input
+					type="color"
+					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
+					value={selectedTextStyle.color}
+					id="text-color"
+					class="absolute invisible"
+				/>
+				<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
+					><Brush size="18" /></label
+				>
+			</div>
+			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
+				<Select.Trigger class="w-36 h-8">
+					<Select.Value />
+				</Select.Trigger>
+				<Select.Content>
+					{#each text_types as type}
+						<Select.Item
+							value={type.value}
+							label={type.label}
+							on:click={() => handleTextTypeSelection(type)}
+						>
+							{type.label}
+						</Select.Item>
+					{/each}
+				</Select.Content>
+				<Select.Input name="selectedTextType" />
+			</Select.Root>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+				title="Eksponent"
+				selected={selection.isActive('superscript')}
 			>
-		</div>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
-			title="Eksponent"
-			selected={selection.isActive('superscript')}
-		>
-			<Superscript size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleSubscript().run()}
-			title="Indeks"
-			selected={selection.isActive('subscript')}
-		>
-			<Subscript size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={setLink}
-			title="Link"
-			selected={selection.isActive('link')}
-		>
-			<Link size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleCode().run()}
-			title="Kode"
-			selected={selection.isActive('code')}
-		>
-			<Code size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
-			title="Kodeblok"
-			selected={selection.isActive('codeBlock')}	
-		>
-			<CodeSquare size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
-			title="Sorteret liste"
-			selected={selection.isActive('orderedList')}
-		>
-			<ListOrdered size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleBulletList().run()}
-			title="Punktopstilling"
-			selected={selection.isActive('bulletList')}
-		>
-			<List size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleTaskList().run()}
-			title="Todo liste"
-			selected={selection.isActive('taskList')}
-		>
-			<ListTodo size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
-			title="Citat"
-			selected={selection.isActive('blockquote')}
-		>
-			<MessageSquareQuote size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
-			title="Horizontal linje"
-			selected={false}
-		>
-			<Minus size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().undo().run()}
-			title="Fortryd"
-			selected={false}
-		>
-			<Undo2 size="32" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().redo().run()}
-			title="Gentag"
-			selected={false}
-		>
-			<Redo2 size="32" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
-			title="Venstrejusteret"
-			selected={selection.isActive({ textAlign: 'left' })}
-		>
-			<AlignLeft size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
-			title="Centreret"
-			selected={selection.isActive({ textAlign: 'center' })}
-		>
-			<AlignCenter size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
-			title="Højrejusteret"
-			selected={selection.isActive({ textAlign: 'right' })}
-		>
-			<AlignRight size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
-			title="Lige margener"
-			selected={selection.isActive({ textAlign: 'justify' })}
-		>
-			<AlignJustify size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={(event) => $editor.chain().focus().setMath().run()}
-			title="Matematik felt"
-			selected={selection.isActive('math')}
-		>
-			<Calculator size="18" />
-		</ToolbarButton>
-		<ToolbarButton
-			onClick={setImage}
-			title="Billede"
-			selected={false}
-		>
-			<Image size="18" />
-		</ToolbarButton>
+				<Superscript size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+				title="Indeks"
+				selected={selection.isActive('subscript')}
+			>
+				<Subscript size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={setLink}
+				title="Link"
+				selected={selection.isActive('link')}
+			>
+				<Link size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCode().run()}
+				title="Kode"
+				selected={selection.isActive('code')}
+			>
+				<Code size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+				title="Kodeblok"
+				selected={selection.isActive('codeBlock')}	
+			>
+				<CodeSquare size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
+				title="Sorteret liste"
+				selected={selection.isActive('orderedList')}
+			>
+				<ListOrdered size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBulletList().run()}
+				title="Punktopstilling"
+				selected={selection.isActive('bulletList')}
+			>
+				<List size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleTaskList().run()}
+				title="Todo liste"
+				selected={selection.isActive('taskList')}
+			>
+				<ListTodo size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
+				title="Citat"
+				selected={selection.isActive('blockquote')}
+			>
+				<MessageSquareQuote size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
+				title="Horizontal linje"
+				selected={false}
+			>
+				<Minus size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().setMath().run()}
+				title="Matematik felt"
+				selected={selection.isActive('math')}
+			>
+				<Calculator size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={setImage}
+				title="Billede"
+				selected={false}
+			>
+				<Image size="18" />
+			</ToolbarButton>
 		</div>
 		<div class="absolute right-0 flex h-10 gap-2">
 			{#if $currentFile instanceof Assignment}
@@ -353,7 +377,7 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
-		height: 6rem;
+		height: 3rem;
 		width: 100%;
 		display: flex;
 

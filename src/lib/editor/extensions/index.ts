@@ -26,6 +26,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import {common, createLowlight} from 'lowlight'
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
+import FontFamily from '@tiptap/extension-font-family'
 
 const lowlight = createLowlight(common)
 
@@ -60,5 +61,6 @@ export const EditorExtensions = [
 	TextAlign.configure({
 		types: ['paragraph', 'heading'],
 	}),
-	Highlight
+	Highlight,
+	FontFamily
 ];
