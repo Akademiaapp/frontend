@@ -208,4 +208,5 @@
 	#text-editor :global(.tiptap) {
 		flex: 1;
 	}
+
 </style>

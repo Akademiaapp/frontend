@@ -2,7 +2,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Bold, Brush, Italic } from 'lucide-svelte';
+	import { Bold, Brush, Code, CodeSquare, Italic, Link, Strikethrough, Subscript, Superscript, Underline } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -27,6 +27,36 @@
 		} else {
 			return $editor.chain().focus();
 		}
+	}
+
+	function setLink () {
+		const previousUrl = $editor.getAttributes('link').href
+		const url = window.prompt('URL', previousUrl)
+
+		// cancelled
+		if (url === null) {
+			return
+		}
+
+		// empty
+		if (url === '') {
+			$editor
+			.chain()
+			.focus()
+			.extendMarkRange('link')
+			.unsetLink()
+			.run()
+
+			return
+		}
+
+		// update link
+		$editor
+			.chain()
+			.focus()
+			.extendMarkRange('link')
+			.setLink({ href: url })
+			.run()
 	}
 
 	const text_types = [
@@ -119,6 +149,62 @@
 			>
 				<Italic size="18" />
 			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleUnderline().run()}
+				title="Understreget"
+				selected={selection.isActive('underline')}
+			>
+				<Underline size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleStrike().run()}
+				title="Gennemstreget"
+				selected={selection.isActive('strike')}
+			>
+				<Strikethrough size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+				title="Eksponent"
+				selected={selection.isActive('superscript')}
+			>
+				<Superscript size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+				title="Indeks"
+				selected={selection.isActive('subscript')}
+			>
+				<Subscript size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={setLink}
+				title="Link"
+				selected={selection.isActive('link')}
+			>
+				<Link size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCode().run()}
+				title="Kode"
+				selected={selection.isActive('code')}
+			>
+				<Code size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+				title="Kodeblok"
+				selected={selection.isActive('codeBlock')}	
+			>
+				<CodeSquare size="18" />
+			</ToolbarButton>
+			<!-- <ToolbarButton
+				onClick={(event) => }
+				title="Sorteret liste"
+				selected={}
+			>
+				<SortNumericAsc size="18" />
+			</ToolbarButton> -->
 		</div>
 		<div class="absolute right-0 flex h-full gap-2">
 			{#if $currentFile instanceof Assignment}
@@ -145,50 +231,6 @@
 		justify-content: center;
 	}
 
-	.material-symbols-rounded {
-		height: 1rem;
-		line-height: 1rem;
-		// width: 1rem;
-		margin: 0 -0.3rem;
-		// font-size: 1.3em;
-
-		// line-height: 1;
-		// text-size-adjust: 100%;
-	}
-
-    .toolbar-button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.35rem;
-        border-radius: 0.2rem;
-        transition: background-color 0.2s;
-        color: var(--text-color);
-    }
-
-    .toolbar-button:hover {
-        background-color: var(--color-overlay-0);
-    }
-
-    .toolbar-button.active {
-        background-color: var(--color-overlay-1);
-    }
-
-	button {
-		span {
-			// text-align: center;
-			// vertical-align: middle;
-			font-weight: 600;
-			text-size-adjust: 100%;
-			line-height: 1.5;
-			box-sizing: border-box;
-			overflow: hidden;
-		}
-	}
-
 	.bar {
 		display: flex;
 		gap: 0.4rem;
@@ -202,73 +244,6 @@
 
 		border-bottom: solid var(--color-overlay-1) 0.05rem;
 	}
-
-	.left {
-		position: absolute;
-		right: 0;
-		height: -webkit-fill-available;
-		// height: 100%;
-	}
-
-	.color {
-		height: 0.7rem;
-		width: 0.7rem;
-		border-radius: 100%;
-		background-color: #278aff;
-	}
-
-	#filepath {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.filename {
-		color: var(--color-text-2);
-	}
-
-	.splitter {
-		width: 0.06rem;
-		background-color: var(--color-overlay-1);
-		height: 100%;
-	}
-
-	.smal-splitter {
-		width: 0.1rem;
-		background-color: var(--color-overlay-1);
-		margin: 0rem 0.5rem;
-		height: 1.5rem;
-	}
-
-	p {
-		margin: 0;
-	}
-
-	#style-controls {
-		min-width: 400px;
-		display: flex;
-		gap: 0.2rem;
-		align-items: center;
-
-		button,
-		label {
-			border: none;
-			background-color: transparent;
-
-			border-radius: 0.2rem;
-			padding: 0.15rem 0.5rem;
-			height: 100%;
-
-			// transition: background-color 100ms;
-			&:hover {
-				background-color: var(--color-overlay-0);
-			}
-			&.active {
-				background-color: var(--color-overlay-1);
-			}
-		}
-	}
-
 	.text-color {
 		border: none;
 		cursor: pointer;
