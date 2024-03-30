@@ -8,6 +8,7 @@
 	import getExtensions from '../editor/tiptap/getExtensions';
 	import api from '@/api';
 	import { Editor, EditorContent } from 'svelte-tiptap';
+	import { YXmlEvent } from 'yjs';
 
 	export let sidebarVisible: boolean = true;
 
@@ -19,10 +20,11 @@
 		console.log(json);
 		return json.data;
 	}
+
 	export let isAssignmentDescriptionOpen: boolean;
 	let dfgdfg = new Editor({
 		extensions: getExtensions(null, false),
-		content: getDescription(),
+
 		editable: false
 	});
 </script>

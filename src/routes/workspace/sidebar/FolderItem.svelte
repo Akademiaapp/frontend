@@ -5,6 +5,7 @@
 	import SideBarElem from './SideBarElem.svelte';
 	import { ArrowLeft, ChevronRight } from 'lucide-svelte';
 	import File from './File.svelte';
+	import EmojiSelector from '../../emoji/EmojiSelector.svelte';
 
 	export let open: boolean = false;
 
@@ -25,6 +26,10 @@
 			>
 				<ChevronRight size={20}></ChevronRight>
 			</button>
+			{#if folder.emoji}
+				<EmojiSelector value={folder.emoji} />
+				<!-- content here -->
+			{/if}
 			<span class="name">{folder.name}</span>
 		</div>
 	</SideBarElem>
@@ -48,7 +53,6 @@
 		font-size: 1.2rem;
 		display: flex;
 		align-items: center;
-		gap: 0.25rem;
 
 		button {
 			color: var(--color-text-2);
