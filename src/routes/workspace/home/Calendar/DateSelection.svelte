@@ -28,15 +28,18 @@
 	};
 </script>
 
-<div class="flex gap-2">
-	<Button variant="outline" size="icon" on:click={moveDays(-1)}>
+<div class="flex gap-0.5 pt-0.5">
+	<Button variant="floating" size="sm" class="h-8 w-8 p-1.5" on:click={moveDays(-1)}>
 		<ChevronLeft></ChevronLeft>
 	</Button>
 	<Popover.Root>
 		<Popover.Trigger asChild let:builder>
 			<Button
-				variant="outline"
-				class={cn(' justify-start text-left font-normal', !value && 'text-muted-foreground')}
+				variant="floating"
+				class={cn(
+					' h-8 justify-start px-2 text-left font-normal',
+					!value && 'text-muted-foreground'
+				)}
 				builders={[builder]}
 			>
 				{value ? df.format(value.toDate(getLocalTimeZone())) : 'Pick a date'}
@@ -46,7 +49,7 @@
 			<Calendar bind:value weekStartsOn={1} initialFocus preventDeselect={true} />
 		</Popover.Content>
 	</Popover.Root>
-	<Button variant="outline" size="icon" on:click={moveDays(1)}>
+	<Button variant="floating" size="icon" class="h-8 w-8 p-1.5" on:click={moveDays(1)}>
 		<ChevronRight></ChevronRight>
 	</Button>
 </div>

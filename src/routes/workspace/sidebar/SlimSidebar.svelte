@@ -42,7 +42,7 @@
 			<QuickAction tooltip="New file" action={() => newDocument('Uden titel')}>
 				<File size="29"></File>
 			</QuickAction>
-			<QuickAction tooltip="New note">
+			<QuickAction tooltip="New note" action={() => newDocument('Uden titel', null, true)}>
 				<Notebook size="29"></Notebook>
 			</QuickAction>
 		</div>
