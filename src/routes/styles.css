@@ -10,7 +10,7 @@
 	--color-overlay-6: color-mix(in srgb, var(--color-text-0) 35%, transparent);
 	--color-overlay-7: color-mix(in srgb, var(--color-text-0) 40%, transparent);
 
-	--pad: 1.25rem;
+	--pad: 0.75rem;
 	--gap: 0.75rem;
 	scroll-behavior: smooth;
 }
