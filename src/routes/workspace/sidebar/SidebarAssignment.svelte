@@ -22,7 +22,8 @@
 </script>
 
 <div
-	class="settings assignment br-2 float-panel sidebar-scroll max-w-[40rem] flex-1 overflow-scroll"
+	class="settings assignment br-2 float-panel sidebar-scroll flex max-w-[40rem] flex-1 overflow-scroll"
+	class:hidden={!isAssignmentDescriptionOpen}
 >
 	<button
 		class="flex items-center text-xs hover:underline"
@@ -76,8 +77,6 @@
 		margin: revert;
 	}
 	.settings {
-		display: flex;
-
 		padding: 1rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);

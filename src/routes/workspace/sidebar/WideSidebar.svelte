@@ -40,9 +40,9 @@
 	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible /></div>
 </div>
 
-{#if isAssignmentDescriptionOpen}
-	<SidebarAssignment bind:isAssignmentDescriptionOpen />
-{:else}
+<SidebarAssignment bind:isAssignmentDescriptionOpen />
+
+{#if isAssignmentDescriptionOpen}{:else}
 	<FileViewer></FileViewer>
 {/if}
 
