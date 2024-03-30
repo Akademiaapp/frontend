@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore.ts';
 	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 
@@ -9,6 +10,7 @@
 	import { Assignment, currentFile } from '@/api/apiStore';
 	import * as Select from "$lib/components/ui/select/index.js";
 	import ToolbarButton from './ToolbarButton.svelte';
+	import Aflever from './Aflever.svelte';
 
 	let selection = $editor;
 
@@ -128,6 +130,8 @@
 	let selectedTypeObject = text_types.find((type) => type.value == selectedType);
 	$: selectedType, selectedTypeObject = text_types.find((type) => type.value == selectedType);
 
+
+	let isShareOpen = false;
 </script>
 
 {#if $editor && selection}
@@ -334,10 +338,11 @@
 				{:else}
 					<Assign bind:isAssigned />
 				{/if}
-			{:else}
-				<ShareDocument />
+			{:else if $currentFile instanceof AssignmentAnswer}
+				<Aflever />
 			{/if}
-			<MoreActions></MoreActions>
+			<ShareDocument bind:open={isShareOpen} showTrigger={$currentFile instanceof DocumentInfo} />
+			<MoreActions bind:isShareOpen></MoreActions>
 		</div>
 	</div>
 {/if}

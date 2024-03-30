@@ -8,3 +8,8 @@ export function capLength(inputString: string, maxLength: number): string {
 	}
 	return truncatedString + '...';
 }
+
+export function toUni(str) {
+	if (str.length < 4) return str.codePointAt(0).toString(16);
+	return str.codePointAt(0).toString(16) + '-' + str.codePointAt(2).toString(16);
+}

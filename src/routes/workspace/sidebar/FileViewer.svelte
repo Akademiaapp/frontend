@@ -56,13 +56,31 @@
 		}),
 		new Folder({
 			name: 'Matematik',
-			emoji: '🧮',
+			emoji: '📊',
 			subFolders: [],
 			files: testFiles
 		}),
 		new Folder({
 			name: 'Fysik/Kemi',
-			emoji: '🧪',
+			emoji: '⚛️',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Biologi',
+			emoji: '🌱',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Historie',
+			emoji: '🏛️',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Samfundsfag',
+			emoji: '🌍',
 			subFolders: [],
 			files: testFiles
 		})

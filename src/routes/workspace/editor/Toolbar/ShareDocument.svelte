@@ -109,20 +109,21 @@
 			});
 		}
 	}
+
+	export let open = false;
+
+	export let showTrigger = true;
 </script>
 
-<Dialog.Root>
-	<Dialog.Trigger
-		class={'br-2 toolbar-bar flex h-full px-4 py-2' + buttonVariants({ variant: 'floating' })}
-	>
-		{#if type == 'assignment'}
-			<BookCheck size={17} />
-			<span class="text box-border overflow-hidden font-semibold leading-normal">Aflever</span>
-		{:else}
+<Dialog.Root bind:open>
+	{#if showTrigger}
+		<Dialog.Trigger
+			class={'br-2 toolbar-bar flex h-full px-4 py-2' + buttonVariants({ variant: 'floating' })}
+		>
 			<UserRoundPlus size={17} />
 			<span class="text box-border overflow-hidden font-semibold leading-normal">Inviter</span>
-		{/if}
-	</Dialog.Trigger>
+		</Dialog.Trigger>
+	{/if}
 	<Dialog.Content>
 		<Dialog.Header>
 			<Dialog.Title>Del '{$currentFile?.name || ''}'</Dialog.Title>
