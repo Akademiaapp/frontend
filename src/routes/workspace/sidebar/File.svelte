@@ -4,7 +4,9 @@
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
 	export let file: FileInfo;
-	export let onClick = () => {};
+	export let onClick = () => {
+		currentFile.set(file);
+	};
 	export let active = false;
 
 	$: if ($currentFile instanceof FileInfo) {
