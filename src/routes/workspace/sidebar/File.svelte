@@ -1,11 +1,17 @@
 <script lang="ts">
-	import { FileInfo } from '@/api/apiStore';
+	import { FileInfo, currentFile } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from './SideBarElem.svelte';
 	import { File } from 'lucide-svelte';
 	export let file: FileInfo;
-	export let onClick = () => {};
+	export let onClick = () => {
+		currentFile.set(file);
+	};
 	export let active = false;
+
+	$: if ($currentFile instanceof FileInfo) {
+		active = file.id == $currentFile.id;
+	}
 </script>
 
 <SideBarElem {active}>
@@ -13,7 +19,7 @@
 		<div>
 			<File size={20}></File>
 		</div>
-		<span class="name">{capLength(file.name, 20)}</span>
+		<span class="name">{file.name}</span>
 	</a>
 </SideBarElem>
 

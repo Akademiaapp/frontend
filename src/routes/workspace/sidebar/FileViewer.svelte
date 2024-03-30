@@ -1,14 +1,72 @@
 <script lang="ts">
+	import FileList from './FileList.svelte';
 	import File from './File.svelte';
 	import api from '$lib/api';
 
 	import SideBarElem from './SideBarElem.svelte';
 	import randomName from '$lib/randomName';
-	import { DocumentInfo, currentFile, documentStore, newDocument } from '@/api/apiStore';
+	import {
+		DocumentInfo,
+		FileInfo,
+		Folder,
+		currentFile,
+		documentStore,
+		newDocument
+	} from '@/api/apiStore';
+	import FolderItem from './FolderItem.svelte';
 	import Document from '../home/activeFiles/Document.svelte';
 	import { onMount } from 'svelte';
+	import Category from './Category.svelte';
 
-	export let files: DocumentInfo[] = $documentStore;
+	const testFiles = [
+		new FileInfo({
+			id: '1',
+			name: 'Noget',
+			data: '1',
+			created: new Date().toDateString(),
+			updated: new Date().toDateString()
+		}),
+		new FileInfo({
+			id: '1',
+			name: 'ABC',
+			data: '1',
+			created: new Date().toDateString(),
+			updated: new Date().toDateString()
+		})
+	];
+
+	export let folders: Folder[] = [
+		new Folder({
+			name: 'Dansk',
+			emoji: '🇩🇰',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Engelsk',
+			emoji: '🇬🇧',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Fransk',
+			emoji: '🇫🇷',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Matematik',
+			emoji: '🧮',
+			subFolders: [],
+			files: testFiles
+		}),
+		new Folder({
+			name: 'Fysik/Kemi',
+			emoji: '🧪',
+			subFolders: [],
+			files: testFiles
+		})
+	];
 
 	$: files = $documentStore;
 
@@ -18,22 +76,18 @@
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
 		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
 	}
+
+	let filesElem;
+
+	onMount(() => {
+		onscroll({ target: document.querySelector('.files') });
+	});
 </script>
 
 <div class="cont br-2 float-panel">
-	<div class="files br-2 p-1" on:scroll={onscroll}>
-		{#each files as file}
-			<div>
-				<File
-					{file}
-					onClick={() => {
-						file.open();
-					}}
-					active={file?.id == $currentFile?.id}
-				></File>
-			</div>
-			<!-- content here -->
-		{/each}
+	<div class="files p-1" on:scroll={onscroll} bind:this={filesElem}>
+		<Category name="Fag" open={false} {folders}></Category>
+		<Category name="Andet" {files}></Category>
 	</div>
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
