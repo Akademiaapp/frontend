@@ -4,13 +4,24 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
+	import { get } from 'svelte/store';
 
 	let open = false;
 
+	$: console.log($currentFile.id);
+
 	async function submit() {
-		$currentFile.updateInfo({ status: 'SUBMITTED' });
+		// $currentFile.updateInfo({ status: 'SUBMITTED' });
 		if ($currentFile instanceof AssignmentAnswer) {
 			$currentFile.progress = AssignmentProgress.SUBMITTED;
+
+			$currentFile.store.update((assignmentAnswers) =>
+				assignmentAnswers.map((a) =>
+					a.answer_id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
+				)
+			);
+			console.log(get($currentFile.store));
+			console.log($currentFile.id);
 		}
 		open = false;
 	}
