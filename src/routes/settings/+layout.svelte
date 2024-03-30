@@ -26,9 +26,9 @@
 	<div class="p-2">
 		<div class="flex justify-between">
 			<h1 class="mb-1">Settings</h1>
-			
+
 			<button on:click={() => goto('/workspace/home')}>
-				<X class="cursor-pointer" size={32}/>
+				<X class="cursor-pointer" size={32} />
 			</button>
 		</div>
 
