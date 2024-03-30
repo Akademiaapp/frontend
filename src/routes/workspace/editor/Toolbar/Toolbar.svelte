@@ -109,49 +109,52 @@
 		</div> -->
 		<!-- <div class="splitter"></div> -->
 		<div id="style-controls" class="br-2 bar frontground">
-			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
-				<Select.Trigger class="w-32 h-8">
-					<Select.Value />
-				</Select.Trigger>
-				<Select.Content>
-					{#each text_types as type}
-						<Select.Item
-							value={type.value}
-							label={type.label}
-							on:click={() => handleTextTypeSelection(type)}
-						>
-							{type.label}
-						</Select.Item>
-					{/each}
-				</Select.Content>
-				<Select.Input name="selectedTextType" />
-			</Select.Root>
-			<div>
-				<input
-					type="color"
-					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
-					value={$editor.getAttributes('textStyle').color}
-					id="text-color"
-					class="absolute invisible"
-				/>
-				<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
-					><Brush size="18" /></label
+			<div class="flex w-28 flex-wrap mr-2 gap-y-1">
+				<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
+					<Select.Trigger class="w-32 h-8">
+						<Select.Value />
+					</Select.Trigger>
+					<Select.Content>
+						{#each text_types as type}
+							<Select.Item
+								value={type.value}
+								label={type.label}
+								on:click={() => handleTextTypeSelection(type)}
+							>
+								{type.label}
+							</Select.Item>
+						{/each}
+					</Select.Content>
+					<Select.Input name="selectedTextType" />
+				</Select.Root>
+				<div>
+					<input
+						type="color"
+						on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
+						value={$editor.getAttributes('textStyle').color}
+						id="text-color"
+						class="absolute invisible"
+					/>
+					<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
+						><Brush size="18" /></label
+					>
+				</div>
+				<ToolbarButton
+					onClick={(event) => nodeOrSelected().toggleBold().run()}
+					title="Fed skrift"
+					selected={selection.isActive('bold')}
 				>
+					<Bold size="18" />
+				</ToolbarButton>
+				<ToolbarButton
+					onClick={(event) => nodeOrSelected().toggleItalic().run()}
+					title="Korsiv"
+					selected={selection.isActive('italic')}
+				>
+					<Italic size="18" />
+				</ToolbarButton>
 			</div>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleBold().run()}
-				title="Fed skrift"
-				selected={selection.isActive('bold')}
-			>
-				<Bold size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleItalic().run()}
-				title="Korsiv"
-				selected={selection.isActive('italic')}
-			>
-				<Italic size="18" />
-			</ToolbarButton>
+			<div class="border-l-[0.8px] border-gray-400 opacity-50 h-8" />
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleUnderline().run()}
 				title="Understreget"
@@ -307,7 +310,7 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
-		height: 3rem;
+		height: 6rem;
 		width: 100%;
 		display: flex;
 
@@ -337,5 +340,10 @@
 		padding: 0.35rem !important;
 		transition: background-color 0.2s;
 		height: inherit;
+		border-radius: 0.2rem;
+	}
+
+	.text-color:hover {
+		background-color: var(--color-overlay-0);
 	}
 </style>
