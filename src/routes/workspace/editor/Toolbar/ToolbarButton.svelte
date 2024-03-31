@@ -2,10 +2,12 @@
     export let onClick;
     export let title = '';
     export let selected = false;
+	let clazz = null;
+	export { clazz as class };
 </script>
 
 <button
-    class="toolbar-button"
+    class={(clazz ? clazz : 'flex') + ' toolbar-button'}
     title={title}
     on:click={onClick}
     class:active={selected}
@@ -18,7 +20,6 @@
         background-color: transparent;
         border: none;
         cursor: pointer;
-        display: flex;
         align-items: center;
         justify-content: center;
         padding: 0.35rem;

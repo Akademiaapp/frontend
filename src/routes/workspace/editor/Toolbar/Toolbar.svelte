@@ -4,7 +4,7 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Strikethrough, Subscript, Superscript, Underline, Redo2, Undo2 } from 'lucide-svelte';
+	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Strikethrough, Subscript, Superscript, Underline, Redo2, Undo2, BetweenHorizonalEnd } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
@@ -163,7 +163,7 @@
 			>
 				<Redo2 size="18" />
 			</ToolbarButton>
-			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 m-2"/>
+			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 mx-2"/>
 			<div class="flex">
 				<FontSelector />
 				<Input type="number" class="h-8 w-[3.2rem] rounded-l-none border-l-0 pr-[2.5px] pl-2" placeholder="16" value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g,'') : '12'} on:change={(event) => $editor.chain().focus().setFontSize(event.target?.value + 'pt').run()}/>
@@ -208,7 +208,7 @@
 				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8"><AlignLeft size="18" /></Button>
 				</Popover.Trigger>
 				<Popover.Content class="h-12 p-2 w-fit">
-					<div class="flex">
+					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
 							title="Venstrejusteret"
@@ -274,6 +274,7 @@
 				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
 				title="Eksponent"
 				selected={selection.isActive('superscript')}
+				class="hidden 2xl:flex"
 			>
 				<Superscript size="18" />
 			</ToolbarButton>
@@ -281,9 +282,33 @@
 				onClick={(event) => nodeOrSelected().toggleSubscript().run()}
 				title="Indeks"
 				selected={selection.isActive('subscript')}
+				class="hidden 2xl:flex"
 			>
 				<Subscript size="18" />
 			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="List"><Superscript size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+							title="Eksponent"
+							selected={selection.isActive('superscript')}
+						>
+							<Superscript size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+							title="Indeks"
+							selected={selection.isActive('subscript')}
+						>
+							<Subscript size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
 			<ToolbarButton
 				onClick={setLink}
 				title="Link"
@@ -295,6 +320,7 @@
 				onClick={(event) => nodeOrSelected().toggleCode().run()}
 				title="Kode"
 				selected={selection.isActive('code')}
+				class="hidden 2xl:flex"
 			>
 				<Code size="18" />
 			</ToolbarButton>
@@ -302,30 +328,33 @@
 				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
 				title="Kodeblok"
 				selected={selection.isActive('codeBlock')}	
+				class="hidden 2xl:flex"
 			>
 				<CodeSquare size="18" />
 			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
-				title="Sorteret liste"
-				selected={selection.isActive('orderedList')}
-			>
-				<ListOrdered size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleBulletList().run()}
-				title="Punktopstilling"
-				selected={selection.isActive('bulletList')}
-			>
-				<List size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => nodeOrSelected().toggleTaskList().run()}
-				title="Todo liste"
-				selected={selection.isActive('taskList')}
-			>
-				<ListTodo size="18" />
-			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="List"><Code size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleCode().run()}
+							title="Kode"
+							selected={selection.isActive('code')}
+						>
+							<Code size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+							title="Kodeblok"
+							selected={selection.isActive('codeBlock')}	
+						>
+							<CodeSquare size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
 				title="Citat"
@@ -333,27 +362,66 @@
 			>
 				<MessageSquareQuote size="18" />
 			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
-				title="Horizontal linje"
-				selected={false}
-			>
-				<Minus size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={(event) => $editor.chain().focus().setMath().run()}
-				title="Matematik felt"
-				selected={selection.isActive('math')}
-			>
-				<Calculator size="18" />
-			</ToolbarButton>
-			<ToolbarButton
-				onClick={setImage}
-				title="Billede"
-				selected={false}
-			>
-				<Image size="18" />
-			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="List"><List size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
+							title="Sorteret liste"
+							selected={selection.isActive('orderedList')}
+						>
+							<ListOrdered size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleBulletList().run()}
+							title="Punktopstilling"
+							selected={selection.isActive('bulletList')}
+						>
+							<List size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleTaskList().run()}
+							title="Todo liste"
+							selected={selection.isActive('taskList')}
+						>
+							<ListTodo size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Insert"><BetweenHorizonalEnd size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
+							title="Horizontal linje"
+							selected={false}
+						>
+							<Minus size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setMath().run()}
+							title="Matematik felt"
+							selected={selection.isActive('math')}
+						>
+							<Calculator size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={setImage}
+							title="Billede"
+							selected={false}
+						>
+							<Image size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
 		</div>
 		<div class="absolute right-0 flex h-10 gap-2">
 			{#if $currentFile instanceof Assignment}
