@@ -2,15 +2,48 @@
 	import SlimSidebar from './SlimSidebar.svelte';
 	import WideSidebar from './WideSidebar.svelte';
 	let isExpanded = true;
+
+	function handleMouseMove(event) {
+		console.log(event);
+		const width = event.clientX - sidebar.getBoundingClientRect().left;
+		console.log(width, slimSidebarWidth);
+		if (width > 190) {
+			w = width + 'px';
+			isExpanded = true;
+		} else {
+			isExpanded = false;
+		}
+	}
+
+	$: if (isExpanded) {
+		if (w == slimSidebarWidth + 'px') w = '300px';
+	} else {
+		w = slimSidebarWidth + 'px';
+	}
+
+	let w = '300px';
+
+	let slimSidebarWidth = 54.4;
+	function handleMouseDown(event) {
+		window.addEventListener('mousemove', handleMouseMove);
+		window.addEventListener('mouseup', () => {
+			window.removeEventListener('mousemove', handleMouseMove);
+		});
+	}
+
+	let sidebar;
 </script>
 
-<nav class="sideBar relative">
+<nav class="sideBar relative" bind:this={sidebar} style:width={w}>
 	{#if isExpanded}
 		<WideSidebar bind:isExpanded />
 	{:else}
 		<SlimSidebar bind:isExpanded />
 	{/if}
-	<div class="absolute left-full h-full w-1 cursor-e-resize bg-black"></div>
+	<button
+		class="absolute left-full h-full w-1 cursor-e-resize bg-transparent"
+		on:mousedown={handleMouseDown}
+	></button>
 </nav>
 
 <style>
