@@ -41,10 +41,12 @@
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
-		console.log("NEEJ!", doc);
-		// doc.default.content[2] = null;
+		
+		// Remove metaSettings node from ydoc
+		doc.default.content.splice(1, 2);
+
 		editor = new Editor({
-			extensions: getExtensions(null, true),
+			extensions: getExtensions(null, false),
 			content: doc.default,
 			editable: false,
 		});
