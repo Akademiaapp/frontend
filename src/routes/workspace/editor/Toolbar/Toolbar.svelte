@@ -4,16 +4,42 @@
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Strikethrough, Subscript, Superscript, Underline, Redo2, Undo2, BetweenHorizonalEnd } from 'lucide-svelte';
+	import {
+		Image,
+		AlignCenter,
+		AlignJustify,
+		AlignLeft,
+		AlignRight,
+		Bold,
+		Brush,
+		Calculator,
+		Code,
+		CodeSquare,
+		Highlighter,
+		Italic,
+		Link,
+		List,
+		ListOrdered,
+		ListTodo,
+		MessageSquareQuote,
+		Minus,
+		Strikethrough,
+		Subscript,
+		Superscript,
+		Underline,
+		Redo2,
+		Undo2,
+		BetweenHorizonalEnd
+	} from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
-	import * as Select from "$lib/components/ui/select/index.js";
+	import * as Select from '$lib/components/ui/select/index.js';
 	import ToolbarButton from './ToolbarButton.svelte';
 	import Aflever from './Aflever.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import FontSelector from './FontSelector.svelte';
-	import * as Popover from "$lib/components/ui/popover/index.js";
+	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Label } from '@/components/ui/label';
 	import { Button } from '@/components/ui/button';
 
@@ -22,15 +48,21 @@
 	let selectedTextStyle = {
 		color: 'black',
 		fontSize: '12em',
-		fontFamily: 'NimbusSans-Regular',
+		fontFamily: 'NimbusSans-Regular'
 	};
 	let selectedType = 'p';
 
 	$: $editor?.on('selectionUpdate', () => {
 		selection = $editor;
-		console.log("attr: ", selection.getAttributes('textStyle'));
-		selectedType = $editor.getAttributes('heading').level ? 'h' + $editor.getAttributes('heading').level : 'p';
-		selectedTextStyle = selection.getAttributes('textStyle') as { color: string; fontSize: string, fontFamily: string };
+		console.log('attr: ', selection.getAttributes('textStyle'));
+		selectedType = $editor.getAttributes('heading').level
+			? 'h' + $editor.getAttributes('heading').level
+			: 'p';
+		selectedTextStyle = selection.getAttributes('textStyle') as {
+			color: string;
+			fontSize: string;
+			fontFamily: string;
+		};
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
@@ -46,63 +78,44 @@
 		}
 	}
 
-	function setLink () {
-		const previousUrl = $editor.getAttributes('link').href
-		const url = window.prompt('URL', previousUrl)
+	function setLink() {
+		const previousUrl = $editor.getAttributes('link').href;
+		const url = window.prompt('URL', previousUrl);
 
 		// cancelled
 		if (url === null) {
-			return
+			return;
 		}
 
 		// empty
 		if (url === '') {
-			$editor
-			.chain()
-			.focus()
-			.extendMarkRange('link')
-			.unsetLink()
-			.run()
+			$editor.chain().focus().extendMarkRange('link').unsetLink().run();
 
-			return
+			return;
 		}
 
 		// update link
-		$editor
-			.chain()
-			.focus()
-			.extendMarkRange('link')
-			.setLink({ href: url })
-			.run()
+		$editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
 	}
 
-	function setImage () {
-		const previousUrl = $editor.getAttributes('image').src
-		const url = window.prompt('URL', previousUrl)
+	function setImage() {
+		const previousUrl = $editor.getAttributes('image').src;
+		const url = window.prompt('URL', previousUrl);
 
 		// cancelled
 		if (url === null) {
-			return
+			return;
 		}
 
 		// empty
 		if (url === '') {
-			$editor
-			.chain()
-			.focus()
-			.setImage({ src: null })
-			.run()
+			$editor.chain().focus().setImage({ src: null }).run();
 
-			return
+			return;
 		}
 
 		// update link
-		$editor
-			.chain()
-			.focus()
-			.setImage({ src: url })
-			.run()
-	
+		$editor.chain().focus().setImage({ src: url }).run();
 	}
 
 	const text_types = [
@@ -128,7 +141,7 @@
 			label: 'Normal tekst',
 			type: 'paragraph',
 			value: 'p'
-		},
+		}
 	];
 
 	function handleTextTypeSelection(event) {
@@ -140,8 +153,7 @@
 	}
 
 	let selectedTypeObject = text_types.find((type) => type.value == selectedType);
-	$: selectedType, selectedTypeObject = text_types.find((type) => type.value == selectedType);
-
+	$: selectedType, (selectedTypeObject = text_types.find((type) => type.value == selectedType));
 
 	let isShareOpen = false;
 </script>
@@ -163,23 +175,34 @@
 			>
 				<Redo2 size="18" />
 			</ToolbarButton>
-			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 mx-1"/>
+			<div class="mx-1 h-8 border-r-[0.5px] border-gray-400 opacity-50" />
 			<div class="flex">
 				<FontSelector />
-				<Input type="number" class="h-8 w-[3.2rem] rounded-l-none border-l-0 pr-[2.5px] pl-2" placeholder="16" value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g,'') : '12'} on:change={(event) => $editor.chain().focus().setFontSize(event.target?.value + 'pt').run()}/>
+				<Input
+					type="number"
+					class="h-8 w-[3.2rem] rounded-l-none border-l-0 pl-2 pr-[2.5px]"
+					placeholder="16"
+					value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g, '') : '12'}
+					on:change={(event) =>
+						$editor
+							.chain()
+							.focus()
+							.setFontSize(event.target?.value + 'pt')
+							.run()}
+				/>
 			</div>
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleBold().run()}
 				title="Fed skrift"
 				selected={selection.isActive('bold')}
-				>
+			>
 				<Bold size="18" />
 			</ToolbarButton>
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleItalic().run()}
 				title="Korsiv"
 				selected={selection.isActive('italic')}
-				>
+			>
 				<Italic size="18" />
 			</ToolbarButton>
 			<ToolbarButton
@@ -205,9 +228,11 @@
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8"><AlignLeft size="18" /></Button>
+					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]"
+						><AlignLeft size="18" /></Button
+					>
 				</Popover.Trigger>
-				<Popover.Content class="h-12 p-2 w-fit">
+				<Popover.Content class="h-12 w-fit p-2">
 					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
@@ -240,21 +265,26 @@
 					</div>
 				</Popover.Content>
 			</Popover.Root>
-			<div class="border-l-[0.8px] border-gray-400 opacity-50 h-[2rem]" />
+			<div class="h-[2rem] border-l-[0.8px] border-gray-400 opacity-50" />
 			<div>
 				<input
 					type="color"
 					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
 					value={selectedTextStyle.color}
 					id="text-color"
-					class="absolute invisible"
+					class="invisible absolute"
 				/>
-				<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
-					><Brush size="18" /></label
+				<label
+					class="text-color"
+					for="text-color"
+					style={'color: ' + selection.getAttributes('textStyle').color}><Brush size="18" /></label
 				>
 			</div>
-			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
-				<Select.Trigger class="w-[7.8rem] h-8">
+			<Select.Root
+				portal={null}
+				selected={{ value: selectedType, label: selectedTypeObject.label }}
+			>
+				<Select.Trigger class="h-8 w-[7.8rem]">
 					<Select.Value />
 				</Select.Trigger>
 				<Select.Content class="!w-36">
@@ -288,9 +318,14 @@
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="List"><Superscript size="18" /></Button>
+					<Button
+						builders={[builder]}
+						variant="ghost"
+						class="visible h-8 p-[0.35rem] 2xl:hidden"
+						title="List"><Superscript size="18" /></Button
+					>
 				</Popover.Trigger>
-				<Popover.Content class="h-12 p-2 w-fit">
+				<Popover.Content class="h-12 w-fit p-2">
 					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
@@ -309,11 +344,7 @@
 					</div>
 				</Popover.Content>
 			</Popover.Root>
-			<ToolbarButton
-				onClick={setLink}
-				title="Link"
-				selected={selection.isActive('link')}
-			>
+			<ToolbarButton onClick={setLink} title="Link" selected={selection.isActive('link')}>
 				<Link size="18" />
 			</ToolbarButton>
 			<ToolbarButton
@@ -327,16 +358,21 @@
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
 				title="Kodeblok"
-				selected={selection.isActive('codeBlock')}	
+				selected={selection.isActive('codeBlock')}
 				class="hidden 2xl:flex"
 			>
 				<CodeSquare size="18" />
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="kode"><Code size="18" /></Button>
+					<Button
+						builders={[builder]}
+						variant="ghost"
+						class="visible h-8 p-[0.35rem] 2xl:hidden"
+						title="kode"><Code size="18" /></Button
+					>
 				</Popover.Trigger>
-				<Popover.Content class="h-12 p-2 w-fit">
+				<Popover.Content class="h-12 w-fit p-2">
 					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => nodeOrSelected().toggleCode().run()}
@@ -348,7 +384,7 @@
 						<ToolbarButton
 							onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
 							title="Kodeblok"
-							selected={selection.isActive('codeBlock')}	
+							selected={selection.isActive('codeBlock')}
 						>
 							<CodeSquare size="18" />
 						</ToolbarButton>
@@ -364,9 +400,11 @@
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Liste"><List size="18" /></Button>
+					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]" title="Liste"
+						><List size="18" /></Button
+					>
 				</Popover.Trigger>
-				<Popover.Content class="h-12 p-2 w-fit">
+				<Popover.Content class="h-12 w-fit p-2">
 					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
@@ -394,9 +432,11 @@
 			</Popover.Root>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Insert"><BetweenHorizonalEnd size="18" /></Button>
+					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]" title="Insert"
+						><BetweenHorizonalEnd size="18" /></Button
+					>
 				</Popover.Trigger>
-				<Popover.Content class="h-12 p-2 w-fit">
+				<Popover.Content class="h-12 w-fit p-2">
 					<div class="flex gap-1">
 						<ToolbarButton
 							onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
@@ -412,11 +452,7 @@
 						>
 							<Calculator size="18" />
 						</ToolbarButton>
-						<ToolbarButton
-							onClick={setImage}
-							title="Billede"
-							selected={false}
-						>
+						<ToolbarButton onClick={setImage} title="Billede" selected={false}>
 							<Image size="18" />
 						</ToolbarButton>
 					</div>
@@ -445,7 +481,7 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
-		height: 3rem;
+		height: 2.65em;
 		width: 100%;
 		display: flex;
 
