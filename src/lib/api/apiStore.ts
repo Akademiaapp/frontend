@@ -70,9 +70,11 @@ export class FileInfo {
 
 export class DocumentInfo extends FileInfo {
 	fileType = 'documents';
+	isNote: boolean;
 
 	constructor(info) {
 		super(info);
+		this.isNote = info.isNote;
 	}
 }
 

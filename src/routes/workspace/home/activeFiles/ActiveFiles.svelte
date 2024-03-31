@@ -10,6 +10,13 @@
 
 	console.log('assignments', $assignmentStore);
 	console.log('assignmentsAnswers', $assignmentAnswerStore);
+	console.log('documents', $documentStore);
+
+	let notes = $documentStore.filter((f) => f.isNote);
+	let documents = $documentStore.filter((f) => !f.isNote);
+
+	$: documents = $documentStore.filter((f) => !f.isNote);
+	$: notes = $documentStore.filter((f) => f.isNote);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -63,26 +70,38 @@
 		<File />
 		Dokumenter
 	</h2>
-	<div class="filelist mb-7">
-		{#each $documentStore as f}
-			<Document name={f.name} id={f.id} type="documents"></Document>
-		{/each}
-		{#if $documentStore.length == 0}
-			<p class="">Der er ingen dokumenter</p>
-		{/if}
+	<div class="mb-7">
+		<div class="filelist">
+			{#each documents as f}
+				<Document name={f.name} id={f.id} type="documents"></Document>
+			{/each}
+			{#if documents.length == 0}
+				<p class="">Der er ingen dokumenter</p>
+			{/if}
+		</div>
+		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Unavngivet dokument', true, false)}>
+			<Plus size="19" />
+			Opret dokument
+		</Button>
 	</div>
 	<h2>
 		<Notebook />
 		Noter
 	</h2>
-	<div class="filelist mb-7">
-		{#each $documentStore as f}
-			<Document name={f.name} id={f.id} type="documents"></Document>
-			<!-- !TODO Change above type to note -->
-		{/each}
-		{#if $documentStore.length == 0}
-			<p class="">Der er ingen noter</p>
-		{/if}
+	<div class="mb-7">
+		<div class="filelist">
+			{#each notes as f}
+				<Document name={f.name} id={f.id} type="documents"></Document>
+				<!-- !TODO Change above type to note -->
+			{/each}
+			{#if notes.length == 0}
+				<p class="">Der er ingen noter</p>
+			{/if}
+		</div>
+		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Unavngivet note', true, true)}>
+			<Plus size="19" />
+			Opret note
+		</Button>
 	</div>
 </div>
 
