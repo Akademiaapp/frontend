@@ -17,12 +17,24 @@
 	}
 
 	$: if (isExpanded) {
-		if (w == slimSidebarWidth + 'px') w = '300px';
+		if (w == slimSidebarWidth + 'px') {
+			anim();
+			w = '300px';
+		}
 	} else {
+		anim();
 		w = slimSidebarWidth + 'px';
 	}
 
 	let w = '300px';
+
+	function anim() {
+		if (!sidebar) return;
+		sidebar.style.transition = 'width 0.3s';
+		setTimeout(() => {
+			sidebar.style.transition = '';
+		}, 300);
+	}
 
 	const maxWidth = 400;
 	const minWidth = 190;
