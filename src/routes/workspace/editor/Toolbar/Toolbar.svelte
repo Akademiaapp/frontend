@@ -1,28 +1,38 @@
 <script lang="ts">
-	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore.ts';
+	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore';
 	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
-	import { themeVariant } from '../../../store';
 
 	import ShareDocument from './ShareDocument.svelte';
-	import { Brush } from 'lucide-svelte';
+	import { Image, AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Brush, Calculator, Code, CodeSquare, Highlighter, Italic, Link, List, ListOrdered, ListTodo, MessageSquareQuote, Minus, Strikethrough, Subscript, Superscript, Underline, Redo2, Undo2, BetweenHorizonalEnd } from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { Assignment, currentFile } from '@/api/apiStore';
+	import * as Select from "$lib/components/ui/select/index.js";
+	import ToolbarButton from './ToolbarButton.svelte';
 	import Aflever from './Aflever.svelte';
+	import Input from '@/components/ui/input/input.svelte';
+	import FontSelector from './FontSelector.svelte';
+	import * as Popover from "$lib/components/ui/popover/index.js";
+	import { Label } from '@/components/ui/label';
+	import { Button } from '@/components/ui/button';
 
 	let selection = $editor;
 
-	export let checked = $themeVariant == 'dark';
+	let selectedTextStyle = {
+		color: 'black',
+		fontSize: '12em',
+		fontFamily: 'NimbusSans-Regular',
+	};
+	let selectedType = 'p';
 
 	$: $editor?.on('selectionUpdate', () => {
 		selection = $editor;
+		console.log("attr: ", selection.getAttributes('textStyle'));
+		selectedType = $editor.getAttributes('heading').level ? 'h' + $editor.getAttributes('heading').level : 'p';
+		selectedTextStyle = selection.getAttributes('textStyle') as { color: string; fontSize: string, fontFamily: string };
 	});
 	$: $editor?.on('update', () => (selection = $editor));
-
-	$: themeVariant.set(checked ? 'dark' : 'light');
-
-	let textcolor: string;
 
 	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
 
@@ -36,58 +46,384 @@
 		}
 	}
 
+	function setLink () {
+		const previousUrl = $editor.getAttributes('link').href
+		const url = window.prompt('URL', previousUrl)
+
+		// cancelled
+		if (url === null) {
+			return
+		}
+
+		// empty
+		if (url === '') {
+			$editor
+			.chain()
+			.focus()
+			.extendMarkRange('link')
+			.unsetLink()
+			.run()
+
+			return
+		}
+
+		// update link
+		$editor
+			.chain()
+			.focus()
+			.extendMarkRange('link')
+			.setLink({ href: url })
+			.run()
+	}
+
+	function setImage () {
+		const previousUrl = $editor.getAttributes('image').src
+		const url = window.prompt('URL', previousUrl)
+
+		// cancelled
+		if (url === null) {
+			return
+		}
+
+		// empty
+		if (url === '') {
+			$editor
+			.chain()
+			.focus()
+			.setImage({ src: null })
+			.run()
+
+			return
+		}
+
+		// update link
+		$editor
+			.chain()
+			.focus()
+			.setImage({ src: url })
+			.run()
+	
+	}
+
+	const text_types = [
+		{
+			label: 'Overskrift 1',
+			type: 'heading',
+			value: 'h1',
+			level: 1
+		},
+		{
+			label: 'Overskrift 2',
+			type: 'heading',
+			value: 'h2',
+			level: 2
+		},
+		{
+			label: 'Overskrift 3',
+			type: 'heading',
+			value: 'h3',
+			level: 3
+		},
+		{
+			label: 'Normal tekst',
+			type: 'paragraph',
+			value: 'p'
+		},
+	];
+
+	function handleTextTypeSelection(event) {
+		if (event.type == 'heading') {
+			$editor.chain().focus().setHeading({ level: event.level }).run();
+		} else {
+			$editor.chain().focus().setParagraph().run();
+		}
+	}
+
+	let selectedTypeObject = text_types.find((type) => type.value == selectedType);
+	$: selectedType, selectedTypeObject = text_types.find((type) => type.value == selectedType);
+
+
 	let isShareOpen = false;
 </script>
 
-{#if $editor}
+{#if $editor && selection && selectedTextStyle && selectedTypeObject}
 	<div id="toolbar">
-		<!-- <div id="filepath">
-			<div class="color"></div>
-			<p class="filename">{activeFile}</p>
-		</div> -->
-		<!-- <div class="splitter"></div> -->
 		<div id="style-controls" class="br-2 bar frontground">
-			<button
-				on:click={() => $editor.chain().focus().toggleHeading({ level: 1 }).run()}
-				class:active={selection?.isActive('heading', { level: 1 })}
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().undo().run()}
+				title="Fortryd"
+				selected={false}
 			>
-				H1
-			</button>
-			<button
-				on:click={() => $editor.chain().focus().toggleHeading({ level: 2 }).run()}
-				class:active={selection?.isActive('heading', { level: 2 })}
+				<Undo2 size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().redo().run()}
+				title="Gentag"
+				selected={false}
 			>
-				H2
-			</button>
-			<button
-				on:click={() => $editor.chain().focus().setParagraph().run()}
-				class:active={selection?.isActive('paragraph')}
+				<Redo2 size="18" />
+			</ToolbarButton>
+			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 mx-1"/>
+			<div class="flex">
+				<FontSelector />
+				<Input type="number" class="h-8 w-[3.2rem] rounded-l-none border-l-0 pr-[2.5px] pl-2" placeholder="16" value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g,'') : '12'} on:change={(event) => $editor.chain().focus().setFontSize(event.target?.value + 'pt').run()}/>
+			</div>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBold().run()}
+				title="Fed skrift"
+				selected={selection.isActive('bold')}
+				>
+				<Bold size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleItalic().run()}
+				title="Korsiv"
+				selected={selection.isActive('italic')}
+				>
+				<Italic size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleUnderline().run()}
+				title="Understreget"
+				selected={selection.isActive('underline')}
 			>
-				P
-			</button>
-			<div class="smal-splitter"></div>
-			<div class="text-color h-full">
+				<Underline size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleStrike().run()}
+				title="Gennemstreget"
+				selected={selection.isActive('strike')}
+			>
+				<Strikethrough size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => $editor.chain().focus().toggleHighlight().run()}
+				title="Highlight"
+				selected={selection.isActive('highlight')}
+			>
+				<Highlighter size="18" />
+			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8"><AlignLeft size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('left').run()}
+							title="Venstrejusteret"
+							selected={selection.isActive({ textAlign: 'left' })}
+						>
+							<AlignLeft size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('center').run()}
+							title="Centreret"
+							selected={selection.isActive({ textAlign: 'center' })}
+						>
+							<AlignCenter size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('right').run()}
+							title="Højrejusteret"
+							selected={selection.isActive({ textAlign: 'right' })}
+						>
+							<AlignRight size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setTextAlign('justify').run()}
+							title="Lige margener"
+							selected={selection.isActive({ textAlign: 'justify' })}
+						>
+							<AlignJustify size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<div class="border-l-[0.8px] border-gray-400 opacity-50 h-[2rem]" />
+			<div>
 				<input
 					type="color"
 					on:input={(event) => $editor.chain().focus().setColor(event.target?.value).run()}
-					value={$editor.getAttributes('textStyle').color}
+					value={selectedTextStyle.color}
 					id="text-color"
+					class="absolute invisible"
 				/>
-				<label for="text-color" style={'color: ' + $editor.getAttributes('textStyle').color}
-					><Brush size="15"></Brush></label
+				<label class="text-color" for="text-color" style={'color: ' + selection.getAttributes('textStyle').color}
+					><Brush size="18" /></label
 				>
 			</div>
-			<button on:click={(event) => nodeOrSelected().toggleBold().run()} class="flex items-center"
-				><span class="material-symbols-rounded"> format_bold </span></button
+			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
+				<Select.Trigger class="w-[7.8rem] h-8">
+					<Select.Value />
+				</Select.Trigger>
+				<Select.Content class="!w-36">
+					{#each text_types as type}
+						<Select.Item
+							value={type.value}
+							label={type.label}
+							on:click={() => handleTextTypeSelection(type)}
+						>
+							{type.label}
+						</Select.Item>
+					{/each}
+				</Select.Content>
+				<Select.Input name="selectedTextType" />
+			</Select.Root>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+				title="Eksponent"
+				selected={selection.isActive('superscript')}
+				class="hidden 2xl:flex"
 			>
-			<div class="spacer"></div>
-
-			<div class="darkmode_toggle">
-				<input type="checkbox" id="mode_toggle" bind:checked />
-				<label for="mode_toggle"></label>
-			</div>
+				<Superscript size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+				title="Indeks"
+				selected={selection.isActive('subscript')}
+				class="hidden 2xl:flex"
+			>
+				<Subscript size="18" />
+			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="List"><Superscript size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
+							title="Eksponent"
+							selected={selection.isActive('superscript')}
+						>
+							<Superscript size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleSubscript().run()}
+							title="Indeks"
+							selected={selection.isActive('subscript')}
+						>
+							<Subscript size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<ToolbarButton
+				onClick={setLink}
+				title="Link"
+				selected={selection.isActive('link')}
+			>
+				<Link size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCode().run()}
+				title="Kode"
+				selected={selection.isActive('code')}
+				class="hidden 2xl:flex"
+			>
+				<Code size="18" />
+			</ToolbarButton>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+				title="Kodeblok"
+				selected={selection.isActive('codeBlock')}	
+				class="hidden 2xl:flex"
+			>
+				<CodeSquare size="18" />
+			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="kode"><Code size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleCode().run()}
+							title="Kode"
+							selected={selection.isActive('code')}
+						>
+							<Code size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleCodeBlock().run()}
+							title="Kodeblok"
+							selected={selection.isActive('codeBlock')}	
+						>
+							<CodeSquare size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<ToolbarButton
+				onClick={(event) => nodeOrSelected().toggleBlockquote().run()}
+				title="Citat"
+				selected={selection.isActive('blockquote')}
+			>
+				<MessageSquareQuote size="18" />
+			</ToolbarButton>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Liste"><List size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleOrderedList().run()}
+							title="Sorteret liste"
+							selected={selection.isActive('orderedList')}
+						>
+							<ListOrdered size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleBulletList().run()}
+							title="Punktopstilling"
+							selected={selection.isActive('bulletList')}
+						>
+							<List size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => nodeOrSelected().toggleTaskList().run()}
+							title="Todo liste"
+							selected={selection.isActive('taskList')}
+						>
+							<ListTodo size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
+			<Popover.Root portal={null}>
+				<Popover.Trigger asChild let:builder>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Insert"><BetweenHorizonalEnd size="18" /></Button>
+				</Popover.Trigger>
+				<Popover.Content class="h-12 p-2 w-fit">
+					<div class="flex gap-1">
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setHorizontalRule().run()}
+							title="Horizontal linje"
+							selected={false}
+						>
+							<Minus size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={(event) => $editor.chain().focus().setMath().run()}
+							title="Matematik felt"
+							selected={selection.isActive('math')}
+						>
+							<Calculator size="18" />
+						</ToolbarButton>
+						<ToolbarButton
+							onClick={setImage}
+							title="Billede"
+							selected={false}
+						>
+							<Image size="18" />
+						</ToolbarButton>
+					</div>
+				</Popover.Content>
+			</Popover.Root>
 		</div>
-		<div class="absolute right-0 flex h-full gap-2">
+		<div class="absolute right-0 flex h-10 gap-2">
 			{#if $currentFile instanceof Assignment}
 				{#if isAssigned}
 					<SeeAnswers />
@@ -109,34 +445,12 @@
 		position: sticky;
 		top: var(--pad);
 		pointer-events: auto;
+		height: 3rem;
 		width: 100%;
 		display: flex;
 
 		// align-items: center;
 		justify-content: center;
-	}
-
-	.material-symbols-rounded {
-		height: 1rem;
-		line-height: 1rem;
-		// width: 1rem;
-		margin: 0 -0.3rem;
-		// font-size: 1.3em;
-
-		// line-height: 1;
-		// text-size-adjust: 100%;
-	}
-
-	button {
-		span {
-			// text-align: center;
-			// vertical-align: middle;
-			font-weight: 600;
-			text-size-adjust: 100%;
-			line-height: 1.5;
-			box-sizing: border-box;
-			overflow: hidden;
-		}
 	}
 
 	.bar {
@@ -152,119 +466,19 @@
 
 		border-bottom: solid var(--color-overlay-1) 0.05rem;
 	}
-
-	.left {
-		position: absolute;
-		right: 0;
-		height: -webkit-fill-available;
-		// height: 100%;
-	}
-
-	.darkmode_toggle label {
-		filter: invert(var(--invert-1));
-		color: var(--color-text-2);
-		cursor: pointer;
-		display: inline-block;
-		position: relative;
-		transition: all ease-in-out 0.5s;
-		width: 25px;
-		height: 25px;
-	}
-
-	.darkmode_toggle {
-		height: 25px;
-
-		input[type='checkbox'] {
-			display: none;
-		}
-
-		input[type='checkbox'] {
-			~ label {
-				background-image: url('/icons/light_mode.svg');
-				background-size: 15px;
-
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-
-			&:checked ~ label {
-				background-image: url('/icons/dark_mode.svg');
-			}
-		}
-	}
-
-	.color {
-		height: 0.7rem;
-		width: 0.7rem;
-		border-radius: 100%;
-		background-color: #278aff;
-	}
-
-	#filepath {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.filename {
-		color: var(--color-text-2);
-	}
-
-	.splitter {
-		width: 0.06rem;
-		background-color: var(--color-overlay-1);
-		height: 100%;
-	}
-
-	.smal-splitter {
-		width: 0.1rem;
-		background-color: var(--color-overlay-1);
-		margin: 0rem 0.5rem;
-		height: 1.5rem;
-	}
-
-	p {
-		margin: 0;
-	}
-
-	#style-controls {
-		min-width: 400px;
-		display: flex;
-		gap: 0.2rem;
-		align-items: center;
-
-		button,
-		label {
-			border: none;
-			background-color: transparent;
-
-			border-radius: 0.2rem;
-			padding: 0.15rem 0.5rem;
-			height: 100%;
-
-			// transition: background-color 100ms;
-			&:hover {
-				background-color: var(--color-overlay-0);
-			}
-			&.active {
-				background-color: var(--color-overlay-1);
-			}
-		}
-	}
-
 	.text-color {
-		input {
-			visibility: hidden;
-			position: absolute;
-		}
-		label {
-			p {
-				color: var(--color-text-1);
-			}
-			// font-weight: bold;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.35rem !important;
+		transition: background-color 0.2s;
+		height: inherit;
+		border-radius: 0.2rem;
+	}
+
+	.text-color:hover {
+		background-color: var(--color-overlay-0);
 	}
 </style>

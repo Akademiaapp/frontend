@@ -2,7 +2,6 @@ import { Blockquote } from '@tiptap/extension-blockquote';
 import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import { Code } from '@tiptap/extension-code';
-import { CodeBlock } from '@tiptap/extension-code-block';
 import { Dropcursor } from '@tiptap/extension-dropcursor';
 import { Gapcursor } from '@tiptap/extension-gapcursor';
 import { HardBreak } from '@tiptap/extension-hard-break';
@@ -21,15 +20,24 @@ import Superscript from '@tiptap/extension-superscript';
 import Image from '@tiptap/extension-image';
 import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import {common, createLowlight} from 'lowlight'
+import TextAlign from '@tiptap/extension-text-align';
+import Highlight from '@tiptap/extension-highlight';
+import FontFamily from '@tiptap/extension-font-family'
 
-import Mathematics from '@tiptap-pro/extension-mathematics';
+const lowlight = createLowlight(common)
 
 export const EditorExtensions = [
 	Blockquote,
 	Bold,
 	BulletList,
 	Code,
-	CodeBlock,
+	CodeBlockLowlight.configure({
+		lowlight: lowlight,
+	}),
 	Dropcursor,
 	Gapcursor,
 	HardBreak,
@@ -48,5 +56,11 @@ export const EditorExtensions = [
 	Image,
 	TextStyle,
 	Color,
-	Mathematics
+	Underline,
+	Link,
+	TextAlign.configure({
+		types: ['paragraph', 'heading'],
+	}),
+	Highlight,
+	FontFamily
 ];
