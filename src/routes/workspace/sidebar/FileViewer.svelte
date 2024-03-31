@@ -15,7 +15,7 @@
 	} from '@/api/apiStore';
 	import FolderItem from './FolderItem.svelte';
 	import Document from '../home/activeFiles/Document.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import Category from './Category.svelte';
 
 	const testFiles = [
@@ -92,13 +92,15 @@
 
 	function onscroll(event) {
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
+		console.log(scrollHeight, scrollTop, clientHeight, scrollHeight - scrollTop - clientHeight);
 		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
 	}
 
 	let filesElem;
 
-	onMount(() => {
-		onscroll({ target: document.querySelector('.files') });
+	documentStore.subscribe(async (value) => {
+		await tick();
+		onscroll({ target: filesElem });
 	});
 </script>
 

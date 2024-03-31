@@ -73,12 +73,13 @@ class ApiHandler {
 		return this.callApi('/documents');
 	};
 
-	createDocument = (documentName: string) => {
+	createDocument = (documentName: string, isNote: boolean = false) => {
 		return this.callApi(
 			'/documents',
 			{
 				name: documentName,
-				user_id: get(keycloakUserInfo).sub
+				user_id: get(keycloakUserInfo).sub,
+				isNote: isNote
 			},
 			'POST'
 		);

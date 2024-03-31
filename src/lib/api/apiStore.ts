@@ -141,6 +141,11 @@ export class AssignmentAnswer extends FileInfo {
 		this.due_date = info.due_date;
 		this.answer_id = info.answer_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
+		this.store = assignmentAnswerStore;
+	}
+
+	async getMembers() {
+		return [];
 	}
 
 	rename(newName) {

@@ -3,11 +3,26 @@
 	import { BookCopy, BookUp } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { Assignment, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
+	import { get } from 'svelte/store';
 
 	let open = false;
 
-	async function handIn() {
+	$: console.log($currentFile.id);
+
+	async function submit() {
+		// $currentFile.updateInfo({ status: 'SUBMITTED' });
+		if ($currentFile instanceof AssignmentAnswer) {
+			$currentFile.progress = AssignmentProgress.SUBMITTED;
+
+			$currentFile.store.update((assignmentAnswers) =>
+				assignmentAnswers.map((a) =>
+					a.answer_id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
+				)
+			);
+			console.log(get($currentFile.store));
+			console.log($currentFile.id);
+		}
 		open = false;
 	}
 </script>
@@ -28,7 +43,7 @@
 			<div class="flex-1"></div>
 			<div class="flex w-full items-end gap-2">
 				<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Nej</Button>
-				<Button class="flex-1" on:click={handIn}>Ja, aflever</Button>
+				<Button class="flex-1" on:click={submit}>Ja, aflever</Button>
 			</div>
 		</Dialog.Header>
 	</Dialog.Content>
