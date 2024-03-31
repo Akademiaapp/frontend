@@ -91,8 +91,7 @@
 	<div class="mb-7">
 		<div class="filelist">
 			{#each notes as f}
-				<Document name={f.name} id={f.id} type="documents"></Document>
-				<!-- !TODO Change above type to note -->
+				<Document name={f.name} id={f.id} type="notes"></Document>
 			{/each}
 			{#if notes.length == 0}
 				<p class="">Der er ingen noter</p>

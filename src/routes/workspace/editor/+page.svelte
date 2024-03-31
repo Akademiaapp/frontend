@@ -19,24 +19,25 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
+	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
 	if (!id) {
 		goto('/workspace/home');
 	}
 
 	if (!$currentFile) {
-		api.callApi(`/${documentType}/${id}`, null, 'GET').then((file) => {
+		api.callApi(`/${apiType}/${id}`, null, 'GET').then((file) => {
 			if (!file) return;
 			file.json().then((fileContent) => {
 				console.log('hey!', fileContent);
 				console.log('What??', id);
 				console.log('What????', documentType);
 
-				if (documentType === 'documents') {
+				if (apiType === 'documents') {
 					currentFile.set(new DocumentInfo(fileContent));
-				} else if (documentType === 'assignmentAnswers') {
+				} else if (apiType === 'assignmentAnswers') {
 					currentFile.set(new AssignmentAnswer(fileContent));
-				} else if (documentType === 'assignments') {
+				} else if (apiType === 'assignments') {
 					currentFile.set(new Assignment(fileContent));
 				}
 			});
@@ -50,7 +51,7 @@
 
 {#if $currentFile}
 	<div class="editor">
-		<Toolbar />
+		<Toolbar isNote={documentType === 'notes'} />
 		<FileEditor />
 	</div>
 {/if}

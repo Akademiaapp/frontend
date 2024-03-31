@@ -40,7 +40,6 @@
 	import Input from '@/components/ui/input/input.svelte';
 	import FontSelector from './FontSelector.svelte';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-	import { Label } from '@/components/ui/label';
 	import { Button } from '@/components/ui/button';
 
 	let selection = $editor;
@@ -67,6 +66,8 @@
 	$: $editor?.on('update', () => (selection = $editor));
 
 	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
+
+	export let isNote = false;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -471,7 +472,7 @@
 				<Aflever />
 			{/if}
 			<ShareDocument bind:open={isShareOpen} showTrigger={$currentFile instanceof DocumentInfo} />
-			<MoreActions bind:isShareOpen></MoreActions>
+			<MoreActions bind:isShareOpen bind:isNote></MoreActions>
 		</div>
 	</div>
 {/if}

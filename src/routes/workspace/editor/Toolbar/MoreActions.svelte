@@ -2,12 +2,13 @@
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
-	import { MoreHorizontal, Trash2, LogOut, Download, Printer, Users } from 'lucide-svelte';
+	import { MoreHorizontal, Trash2, LogOut, Download, Printer, Users, NotebookPen, File } from 'lucide-svelte';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	import { keycloakState } from '../../../../authStore';
 	import { get } from 'svelte/store';
 	let isDeleteOpen = false;
+	export let isNote = false;
 
 	function deleteActiveFile() {
 		console.log($currentFile);
@@ -30,6 +31,8 @@
 		// 	css: ['/css/styles.css', '/css/tiptap-styles.scss']
 		// });
 	}
+
+	console.log('isNote', isNote);
 
 	export let isShareOpen;
 </script>
@@ -70,6 +73,21 @@
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 		<DropdownMenu.Group>
+			{#if isNote}
+				<DropdownMenu.Item on:click={() => {
+					console.log('convert to document');
+				}}>
+					<File size="15" stroke-width="1.5" />
+					Konvertér til dokument
+				</DropdownMenu.Item>
+			{:else}
+				<DropdownMenu.Item on:click={() => {
+					console.log('convert to note');
+				}}>
+					<NotebookPen size="15" stroke-width="1.5" />
+					Konvertér til note
+				</DropdownMenu.Item>
+			{/if}
 			<DropdownMenu.Item on:click={() => (isDeleteOpen = true)}>
 				<Trash2 size="15" strokeWidth="1.5"></Trash2>
 				Slet

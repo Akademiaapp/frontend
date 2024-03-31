@@ -199,7 +199,7 @@ export const documentStore = writable<DocumentInfo[]>([]);
 export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
 
-export const currentFile = writable<FileInfo>(null);
+export const currentFile = writable<FileInfo | Assignment | AssignmentAnswer>(null);
 
 interface FilePermission {
 	id: string;
