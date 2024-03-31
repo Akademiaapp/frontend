@@ -14,6 +14,7 @@
 		// $currentFile.updateInfo({ status: 'SUBMITTED' });
 		if ($currentFile instanceof AssignmentAnswer) {
 			$currentFile.progress = AssignmentProgress.SUBMITTED;
+			$currentFile.updateInfo({ status: 'SUBMITTED' });
 
 			$currentFile.store.update((assignmentAnswers) =>
 				assignmentAnswers.map((a) =>
