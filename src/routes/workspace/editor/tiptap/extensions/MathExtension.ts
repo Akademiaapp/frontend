@@ -51,5 +51,18 @@ export const MathExtension = Node.create({
 				default: ''
 			}
 		};
+	},
+
+	addCommands() {
+		return {
+			setMath: () => ({ commands }) => {
+				commands.insertContent({
+					type: this.name,
+				});
+				setTimeout(() => {
+					this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
+				}, 1);
+			}
+		};
 	}
 });
