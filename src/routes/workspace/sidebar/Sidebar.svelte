@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { clamp } from '@/utils/mathUtils';
 	import SlimSidebar from './SlimSidebar.svelte';
 	import WideSidebar from './WideSidebar.svelte';
 	let isExpanded = true;
@@ -7,8 +8,8 @@
 		console.log(event);
 		const width = event.clientX - sidebar.getBoundingClientRect().left;
 		console.log(width, slimSidebarWidth);
-		if (width > 190) {
-			w = width + 'px';
+		if (width > 150) {
+			w = clamp(width, minWidth, maxWidth) + 'px';
 			isExpanded = true;
 		} else {
 			isExpanded = false;
@@ -22,6 +23,9 @@
 	}
 
 	let w = '300px';
+
+	const maxWidth = 400;
+	const minWidth = 190;
 
 	let slimSidebarWidth = 54.4;
 	function handleMouseDown(event) {
