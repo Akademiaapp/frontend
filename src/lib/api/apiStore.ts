@@ -252,8 +252,8 @@ export async function updateAssignments() {
 	console.log('updated assignments');
 }
 
-export async function newDocument(name: string, open: boolean = true) {
-	const response = await api.createDocument(name);
+export async function newDocument(name: string, open: boolean = true, isNote = false) {
+	const response = await api.createDocument(name, isNote);
 	if (!response) {
 		throw new Error('Could not create document due to no response');
 	}
