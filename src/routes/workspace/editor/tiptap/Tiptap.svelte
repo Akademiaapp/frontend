@@ -84,31 +84,31 @@
 								}
 							}
 
-							if (transaction.isGeneric) {
-								const steps = transaction.steps;
+							// if (transaction.isGeneric) {
+							// 	const steps = transaction.steps;
 
-								if (steps.length != 1) {
-									return;
-								}
-								const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
-								if (!typedLetter) return false;
+							// 	if (steps.length != 1) {
+							// 		return;
+							// 	}
+							// 	const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
+							// 	if (!typedLetter) return false;
 
-								const regex = /^[a-z]$/;
+							// 	const regex = /^[a-z]$/;
 
-								if (!regex.test(typedLetter)) return;
+							// 	if (!regex.test(typedLetter)) return;
 
-								if (typedLetter === undefined) return;
+							// 	if (typedLetter === undefined) return;
 
-								const letterBefore = transaction.doc.textBetween(
-									transaction.selection.anchor - 3,
-									transaction.selection.anchor - 1
-								);
+							// 	const letterBefore = transaction.doc.textBetween(
+							// 		transaction.selection.anchor - 3,
+							// 		transaction.selection.anchor - 1
+							// 	);
 
-								if (letterBefore == '' || letterBefore[0] == '.') {
-									$editor.commands.undo();
-									$editor.commands.insertContent(typedLetter.toUpperCase());
-								}
-							}
+							// 	if (letterBefore == '' || letterBefore[0] == '.') {
+							// 		$editor.commands.undo();
+							// 		$editor.commands.insertContent(typedLetter.toUpperCase());
+							// 	}
+							// }
 						}
 					})
 				);
