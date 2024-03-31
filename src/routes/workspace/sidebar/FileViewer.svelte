@@ -142,7 +142,6 @@
 		gap: 0.2rem;
 		font-size: 1.05rem;
 		overflow-y: auto;
-		width: 300px;
 	}
 	:global(.sidebar-scroll) {
 		&::-webkit-scrollbar {

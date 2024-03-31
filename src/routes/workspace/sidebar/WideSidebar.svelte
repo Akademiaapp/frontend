@@ -50,7 +50,6 @@
 
 <style lang="scss">
 	.cont {
-		min-width: 250px;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;

@@ -10,7 +10,7 @@
 	export let isExpanded;
 </script>
 
-<div class="flex h-full flex-col justify-between">
+<div class="flex h-full flex-col justify-between self-start">
 	<div class="flex flex-col gap-4">
 		<div class="frontground br-2" id="quick-actions">
 			<QuickAction
