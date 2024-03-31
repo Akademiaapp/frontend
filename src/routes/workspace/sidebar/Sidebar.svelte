@@ -4,12 +4,13 @@
 	let isExpanded = true;
 </script>
 
-<nav class="sideBar">
+<nav class="sideBar relative">
 	{#if isExpanded}
 		<WideSidebar bind:isExpanded />
 	{:else}
 		<SlimSidebar bind:isExpanded />
 	{/if}
+	<div class="absolute left-full h-full w-1 cursor-e-resize bg-black"></div>
 </nav>
 
 <style>
