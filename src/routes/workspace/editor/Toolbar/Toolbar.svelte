@@ -160,6 +160,7 @@
 
 {#if $editor && selection && selectedTextStyle && selectedTypeObject}
 	<div id="toolbar">
+		<div class="flex-[100px]"></div>
 		<div id="style-controls" class="br-2 bar frontground">
 			<ToolbarButton
 				onClick={(event) => $editor.chain().focus().undo().run()}
@@ -459,7 +460,7 @@
 				</Popover.Content>
 			</Popover.Root>
 		</div>
-		<div class="absolute right-0 flex h-10 gap-2">
+		<div class="flex h-full flex-[100px] justify-end gap-2 pl-4">
 			{#if $currentFile instanceof Assignment}
 				{#if isAssigned}
 					<SeeAnswers />
@@ -486,7 +487,7 @@
 		display: flex;
 
 		// align-items: center;
-		justify-content: center;
+		justify-content: space-between;
 	}
 
 	.bar {
