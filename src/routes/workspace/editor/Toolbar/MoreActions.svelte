@@ -32,8 +32,6 @@
 		// });
 	}
 
-	console.log('isNote', isNote);
-
 	export let isShareOpen;
 </script>
 

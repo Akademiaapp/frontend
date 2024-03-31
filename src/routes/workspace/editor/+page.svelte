@@ -19,6 +19,9 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
+	let isNote = documentType === 'notes';
+	$: isNote = $currentFile instanceof DocumentInfo && $currentFile.isNote;
+
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
 	if (!id) {
@@ -51,8 +54,8 @@
 
 {#if $currentFile}
 	<div class="editor">
-		<Toolbar isNote={documentType === 'notes'} />
-		<FileEditor />
+		<Toolbar bind:isNote />
+		<FileEditor bind:isNote />
 	</div>
 {/if}
 
