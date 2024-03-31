@@ -17,7 +17,7 @@
 
 			$currentFile.store.update((assignmentAnswers) =>
 				assignmentAnswers.map((a) =>
-					a.answer_id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
+					a.id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
 				)
 			);
 			console.log(get($currentFile.store));

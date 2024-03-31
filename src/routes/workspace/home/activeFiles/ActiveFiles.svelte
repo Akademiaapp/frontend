@@ -9,6 +9,7 @@
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
 	console.log('assignments', $assignmentStore);
+	console.log('assignmentsAnswers', $assignmentAnswerStore);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -25,7 +26,7 @@
 				<AssignmentAnswer
 					name={assignment.name}
 					progress={assignment.progress}
-					id={assignment.answer_id}
+					id={assignment.id}
 					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
 						year: 'numeric',
 						month: 'long',
