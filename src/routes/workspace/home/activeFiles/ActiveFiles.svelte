@@ -9,6 +9,7 @@
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
 	console.log('assignments', $assignmentStore);
+	console.log('assignmentsAnswers', $assignmentAnswerStore);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
