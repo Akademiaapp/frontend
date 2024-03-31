@@ -112,7 +112,7 @@
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
 		<SideBarElem active={false}>
-			<button on:click={() => newDocument('Uden title')} class="reset no-bg size-full">
+			<button on:click={() => newDocument('Uden titel')} class="reset no-bg size-full">
 				<span class="material-symbols-rounded icon-w-2">add</span>
 				<span>Ny fil</span>
 			</button>
