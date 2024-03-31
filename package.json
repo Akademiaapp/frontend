@@ -42,6 +42,7 @@
 	"dependencies": {
 		"@cortex-js/compute-engine": "^0.24.1",
 		"@hocuspocus/provider": "^2.11.3",
+		"@hocuspocus/transformer": "^2.11.3",
 		"@internationalized/date": "^3.5.2",
 		"@mdi/js": "^7.4.47",
 		"@sjmc11/tourguidejs": "^0.0.16",
