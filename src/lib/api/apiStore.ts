@@ -123,7 +123,7 @@ export class Assignment extends FileInfo {
 
 export class AssignmentAnswer extends FileInfo {
 	progress: AssignmentProgress;
-	answer_id: string;
+	assignment_id: string;
 	due_date: string;
 	assignment_answers;
 	asigned_groups_ids: string[];
@@ -139,7 +139,7 @@ export class AssignmentAnswer extends FileInfo {
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
 		this.due_date = info.due_date;
-		this.answer_id = info.answer_id;
+		this.assignment_id = info.assignment_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 		this.store = assignmentAnswerStore;
 	}
@@ -148,15 +148,15 @@ export class AssignmentAnswer extends FileInfo {
 		return [];
 	}
 
-	rename(newName) {
-		assignmentAnswerStore.update((assignments) => {
-			const index = assignments.findIndex((assignment) => assignment.id === this.id);
-			if (index == -1) return assignments;
-			assignments[index].name = newName;
-			return assignments;
-		});
-		return super.rename(newName);
-	}
+	// rename(newName) {
+	// 	assignmentAnswerStore.update((assignments) => {
+	// 		const index = assignments.findIndex((assignment) => assignment.id === this.id);
+	// 		if (index == -1) return assignments;
+	// 		assignments[index].name = newName;
+	// 		return assignments;
+	// 	});
+	// 	return super.rename(newName);
+	// }
 }
 
 export class Folder {
@@ -252,8 +252,8 @@ export async function updateAssignments() {
 	console.log('updated assignments');
 }
 
-export async function newDocument(name: string, open: boolean = true) {
-	const response = await api.createDocument(name);
+export async function newDocument(name: string, open: boolean = true, isNote = false) {
+	const response = await api.createDocument(name, isNote);
 	if (!response) {
 		throw new Error('Could not create document due to no response');
 	}
