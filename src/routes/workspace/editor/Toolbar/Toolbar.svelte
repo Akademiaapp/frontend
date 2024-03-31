@@ -53,7 +53,6 @@
 
 	$: $editor?.on('selectionUpdate', () => {
 		selection = $editor;
-		console.log('attr: ', selection.getAttributes('textStyle'));
 		selectedType = $editor.getAttributes('heading').level
 			? 'h' + $editor.getAttributes('heading').level
 			: 'p';
