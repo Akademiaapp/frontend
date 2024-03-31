@@ -4,7 +4,7 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor } from '../editorStore';
-	import { Assignment, FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress, DocumentInfo, FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 
@@ -27,9 +27,12 @@
 
 	export let connected = false;
 
+	let editable = true;
+	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
+
 	$: console.log('token: ', $keycloakState.token);
 
-	function initializeTiptap(initcurrentFile: FileInfo | null) {
+	function initializeTiptap(initcurrentFile: FileInfo | Assignment | AssignmentAnswer | null) {
 		if (!initcurrentFile) {
 			return;
 		}
@@ -60,6 +63,7 @@
 				editor.set(
 					new Editor({
 						extensions: getExtensions(provider, $currentFile instanceof Assignment),
+						editable: editable,
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
@@ -71,7 +75,7 @@
 
 								currentFileName = title;
 								if ($currentFile != null) {
-									const newState: FileInfo = $currentFile;
+									const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo = $currentFile;
 									newState.name = title;
 									const id = newState.id;
 									// Update the value for the specified key
