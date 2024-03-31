@@ -163,7 +163,7 @@
 			>
 				<Redo2 size="18" />
 			</ToolbarButton>
-			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 mx-2"/>
+			<div class="border-r-[0.5px] opacity-50 border-gray-400 h-8 mx-1"/>
 			<div class="flex">
 				<FontSelector />
 				<Input type="number" class="h-8 w-[3.2rem] rounded-l-none border-l-0 pr-[2.5px] pl-2" placeholder="16" value={selectedTextStyle.fontSize ? selectedTextStyle?.fontSize.replace(/\D/g,'') : '12'} on:change={(event) => $editor.chain().focus().setFontSize(event.target?.value + 'pt').run()}/>
@@ -254,10 +254,10 @@
 				>
 			</div>
 			<Select.Root portal={null} selected={{ value: selectedType, label: selectedTypeObject.label }} >
-				<Select.Trigger class="w-36 h-8">
+				<Select.Trigger class="w-[7.8rem] h-8">
 					<Select.Value />
 				</Select.Trigger>
-				<Select.Content>
+				<Select.Content class="!w-36">
 					{#each text_types as type}
 						<Select.Item
 							value={type.value}
@@ -334,7 +334,7 @@
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="List"><Code size="18" /></Button>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8 visible 2xl:hidden" title="kode"><Code size="18" /></Button>
 				</Popover.Trigger>
 				<Popover.Content class="h-12 p-2 w-fit">
 					<div class="flex gap-1">
@@ -364,7 +364,7 @@
 			</ToolbarButton>
 			<Popover.Root portal={null}>
 				<Popover.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="List"><List size="18" /></Button>
+				  <Button builders={[builder]} variant="ghost" class="p-[0.35rem] h-8" title="Liste"><List size="18" /></Button>
 				</Popover.Trigger>
 				<Popover.Content class="h-12 p-2 w-fit">
 					<div class="flex gap-1">
