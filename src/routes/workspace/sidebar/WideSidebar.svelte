@@ -42,8 +42,8 @@
 
 <SidebarAssignment bind:isAssignmentDescriptionOpen />
 
-{#if isAssignmentDescriptionOpen}{:else}
-	<FileViewer></FileViewer>
+{#if !isAssignmentDescriptionOpen}
+	<FileViewer />
 {/if}
 
 <Timer bind:visible={isTimerVisible}></Timer>
