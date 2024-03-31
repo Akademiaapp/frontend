@@ -25,7 +25,7 @@
 				<AssignmentAnswer
 					name={assignment.name}
 					progress={assignment.progress}
-					id={assignment.answer_id}
+					id={assignment.id}
 					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
 						year: 'numeric',
 						month: 'long',
