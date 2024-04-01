@@ -6,6 +6,7 @@
 	export let date: string | undefined = undefined;
 	export let progress: AssignmentProgress = null;
 	export let id: string;
+	export let grade: number | null = null;
 
 	let progressNumber = 5;
 	let finished = false;
@@ -26,7 +27,11 @@
 <a href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'} class="reset cont frontground">
 	<div class="text">
 		<p class="name">{name}</p>
-		<p class="date">Afleveringsdato {date}</p>
+		{#if grade != null}
+			<p class="date">Karakter: {grade}</p>
+		{:else}
+			<p class="date">Afleveringsdato {date}</p>
+		{/if}
 	</div>
 	{#if !finished}
 		<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
