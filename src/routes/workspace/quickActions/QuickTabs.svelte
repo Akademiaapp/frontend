@@ -12,6 +12,8 @@
 		currentTab = tab;
 	}
 
+	export let onClose = () => {};
+
 	$: console.log(currentTab);
 </script>
 
@@ -26,7 +28,10 @@
 		<MessagesSquare size="27"></MessagesSquare>
 	</QuickTab>
 	<div class="flex-1"></div>
-	<button class="justify-self-en1 p-1.5">
+	<button
+		class="justify-self-en1 p-1.5 text-muted-foreground hover:text-foreground"
+		on:click={onClose}
+	>
 		<ChevronLeft size="27"></ChevronLeft>
 	</button>
 </div>

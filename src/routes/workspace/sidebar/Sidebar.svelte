@@ -37,7 +37,7 @@
 	}
 
 	const maxWidth = 400;
-	const minWidth = 190;
+	const minWidth = 225;
 
 	let slimSidebarWidth = 54.4;
 	function handleMouseDown(event) {

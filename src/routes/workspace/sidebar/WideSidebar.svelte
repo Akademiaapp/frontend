@@ -46,7 +46,7 @@
 <div class="br-2 bg-background">
 	<SidebarAssignment bind:isAssignmentDescriptionOpen />
 
-	<QuickTabs />
+	<QuickTabs onClose={() => (isExpanded = false)} />
 	<Separator></Separator>
 	{#if !isAssignmentDescriptionOpen}
 		<FileViewer />
