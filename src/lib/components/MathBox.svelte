@@ -7,6 +7,7 @@
 	import { NodeViewContent } from 'svelte-tiptap';
 	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 	export let value = '';
 	export let expression;
 
@@ -138,6 +139,9 @@
 	export let latexResult = null;
 	export let numResult = null;
 
+	let editable = true;
+	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
+
 	let oldRes;
 
 	let cont;
@@ -149,7 +153,8 @@
 	<math-field
 		virtual-keyboard-mode="onfocus"
 		virtual-keyboard-theme="apple"
-		class="rounded-none border-b-2 border-b-primary/50 p-1 px-2 outline-none focus:border-b-primary/100"
+		class={"rounded-none p-1 px-2 outline-none" + (editable ? ' focus:border-b-primary/100 border-b-2 border-b-primary/50' : '')}
+		readonly={!editable}
 		bind:this={mf}
 	>
 		<slot />
