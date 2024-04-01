@@ -26,14 +26,6 @@
 <div class="cont br-2 float-panel">
 	<div class="top">
 		<UserAvatar name />
-		<!-- <button
-			class="reset z-10"
-			on:click={() => {
-				isExpanded = !isExpanded;
-			}}
-		>
-			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
-		</button> -->
 		<div class="flex gap-2">
 			<QuickBar isTimerVisible={false}></QuickBar>
 		</div>
