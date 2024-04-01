@@ -16,10 +16,20 @@
 	export let onClose = () => {};
 
 	$: console.log(currentTab);
+
+	let isAssignment = false;
+
+	$: isAssignment = $currentFile instanceof AssignmentAnswer;
 </script>
 
-<div class="flex items-center gap-3 px-3 py-3 pb-2.5">
-	<QuickTab action={() => switchTab('files')} active={currentTab == 'files'}>
+<div
+	class="flex items-center px-3 py-3 pb-2.5"
+	class:gap-3={$currentFile instanceof AssignmentAnswer}
+>
+	<QuickTab
+		action={() => switchTab('files')}
+		active={currentTab == 'files' && $currentFile instanceof AssignmentAnswer}
+	>
 		<Folder size="27"></Folder>
 	</QuickTab>
 	{#if $currentFile instanceof AssignmentAnswer}
