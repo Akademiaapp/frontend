@@ -104,7 +104,7 @@
 	});
 </script>
 
-<div class="cont br-2 float-panel">
+<div class="cont">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
 		<Category name="Fag" open={false} {folders}></Category>
 		<Category name="Andet" {files}></Category>
@@ -132,7 +132,8 @@
 		color: var(--color-text-2);
 		background-color: var(--color-bg-1);
 
-		flex-grow: 1;
+		// max-height: calc(100% - 4rem);
+
 		overflow-y: hidden;
 	}
 

@@ -10,10 +10,11 @@
 	import { Editor, EditorContent } from 'svelte-tiptap';
 	import { TiptapTransformer } from '@hocuspocus/transformer';
 	import { onMount } from 'svelte';
-	import * as Y from "yjs";
+	import * as Y from 'yjs';
 	import { AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 
-	export let assignmentId: string = $currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
+	export let assignmentId: string =
+		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
 
 	currentFile.subscribe((value) => {
 		if (!(value instanceof AssignmentAnswer)) return;
@@ -36,19 +37,19 @@
 			await new Promise((resolve) => setTimeout(resolve, 100));
 		}
 
-		const data = await getDescription()
-		console.log("aaaa", typeof data, data, new Uint8Array(data.data));
+		const data = await getDescription();
+		console.log('aaaa', typeof data, data, new Uint8Array(data.data));
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
-		
+
 		// Remove metaSettings node from ydoc
 		doc.default.content.splice(1, 2);
 
 		editor = new Editor({
 			extensions: getExtensions(null, false),
 			content: doc.default,
-			editable: false,
+			editable: false
 		});
 	});
 </script>
@@ -57,13 +58,6 @@
 	class="settings assignment br-2 float-panel sidebar-scroll flex max-w-[40rem] flex-1 overflow-scroll"
 	class:hidden={!isAssignmentDescriptionOpen}
 >
-	<button
-		class="flex items-center text-xs hover:underline"
-		on:click={() => (isAssignmentDescriptionOpen = false)}
-	>
-		<ChevronLeft size="15" />
-		Tilbage
-	</button>
 	<div class="assignment-tiptap">
 		{#if editor}
 			<EditorContent bind:editor />
@@ -72,7 +66,7 @@
 		{/if}
 	</div>
 	{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
-		<div class="border-t-[1px] border-gray-400 opacity-60 w-full my-4"/>
+		<div class="my-4 w-full border-t-[1px] border-gray-400 opacity-60" />
 		<div>
 			<h2>Karakter: {$currentFile.grade}</h2>
 			<h2>Feedback:</h2>

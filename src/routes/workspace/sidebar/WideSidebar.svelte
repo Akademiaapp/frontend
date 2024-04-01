@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { Separator } from '$lib/components/ui/separator';
+	import QuickTabs from './../quickActions/QuickTabs.svelte';
+	import QuickBar from './../quickActions/QuickBar.svelte';
 	import SidebarAssignment from './SidebarAssignment.svelte';
-	import QuickBar from '../quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
@@ -10,41 +12,33 @@
 
 	let isTimerVisible: boolean;
 
-	let isAssignmentDescriptionOpen: boolean;
+	let hasAssignmentDescription = false;
 
-	function updateIsAssignmentDescriptionOpen(isOpen) {
-		isAssignmentDescriptionOpen = isOpen;
-	}
-	$: updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
-	isAssignmentDescriptionOpen = true;
+	$: hasAssignmentDescription = $currentFile instanceof AssignmentAnswer;
 
-	$: $editor?.on('focus', () => {
-		updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
-	});
+	$: if (hasAssignmentDescription) currentTab = 'assignment';
 
 	$: console.log($currentFile instanceof AssignmentAnswer);
+
+	let currentTab;
 </script>
 
 <div class="cont br-2 float-panel">
 	<div class="top">
 		<UserAvatar name />
-		<button
-			class="reset z-10"
-			on:click={() => {
-				isExpanded = !isExpanded;
-			}}
-		>
-			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
-		</button>
+		<div class="flex gap-2">
+			<QuickBar isTimerVisible={false}></QuickBar>
+		</div>
 	</div>
-	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible /></div>
 </div>
-
-<SidebarAssignment bind:isAssignmentDescriptionOpen />
-
-{#if !isAssignmentDescriptionOpen}
-	<FileViewer />
-{/if}
+<div class="br-2 flex flex-grow flex-col overflow-y-hidden bg-background">
+	<QuickTabs bind:currentTab onClose={() => (isExpanded = false)} />
+	<Separator></Separator>
+	<SidebarAssignment isAssignmentDescriptionOpen={currentTab == 'assignment'} />
+	{#if currentTab == 'files'}
+		<FileViewer />
+	{/if}
+</div>
 
 <Timer bind:visible={isTimerVisible}></Timer>
 
@@ -54,7 +48,7 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 0.75rem;
-		padding: 1rem;
+		padding: 0.5rem 1rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);
 	}
