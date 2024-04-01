@@ -41,6 +41,7 @@
 						hour: 'numeric',
 						minute: 'numeric'
 					})}
+					grade={assignment.grade}
 				/>
 			{/each}
 			{#each $assignmentStore as assignment}
