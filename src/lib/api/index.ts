@@ -106,6 +106,10 @@ class ApiHandler {
 			'POST'
 		);
 	};
+
+	getSchools = () => {
+		return this.callApi('/schools');
+	}
 }
 
 export default new ApiHandler();

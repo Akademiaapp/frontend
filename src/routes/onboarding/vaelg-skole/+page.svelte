@@ -8,74 +8,58 @@
 		CommandList,
 		CommandSeparator
 	} from '@/components/ui/command';
-	import { canProceed, selectedSchool, selectedSchoolId } from '../onboardingStores';
+	import { canProceed, selectedSchoolId } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import api from '@/api';
 
-	canProceed.set($selectedSchool != '');
+	canProceed.set($selectedSchoolId != '');
 
-	let schools = [
-		'Sct. Jørgens skole - Næstved',
-		'Aarhus Skt. Pauls Skole',
-		'Bagsværd Skole',
-		'Birkerød Skole',
-		'Christianshavns Skole',
-		'Det frie Gymnasium',
-		'Espergærde Skole',
-		'Frederiksberg Skole',
-		'Gefion Gymnasium',
-		'Haderslev Realskole',
-		'Ingrid Jespersens Skole',
-		'Johannes Skole',
-		'Kolding Realskole',
-		'Lemvig Skole',
-		'Mariagerfjord Skole',
-		'Niels Steensens Skole',
-		'Odense Skt. Hans Skole',
-		'Paderup Skole',
-		'Qaqortoq Skole',
-		'Roskilde Lilleskole',
-		'Sankt Annæ Skole',
-		'Tornbjerg Skole',
-		'Usserød Skole',
-		'Viborg Skole',
-		'Westend Skole'
-	];
-	function selectSchool(school) {
+	let schools = [];
+
+	onMount(async () => {
+		schools = await (await api.getSchools()).json();
+		console.log(schools);
+	});
+
+	function selectSchool(schoolId) {
 		canProceed.set(true);
-		selectedSchool.set(school);
-		selectedSchoolId.set('1');
+
+		selectedSchoolId.set(schoolId);
+		selectedSchool = schools.find((school) => school.id === schoolId).name;
 
 		const el = document.querySelector('input');
 		el.blur();
 	}
 
 	let focused = false;
+	let selectedSchool = null;
 </script>
 
 <h1>Vælg din skole</h1>
-<div class:small={!focused && $selectedSchool}>
+<div class:small={!focused && $selectedSchoolId}>
 	<Command>
 		<CommandInput
 			on:focus={() => {
 				focused = true;
-				selectedSchool.set(null);
+				selectedSchoolId.set(null);
 			}}
 			on:blur={() => (focused = false)}
-			placeholder={$selectedSchool || 'Søg efter din skole'}
-			class={$selectedSchool ? 'placeholder:text-foreground' : ''}
+			placeholder={selectedSchool || 'Søg efter din skole'}
+			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
 		>
-			{#if selectedSchool}
+			{#if selectedSchoolId}
 				<School class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{:else}
 				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{/if}
 		</CommandInput>
-		{#if focused || !$selectedSchool}
+		{#if focused || !$selectedSchoolId}
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
 					{#each schools as school (school)}
-						<CommandItem onSelect={() => selectSchool(school)}>{school}</CommandItem>
+						<CommandItem onSelect={() => selectSchool(school.id)}>{school.name}</CommandItem>
 					{/each}
 				</CommandGroup>
 			</CommandList>
