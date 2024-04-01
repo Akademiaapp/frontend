@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
+	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
 
 	export let currentTab = 'files';
 
@@ -17,16 +18,20 @@
 	$: console.log(currentTab);
 </script>
 
-<div class="flex gap-3 px-3 py-3 pb-2.5">
+<div class="flex items-center gap-3 px-3 py-3 pb-2.5">
 	<QuickTab action={() => switchTab('files')} active={currentTab == 'files'}>
 		<Folder size="27"></Folder>
 	</QuickTab>
-	<QuickTab action={() => switchTab('assignment')} active={currentTab == 'assignment'}>
-		<ClipboardList size="27"></ClipboardList>
-	</QuickTab>
-	<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'}>
-		<MessagesSquare size="27"></MessagesSquare>
-	</QuickTab>
+	{#if $currentFile instanceof AssignmentAnswer}
+		<QuickTab action={() => switchTab('assignment')} active={currentTab == 'assignment'}>
+			<ClipboardList size="27"></ClipboardList>
+		</QuickTab>
+		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'}>
+			<MessagesSquare size="27"></MessagesSquare>
+		</QuickTab>
+	{:else}
+		<p class="text-lg font-semibold">Filer</p>
+	{/if}
 	<div class="flex-1"></div>
 	<button
 		class="justify-self-en1 p-1.5 text-muted-foreground hover:text-foreground"
