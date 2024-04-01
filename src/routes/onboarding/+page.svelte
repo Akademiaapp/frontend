@@ -7,7 +7,7 @@
 <img src="brand/title-logo.svg" alt="" />
 <p>
 	Fremtidens platform til skolernes digitale behov som opgaver, kalender, notetagnet og meget mere.
-	Alt sammen samlet på en platform
+	Alt sammen samlet på én platform.
 </p>
 
 <div class="spacer"></div>
@@ -18,7 +18,7 @@
 		goto('onboarding/1');
 	}}>Kom i gang</Button
 >
-<a href="">Skip</a>
+<a href="/workspace/home">Skip</a>
 
 <div></div>
 

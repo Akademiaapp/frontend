@@ -27,7 +27,7 @@
 		{
 			target: '#overview',
 			title: 'Oversigt',
-			content: 'Her kan du se dine Afleveringe og aktive filer',
+			content: 'Her kan du se dine afleveringe og aktive filer og filer.',
 			order: 3
 		},
 		{

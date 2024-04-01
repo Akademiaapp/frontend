@@ -8,3 +8,4 @@ export const nextUrl = writable('');
 export const userType = writable('');
 
 export const selectedSchoolId = writable('');
+export const selectedClassId = writable('');
