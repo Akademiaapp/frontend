@@ -26,7 +26,7 @@
 <div class="cont br-2 float-panel">
 	<div class="top">
 		<UserAvatar name />
-		<div class="flex gap-2">
+		<div class="flex gap-2" id="quick-bar">
 			<QuickBar isTimerVisible={false}></QuickBar>
 		</div>
 	</div>
