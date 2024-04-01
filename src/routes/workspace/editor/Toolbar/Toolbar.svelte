@@ -64,8 +64,6 @@
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
-	let isAssigned = $currentFile instanceof Assignment && $currentFile.isPublic;
-
 	export let isNote = false;
 
 	function nodeOrSelected() {
@@ -462,11 +460,7 @@
 		</div>
 		<div class="flex h-full flex-[100px] justify-end gap-2 pl-4">
 			{#if $currentFile instanceof Assignment}
-				{#if isAssigned}
-					<SeeAnswers />
-				{:else}
-					<Assign bind:isAssigned />
-				{/if}
+				<Assign />
 			{:else if $currentFile instanceof AssignmentAnswer}
 				<Aflever />
 			{/if}
