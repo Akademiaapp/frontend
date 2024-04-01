@@ -5,61 +5,60 @@
 		CommandEmpty,
 		CommandGroup,
 		CommandItem,
-		CommandList,
-		CommandSeparator
+		CommandList
 	} from '@/components/ui/command';
-	import { canProceed, selectedSchoolId } from '../onboardingStores';
+	import { canProceed, selectedClassId, selectedSchoolId } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import api from '@/api';
 
-	canProceed.set($selectedSchoolId != '');
+	canProceed.set($selectedClassId != '');
 
-	let schools = [];
+	let classes = [];
 
 	onMount(async () => {
-		schools = await (await api.getSchools()).json();
-		console.log(schools);
+		classes = await (await api.getSchoolClasses($selectedSchoolId)).json();
+		console.log(classes);
 	});
 
-	function selectSchool(schoolId) {
+	function selectClass(classId) {
 		canProceed.set(true);
 
-		selectedSchoolId.set(schoolId);
-		selectedSchool = schools.find((school) => school.id === schoolId).name;
+		selectedClassId.set(classId);
+		selectedClass = classes.find((aclass) => aclass.id === classId).name;
 
 		const el = document.querySelector('input');
 		el.blur();
 	}
 
 	let focused = false;
-	let selectedSchool = null;
+	let selectedClass = null;
 </script>
 
-<h1>Vælg din skole</h1>
-<div class:small={!focused && $selectedSchoolId}>
+<h1>Vælg din klasse</h1>
+<div class:small={!focused && $selectedClassId}>
 	<Command>
 		<CommandInput
 			on:focus={() => {
 				focused = true;
-				selectedSchoolId.set(null);
+				selectedClassId.set(null);
 			}}
 			on:blur={() => (focused = false)}
-			placeholder={selectedSchool || 'Søg efter din skole'}
-			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
+			placeholder={selectedClass || 'Søg efter din klasse'}
+			class={$selectedClassId ? 'placeholder:text-foreground' : ''}
 		>
-			{#if selectedSchoolId}
+			{#if selectedClassId}
 				<School class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{:else}
 				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{/if}
 		</CommandInput>
-		{#if focused || !$selectedSchoolId}
+		{#if focused || !$selectedClassId}
 			<CommandList>
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
-					{#each schools as school (school)}
-						<CommandItem onSelect={() => selectSchool(school.id)}>{school.name}</CommandItem>
+					{#each classes as sclass (sclass)}
+						<CommandItem onSelect={() => selectClass(sclass.id)}>{sclass.name}</CommandItem>
 					{/each}
 				</CommandGroup>
 			</CommandList>

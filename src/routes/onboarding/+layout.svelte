@@ -33,6 +33,7 @@
 			'4',
 			'5',
 			$userType !== 'TESTER' ? 'vaelg-skole' : null,
+			$userType !== 'TESTER' ? 'vaelg-klasse' : null,
 			'done'
 		].filter((it) => it !== null);
 	}

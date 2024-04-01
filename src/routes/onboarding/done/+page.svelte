@@ -4,17 +4,20 @@
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
 	import api from '@/api';
-	import { selectedSchool, selectedSchoolId, userType } from '../onboardingStores';
+	import { selectedSchoolId, userType, selectedClassId } from '../onboardingStores';
 
 	let isLoading = true;
 
 	onMount(async () => {
-		console.log('selectedSchool: ', $selectedSchool);
-		await api.callApi('/users/self', { school: $selectedSchool }, 'PUT');
+		if ($userType === 'TESTER') {
+			$selectedSchoolId = '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4';
+		} 
 		console.log('userType: ', $userType);
-		await api.callApi('/users/self', { type: $userType }, 'PUT');
+		await api.callApi('/users/self', { type: $userType || 'TESTER' }, 'PUT');
 		console.log('selectedSchoolId: ', $selectedSchoolId);
-		await api.callApi('/users/self', { schoolId: $selectedSchoolId }, 'PUT');
+		await api.callApi('/users/self', { schoolId: $selectedSchoolId || '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4' }, 'PUT');
+		console.log('selectedClassId: ', $selectedClassId);
+		await api.callApi('/users/self/groups', { groupId: $selectedClassId }, 'POST');
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		isLoading = false;

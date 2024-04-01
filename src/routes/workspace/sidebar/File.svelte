@@ -2,7 +2,7 @@
 	import { DocumentInfo, FileInfo, currentFile } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from './SideBarElem.svelte';
-	import { File } from 'lucide-svelte';
+	import { File, Notebook } from 'lucide-svelte';
 	export let file: FileInfo | DocumentInfo;
 	export let onClick = () => {
 		currentFile.set(file);
@@ -17,7 +17,11 @@
 <SideBarElem {active}>
 	<a on:click={onClick} href="editor?id={file.id}&type={file instanceof DocumentInfo ? (file.isNote ? 'notes' : 'documents') : file.fileType}" class="reset" class:active>
 		<div>
-			<File size={20}></File>
+			{#if file instanceof DocumentInfo && file.isNote}
+				<Notebook size={20} />
+			{:else}
+				<File size={20} />
+			{/if}
 		</div>
 		<span class="name">{file.name}</span>
 	</a>
