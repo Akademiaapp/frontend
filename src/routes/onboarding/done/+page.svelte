@@ -13,9 +13,9 @@
 			$selectedSchoolId = '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4';
 		} 
 		console.log('userType: ', $userType);
-		await api.callApi('/users/self', { type: $userType }, 'PUT');
+		await api.callApi('/users/self', { type: $userType || 'TESTER' }, 'PUT');
 		console.log('selectedSchoolId: ', $selectedSchoolId);
-		await api.callApi('/users/self', { schoolId: $selectedSchoolId }, 'PUT');
+		await api.callApi('/users/self', { schoolId: $selectedSchoolId || '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4' }, 'PUT');
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		isLoading = false;
