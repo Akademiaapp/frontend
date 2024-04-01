@@ -54,7 +54,7 @@
 				</DropdownMenu.SubTrigger>
 				<DropdownMenu.SubContent>
 					<DropdownMenu.Item>Word</DropdownMenu.Item>
-					<DropdownMenu.Item>PDF</DropdownMenu.Item>
+					<DropdownMenu.Item on:click={printFile}>PDF</DropdownMenu.Item>
 				</DropdownMenu.SubContent>
 			</DropdownMenu.Sub>
 			<DropdownMenu.Item on:click={printFile}>
