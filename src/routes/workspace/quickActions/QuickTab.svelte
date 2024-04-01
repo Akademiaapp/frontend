@@ -5,12 +5,14 @@
 	export let tooltip = '';
 </script>
 
-<button class="cont b2" on:click={action} class:tooltip style:--tooltip={'"' + tooltip + '"'}>
-	<span
-		class="material-symbols-rounded"
-		style:--icon={"'" + icon + "'"}
-		class:active={active && icon != ''}
-	>
+<button
+	class="cont br-2 p-1.5"
+	on:click={action}
+	class:tooltip
+	style:--tooltip={'"' + tooltip + '"'}
+	class:bg-muted={active}
+>
+	<span class:active>
 		<slot>
 			{icon}
 		</slot>
@@ -21,8 +23,12 @@
 	button {
 		outline: none;
 		border: none;
-		background-color: transparent;
+		// background-color: transparent;
 		position: relative;
+
+		display: grid;
+		place-items: center;
+		transition: box-shadow 400ms;
 	}
 
 	.tooltip::after {
@@ -47,24 +53,6 @@
 		transition: all 400ms 300ms;
 	}
 
-	.cont {
-		display: grid;
-		place-items: center;
-		height: 2rem;
-		width: 2rem;
-		padding: 0rem;
-		transition: box-shadow 400ms;
-
-		&:hover {
-			// 	box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.2);
-		}
-
-		// &:active {
-		// 	box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.05);
-		// 	transition: box-shadow 100ms;
-		// }
-	}
-
 	span {
 		font-size: 2rem;
 
@@ -82,24 +70,8 @@
 			color 400ms,
 			transform 400ms;
 
-		&::before {
-			content: var(--icon);
-			position: absolute;
-			color: transparent;
-			transition: color 400ms;
-
-			font-variation-settings:
-				'FILL' 100,
-				'wght' 400,
-				'GRAD' 0,
-				'opsz' 24;
-		}
 		&.active {
-			color: transparent;
-
-			&::before {
-				color: var(--color-text-0);
-			}
+			color: hsl(var(--foreground));
 		}
 	}
 </style>

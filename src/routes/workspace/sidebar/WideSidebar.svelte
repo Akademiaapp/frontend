@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { Separator } from '$lib/components/ui/separator';
+	import QuickTabs from './../quickActions/QuickTabs.svelte';
+	import QuickBar from './../quickActions/QuickBar.svelte';
 	import SidebarAssignment from './SidebarAssignment.svelte';
-	import QuickBar from '../quickActions/QuickBar.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
@@ -28,23 +30,28 @@
 <div class="cont br-2 float-panel">
 	<div class="top">
 		<UserAvatar name />
-		<button
+		<!-- <button
 			class="reset z-10"
 			on:click={() => {
 				isExpanded = !isExpanded;
 			}}
 		>
 			<span class="material-symbols-rounded icon-w-4">keyboard_double_arrow_left</span>
-		</button>
+		</button> -->
+		<div class="flex gap-2">
+			<QuickBar isTimerVisible={false}></QuickBar>
+		</div>
 	</div>
-	<div class="flex gap-2" id="quick-bar"><QuickBar bind:isTimerVisible /></div>
 </div>
+<div class="br-2 bg-background">
+	<SidebarAssignment bind:isAssignmentDescriptionOpen />
 
-<SidebarAssignment bind:isAssignmentDescriptionOpen />
-
-{#if !isAssignmentDescriptionOpen}
-	<FileViewer />
-{/if}
+	<QuickTabs />
+	<Separator></Separator>
+	{#if !isAssignmentDescriptionOpen}
+		<FileViewer />
+	{/if}
+</div>
 
 <Timer bind:visible={isTimerVisible}></Timer>
 
@@ -54,7 +61,7 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 0.75rem;
-		padding: 1rem;
+		padding: 0.5rem 1rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);
 	}

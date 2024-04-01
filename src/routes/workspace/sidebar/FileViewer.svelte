@@ -104,7 +104,7 @@
 	});
 </script>
 
-<div class="cont br-2 float-panel">
+<div class="cont br-2">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
 		<Category name="Fag" open={false} {folders}></Category>
 		<Category name="Andet" {files}></Category>
