@@ -15,7 +15,7 @@
 		today
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
-	import { Assignment, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
@@ -48,6 +48,10 @@
 
 	$: console.log(time);
 
+	let editable = true;
+	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
+
+
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
@@ -70,6 +74,7 @@
 							!date && 'text-muted-foreground'
 						)}
 						builders={[builder]}
+						disabled={!editable}
 					>
 						{#if date}
 							{df.format(date.toDate(getLocalTimeZone()))}
@@ -83,13 +88,13 @@
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>
-			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time}></Input>
+			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time} readonly={!editable}></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>
 			<p>Tildelte</p>
 		</div>
-		<MemberSearch></MemberSearch>
+		<MemberSearch bind:editable />
 		<!-- <Button
 			variant={'ghost'}
 			class={cn(

@@ -60,6 +60,8 @@
 		}
 		value = '';
 	}
+
+	export let editable = true;
 </script>
 
 <Command class="grid overflow-visible border-none">
@@ -76,6 +78,7 @@
 			}}
 			bind:value
 			wrapperClass={focused ? 'border-b' : 'border-none'}
+			disabled={!editable}
 		>
 			{#each selectedMembers as member}
 				<!-- content here -->
@@ -86,6 +89,7 @@
 							on:click={() => {
 								selectedMembers = selectedMembers.filter((item) => item !== member);
 							}}
+							disabled={!editable}
 						>
 							<X size="10"></X>
 						</button>
