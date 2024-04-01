@@ -131,6 +131,8 @@ export class AssignmentAnswer extends FileInfo {
 	asigned_groups_ids: string[];
 	isPublic: boolean;
 	teacherId: string;
+	grade: number | null;
+	feedback: string | null;
 
 	store = assignmentAnswerStore;
 
@@ -144,6 +146,8 @@ export class AssignmentAnswer extends FileInfo {
 		this.assignment_id = info.assignment_id;
 		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
 		this.store = assignmentAnswerStore;
+		this.grade = info.grade;
+		this.feedback = info.feedback;
 	}
 
 	async getMembers() {

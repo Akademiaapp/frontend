@@ -11,7 +11,7 @@
 	import { TiptapTransformer } from '@hocuspocus/transformer';
 	import { onMount } from 'svelte';
 	import * as Y from "yjs";
-	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 
 	export let assignmentId: string = $currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
 
@@ -71,6 +71,14 @@
 			<p>Loading...</p>
 		{/if}
 	</div>
+	{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
+		<div class="border-t-[1px] border-gray-400 opacity-60 w-full my-4"/>
+		<div>
+			<h2>Karakter: {$currentFile.grade}</h2>
+			<h2>Feedback:</h2>
+			<p>{$currentFile.feedback}</p>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">

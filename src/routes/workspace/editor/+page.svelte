@@ -8,6 +8,7 @@
 	import {
 		Assignment,
 		AssignmentAnswer,
+		AssignmentProgress,
 		currentFile,
 		DocumentInfo,
 		documentStore,
@@ -54,7 +55,13 @@
 
 {#if $currentFile}
 	<div class="editor">
-		<Toolbar bind:isNote />
+		{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED}
+			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
+		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
+			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
+		{:else }
+			<Toolbar bind:isNote />
+		{/if}
 		<FileEditor bind:isNote />
 	</div>
 {/if}
