@@ -31,7 +31,7 @@
 		</div>
 	</div>
 </div>
-<div class="br-2 bg-background">
+<div class="br-2 flex flex-grow flex-col overflow-y-hidden bg-background">
 	<QuickTabs bind:currentTab onClose={() => (isExpanded = false)} />
 	<Separator></Separator>
 	<SidebarAssignment isAssignmentDescriptionOpen={currentTab == 'assignment'} />
