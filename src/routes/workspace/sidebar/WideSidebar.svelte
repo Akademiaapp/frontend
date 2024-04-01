@@ -12,19 +12,15 @@
 
 	let isTimerVisible: boolean;
 
-	let isAssignmentDescriptionOpen: boolean;
+	let hasAssignmentDescription = false;
 
-	function updateIsAssignmentDescriptionOpen(isOpen) {
-		isAssignmentDescriptionOpen = isOpen;
-	}
-	$: updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
-	isAssignmentDescriptionOpen = true;
+	$: hasAssignmentDescription = $currentFile instanceof AssignmentAnswer;
 
-	$: $editor?.on('focus', () => {
-		updateIsAssignmentDescriptionOpen($currentFile instanceof AssignmentAnswer);
-	});
+	$: if (hasAssignmentDescription) currentTab = 'assignment';
 
 	$: console.log($currentFile instanceof AssignmentAnswer);
+
+	let currentTab;
 </script>
 
 <div class="cont br-2 float-panel">
@@ -44,11 +40,10 @@
 	</div>
 </div>
 <div class="br-2 bg-background">
-	<SidebarAssignment bind:isAssignmentDescriptionOpen />
-
-	<QuickTabs onClose={() => (isExpanded = false)} />
+	<QuickTabs bind:currentTab onClose={() => (isExpanded = false)} />
 	<Separator></Separator>
-	{#if !isAssignmentDescriptionOpen}
+	<SidebarAssignment isAssignmentDescriptionOpen={currentTab == 'assignment'} />
+	{#if currentTab == 'files'}
 		<FileViewer />
 	{/if}
 </div>
