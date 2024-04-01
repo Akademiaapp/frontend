@@ -81,7 +81,6 @@
 </script>
 
 <svelte:head>
-	<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="d1642ef6-a702-434c-8cfe-61177efe244e" data-blockingmode="auto" type="text/javascript"></script>
 	<link
 		rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
