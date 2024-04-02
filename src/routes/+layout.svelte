@@ -63,7 +63,11 @@
 			} else {
 				console.log('Not authenticated');
 				if (!$page.url.pathname.includes('/onboarding')) {
-					goto('/onboarding/login');
+					if ($page.url.pathname.endsWith('/register')) {
+						goto('/onboarding/signup');
+					} else {
+						goto('/onboarding/login');
+					}
 				}
 				// reload page
 				// if ($page.url.pathname.endsWith('/register')) {
