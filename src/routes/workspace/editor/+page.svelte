@@ -56,7 +56,7 @@
 </svelte:head>
 
 {#if $currentFile}
-	<div class="editor" style={'width: calc(100% - ' + $sidebarWidth + ')'}>
+	<div class="editor" style:width={'calc(100% - ' + $sidebarWidth + ')'}>
 		{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED}
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
 		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
