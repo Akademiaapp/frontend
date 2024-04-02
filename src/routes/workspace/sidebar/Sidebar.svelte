@@ -35,8 +35,8 @@
 		}, 300);
 	}
 
-	const maxWidth = 400;
-	const minWidth = 225;
+	let maxWidth = 400;
+	let minWidth = 275;
 
 	let slimSidebarWidth = 54.4;
 	function handleMouseDown(event) {
@@ -47,11 +47,20 @@
 	}
 
 	let sidebar;
+	let currentTab;
+
+	$: maxWidth = currentTab == 'assignment' ? 600 : 400;
+	$: minWidth = currentTab == 'assignment' ? 400 : 275;
+	$: if (currentTab == 'assignment') {
+		$sidebarWidth = '550px';
+	} else {
+		$sidebarWidth = maxWidth + 'px';
+	}
 </script>
 
 <nav class="sideBar relative" bind:this={sidebar} style:width={$sidebarWidth}>
 	{#if isExpanded}
-		<WideSidebar bind:isExpanded />
+		<WideSidebar bind:currentTab bind:isExpanded />
 	{:else}
 		<SlimSidebar bind:isExpanded />
 	{/if}
