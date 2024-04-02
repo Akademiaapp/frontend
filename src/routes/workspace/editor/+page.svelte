@@ -15,6 +15,7 @@
 		FileInfo
 	} from '@/api/apiStore';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
+	import { sidebarWidth } from '../../store';
 
 	let editor: Readable<Editor>;
 
@@ -55,7 +56,7 @@
 </svelte:head>
 
 {#if $currentFile}
-	<div class="editor">
+	<div class="editor" style={'width: calc(100% - ' + $sidebarWidth + ')'}>
 		{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED}
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
 		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
@@ -63,7 +64,7 @@
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
-		{:else }
+		{:else}
 			<Toolbar bind:isNote />
 		{/if}
 		<FileEditor bind:isNote />
@@ -78,7 +79,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: calc(100% - 250px);
 		gap: 0.75rem;
 		/* padding-left: var(--gap); */
 

@@ -23,12 +23,8 @@
 </script>
 
 <div class="cont">
-	<div class={'sidebar floating-panel'} class:wide={type == 'assignment'}>
-		{#if type === 'assignment'}
-			<SidebarAssignment />
-		{:else}
-			<Sidebar></Sidebar>
-		{/if}
+	<div class={'sidebar floating-panel'}>
+		<Sidebar></Sidebar>
 	</div>
 
 	<slot />
@@ -37,9 +33,6 @@
 </div>
 
 <style lang="scss">
-	.wide {
-		width: 30rem !important;
-	}
 	.cont {
 		display: flex;
 		flex-direction: row;
@@ -56,9 +49,5 @@
 		pointer-events: auto;
 
 		transition: all 300ms cubic-bezier(0, 0.72, 0.21, 0.99);
-
-		&.hidden {
-			margin-left: calc(-250px - var(--pad));
-		}
 	}
 </style>

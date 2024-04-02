@@ -477,8 +477,10 @@
 		top: var(--pad);
 		pointer-events: auto;
 		height: 2.65em;
-		width: 100%;
 		display: flex;
+		left: 2rem;
+
+		align-self: stretch;
 
 		// align-items: center;
 		justify-content: space-between;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { sidebarWidth } from './../../store.ts';
 	import { clamp } from '@/utils/mathUtils';
 	import SlimSidebar from './SlimSidebar.svelte';
 	import WideSidebar from './WideSidebar.svelte';
@@ -9,7 +10,7 @@
 		const width = event.clientX - sidebar.getBoundingClientRect().left;
 		console.log(width, slimSidebarWidth);
 		if (width > 150) {
-			w = clamp(width, minWidth, maxWidth) + 'px';
+			sidebarWidth.set(clamp(width, minWidth, maxWidth) + 'px');
 			isExpanded = true;
 		} else {
 			isExpanded = false;
@@ -17,16 +18,14 @@
 	}
 
 	$: if (isExpanded) {
-		if (w == slimSidebarWidth + 'px') {
+		if ($sidebarWidth == slimSidebarWidth + 'px') {
 			anim();
-			w = '300px';
+			$sidebarWidth = '300px';
 		}
 	} else {
 		anim();
-		w = slimSidebarWidth + 'px';
+		sidebarWidth.set(slimSidebarWidth + 'px');
 	}
-
-	let w = '300px';
 
 	function anim() {
 		if (!sidebar) return;
@@ -50,7 +49,7 @@
 	let sidebar;
 </script>
 
-<nav class="sideBar relative" bind:this={sidebar} style:width={w}>
+<nav class="sideBar relative" bind:this={sidebar} style:width={$sidebarWidth}>
 	{#if isExpanded}
 		<WideSidebar bind:isExpanded />
 	{:else}
