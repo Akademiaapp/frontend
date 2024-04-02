@@ -27,7 +27,7 @@
 	<div class="top">
 		<UserAvatar name />
 		<div class="flex gap-2" id="quick-bar">
-			<QuickBar isTimerVisible={false}></QuickBar>
+			<QuickBar bind:isTimerVisible></QuickBar>
 		</div>
 	</div>
 </div>
@@ -45,8 +45,8 @@
 		</div>
 	{/if}
 </div>
-
 <Timer bind:visible={isTimerVisible}></Timer>
+
 
 <style lang="scss">
 	.cont {
