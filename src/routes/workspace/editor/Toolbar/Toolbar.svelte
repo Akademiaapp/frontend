@@ -283,7 +283,7 @@
 				portal={null}
 				selected={{ value: selectedType, label: selectedTypeObject.label }}
 			>
-				<Select.Trigger class="h-8 w-[7.8rem]">
+				<Select.Trigger class="h-8 w-[6rem] overflow-hidden text-nowrap">
 					<Select.Value />
 				</Select.Trigger>
 				<Select.Content class="!w-36">
