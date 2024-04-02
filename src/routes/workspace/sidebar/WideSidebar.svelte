@@ -20,7 +20,7 @@
 
 	$: console.log($currentFile instanceof AssignmentAnswer);
 
-	let currentTab;
+	export let currentTab;
 </script>
 
 <div class="cont br-2 float-panel">
