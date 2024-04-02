@@ -108,11 +108,11 @@ class ApiHandler {
 	};
 
 	getSchools = () => {
-		return this.callApi('/schools');
+		return this.callApi('/public/schools');
 	}
 
 	getSchoolClasses = (schoolId) => {
-		return this.callApi('/schools/' + schoolId + '/groups');
+		return this.callApi('/public/schools/' + schoolId + '/groups');
 	}
 }
 
