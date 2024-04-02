@@ -34,6 +34,11 @@
 
 	$: updateServerSideSelectedMembers(selectedMembers);
 	function getIdList() {
+		if (selectedMembers.length === 0) return [];
+		// Clear undefined values
+		selectedMembers = selectedMembers.filter((member) => member !== undefined);
+		
+		console.log("MEMMEEM: ", selectedMembers);
 		return selectedMembers.map((member) => member.id).filter((id) => id);
 	}
 
