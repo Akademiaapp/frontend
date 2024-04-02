@@ -12,7 +12,7 @@
 
 <SelectPrimitive.Trigger
 	class={cn(
-		'flex h-10 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+		'relative flex h-10 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
 		className
 	)}
 	{...$$restProps}
@@ -21,7 +21,7 @@
 	on:keydown
 >
 	<slot {builder} />
-	<div>
+	<div class="absolute right-0 grid h-full place-items-center bg-white px-0.5">
 		<ChevronDown class="h-4 w-4 opacity-50" />
 	</div>
 </SelectPrimitive.Trigger>
