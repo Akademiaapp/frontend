@@ -3,7 +3,7 @@
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
 	import { ComputeEngine } from '@cortex-js/compute-engine';
-	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
+	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath, makeSharedVirtualKeyboard } from 'mathlive';
 	import { NodeViewContent } from 'svelte-tiptap';
 	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
@@ -95,6 +95,13 @@
 		} catch (e) {
 			console.error(e);
 		}
+
+		const mathVirtualKeyboard = makeSharedVirtualKeyboard();
+
+		mf.mathVirtualKeyboardPolicy = "manual";
+		mf.addEventListener("focusin", () =>  mathVirtualKeyboard.show());
+		mf.addEventListener("focusout", () =>  mathVirtualKeyboard.hide());
+
 		mf.addEventListener('input', handleKeyDown);
 
 		mf.addEventListener('move-out', (event) => {
