@@ -157,7 +157,7 @@
 </script>
 
 {#if $editor && selection && selectedTextStyle && selectedTypeObject}
-	<div id="toolbar">
+	<div id="toolbar" class="overflow-hidden">
 		<div class="flex-[100px]"></div>
 		<div id="style-controls" class="br-2 bar frontground">
 			<ToolbarButton
@@ -225,7 +225,7 @@
 			>
 				<Highlighter size="18" />
 			</ToolbarButton>
-			<Popover.Root portal={null}>
+			<Popover.Root>
 				<Popover.Trigger asChild let:builder>
 					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]"
 						><AlignLeft size="18" /></Button
@@ -279,10 +279,7 @@
 					style={'color: ' + selection.getAttributes('textStyle').color}><Brush size="18" /></label
 				>
 			</div>
-			<Select.Root
-				portal={null}
-				selected={{ value: selectedType, label: selectedTypeObject.label }}
-			>
+			<Select.Root selected={{ value: selectedType, label: selectedTypeObject.label }}>
 				<Select.Trigger class="h-8 w-[7.8rem]">
 					<Select.Value />
 				</Select.Trigger>
@@ -315,7 +312,7 @@
 			>
 				<Subscript size="18" />
 			</ToolbarButton>
-			<Popover.Root portal={null}>
+			<Popover.Root>
 				<Popover.Trigger asChild let:builder>
 					<Button
 						builders={[builder]}
@@ -362,7 +359,7 @@
 			>
 				<CodeSquare size="18" />
 			</ToolbarButton>
-			<Popover.Root portal={null}>
+			<Popover.Root>
 				<Popover.Trigger asChild let:builder>
 					<Button
 						builders={[builder]}
@@ -397,7 +394,7 @@
 			>
 				<MessageSquareQuote size="18" />
 			</ToolbarButton>
-			<Popover.Root portal={null}>
+			<Popover.Root>
 				<Popover.Trigger asChild let:builder>
 					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]" title="Liste"
 						><List size="18" /></Button
@@ -429,7 +426,7 @@
 					</div>
 				</Popover.Content>
 			</Popover.Root>
-			<Popover.Root portal={null}>
+			<Popover.Root>
 				<Popover.Trigger asChild let:builder>
 					<Button builders={[builder]} variant="ghost" class="h-8 p-[0.35rem]" title="Insert"
 						><BetweenHorizonalEnd size="18" /></Button
@@ -458,7 +455,7 @@
 				</Popover.Content>
 			</Popover.Root>
 		</div>
-		<div class="flex h-full flex-[100px] justify-end gap-2 pl-4">
+		<div class="flex h-full flex-[100px] justify-end gap-2 pl-2">
 			{#if $currentFile instanceof Assignment}
 				<Assign />
 			{:else if $currentFile instanceof AssignmentAnswer}
