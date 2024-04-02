@@ -14,6 +14,7 @@
 		documentStore,
 		FileInfo
 	} from '@/api/apiStore';
+	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 
 	let editor: Readable<Editor>;
 
@@ -61,6 +62,7 @@
 			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
+			<AnswerSelector />
 		{:else }
 			<Toolbar bind:isNote />
 		{/if}
