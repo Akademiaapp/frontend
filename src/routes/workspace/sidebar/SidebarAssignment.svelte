@@ -65,14 +65,6 @@
 			<p>Loading...</p>
 		{/if}
 	</div>
-	{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
-		<div class="my-4 w-full border-t-[1px] border-gray-400 opacity-60" />
-		<div>
-			<h2>Karakter: {$currentFile.grade}</h2>
-			<h2>Feedback:</h2>
-			<p>{$currentFile.feedback}</p>
-		</div>
-	{/if}
 </div>
 
 <style lang="scss">
