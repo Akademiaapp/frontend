@@ -45,9 +45,11 @@
 			console.log($currentFile.asigned_groups_ids);
 			console.log(getIdList());
 			console.log($currentFile.asigned_groups_ids == getIdList());
-			$currentFile.updateInfo({
-				asigned_groups_ids: getIdList()
-			});
+			if (getIdList().length > 0) {
+				$currentFile.updateInfo({
+					asigned_groups_ids: getIdList()
+				});
+			}
 		}
 	}
 	function addMember(member) {
