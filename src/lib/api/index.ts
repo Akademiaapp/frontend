@@ -114,6 +114,10 @@ class ApiHandler {
 	getSchoolClasses = (schoolId) => {
 		return this.callApi('/public/schools/' + schoolId + '/groups');
 	}
+
+	getSchoolMembers = (schoolId) => {
+		return this.callApi('/public/schools/' + schoolId + '/users');
+	}
 }
 
 export default new ApiHandler();

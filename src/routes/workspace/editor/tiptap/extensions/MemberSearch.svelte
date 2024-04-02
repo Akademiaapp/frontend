@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Assignment, currentFile } from '@/api/apiStore';
+	import api from '@/api';
+	import { Assignment, currentFile, userInfo } from '@/api/apiStore';
 	import {
 		Command,
 		CommandEmpty,
@@ -9,32 +10,27 @@
 		CommandList,
 		CommandSeparator
 	} from '@/components/ui/command';
-	import Input from '@/components/ui/input/input.svelte';
-	import { AlignHorizontalSpaceBetween, X } from 'lucide-svelte';
+	import { X } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	let focused = false;
 	$: console.log(value);
 
 	let value: string;
 
-	let groups = [
-		{ id: '7d11131a-0807-4320-bc8a-d2ceda97f14c', name: '9.A' },
-		{ id: 'c4cc331c-09d3-4f8f-aec8-11cf30389773', name: '9.B' },
-		{ id: '256cc997-a7e8-4430-a8ce-6f15c216fdf7', name: '9.C' },
-		{ id: '8c0ac6c5-573b-4ab9-83b4-5b6dd46e559d', name: '8.A' },
-		{ id: 'a2e664f1-7817-4dac-aa56-3ccf9c5774bb', name: '8.B' },
-		{ id: '353b815e-53a2-44e0-b2df-b9dab4f53f42', name: '8.C' },
-		{ id: 'e6ff82ef-74a6-45a1-bb67-d9096aa3a0f9', name: '7.A' },
-		{ id: '2098f083-a0f5-482e-bed1-e593bf8682b6', name: '7.B' },
-		{ id: '', name: '7.C' }
-	];
-
-	let selectedMembers = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
-		let group = groups.find((group) => group.id == id);
-		if (group) return group;
+	let groups = [];
+	let members = [];
+	let selectedMembers = [];
+	
+	onMount(async () => {
+		groups = await (await api.getSchoolClasses($userInfo.schoolId)).json();
+		members = await (await api.getSchoolMembers($userInfo.schoolId)).json();
+		selectedMembers = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
+			let group = groups.find((group) => group.id == id);
+			if (group) return group;
+		});
 	});
 
-	let members = ['Emma Johnson', 'Aiden Smith', 'Sophia Davis', 'Liam Wilson', 'Olivia Thompson'];
 
 	$: updateServerSideSelectedMembers(selectedMembers);
 	function getIdList() {
@@ -80,31 +76,33 @@
 			wrapperClass={focused ? 'border-b' : 'border-none'}
 			disabled={!editable}
 		>
-			{#each selectedMembers as member}
-				<!-- content here -->
-				<div class="mr-2 flex gap-1">
-					<div class="selectedMemeber">
-						<button
-							class="reset"
-							on:click={() => {
-								selectedMembers = selectedMembers.filter((item) => item !== member);
-							}}
-							disabled={!editable}
-						>
-							<X size="10"></X>
-						</button>
-						<p>
-							{member.name}
-						</p>
+			{#if selectedMembers.length > 0}
+				{#each selectedMembers as member}
+					<!-- content here -->
+					<div class="mr-2 flex gap-1">
+						<div class="selectedMemeber">
+							<button
+								class="reset"
+								on:click={() => {
+									selectedMembers = selectedMembers.filter((item) => item !== member);
+								}}
+								disabled={!editable}
+							>
+								<X size="10"></X>
+							</button>
+							<p>
+								{member.name}
+							</p>
+						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+			{/if}
 		</CommandInput>
 		{#if focused}
 			<!-- content here -->
 
 			<CommandList>
-				<CommandEmpty>No results found.</CommandEmpty>
+				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Grupper">
 					{#each groups as group}
 						<CommandItem onSelect={() => addMember(group)}>{group.name}</CommandItem>
@@ -114,8 +112,8 @@
 				<CommandGroup heading="Elever">
 					{#each members as member}
 						<CommandItem
-							on:click={() => addMember({ name: member, id: null })}
-							onSelect={() => addMember({ name: member, id: null })}>{member}</CommandItem
+							on:click={() => addMember({ name: (member.first_name + ' ' + member.last_name), id: member.id })}
+							onSelect={() => addMember({ name: (member.first_name + ' ' + member.last_name), id: member.id })}>{member.first_name} {member.last_name}</CommandItem
 						>
 					{/each}
 				</CommandGroup>
