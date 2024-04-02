@@ -1,4 +1,5 @@
 <script lang="ts">
+	import MemberSearch from './MemberSearch.svelte';
 	import api from '@/api';
 	import { Assignment, currentFile, userInfo } from '@/api/apiStore';
 	import {
@@ -21,7 +22,7 @@
 	let groups = [];
 	let members = [];
 	let selectedMembers = [];
-	
+
 	onMount(async () => {
 		groups = await (await api.getSchoolClasses($userInfo.schoolId)).json();
 		members = await (await api.getSchoolMembers($userInfo.schoolId)).json();
@@ -31,14 +32,13 @@
 		});
 	});
 
-
 	$: updateServerSideSelectedMembers(selectedMembers);
 	function getIdList() {
 		if (selectedMembers.length === 0) return [];
 		// Clear undefined values
 		selectedMembers = selectedMembers.filter((member) => member !== undefined);
-		
-		console.log("MEMMEEM: ", selectedMembers);
+
+		console.log('MEMMEEM: ', selectedMembers);
 		return selectedMembers.map((member) => member.id).filter((id) => id);
 	}
 
@@ -62,12 +62,22 @@
 			selectedMembers = [...selectedMembers, member];
 		}
 		value = '';
+		focused = false;
 	}
 
 	export let editable = true;
+
+	function updateFocus(e) {
+		if (!document.getElementById('memberSearch').contains(e.target)) {
+			focused = false;
+			window.removeEventListener('click', updateFocus);
+			console.log('hd');
+			value = '';
+		}
+	}
 </script>
 
-<Command class="grid overflow-visible border-none">
+<Command class="grid overflow-visible border-none" id="memberSearch">
 	<div
 		class={`absolute box-content w-[400px] rounded-md border-input bg-background ${focused && 'border drop-shadow-md'}`}
 	>
@@ -75,9 +85,7 @@
 			placeholder={'Tilføj klasser eller elever'}
 			on:focus={() => {
 				focused = true;
-			}}
-			on:blur={() => {
-				focused = false;
+				window.addEventListener('click', updateFocus);
 			}}
 			bind:value
 			wrapperClass={focused ? 'border-b' : 'border-none'}
@@ -106,8 +114,6 @@
 			{/if}
 		</CommandInput>
 		{#if focused}
-			<!-- content here -->
-
 			<CommandList>
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Grupper">
@@ -119,8 +125,11 @@
 				<CommandGroup heading="Elever">
 					{#each members as member}
 						<CommandItem
-							on:click={() => addMember({ name: (member.first_name + ' ' + member.last_name), id: member.id })}
-							onSelect={() => addMember({ name: (member.first_name + ' ' + member.last_name), id: member.id })}>{member.first_name} {member.last_name}</CommandItem
+							on:click={() =>
+								addMember({ name: member.first_name + ' ' + member.last_name, id: member.id })}
+							onSelect={() =>
+								addMember({ name: member.first_name + ' ' + member.last_name, id: member.id })}
+							>{member.first_name} {member.last_name}</CommandItem
 						>
 					{/each}
 				</CommandGroup>
