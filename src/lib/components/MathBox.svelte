@@ -96,7 +96,7 @@
 			console.error(e);
 		}
 
-		const mathVirtualKeyboard = makeSharedVirtualKeyboard();
+		const mathVirtualKeyboard = window.mathVirtualKeyboard;
 
 		mf.mathVirtualKeyboardPolicy = "manual";
 		mf.addEventListener("focusin", () =>  {if (editable) {mathVirtualKeyboard.show()}});
