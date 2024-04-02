@@ -99,8 +99,8 @@
 		const mathVirtualKeyboard = makeSharedVirtualKeyboard();
 
 		mf.mathVirtualKeyboardPolicy = "manual";
-		mf.addEventListener("focusin", () =>  mathVirtualKeyboard.show());
-		mf.addEventListener("focusout", () =>  mathVirtualKeyboard.hide());
+		mf.addEventListener("focusin", () =>  {if (editable) {mathVirtualKeyboard.show()}});
+		mf.addEventListener("focusout", () =>  {if (editable) {mathVirtualKeyboard.hide()}});
 
 		mf.addEventListener('input', handleKeyDown);
 
