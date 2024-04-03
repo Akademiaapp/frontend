@@ -22,10 +22,10 @@
 		<Textarea placeholder="Giv feedback til opgaven" class="resize-none text-lg" />
 		<div class="flex flex-col justify-evenly gap-1">
 			<Select>
-				<SelectTrigger noArrow class="w-[70px]">
+				<SelectTrigger noArrow class="flex w-10 overflow-hidden">
 					<SelectValue placeholder="Karakter" />
 				</SelectTrigger>
-				<SelectContent class="!w-[100px]">
+				<SelectContent class="!w-[70px]">
 					{#each karakter as k}
 						<SelectItem value={k}>{k}</SelectItem>
 					{/each}

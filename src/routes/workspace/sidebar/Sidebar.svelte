@@ -51,13 +51,10 @@
 	let sidebar;
 	let currentTab;
 
-	// $: maxWidth = currentTab == 'assignment' ? 600 : 400;
+	$: maxWidth = currentTab == 'assignment' ? 600 : 400;
 	$: minWidth = currentTab == 'assignment' ? 400 : 275;
-	$: if (currentTab == 'assignment') {
-		$sidebarWidth = '550px';
-		anim();
-	} else {
-		$sidebarWidth = maxWidth + 'px';
+	$: {
+		$sidebarWidth = currentTab == 'assignment' ? '450px' : currentTab == 'chat' ? '400px' : '300px';
 		anim();
 	}
 </script>
