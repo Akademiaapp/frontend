@@ -3,7 +3,7 @@
 	import QuickTabs from './quickActions/QuickTabs.svelte';
 	import QuickBar from './quickActions/QuickBar.svelte';
 	import SidebarAssignment from './SidebarAssignment.svelte';
-	import FileViewer from './FileViewer.svelte';
+	import FileViewer from './fileViewer/FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
 	import { AssignmentAnswer, currentFile } from '@/api/apiStore';

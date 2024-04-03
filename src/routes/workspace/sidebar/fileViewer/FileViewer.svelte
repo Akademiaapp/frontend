@@ -3,7 +3,7 @@
 	import File from './File.svelte';
 	import api from '$lib/api';
 
-	import SideBarElem from './SideBarElem.svelte';
+	import SideBarElem from '../SideBarElem.svelte';
 	import randomName from '$lib/randomName';
 	import {
 		DocumentInfo,
@@ -14,7 +14,7 @@
 		newDocument
 	} from '@/api/apiStore';
 	import FolderItem from './FolderItem.svelte';
-	import Document from '../home/activeFiles/Document.svelte';
+	import Document from '../../home/activeFiles/Document.svelte';
 	import { onMount, tick } from 'svelte';
 	import Category from './Category.svelte';
 
