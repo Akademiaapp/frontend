@@ -33,7 +33,7 @@
     });
    
     let open = false;
-    let value = "";
+    export let value = "";
    
     $: selectedValue =
       value !== '' ? (answers.find((f) => f.id === value)?.student.first_name + ' ' + answers.find((f) => f.id === value)?.student.last_name) : "Vælg en elev...";
@@ -64,6 +64,12 @@
       } else {
         value = answers[answers.length -1].id;
       }
+    }
+
+    $: updateSelectedAssignmentAnswer(value);
+
+    function updateSelectedAssignmentAnswer(newId) {
+      console.log("New id: ", newId);
     }
 </script>
 

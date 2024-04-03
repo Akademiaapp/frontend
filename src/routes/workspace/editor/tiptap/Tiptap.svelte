@@ -14,6 +14,11 @@
 
 	$: if ($currentFile) initializeTiptap($currentFile);
 
+	export let answer = false;
+
+	$: if (answer !== false) initializeTiptap(false);
+	$: console.log('answer', answer);
+
 	// this is needed
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
@@ -28,16 +33,20 @@
 	export let connected = false;
 
 	let editable = true;
-	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
+	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic || answer) editable = false;
 
 	$: console.log('token: ', $keycloakState.token);
 
 	function initializeTiptap(initcurrentFile: FileInfo | Assignment | AssignmentAnswer | null) {
-		if (!initcurrentFile) {
+		if (!initcurrentFile && !answer) {
+			return;
+		}
+		let fileName = answer ? 'assignmentAnswers.' + answer : `${initcurrentFile.fileType}.${initcurrentFile.id}`;
+		if (!fileName) {
 			return;
 		}
 		connected = false;
-		console.log('Initializing tiptap', initcurrentFile);
+		console.log('Initializing tiptap', fileName);
 		if ($editor) {
 			$editor.destroy();
 		}
@@ -47,7 +56,7 @@
 		provider = new HocuspocusProvider({
 			url: getCollaborationUrl(),
 			token: 'Bearer ' + $keycloakState.token,
-			name: `${initcurrentFile.fileType}.${initcurrentFile.id}`,
+			name: fileName,
 			onAuthenticationFailed: () => {
 				$editor.destroy();
 				provider.destroy();
@@ -62,7 +71,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: getExtensions(provider, $currentFile instanceof Assignment),
+						extensions: getExtensions(provider, ($currentFile instanceof Assignment && !answer)),
 						editable: editable,
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
