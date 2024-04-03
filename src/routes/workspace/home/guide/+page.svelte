@@ -27,7 +27,7 @@
 		{
 			target: '#overview',
 			title: 'Oversigt',
-			content: 'Her kan du se dine afleveringe og aktive filer og filer.',
+			content: 'Her kan du se dine afleveringe og aktive filer og noter.',
 			order: 3
 		},
 		{
