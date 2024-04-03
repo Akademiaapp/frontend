@@ -35,7 +35,7 @@
 		}, 300);
 	}
 
-	let maxWidth = 400;
+	let maxWidth = 600;
 	let minWidth = 275;
 
 	let slimSidebarWidth = 54.4;
@@ -46,10 +46,12 @@
 		});
 	}
 
+	const widths = { files: '300px', assignment: '450px', chat: '400px' };
+
 	let sidebar;
 	let currentTab;
 
-	$: maxWidth = currentTab == 'assignment' ? 600 : 400;
+	// $: maxWidth = currentTab == 'assignment' ? 600 : 400;
 	$: minWidth = currentTab == 'assignment' ? 400 : 275;
 	$: if (currentTab == 'assignment') {
 		$sidebarWidth = '550px';
