@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Notebook, PanelLeft, Settings, File, Search } from 'lucide-svelte';
-	import QuickAction from '../quickActions/QuickAction.svelte';
-	import SearchQ from '../quickActions/SearchQ.svelte';
+	import QuickAction from './quickActions/QuickAction.svelte';
+	import SearchQ from './quickActions/SearchQ.svelte';
 	import AulaNotif from './AulaNotif.svelte';
 	import { newDocument } from '@/api/apiStore';
 

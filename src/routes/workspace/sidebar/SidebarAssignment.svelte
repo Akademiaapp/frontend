@@ -1,5 +1,5 @@
 <script lang="ts">
-	import QuickBar from '../quickActions/QuickBar.svelte';
+	import QuickBar from './quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import { ChevronLeft } from 'lucide-svelte';
 	import { EditorExtensions } from '@/editor/extensions';

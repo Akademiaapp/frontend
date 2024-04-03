@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Separator } from '$lib/components/ui/separator';
-	import QuickTabs from './../quickActions/QuickTabs.svelte';
-	import QuickBar from './../quickActions/QuickBar.svelte';
+	import QuickTabs from './quickActions/QuickTabs.svelte';
+	import QuickBar from './quickActions/QuickBar.svelte';
 	import SidebarAssignment from './SidebarAssignment.svelte';
 	import FileViewer from './FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
@@ -46,7 +46,6 @@
 	{/if}
 </div>
 <Timer bind:visible={isTimerVisible}></Timer>
-
 
 <style lang="scss">
 	.cont {
