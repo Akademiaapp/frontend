@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SidebarAssignment from './sidebar/SidebarAssignment.svelte';
+	import SidebarAssignment from './sidebar/tabs/AssignmentTab.svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
 	import {
 		updateDocuments,

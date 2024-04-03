@@ -1,11 +1,11 @@
 <script lang="ts">
-	import QuickBar from './quickActions/QuickBar.svelte';
+	import QuickBar from '../quickActions/QuickBar.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import { ChevronLeft } from 'lucide-svelte';
 	import { EditorExtensions } from '@/editor/extensions';
-	import { Title } from '../editor/tiptap/extensions/title';
+	import { Title } from '../../editor/tiptap/extensions/title';
 	import Document from '@tiptap/extension-document';
-	import getExtensions from '../editor/tiptap/getExtensions';
+	import getExtensions from '../../editor/tiptap/getExtensions';
 	import api from '@/api';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 	import { TiptapTransformer } from '@hocuspocus/transformer';

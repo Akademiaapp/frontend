@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { sidebarWidth } from './../../store.ts';
+	import { sidebarWidth } from './../../store';
 	import { clamp } from '@/utils/mathUtils';
 	import SlimSidebar from './SlimSidebar.svelte';
 	import WideSidebar from './WideSidebar.svelte';

@@ -2,12 +2,13 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import QuickTabs from './quickActions/QuickTabs.svelte';
 	import QuickBar from './quickActions/QuickBar.svelte';
-	import SidebarAssignment from './SidebarAssignment.svelte';
+	import AssignmentTab from './tabs/AssignmentTab.svelte';
 	import FileViewer from './fileViewer/FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
 	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
 	import { editor } from '../editor/editorStore';
+	import ChatTab from './tabs/ChatTab.svelte';
 	export let isExpanded: boolean;
 
 	let isTimerVisible: boolean;
@@ -34,15 +35,11 @@
 <div class="br-2 flex flex-grow flex-col overflow-y-hidden bg-background">
 	<QuickTabs bind:currentTab onClose={() => (isExpanded = false)} />
 	<Separator></Separator>
-	<SidebarAssignment isAssignmentDescriptionOpen={currentTab == 'assignment'} />
+	<AssignmentTab isAssignmentDescriptionOpen={currentTab == 'assignment'} />
 	{#if currentTab == 'files'}
 		<FileViewer />
 	{:else if currentTab == 'chat' && $currentFile instanceof AssignmentAnswer}
-		<div class="p-5">
-			<h1 class="mb-1">Feedback:</h1>
-			<h2>Karakter: {$currentFile.grade}</h2>
-			<p>{$currentFile.feedback}</p>
-		</div>
+		<ChatTab />
 	{/if}
 </div>
 <Timer bind:visible={isTimerVisible}></Timer>
