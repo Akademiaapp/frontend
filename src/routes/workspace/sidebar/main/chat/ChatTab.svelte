@@ -52,11 +52,6 @@
 	<p>loading...</p>
 {:else if file instanceof AssignmentAnswer}
 	<div class="flex h-full flex-col justify-between text-lg">
-		<!-- <div class="p-5">
-			<h1 class="mb-1">Feedback:</h1>
-			<h2>Karakter: {file.grade}</h2>
-			<p>{file.feedback}</p>
-		</div> -->
 		<div class="flex flex-col gap-2 p-5">
 			<div class="flex flex-col gap-1"></div>
 			<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
@@ -64,11 +59,11 @@
 		</div>
 
 		<div
-			class="flex border-t-2 border-border bg-background shadow-2xl shadow-black/40 drop-shadow-sm"
+			class="flex border-t-2 border-border bg-background pt-1 shadow-2xl shadow-black/40 drop-shadow-sm"
 		>
 			<TextareaAutosize
 				placeholder={'Giv feedback til opgaven...'}
-				class={'max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0' +
+				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0' +
 					(file.grade ? 'h-1 min-h-full' : 'min-h-[9rem]')}
 				id="feedback"
 				bind:value={msg}
