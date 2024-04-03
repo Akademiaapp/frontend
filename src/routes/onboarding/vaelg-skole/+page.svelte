@@ -39,7 +39,7 @@
 	let searchedSchools = [];
 
 	function search(query) {
-		searchedSchools = schools.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()));
+		searchedSchools = (schools.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()))).splice(0, 20);
 	}
 </script>
 
