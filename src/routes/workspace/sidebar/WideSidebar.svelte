@@ -1,14 +1,15 @@
 <script lang="ts">
+	import FileViewer from './main/fileViewer/FileViewer.svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	import QuickTabs from './quickActions/QuickTabs.svelte';
 	import QuickBar from './quickActions/QuickBar.svelte';
-	import AssignmentTab from './tabs/AssignmentTab.svelte';
-	import FileViewer from './fileViewer/FileViewer.svelte';
+	import AssignmentTab from './main/assignment/AssignmentTab.svelte';
+
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
 	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
 	import { answer, editor } from '../editor/editorStore';
-	import ChatTab from './tabs/ChatTab.svelte';
+	import ChatTab from './main/chat/ChatTab.svelte';
 	export let isExpanded: boolean;
 
 	let isTimerVisible: boolean;

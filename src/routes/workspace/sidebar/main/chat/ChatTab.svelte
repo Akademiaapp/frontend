@@ -5,7 +5,7 @@
 	import SelectTrigger from '@/components/ui/select/select-trigger.svelte';
 	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import { Send } from 'lucide-svelte';
-	import { answer } from '../../editor/editorStore';
+	import { answer } from '../../../editor/editorStore';
 	import api from '@/api';
 	import { onMount } from 'svelte';
 

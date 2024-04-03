@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DocumentInfo, FileInfo, currentFile } from '@/api/apiStore';
 	import { capLength } from '$lib/utils/stringUtils';
-	import SideBarElem from '../SideBarElem.svelte';
+	import SideBarElem from '../../SideBarElem.svelte';
 	import { File, Notebook } from 'lucide-svelte';
 	export let file: FileInfo | DocumentInfo;
 	export let onClick = () => {

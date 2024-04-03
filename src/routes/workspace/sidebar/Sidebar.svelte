@@ -51,7 +51,7 @@
 	let sidebar;
 	let currentTab;
 
-	$: maxWidth = currentTab == 'assignment' ? 600 : 400;
+	$: maxWidth = currentTab == 'assignment' ? 600 : 550;
 	$: minWidth = currentTab == 'assignment' ? 400 : 275;
 	$: {
 		anim();

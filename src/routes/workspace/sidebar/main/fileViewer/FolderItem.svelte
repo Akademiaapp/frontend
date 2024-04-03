@@ -2,10 +2,10 @@
 	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
 	import type { FileInfo, Folder } from '@/api/apiStore';
-	import SideBarElem from '../SideBarElem.svelte';
+	import SideBarElem from '../../SideBarElem.svelte';
 	import { ArrowLeft, ChevronRight } from 'lucide-svelte';
 	import File from './File.svelte';
-	import EmojiSelector from '../../../emoji/EmojiSelector.svelte';
+	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
 
 	export let open: boolean = false;
 
