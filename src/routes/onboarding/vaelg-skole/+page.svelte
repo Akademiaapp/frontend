@@ -20,6 +20,7 @@
 	onMount(async () => {
 		schools = await (await api.getSchools()).json();
 		console.log(schools);
+		searchedSchools = schools.splice(0, 20);
 	});
 
 	function selectSchool(schoolId) {
@@ -34,6 +35,12 @@
 
 	let focused = false;
 	let selectedSchool = null;
+
+	let searchedSchools = [];
+
+	function search(query) {
+		searchedSchools = schools.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()));
+	}
 </script>
 
 <h1>Vælg din skole</h1>
@@ -45,6 +52,7 @@
 				selectedSchoolId.set(null);
 			}}
 			on:blur={() => (focused = false)}
+			on:input={(e) => search(e.target.value)}
 			placeholder={selectedSchool || 'Søg efter din skole'}
 			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
 		>
@@ -58,7 +66,7 @@
 			<CommandList>
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
-					{#each schools as school (school)}
+					{#each searchedSchools as school (school)}
 						<CommandItem onSelect={() => selectSchool(school.id)}>{school.name}</CommandItem>
 					{/each}
 				</CommandGroup>
