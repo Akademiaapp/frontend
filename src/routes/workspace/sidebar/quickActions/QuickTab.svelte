@@ -33,28 +33,6 @@
 		transition: box-shadow 400ms;
 	}
 
-	.tooltip::after {
-		content: var(--tooltip);
-		background-color: var(--color-bg-2);
-		padding: 0.15rem 0.5rem;
-		transform: translateY(calc(-50% - 1rem));
-		white-space: nowrap;
-		position: absolute;
-		opacity: 0;
-		border-radius: 0.25rem;
-		font-size: small;
-
-		box-shadow: 0rem 0rem 0.4rem rgba(0, 0, 0, 0.1);
-
-		transition: all 400ms 50ms;
-	}
-
-	.tooltip:hover::after {
-		opacity: 1;
-		transform: translateY(calc(-50% - 1.2rem));
-		transition: all 400ms 300ms;
-	}
-
 	span {
 		font-size: 2rem;
 
