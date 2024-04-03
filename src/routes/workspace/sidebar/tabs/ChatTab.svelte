@@ -9,6 +9,11 @@
 	import api from '@/api';
 	import { onMount } from 'svelte';
 
+	onMount(() => {
+		grade = null;
+		document.getElementById('feedback').value = '';
+	});
+
 	const karakter = ['0', '02', '4', '7', '10', '12'];
 
 	let file = null;
