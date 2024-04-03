@@ -16,8 +16,10 @@
 		);
 		ding.play();
 		toast.success('Tiden er oppe!', { description: 'Timeren nåede 0.' });
-		remainingTime = 30 * 60;
 		isStarted = false;
+		setTimeout(() => {
+			remainingTime = 30 * 60;
+		}, 5000);
 	}
 
 	setInterval(() => {
