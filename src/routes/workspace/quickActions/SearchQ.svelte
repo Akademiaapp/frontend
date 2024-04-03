@@ -51,14 +51,14 @@
 		<Command.Separator />
 		<Command.Group heading="Kommandoer">
 			<Command.Item onSelect={() => {
-					newDocument('Unavngivet dokument', true, false);
+					newDocument('Uden titel', true, false);
 					isSeaching = false;
 				}}>
 				<FilePen strokeWidth={1.5}></FilePen>
 				Nyt dokument
 			</Command.Item>
 			<Command.Item onSelect={() => {
-					newDocument('Unavngivet dokument', true, true);
+					newDocument('Uden titel', true, true);
 					isSeaching = false;
 				}}>
 				<NotebookPen strokeWidth={1.5}></NotebookPen>
