@@ -3,11 +3,13 @@
 	import { ChevronDown } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 
-	type $$Props = SelectPrimitive.TriggerProps;
+	type $$Props = SelectPrimitive.TriggerProps & { noArrow?: boolean };
 	type $$Events = SelectPrimitive.TriggerEvents;
 
 	let className: $$Props['class'] = undefined;
 	export { className as class };
+
+	export let noArrow = false;
 </script>
 
 <SelectPrimitive.Trigger
@@ -21,7 +23,9 @@
 	on:keydown
 >
 	<slot {builder} />
-	<div class="absolute right-0 grid h-full place-items-center bg-white dark:bg-secondary px-0.5">
-		<ChevronDown class="h-4 w-4 opacity-50" />
-	</div>
+	{#if !noArrow}
+		<div class="absolute right-0 grid h-full place-items-center bg-white px-0.5 dark:bg-secondary">
+			<ChevronDown class="h-4 w-4 opacity-50" />
+		</div>
+	{/if}
 </SelectPrimitive.Trigger>

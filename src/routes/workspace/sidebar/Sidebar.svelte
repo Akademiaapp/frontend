@@ -53,8 +53,10 @@
 	$: minWidth = currentTab == 'assignment' ? 400 : 275;
 	$: if (currentTab == 'assignment') {
 		$sidebarWidth = '550px';
+		anim();
 	} else {
 		$sidebarWidth = maxWidth + 'px';
+		anim();
 	}
 </script>
 
