@@ -3,7 +3,7 @@
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
-	import { editor } from '../editorStore';
+	import { editor, answer } from '../editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentProgress, DocumentInfo, FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
@@ -14,10 +14,7 @@
 
 	$: if ($currentFile) initializeTiptap($currentFile);
 
-	export let answer = false;
-
-	$: if (answer !== false) initializeTiptap(false);
-	$: console.log('answer', answer);
+	$: if ($answer) initializeTiptap(false);
 
 	// this is needed
 	let currentFileName = '';
@@ -38,10 +35,10 @@
 	$: console.log('token: ', $keycloakState.token);
 
 	function initializeTiptap(initcurrentFile: FileInfo | Assignment | AssignmentAnswer | null) {
-		if (!initcurrentFile && !answer) {
+		if (!initcurrentFile && !$answer) {
 			return;
 		}
-		let fileName = answer ? 'assignmentAnswers.' + answer : `${initcurrentFile.fileType}.${initcurrentFile.id}`;
+		let fileName = $answer ? 'assignmentAnswers.' + $answer : `${initcurrentFile.fileType}.${initcurrentFile.id}`;
 		if (!fileName) {
 			return;
 		}
@@ -71,7 +68,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: getExtensions(provider, ($currentFile instanceof Assignment && !answer)),
+						extensions: getExtensions(provider, ($currentFile instanceof Assignment && !$answer)),
 						editable: editable,
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);

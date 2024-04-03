@@ -5,7 +5,8 @@
 	import { page } from '$app/stores';
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
-	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';
 
@@ -28,7 +29,7 @@
 >
 	<QuickTab
 		action={() => switchTab('files')}
-		active={currentTab == 'files' && $currentFile instanceof AssignmentAnswer}
+		active={currentTab == 'files' && ($currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic))}
 	>
 		<Folder size="27"></Folder>
 	</QuickTab>
@@ -36,6 +37,8 @@
 		<QuickTab action={() => switchTab('assignment')} active={currentTab == 'assignment'}>
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
+	{/if}
+	{#if $currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic && $answer)}
 		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'}>
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>

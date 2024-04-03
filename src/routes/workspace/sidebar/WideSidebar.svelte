@@ -6,8 +6,8 @@
 	import FileViewer from './fileViewer/FileViewer.svelte';
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
-	import { AssignmentAnswer, currentFile } from '@/api/apiStore';
-	import { editor } from '../editor/editorStore';
+	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { answer, editor } from '../editor/editorStore';
 	import ChatTab from './tabs/ChatTab.svelte';
 	export let isExpanded: boolean;
 
@@ -38,7 +38,7 @@
 	<AssignmentTab isAssignmentDescriptionOpen={currentTab == 'assignment'} />
 	{#if currentTab == 'files'}
 		<FileViewer />
-	{:else if currentTab == 'chat' && $currentFile instanceof AssignmentAnswer}
+	{:else if currentTab == 'chat' && ($currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic))}
 		<ChatTab />
 	{/if}
 </div>

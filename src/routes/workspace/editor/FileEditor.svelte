@@ -15,8 +15,6 @@
 	}
 
 	let connected;
-	export let answer = false;
-	$: console.log('answer', answer);
 	console.log('isNote', isNote);
 </script>
 
@@ -24,7 +22,7 @@
 <div class="editor_wrapper" style:display={connected ? null : 'none'} style:width={isNote ? '100%' : 'max-content'} on:wheel={onScroll}>
 	<div id="pages" style:scale style:width={isNote ? '100%' : 'max-content'}>
 		<div class={"page" + (isNote ? ' w-full' : ' w-[750px]')}>
-			<Tiptap bind:connected bind:answer />
+			<Tiptap bind:connected />
 		</div>
 		<div class="page" hidden={isNote}/>
 	</div>

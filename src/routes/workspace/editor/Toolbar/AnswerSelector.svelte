@@ -8,6 +8,7 @@
     import { cn } from "$lib/utils.js";
     import { ChevronLeft, ChevronRight } from "lucide-svelte";
     import { Assignment, currentFile } from "@/api/apiStore";
+    import { answer } from "../editorStore";
     
     let answers = [] as { 
       id: string;
@@ -33,10 +34,9 @@
     });
    
     let open = false;
-    export let value = "";
    
     $: selectedValue =
-      value !== '' ? (answers.find((f) => f.id === value)?.student.first_name + ' ' + answers.find((f) => f.id === value)?.student.last_name) : "Vælg en elev...";
+      $answer ? (answers.find((f) => f.id === $answer)?.student.first_name + ' ' + answers.find((f) => f.id === $answer)?.student.last_name) : "Vælg en elev...";
    
     // We want to refocus the trigger button when the user selects
     // an item from the list so users can continue navigating the
@@ -49,27 +49,21 @@
     }
 
     function nextStudent() {
-      const previous_index = answers.findIndex((f) => f.id === value);
+      const previous_index = answers.findIndex((f) => f.id === $answer);
       if (answers[previous_index + 1]?.id !== undefined && answers.length > 1) {
-        value = answers[previous_index + 1].id;
+        $answer = answers[previous_index + 1].id;
       } else {
-        value = answers[0].id;
+        $answer = answers[0].id;
       }
     }
 
     function previousStudent() {
-      const previous_index = answers.findIndex((f) => f.id === value);
+      const previous_index = answers.findIndex((f) => f.id === $answer);
       if (answers[previous_index - 1]?.id !== undefined && answers.length > 1) {
-        value = answers[previous_index - 1].id;
+        $answer = answers[previous_index - 1].id;
       } else {
-        value = answers[answers.length -1].id;
+        $answer = answers[answers.length -1].id;
       }
-    }
-
-    $: updateSelectedAssignmentAnswer(value);
-
-    function updateSelectedAssignmentAnswer(newId) {
-      console.log("New id: ", newId);
     }
 </script>
 
@@ -95,21 +89,21 @@
             <Command.Input placeholder="Søg efter elev..." />
             <Command.Empty>Ingen elev fundet.</Command.Empty>
             <Command.Group>
-                {#each answers as answer}
+                {#each answers as answerr}
                 <Command.Item
-                    value={answer.id}
+                    value={answerr.id}
                     onSelect={(currentValue) => {
-                    value = currentValue;
+                    $answer = currentValue;
                     closeAndFocusTrigger(ids.trigger);
                     }}
                 >
                     <Check
                     class={cn(
                         "mr-2 h-4 w-4",
-                        value !== answer.id && "text-transparent"
+                        $answer !== answerr.id && "text-transparent"
                     )}
                     />
-                    {answer.student.first_name} {answer.student.last_name}
+                    {answerr.student.first_name} {answerr.student.last_name}
                 </Command.Item>
                 {/each}
             </Command.Group>

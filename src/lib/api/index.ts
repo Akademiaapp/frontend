@@ -118,6 +118,10 @@ class ApiHandler {
 	getSchoolMembers = (schoolId) => {
 		return this.callApi('/public/schools/' + schoolId + '/users');
 	}
+
+	getAssignmentAnswer = (assignmentId: string) => {
+		return this.callApi('/assignmentAnswers/' + assignmentId);
+	}
 }
 
 export default new ApiHandler();
