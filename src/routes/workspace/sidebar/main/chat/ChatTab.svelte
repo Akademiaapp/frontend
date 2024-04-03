@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, assignmentAnswerStore, currentFile } from '@/api/apiStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 	import SelectTrigger from '@/components/ui/select/select-trigger.svelte';
@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
+	import TextareaAutosize from '@/components/TextareaAutosize.svelte';
 
 	onMount(() => {
 		grade = null;
@@ -43,6 +44,8 @@
 	}
 
 	let grade = null;
+
+	let msg = '';
 </script>
 
 {#if !file}
@@ -63,27 +66,34 @@
 		<div
 			class="flex border-t-2 border-border bg-background shadow-2xl shadow-black/40 drop-shadow-sm"
 		>
-			<Textarea
-				placeholder={file.feedback ? file.feedback : 'Giv feedback til opgaven'}
-				class="h-[9rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0"
+			<TextareaAutosize
+				placeholder={'Giv feedback til opgaven...'}
+				class={'max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0' +
+					(file.grade ? 'h-1 min-h-full' : 'min-h-[9rem]')}
 				id="feedback"
+				bind:value={msg}
+				rows={file.grade ? 1 : 5}
 			/>
 			<div class="flex flex-col justify-between gap-1 p-2">
-				<Select>
-					<SelectTrigger noArrow class="flex w-10 overflow-hidden">
-						<SelectValue placeholder={file.grade ? file.grade : '??'} />
-					</SelectTrigger>
-					<SelectContent class="!w-[70px]">
-						{#each karakter as k}
-							<SelectItem value={k} on:click={() => (grade = k)}>{k}</SelectItem>
-						{/each}
-					</SelectContent>
-				</Select>
+				{#if !file.grade}
+					<Select>
+						<SelectTrigger noArrow class="flex w-10 overflow-hidden">
+							<SelectValue placeholder={file.grade ? file.grade : '??'} />
+						</SelectTrigger>
+						<SelectContent class="!w-[70px]">
+							{#each karakter as k}
+								<SelectItem value={k} on:click={() => (grade = k)}>{k}</SelectItem>
+							{/each}
+						</SelectContent>
+					</Select>
+				{/if}
 				<Button
 					class="aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground"
 					variant="ghost"
-					on:click={async () =>
-						await sendFeedback(file, grade, document.getElementById('feedback').value)}
+					on:click={async () => {
+						await sendFeedback(file, grade, msg);
+						msg = '';
+					}}
 				>
 					<Send size="20" class="fill-current " />
 				</Button>

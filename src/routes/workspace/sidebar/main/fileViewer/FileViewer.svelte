@@ -91,6 +91,7 @@
 	let atBottom = true;
 
 	function onscroll(event) {
+		if (!event.target) return;
 		const { scrollHeight, scrollTop, clientHeight } = event.target;
 		console.log(scrollHeight, scrollTop, clientHeight, scrollHeight - scrollTop - clientHeight);
 		atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
