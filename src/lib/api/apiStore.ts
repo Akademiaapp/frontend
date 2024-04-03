@@ -107,6 +107,12 @@ export class Assignment extends FileInfo {
 		return [];
 	}
 
+	async getAnswers() {
+		const res = await api.callApi(this.path + '/submitted');
+		const json = await res.json();
+		return json;
+	}
+
 	async assign() {
 		this.isPublic = true;
 		return api.callApi(this.path + '/deploy', null, 'POST');
