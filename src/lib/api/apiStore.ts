@@ -160,6 +160,12 @@ export class AssignmentAnswer extends FileInfo {
 		return [];
 	}
 
+	async setGrade(grade: number, feedback: string) {
+		this.grade = grade;
+		this.feedback = feedback;
+		return api.callApi(this.path, { grade, feedback }, 'PUT');
+	}
+
 	// rename(newName) {
 	// 	assignmentAnswerStore.update((assignments) => {
 	// 		const index = assignments.findIndex((assignment) => assignment.id === this.id);

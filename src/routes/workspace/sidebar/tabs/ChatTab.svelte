@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
@@ -29,22 +29,28 @@
 			});
 		});
 	}
+
+	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
+		if (!the_file || !grade || !feedback) return;
+		await the_file.setGrade(grade, feedback);
+	}
+
+	let grade = null;
+	let feedback = null;
 </script>
 
 {#if !file}
 	<p>loading...</p>
-{:else}
+{:else if file instanceof AssignmentAnswer}
 	<div class="flex h-full flex-col justify-between">
-		{#if (file instanceof AssignmentAnswer) }
-			<div class="p-5">
-				<h1 class="mb-1">Feedback:</h1>
-				<h2>Karakter: {file.grade}</h2>
-				<p>{file.feedback}</p>
-			</div>
-		{/if}
+		<div class="p-5">
+			<h1 class="mb-1">Feedback:</h1>
+			<h2>Karakter: {file.grade}</h2>
+			<p>{file.feedback}</p>
+		</div>
 
 		<div class="flex gap-1 p-3">
-			<Textarea placeholder="Giv feedback til opgaven" class="resize-none text-lg" />
+			<Textarea placeholder="Giv feedback til opgaven" class="resize-none text-lg" id="feedback"/>
 			<div class="flex flex-col justify-evenly gap-1">
 				<Select>
 					<SelectTrigger noArrow class="flex w-10 overflow-hidden">
@@ -52,13 +58,14 @@
 					</SelectTrigger>
 					<SelectContent class="!w-[70px]">
 						{#each karakter as k}
-							<SelectItem value={k}>{k}</SelectItem>
+							<SelectItem value={k} on:click={() => grade = k}>{k}</SelectItem>
 						{/each}
 					</SelectContent>
 				</Select>
 				<Button
 					class="h-auto p-2 text-muted-foreground transition-all hover:text-foreground"
 					variant="ghost"
+					on:click={async () => await sendFeedback(file, grade, document.getElementById('feedback').value)}
 				>
 					<Send size="20" class="fill-current " />
 				</Button>
