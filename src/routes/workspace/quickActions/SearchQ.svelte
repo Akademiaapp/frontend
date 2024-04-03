@@ -50,11 +50,17 @@
 		</Command.Group>
 		<Command.Separator />
 		<Command.Group heading="Kommandoer">
-			<Command.Item onSelect={() => newDocument('Unavngivet dokument', true, false)}>
+			<Command.Item onSelect={() => {
+					newDocument('Unavngivet dokument', true, false);
+					isSeaching = false;
+				}}>
 				<FilePen strokeWidth={1.5}></FilePen>
 				Nyt dokument
 			</Command.Item>
-			<Command.Item onSelect={() => newDocument('Unavngivet dokument', true, true)}>
+			<Command.Item onSelect={() => {
+					newDocument('Unavngivet dokument', true, true);
+					isSeaching = false;
+				}}>
 				<NotebookPen strokeWidth={1.5}></NotebookPen>
 				Ny note
 			</Command.Item>
