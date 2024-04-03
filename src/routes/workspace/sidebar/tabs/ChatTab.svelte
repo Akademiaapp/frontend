@@ -32,11 +32,10 @@
 
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
 		if (!the_file || !grade || !feedback) return;
-		await the_file.setGrade(grade, feedback);
+		file = new AssignmentAnswer(await (await the_file.setGrade(grade, feedback)).json());
 	}
 
 	let grade = null;
-	let feedback = null;
 </script>
 
 {#if !file}
@@ -50,11 +49,11 @@
 		</div>
 
 		<div class="flex gap-1 p-3">
-			<Textarea placeholder="Giv feedback til opgaven" class="resize-none text-lg" id="feedback"/>
+			<Textarea placeholder={file.feedback ? file.feedback : "Giv feedback til opgaven"} class="resize-none text-lg" id="feedback"/>
 			<div class="flex flex-col justify-evenly gap-1">
 				<Select>
 					<SelectTrigger noArrow class="flex w-10 overflow-hidden">
-						<SelectValue placeholder="??" />
+						<SelectValue placeholder={file.grade ? file.grade : '??'} />
 					</SelectTrigger>
 					<SelectContent class="!w-[70px]">
 						{#each karakter as k}
