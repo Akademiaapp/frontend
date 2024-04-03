@@ -27,10 +27,15 @@
 		sidebarWidth.set(slimSidebarWidth + 'px');
 	}
 
+	let animTimout;
+
 	function anim() {
 		if (!sidebar) return;
 		sidebar.style.transition = 'width 0.3s';
-		setTimeout(() => {
+		if (animTimout) {
+			clearTimeout(animTimout); // clear previous timeout
+		}
+		animTimout = setTimeout(() => {
 			sidebar.style.transition = '';
 		}, 300);
 	}

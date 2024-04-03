@@ -8,6 +8,8 @@
 	import { answer } from '../../../editor/editorStore';
 	import api from '@/api';
 	import { onMount } from 'svelte';
+	import ChatMessage from './ChatMessage.svelte';
+	import Card from '@/components/ui/card/card.svelte';
 
 	onMount(() => {
 		grade = null;
@@ -46,11 +48,16 @@
 {#if !file}
 	<p>loading...</p>
 {:else if file instanceof AssignmentAnswer}
-	<div class="flex h-full flex-col justify-between">
-		<div class="p-5">
+	<div class="flex h-full flex-col justify-between text-lg">
+		<!-- <div class="p-5">
 			<h1 class="mb-1">Feedback:</h1>
 			<h2>Karakter: {file.grade}</h2>
 			<p>{file.feedback}</p>
+		</div> -->
+		<div class="flex flex-col gap-2 p-5">
+			<div class="flex flex-col gap-1"></div>
+			<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
+			<Card class="grid aspect-square w-16 place-items-center p-4 text-3xl font-semibold">12</Card>
 		</div>
 
 		<div
