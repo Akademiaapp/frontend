@@ -32,7 +32,7 @@
 		</div>
 	</div>
 </div>
-<div class="br-2 flex flex-grow flex-col overflow-y-hidden bg-background">
+<div class="br-2 float-panel flex flex-grow flex-col overflow-y-hidden bg-background">
 	<QuickTabs bind:currentTab onClose={() => (isExpanded = false)} />
 	<Separator></Separator>
 	<AssignmentTab isAssignmentDescriptionOpen={currentTab == 'assignment'} />
