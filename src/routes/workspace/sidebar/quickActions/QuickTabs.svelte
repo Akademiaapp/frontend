@@ -29,17 +29,24 @@
 >
 	<QuickTab
 		action={() => switchTab('files')}
-		active={currentTab == 'files' && ($currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic))}
+		tooltip="Filer"
+		active={currentTab == 'files' &&
+			($currentFile instanceof AssignmentAnswer ||
+				($currentFile instanceof Assignment && $currentFile.isPublic))}
 	>
 		<Folder size="27"></Folder>
 	</QuickTab>
 	{#if $currentFile instanceof AssignmentAnswer}
-		<QuickTab action={() => switchTab('assignment')} active={currentTab == 'assignment'}>
+		<QuickTab
+			action={() => switchTab('assignment')}
+			active={currentTab == 'assignment'}
+			tooltip="opgave"
+		>
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
 	{/if}
 	{#if $currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic && $answer)}
-		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'}>
+		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'} tooltip="Feedback">
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>
 	{:else}

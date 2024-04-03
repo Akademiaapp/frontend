@@ -53,23 +53,30 @@
 			<p>{file.feedback}</p>
 		</div>
 
-		<div class="flex gap-1 p-3">
-			<Textarea placeholder={file.feedback ? file.feedback : "Giv feedback til opgaven"} class="resize-none text-lg" id="feedback"/>
-			<div class="flex flex-col justify-evenly gap-1">
+		<div
+			class="flex border-t-2 border-border bg-background shadow-2xl shadow-black/40 drop-shadow-sm"
+		>
+			<Textarea
+				placeholder={file.feedback ? file.feedback : 'Giv feedback til opgaven'}
+				class="h-[9rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0"
+				id="feedback"
+			/>
+			<div class="flex flex-col justify-between gap-1 p-2">
 				<Select>
 					<SelectTrigger noArrow class="flex w-10 overflow-hidden">
 						<SelectValue placeholder={file.grade ? file.grade : '??'} />
 					</SelectTrigger>
 					<SelectContent class="!w-[70px]">
 						{#each karakter as k}
-							<SelectItem value={k} on:click={() => grade = k}>{k}</SelectItem>
+							<SelectItem value={k} on:click={() => (grade = k)}>{k}</SelectItem>
 						{/each}
 					</SelectContent>
 				</Select>
 				<Button
-					class="h-auto p-2 text-muted-foreground transition-all hover:text-foreground"
+					class="aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground"
 					variant="ghost"
-					on:click={async () => await sendFeedback(file, grade, document.getElementById('feedback').value)}
+					on:click={async () =>
+						await sendFeedback(file, grade, document.getElementById('feedback').value)}
 				>
 					<Send size="20" class="fill-current " />
 				</Button>

@@ -1,23 +1,25 @@
 <script lang="ts">
+	import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
+	import TooltipContent from '@/components/ui/tooltip/tooltip-content.svelte';
+
 	export let icon: string = '';
 	export let action = () => {};
 	export let active = false;
 	export let tooltip = '';
 </script>
 
-<button
-	class="cont br-2 p-1.5"
-	on:click={action}
-	class:tooltip
-	style:--tooltip={'"' + tooltip + '"'}
-	class:bg-muted={active}
->
-	<span class:active>
-		<slot>
-			{icon}
-		</slot>
-	</span>
-</button>
+<Tooltip>
+	<TooltipTrigger>
+		<button class="cont br-2 p-1.5" on:click={action} class:bg-muted={active}>
+			<span class:active>
+				<slot>
+					{icon}
+				</slot>
+			</span>
+		</button>
+	</TooltipTrigger>
+	<TooltipContent>{tooltip}</TooltipContent>
+</Tooltip>
 
 <style lang="scss">
 	button {
@@ -35,7 +37,7 @@
 		content: var(--tooltip);
 		background-color: var(--color-bg-2);
 		padding: 0.15rem 0.5rem;
-		transform: translateX(calc(50% + 1rem));
+		transform: translateY(calc(-50% - 1rem));
 		white-space: nowrap;
 		position: absolute;
 		opacity: 0;
@@ -49,7 +51,7 @@
 
 	.tooltip:hover::after {
 		opacity: 1;
-		transform: translateX(calc(50% + 1.2rem));
+		transform: translateY(calc(-50% - 1.2rem));
 		transition: all 400ms 300ms;
 	}
 

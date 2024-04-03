@@ -81,7 +81,7 @@
     "@tiptap/extension-text-style": "^2.2.4",
     "@tiptap/extension-underline": "^2.2.4",
     "@tiptap/pm": "^2.2.4",
-    "bits-ui": "^0.20.0",
+    "bits-ui": "^0.21.2",
     "clsx": "^2.1.0",
     "cmdk-sv": "^0.0.15",
     "katex": "^0.16.9",
