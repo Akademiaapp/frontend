@@ -2,7 +2,7 @@
 	import QuickAction from './QuickAction.svelte';
 	import { getContext } from 'svelte';
 	import * as Command from '$lib/components/ui/command';
-	import { currentFile, documentStore, type FileInfo } from '@/api/apiStore';
+	import { currentFile, documentStore, newDocument, type FileInfo } from '@/api/apiStore';
 	import { goto } from '$app/navigation';
 	import { BookPlus, File, FilePen, NotebookPen } from 'lucide-svelte';
 	import { CalendarPlus } from 'lucide-svelte';
@@ -50,22 +50,22 @@
 		</Command.Group>
 		<Command.Separator />
 		<Command.Group heading="Kommandoer">
-			<Command.Item onSelect={() => api.createDocument(randomName())}>
+			<Command.Item onSelect={() => newDocument('Unavngivet dokument', true, false)}>
 				<FilePen strokeWidth={1.5}></FilePen>
 				Nyt dokument
 			</Command.Item>
-			<Command.Item>
+			<Command.Item onSelect={() => newDocument('Unavngivet dokument', true, true)}>
 				<NotebookPen strokeWidth={1.5}></NotebookPen>
 				Ny note
 			</Command.Item>
-			<Command.Item>
+			<!-- <Command.Item>
 				<BookPlus strokeWidth={1.5}></BookPlus>
 				Nyt project
 			</Command.Item>
 			<Command.Item>
 				<CalendarPlus strokeWidth={1.5}></CalendarPlus>
 				Nyt kalender event
-			</Command.Item>
+			</Command.Item> -->
 		</Command.Group>
 	</Command.List>
 </Command.Dialog>
