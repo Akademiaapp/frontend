@@ -80,7 +80,7 @@
 				<p class="">Der er ingen dokumenter</p>
 			{/if}
 		</div>
-		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Unavngivet dokument', true, false)}>
+		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Uden titel', true, false)}>
 			<Plus size="19" />
 			Opret dokument
 		</Button>
@@ -98,7 +98,7 @@
 				<p class="">Der er ingen noter</p>
 			{/if}
 		</div>
-		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Unavngivet note', true, true)}>
+		<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newDocument('Uden titel', true, true)}>
 			<Plus size="19" />
 			Opret note
 		</Button>

@@ -27,7 +27,7 @@ export class FileInfo {
 	}
 
 	_rename: (newName: string) => void = api.debounce((newName: string) => {
-		return this.updateInfo({ name: newName == '' ? 'Unavngivet' : newName });
+		return this.updateInfo({ name: newName == '' ? 'Uden titel' : newName });
 	});
 
 	rename(newName: string) {
@@ -279,7 +279,7 @@ export async function newAssignment(
 	const response = await api.callApi(
 		'/assignments',
 		{
-			name: name == '' ? 'Unavngivet' : name,
+			name: name == '' ? 'Uden titel' : name,
 			due_date: new Date(
 				dueDate.getFullYear(),
 				dueDate.getMonth(),
