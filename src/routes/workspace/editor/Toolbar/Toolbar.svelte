@@ -118,19 +118,19 @@
 
 	const text_types = [
 		{
-			label: 'Overskrift 1',
+			label: '1. Overskrift',
 			type: 'heading',
 			value: 'h1',
 			level: 1
 		},
 		{
-			label: 'Overskrift 2',
+			label: '2. Overskrift',
 			type: 'heading',
 			value: 'h2',
 			level: 2
 		},
 		{
-			label: 'Overskrift 3',
+			label: '3. Overskrift',
 			type: 'heading',
 			value: 'h3',
 			level: 3
