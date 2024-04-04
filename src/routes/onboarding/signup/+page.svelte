@@ -33,12 +33,12 @@
 			<UserAuthForm actionName="Sign Up" bind:isLoading />
 			<p class="px-8 text-center text-sm text-muted-foreground">
 				By clicking continue, you agree to our{' '}
-				<a href="https://akademia.cc/terms" class="underline underline-offset-4 hover:text-primary">
+				<a href="https://akademia.arctix.dev/terms" class="underline underline-offset-4 hover:text-primary">
 					Terms of Service
 				</a>{' '}
 				and{' '}
 				<a
-					href="https://akademia.cc/privacy-policy"
+					href="https://akademia.arctix.dev/privacy-policy"
 					class="underline underline-offset-4 hover:text-primary"
 				>
 					Privacy Policy

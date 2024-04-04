@@ -63,7 +63,7 @@
 			</DropdownMenu.Item>
 			<DropdownMenu.Item
 				on:click={() => {
-					window.location.href = 'https://status.akademia.cc/';
+					window.location.href = 'https://akademia-status.arctix.dev/';
 				}}
 			>
 				<Cloud class="h-4 w-4" />

@@ -10,6 +10,7 @@
 	import { getContext, onMount } from 'svelte';
 	import api from '@/api';
 	import { FileInfo, currentFile } from '@/api/apiStore';
+	import { page } from '$app/stores';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
@@ -135,7 +136,7 @@
 		<div class="flex space-x-2">
 			<Input
 				id="copy-link"
-				value="https://app.akademia.cc/workspace/editor?id={$currentFile?.id || 'failure'}"
+				value="https://{$page.url.host}/workspace/editor?id={$currentFile?.id || 'failure'}"
 				readonly
 			/>
 			<Button variant="secondary" class="shrink-0" on:click={() => copyLinkToClipboard()}
