@@ -33,7 +33,6 @@
 
 		const el = document.querySelector('input');
 		el.value = '';
-		el.blur();
 
 		focused = false;
 	}
