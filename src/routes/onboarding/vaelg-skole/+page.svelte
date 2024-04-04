@@ -24,6 +24,8 @@
 	});
 
 	function selectSchool(schoolId) {
+		console.log("wah", schoolId);
+		console.log("wah", schools);
 		canProceed.set(true);
 
 		selectedSchoolId.set(schoolId);
@@ -56,7 +58,7 @@
 			placeholder={selectedSchool || 'Søg efter din skole'}
 			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
 		>
-			{#if selectedSchoolId}
+			{#if $selectedSchoolId}
 				<School class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 			{:else}
 				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
