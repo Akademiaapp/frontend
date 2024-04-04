@@ -4,10 +4,16 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { buttonVariants } from '@/components/ui/button';
 	import Card from '@/components/ui/card/card.svelte';
+	import api from '@/api';
+	import { keycloakState } from '../../../authStore';
 	let open = false;
 
 	function deleteProfile() {
-		console.log('delete profile');
+		api.deleteProfile().then(() => {
+            $keycloakState = null;
+            $userInfo = null;
+            window.location.href = '/';
+        });
 	}
 
 	$: console.log($userInfo);

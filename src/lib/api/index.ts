@@ -122,6 +122,10 @@ class ApiHandler {
 	getAssignmentAnswer = (assignmentId: string) => {
 		return this.callApi('/assignmentAnswers/' + assignmentId);
 	}
+
+	deleteProfile = () => {
+		return this.callApi('/users/self', {}, 'DELETE');
+	}
 }
 
 export default new ApiHandler();
