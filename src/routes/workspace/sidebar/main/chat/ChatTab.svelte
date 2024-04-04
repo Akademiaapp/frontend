@@ -55,7 +55,9 @@
 		<div class="flex flex-col gap-2 p-5">
 			<div class="flex flex-col gap-1"></div>
 			<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
-			<Card class="grid aspect-square w-16 place-items-center p-4 text-3xl font-semibold">12</Card>
+			<Card class="w-17 grid aspect-square place-items-center p-4 text-3xl font-semibold"
+				>{file.grade}</Card
+			>
 		</div>
 
 		<div

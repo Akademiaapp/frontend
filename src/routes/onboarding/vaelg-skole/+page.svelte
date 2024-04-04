@@ -23,16 +23,19 @@
 		searchedSchools = schools.splice(0, 20);
 	});
 
-	function selectSchool(schoolId) {
-		console.log("wah", schoolId);
-		console.log("wah", schools);
+	function selectSchool(schoolId, schoolName) {
+		console.log('wah', schoolId);
+		console.log('wah', schools);
 		canProceed.set(true);
 
 		selectedSchoolId.set(schoolId);
-		selectedSchool = schools.find((school) => school.id === schoolId).name;
+		selectedSchool = schoolName;
 
 		const el = document.querySelector('input');
+		el.value = '';
 		el.blur();
+
+		focused = false;
 	}
 
 	let focused = false;
@@ -41,7 +44,9 @@
 	let searchedSchools = [];
 
 	function search(query) {
-		searchedSchools = (schools.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()))).splice(0, 20);
+		searchedSchools = schools
+			.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()))
+			.splice(0, 20);
 	}
 </script>
 
@@ -52,8 +57,8 @@
 			on:focus={() => {
 				focused = true;
 				selectedSchoolId.set(null);
+				selectedSchool = null;
 			}}
-			on:blur={() => (focused = false)}
 			on:input={(e) => search(e.target.value)}
 			placeholder={selectedSchool || 'Søg efter din skole'}
 			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
@@ -69,7 +74,13 @@
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
 					{#each searchedSchools as school (school)}
-						<CommandItem onSelect={() => selectSchool(school.id)}>{school.name}</CommandItem>
+						<CommandItem id={school.id} onSelect={() => selectSchool(school.id, school.name)}>
+							<p>
+								{school.name}
+
+								<span class="ml-1 text-[0.7rem] text-muted-foreground">{school.address}</span>
+							</p>
+						</CommandItem>
 					{/each}
 				</CommandGroup>
 			</CommandList>
