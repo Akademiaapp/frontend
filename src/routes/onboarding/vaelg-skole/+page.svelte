@@ -25,11 +25,12 @@
 
 	function selectSchool(schoolId) {
 		console.log("wah", schoolId);
-		console.log("wah", schools);
+		console.log("wah", searchedSchools);
 		canProceed.set(true);
 
 		selectedSchoolId.set(schoolId);
-		selectedSchool = schools.find((school) => school.id === schoolId).name;
+		selectedSchool = searchedSchools.find((school) => school.id === schoolId).name;
+		console.log("wuh", selectedSchool);
 
 		const el = document.querySelector('input');
 		el.blur();
