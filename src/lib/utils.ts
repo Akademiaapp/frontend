@@ -61,48 +61,48 @@ export function getApiUrl() {
 	console.log(env);
 	if (import.meta.env.PROD) {
 		console.log('hey!');
-		return 'https://api.akademia.cc';
+		return 'https://akademia-api.arctix.dev';
 	} else {
 		if (env.PUBLIC_API_URL) {
 			return env.PUBLIC_API_URL;
 		} else {
-			return 'https://api.akademia.cc';
+			return 'https://akademia-api.arctix.dev';
 		}
 	}
 }
 
 export function getCollaborationUrl() {
 	if (import.meta.env.PROD) {
-		return 'wss://collaboration.akademia.cc';
+		return 'wss://akademia-collaboration.arctix.dev';
 	} else {
 		if (env.PUBLIC_COLLABORATION_URL) {
 			return env.PUBLIC_COLLABORATION_URL;
 		} else {
-			return 'wss://collaboration.akademia.cc';
+			return 'wss://akademia-collaboration.arctix.dev';
 		}
 	}
 }
 
 export function getAuthUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://auth.akademia.cc';
+		return 'https://akademia-auth.arctix.dev';
 	} else {
 		if (env.PUBLIC_AUTH_URL) {
 			return env.PUBLIC_AUTH_URL;
 		} else {
-			return 'https://auth.akademia.cc';
+			return 'https://akademia-auth.arctix.dev';
 		}
 	}
 }
 
 export function getAulaUrl() {
 	if (import.meta.env.PROD) {
-		return 'https://aula.akademia.cc/';
+		return 'https://akademia-aula.arctix.dev/';
 	} else {
 		if (env.PUBLIC_AULA_URL) {
 			return env.PUBLIC_AULA_URL;
 		} else {
-			return 'https://aula.akademia.cc/';
+			return 'https://akademia-aula.arctix.dev/';
 		}
 	}
 }
