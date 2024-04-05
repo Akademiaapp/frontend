@@ -49,12 +49,19 @@
 	$: console.log(time);
 
 	let editable = true;
-	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
-
+	$: if (
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.GRADED) ||
+		($currentFile instanceof Assignment && $currentFile.isPublic)
+	)
+		editable = false;
 
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
+	let calenderOpen = false;
 </script>
 
 <NodeViewWrapper>
@@ -65,7 +72,7 @@
 		</div>
 
 		<div class="flex">
-			<Popover openFocus>
+			<Popover openFocus bind:open={calenderOpen}>
 				<PopoverTrigger asChild let:builder>
 					<Button
 						variant={'ghost'}
@@ -84,11 +91,22 @@
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent class="w-auto p-0">
-					<Calendar bind:value={date} initialFocus preventDeselect />
+					<Calendar
+						bind:value={date}
+						weekStartsOn={1}
+						initialFocus
+						onValueChange={() => (calenderOpen = false)}
+						preventDeselect
+					/>
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>
-			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time} readonly={!editable}></Input>
+			<Input
+				type="time"
+				class="h-full w-24 border-none px-1 text-base"
+				bind:value={time}
+				readonly={!editable}
+			></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>

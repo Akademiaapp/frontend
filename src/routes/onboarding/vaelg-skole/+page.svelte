@@ -69,7 +69,7 @@
 			{/if}
 		</CommandInput>
 		{#if focused || !$selectedSchoolId}
-			<CommandList>
+			<CommandList class="sidebar-scroll">
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Suggestions">
 					{#each searchedSchools as school (school)}
