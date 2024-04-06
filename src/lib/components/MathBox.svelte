@@ -180,7 +180,7 @@
 	<math-field
 		virtual-keyboard-mode="onfocus"
 		virtual-keyboard-theme="apple"
-		class={'rounded-none p-1 px-2 outline-none' +
+		class={'rounded-none bg-background p-1 px-2 outline-none' +
 			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
 		readonly={!editable}
 		bind:this={mf}
