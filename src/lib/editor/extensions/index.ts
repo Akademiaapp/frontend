@@ -23,12 +23,12 @@ import { Color } from '@tiptap/extension-color';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import {common, createLowlight} from 'lowlight'
+import { common, createLowlight } from 'lowlight';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-import FontFamily from '@tiptap/extension-font-family'
+import FontFamily from '@tiptap/extension-font-family';
 
-const lowlight = createLowlight(common)
+const lowlight = createLowlight(common);
 
 export const EditorExtensions = [
 	Blockquote,
@@ -36,7 +36,7 @@ export const EditorExtensions = [
 	BulletList,
 	Code,
 	CodeBlockLowlight.configure({
-		lowlight: lowlight,
+		lowlight: lowlight
 	}),
 	Dropcursor,
 	Gapcursor,
@@ -59,7 +59,7 @@ export const EditorExtensions = [
 	Underline,
 	Link,
 	TextAlign.configure({
-		types: ['paragraph', 'heading'],
+		types: ['paragraph', 'heading']
 	}),
 	Highlight,
 	FontFamily

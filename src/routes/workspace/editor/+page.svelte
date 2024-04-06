@@ -67,7 +67,7 @@
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector bind:value />
-			<FileEditor bind:isNote answer={value}/>
+			<FileEditor bind:isNote answer={value} />
 		{:else}
 			<Toolbar bind:isNote />
 			<FileEditor bind:isNote />

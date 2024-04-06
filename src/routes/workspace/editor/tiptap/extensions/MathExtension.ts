@@ -55,14 +55,16 @@ export const MathExtension = Node.create({
 
 	addCommands() {
 		return {
-			setMath: () => ({ commands }) => {
-				commands.insertContent({
-					type: this.name,
-				});
-				setTimeout(() => {
-					this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
-				}, 1);
-			}
+			setMath:
+				() =>
+				({ commands }) => {
+					commands.insertContent({
+						type: this.name
+					});
+					setTimeout(() => {
+						this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
+					}, 1);
+				}
 		};
 	}
 });

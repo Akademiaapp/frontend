@@ -3,7 +3,12 @@
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
 	import { ComputeEngine } from '@cortex-js/compute-engine';
-	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath, makeSharedVirtualKeyboard } from 'mathlive';
+	import {
+		convertLatexToMarkup,
+		MathfieldElement,
+		convertLatexToAsciiMath,
+		makeSharedVirtualKeyboard
+	} from 'mathlive';
 	import { NodeViewContent } from 'svelte-tiptap';
 	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
@@ -98,9 +103,17 @@
 
 		const mathVirtualKeyboard = window.mathVirtualKeyboard;
 
-		mf.mathVirtualKeyboardPolicy = "manual";
-		mf.addEventListener("focusin", () =>  {if (editable) {mathVirtualKeyboard.show()}});
-		mf.addEventListener("focusout", () =>  {if (editable) {mathVirtualKeyboard.hide()}});
+		mf.mathVirtualKeyboardPolicy = 'manual';
+		mf.addEventListener('focusin', () => {
+			if (editable) {
+				mathVirtualKeyboard.show();
+			}
+		});
+		mf.addEventListener('focusout', () => {
+			if (editable) {
+				mathVirtualKeyboard.hide();
+			}
+		});
 
 		mf.addEventListener('input', handleKeyDown);
 
@@ -147,7 +160,14 @@
 	export let numResult = null;
 
 	let editable = true;
-	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
+	$: if (
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.GRADED) ||
+		($currentFile instanceof Assignment && $currentFile.isPublic)
+	)
+		editable = false;
 
 	let oldRes;
 
@@ -160,7 +180,8 @@
 	<math-field
 		virtual-keyboard-mode="onfocus"
 		virtual-keyboard-theme="apple"
-		class={"rounded-none p-1 px-2 outline-none" + (editable ? ' focus:border-b-primary/100 border-b-2 border-b-primary/50' : '')}
+		class={'rounded-none p-1 px-2 outline-none' +
+			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
 		readonly={!editable}
 		bind:this={mf}
 	>

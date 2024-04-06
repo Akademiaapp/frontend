@@ -109,23 +109,23 @@ class ApiHandler {
 
 	getSchools = () => {
 		return this.callApi('/public/schools');
-	}
+	};
 
 	getSchoolClasses = (schoolId) => {
 		return this.callApi('/public/schools/' + schoolId + '/groups');
-	}
+	};
 
 	getSchoolMembers = (schoolId) => {
 		return this.callApi('/public/schools/' + schoolId + '/users');
-	}
+	};
 
 	getAssignmentAnswer = (assignmentId: string) => {
 		return this.callApi('/assignmentAnswers/' + assignmentId);
-	}
+	};
 
 	deleteProfile = () => {
 		return this.callApi('/users/self', {}, 'DELETE');
-	}
+	};
 }
 
 export default new ApiHandler();

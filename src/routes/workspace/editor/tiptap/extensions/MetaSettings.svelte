@@ -49,8 +49,14 @@
 	$: console.log(time);
 
 	let editable = true;
-	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic) editable = false;
-
+	$: if (
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.GRADED) ||
+		($currentFile instanceof Assignment && $currentFile.isPublic)
+	)
+		editable = false;
 
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
@@ -88,7 +94,12 @@
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>
-			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time} readonly={!editable}></Input>
+			<Input
+				type="time"
+				class="h-full w-24 border-none px-1 text-base"
+				bind:value={time}
+				readonly={!editable}
+			></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>

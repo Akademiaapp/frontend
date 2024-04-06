@@ -19,12 +19,17 @@
 </script>
 
 <!-- content here -->
-<div class="editor_wrapper" style:display={connected ? null : 'none'} style:width={isNote ? '100%' : 'max-content'} on:wheel={onScroll}>
+<div
+	class="editor_wrapper"
+	style:display={connected ? null : 'none'}
+	style:width={isNote ? '100%' : 'max-content'}
+	on:wheel={onScroll}
+>
 	<div id="pages" style:scale style:width={isNote ? '100%' : 'max-content'}>
-		<div class={"page" + (isNote ? ' w-full' : ' w-[750px]')}>
+		<div class={'page' + (isNote ? ' w-full' : ' w-[750px]')}>
 			<Tiptap bind:connected />
 		</div>
-		<div class="page" hidden={isNote}/>
+		<div class="page" hidden={isNote} />
 	</div>
 	{#if !isNote}
 		<Overview />

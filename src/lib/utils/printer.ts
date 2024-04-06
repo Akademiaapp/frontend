@@ -8,7 +8,7 @@ export function printUsingWindow(content: string) {
 		setTimeout(() => {
 			printWindow.print();
 
-			window.addEventListener("afterprint", () => printWindow.close);
+			window.addEventListener('afterprint', () => printWindow.close);
 		}, 1000);
 	});
 }

@@ -2,7 +2,16 @@
 	import * as DropdownMenu from '@/components/ui/dropdown-menu';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
-	import { MoreHorizontal, Trash2, LogOut, Download, Printer, Users, NotebookPen, File } from 'lucide-svelte';
+	import {
+		MoreHorizontal,
+		Trash2,
+		LogOut,
+		Download,
+		Printer,
+		Users,
+		NotebookPen,
+		File
+	} from 'lucide-svelte';
 	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
 	import { printUsingWindow } from '@/utils/printer';
 	import { keycloakState } from '../../../../authStore';
@@ -72,16 +81,20 @@
 		<DropdownMenu.Separator />
 		<DropdownMenu.Group>
 			{#if isNote}
-				<DropdownMenu.Item on:click={() => {
-					console.log('convert to document');
-				}}>
+				<DropdownMenu.Item
+					on:click={() => {
+						console.log('convert to document');
+					}}
+				>
 					<File size="15" stroke-width="1.5" />
 					Konvertér til dokument
 				</DropdownMenu.Item>
 			{:else}
-				<DropdownMenu.Item on:click={() => {
-					console.log('convert to note');
-				}}>
+				<DropdownMenu.Item
+					on:click={() => {
+						console.log('convert to note');
+					}}
+				>
 					<NotebookPen size="15" stroke-width="1.5" />
 					Konvertér til note
 				</DropdownMenu.Item>

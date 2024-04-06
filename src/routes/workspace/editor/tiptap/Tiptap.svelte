@@ -4,7 +4,15 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
-	import { Assignment, AssignmentAnswer, AssignmentProgress, DocumentInfo, FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import {
+		Assignment,
+		AssignmentAnswer,
+		AssignmentProgress,
+		DocumentInfo,
+		FileInfo,
+		currentFile,
+		documentStore
+	} from '@/api/apiStore';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 
@@ -30,7 +38,15 @@
 	export let connected = false;
 
 	let editable = true;
-	$: if (($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED) || ($currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED) || $currentFile instanceof Assignment && $currentFile.isPublic || $answer) editable = false;
+	$: if (
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer &&
+			$currentFile.progress === AssignmentProgress.GRADED) ||
+		($currentFile instanceof Assignment && $currentFile.isPublic) ||
+		$answer
+	)
+		editable = false;
 
 	$: console.log('token: ', $keycloakState.token);
 
@@ -38,7 +54,9 @@
 		if (!initcurrentFile && !$answer) {
 			return;
 		}
-		let fileName = $answer ? 'assignmentAnswers.' + $answer : `${initcurrentFile.fileType}.${initcurrentFile.id}`;
+		let fileName = $answer
+			? 'assignmentAnswers.' + $answer
+			: `${initcurrentFile.fileType}.${initcurrentFile.id}`;
 		if (!fileName) {
 			return;
 		}
@@ -68,7 +86,7 @@
 
 				editor.set(
 					new Editor({
-						extensions: getExtensions(provider, ($currentFile instanceof Assignment && !$answer)),
+						extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
 						editable: editable,
 						onUpdate: ({ transaction }) => {
 							// console.log('too', transaction);
@@ -81,7 +99,8 @@
 
 								currentFileName = title;
 								if ($currentFile != null) {
-									const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo = $currentFile;
+									const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo =
+										$currentFile;
 									newState.name = title;
 									const id = newState.id;
 									// Update the value for the specified key
@@ -218,5 +237,4 @@
 	#text-editor :global(.tiptap) {
 		flex: 1;
 	}
-
 </style>

@@ -13,6 +13,7 @@
 		redirect().catch(console.error);
 	}
 </script>
+
 <div
 	class="container relative hidden flex-1 flex-col items-center justify-center bg-background p-0 md:grid lg:max-w-none lg:px-0"
 >
@@ -28,7 +29,10 @@
 			<UserAuthForm actionName="Sign Up" bind:isLoading />
 			<p class="px-8 text-center text-sm text-muted-foreground">
 				By clicking continue, you agree to our{' '}
-				<a href="https://akademia.arctix.dev/terms" class="underline underline-offset-4 hover:text-primary">
+				<a
+					href="https://akademia.arctix.dev/terms"
+					class="underline underline-offset-4 hover:text-primary"
+				>
 					Terms of Service
 				</a>{' '}
 				and{' '}

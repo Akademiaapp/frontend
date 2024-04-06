@@ -10,10 +10,10 @@
 
 	function deleteProfile() {
 		api.deleteProfile().then(() => {
-            $keycloakState = null;
-            $userInfo = null;
-            window.location.href = '/';
-        });
+			$keycloakState = null;
+			$userInfo = null;
+			window.location.href = '/';
+		});
 	}
 
 	$: console.log($userInfo);
