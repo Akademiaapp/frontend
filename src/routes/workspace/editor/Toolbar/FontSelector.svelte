@@ -7,29 +7,10 @@
 	import { cn } from '$lib/utils.js';
 	import { tick } from 'svelte';
 	import { editor } from '../editorStore';
-	import Check from 'lucide-svelte/icons/check';
-	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
-	import * as Command from '$lib/components/ui/command/index.js';
-	import * as Popover from '$lib/components/ui/popover/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { cn } from '$lib/utils.js';
-	import { tick } from 'svelte';
-	import { editor } from '../editorStore';
 
 	let open = false;
 	let value = '';
-	let open = false;
-	let value = '';
 
-	// We want to refocus the trigger button when the user selects
-	// an item from the list so users can continue navigating the
-	// rest of the form with the keyboard.
-	function closeAndFocusTrigger(triggerId: string) {
-		open = false;
-		tick().then(() => {
-			document.getElementById(triggerId)?.focus();
-		});
-	}
 	// We want to refocus the trigger button when the user selects
 	// an item from the list so users can continue navigating the
 	// rest of the form with the keyboard.
@@ -46,7 +27,6 @@
 		color: 'black',
 		fontSize: '12em',
 		fontFamily: 'NimbusSans-Regular'
-		fontFamily: 'NimbusSans-Regular'
 	};
 	let selectedType = 'p';
 
@@ -61,18 +41,9 @@
 			fontSize: string;
 			fontFamily: string;
 		};
-		selectedType = $editor.getAttributes('heading').level
-			? 'h' + $editor.getAttributes('heading').level
-			: 'p';
-		selectedTextStyle = selection.getAttributes('textStyle') as {
-			color: string;
-			fontSize: string;
-			fontFamily: string;
-		};
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
-	const text_fonts = [
 	const text_fonts = [
 		{
 			label: 'Inter',
@@ -98,7 +69,6 @@
 		}
 	];
 
-	function handleTextFontSelection(event) {
 	function handleTextFontSelection(event) {
 		$editor.chain().focus().setFontFamily(event.value).run();
 	}
