@@ -180,7 +180,7 @@
 	<math-field
 		virtual-keyboard-mode="onfocus"
 		virtual-keyboard-theme="apple"
-		class={'rounded-none bg-background p-1 px-2 outline-none' +
+		class={'rounded-none bg-background p-1 px-2 text-foreground outline-none' +
 			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
 		readonly={!editable}
 		bind:this={mf}
@@ -194,7 +194,7 @@
 			{#if latexResult != null}
 				{@html convertLatexToMarkup(latexResult)}
 			{/if}
-			{#if numResult != undefined && numResult.toString() != latexResult.toString()}
+			{#if numResult != undefined && numResult.toString() != convertLatexToAsciiMath(latexResult).toString()}
 				<span class="ML__cmr mx-2">≈</span>
 				<div class="ML__latex mr-auto">{numResult}</div>
 			{/if}
