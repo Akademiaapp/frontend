@@ -61,6 +61,7 @@
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
+	let calenderOpen = false;
 </script>
 
 <NodeViewWrapper>
@@ -71,7 +72,7 @@
 		</div>
 
 		<div class="flex">
-			<Popover openFocus>
+			<Popover openFocus bind:open={calenderOpen}>
 				<PopoverTrigger asChild let:builder>
 					<Button
 						variant={'ghost'}
@@ -90,7 +91,13 @@
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent class="w-auto p-0">
-					<Calendar bind:value={date} initialFocus preventDeselect />
+					<Calendar
+						bind:value={date}
+						weekStartsOn={1}
+						initialFocus
+						onValueChange={() => (calenderOpen = false)}
+						preventDeselect
+					/>
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>

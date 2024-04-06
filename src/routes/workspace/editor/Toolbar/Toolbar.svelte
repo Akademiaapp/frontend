@@ -489,7 +489,7 @@
 	.bar {
 		display: flex;
 		gap: 0.4rem;
-		padding: 0.2rem 1rem;
+		padding: 0.2rem 0.4rem;
 
 		// height: 3rem;
 
