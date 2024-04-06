@@ -62,8 +62,6 @@
 			value: 'monospace'
 		},
 		{
-		},
-		{
 			label: 'Cursive',
 			value: 'cursive'
 		}
