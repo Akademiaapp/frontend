@@ -187,10 +187,12 @@
 	</math-field>
 	<span class="mx-auto h-full text-foreground" class:text-muted-foreground={oldRes}>
 		{#if !isEq}
-			<span class="ML__cmr mr-2">=</span>
+			{#if latexResult && latexResult.replace('\\,', '') != value}
+				<span class="ML__cmr mr-2">=</span>
 
-			{#if latexResult != null}
-				{@html convertLatexToMarkup(latexResult)}
+				{#if latexResult != null}
+					{@html convertLatexToMarkup(latexResult)}
+				{/if}
 			{/if}
 			{#if numResult != undefined && numResult.toString() != latexResult
 						.toString()
