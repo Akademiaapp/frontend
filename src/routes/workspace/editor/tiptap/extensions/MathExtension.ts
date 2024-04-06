@@ -20,6 +20,7 @@ export const MathExtension = Node.create({
 		console.log(selection);
 		const elem: HTMLSpanElement = editor.view.nodeDOM(selection.from);
 		console.log(elem);
+		this.editor.commands.setTextSelection(this.editor.state.selection.from);
 		console.log(elem.querySelector('math-field').focus());
 	},
 

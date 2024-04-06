@@ -14,7 +14,7 @@
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 	export let value = '';
-	export let expression;
+	export let expression = '';
 
 	function isEquation(str): boolean {
 		const pattern = /[^=]*[a-z]+[^=]*=[^=]+|[^=]+=[^=]*[a-z]+[^=]*/;
@@ -39,7 +39,7 @@
 		console.log(event);
 		if (event.data === 'insertLineBreak') {
 			document.querySelector('.tiptap').focus({ preventScroll: true });
-			$editor.commands.setTextSelection($editor.state.selection.$to.pos);
+			$editor.commands.setTextSelection($editor.state.selection.$to.pos + 1);
 			$editor.commands.enter();
 		}
 
@@ -124,7 +124,7 @@
 
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			if (event.detail.direction === 'forward') {
-				$editor.commands.setTextSelection($editor.state.selection.$to.pos);
+				$editor.commands.setTextSelection($editor.state.selection.$to.pos + 1);
 			}
 			if (event.detail.direction === 'backward') {
 				$editor.commands.setTextSelection($editor.state.selection.$from.pos);
@@ -178,8 +178,6 @@
 
 <button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
 	<math-field
-		virtual-keyboard-mode="onfocus"
-		virtual-keyboard-theme="apple"
 		class={'rounded-none bg-background p-1 px-2 text-foreground outline-none' +
 			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
 		readonly={!editable}
@@ -194,7 +192,9 @@
 			{#if latexResult != null}
 				{@html convertLatexToMarkup(latexResult)}
 			{/if}
-			{#if numResult != undefined && numResult.toString() != convertLatexToAsciiMath(latexResult).toString()}
+			{#if numResult != undefined && numResult.toString() != latexResult
+						.toString()
+						.replace('\\,', '')}
 				<span class="ML__cmr mx-2">≈</span>
 				<div class="ML__latex mr-auto">{numResult}</div>
 			{/if}

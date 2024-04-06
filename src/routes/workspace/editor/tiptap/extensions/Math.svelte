@@ -25,10 +25,12 @@
 		on:focus={() => console.log('focus')}
 		on:click={() => {
 			console.log(getPos());
-			editor.commands.setNodeSelection(getPos());
+			setTimeout(() => {
+				editor.commands.setNodeSelection(getPos() - 2);
+			}, 100);
 		}}
 	>
-		<MathBox bind:value>
+		<MathBox bind:value expression={startVal}>
 			{startVal}
 		</MathBox>
 	</button>
