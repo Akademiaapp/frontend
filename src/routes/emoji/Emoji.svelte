@@ -11,7 +11,7 @@
 </script>
 
 <svg class="h-full">
-	<use href={`/sprite.svg/#${emo}`}>
+	<use href={`/sprite.svg#${emo}`}>
 		<title>{emoji}</title>
 	</use>
 </svg>

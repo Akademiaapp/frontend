@@ -31,7 +31,7 @@
 
 				cat.emojis.forEach((emoji) => {
 					const button = document.createElement('button');
-					button.innerHTML = `<svg width="25" height="25"><use href="/sprite.svg/#${emoji.unicode}"></use></svg>`;
+					button.innerHTML = `<svg width="25" height="25"><use href="/sprite.svg#${emoji.unicode}"></use></svg>`;
 					button.addEventListener('click', () => {
 						value = emoji.char;
 						closeAndFocusTrigger('trigger');
@@ -114,7 +114,7 @@
 										}}
 									>
 										<svg width="25" height="25">
-											<use href={`/sprite.svg/#${emoji.unicode}`}>
+											<use href={`/sprite.svg#${emoji.unicode}`}>
 												<title>{emoji.name}</title>
 											</use>
 										</svg>
