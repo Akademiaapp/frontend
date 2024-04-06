@@ -16,6 +16,11 @@
 	export let value = '';
 	export let expression = '';
 
+	$: {
+		mf?.setValue(expression);
+		handleKeyDown({ data: '' });
+	}
+
 	function isEquation(str): boolean {
 		const pattern = /[^=]*[a-z]+[^=]*=[^=]+|[^=]+=[^=]*[a-z]+[^=]*/;
 		return pattern.test(str);

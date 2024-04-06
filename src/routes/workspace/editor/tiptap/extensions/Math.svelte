@@ -12,6 +12,8 @@
 
 	let startVal = node.attrs.count;
 
+	$: console.log(node.attrs.count);
+
 	$: try {
 		updateAttributes({ count: value });
 	} catch (e) {
@@ -30,7 +32,7 @@
 			}, 100);
 		}}
 	>
-		<MathBox bind:value expression={startVal}>
+		<MathBox bind:value expression={node.attrs.count}>
 			{startVal}
 		</MathBox>
 	</button>
