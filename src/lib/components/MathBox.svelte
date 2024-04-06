@@ -192,7 +192,7 @@
 	</math-field>
 	<span class="mx-auto h-full text-foreground" class:text-muted-foreground={oldRes}>
 		{#if !isEq}
-			{#if latexResult && latexResult.replace('\\,', '') != value}
+			{#if latexResult && latexResult.replaceAll('\\,', '') != value}
 				<span class="ML__cmr mr-2">=</span>
 
 				{#if latexResult != null}
@@ -201,7 +201,7 @@
 			{/if}
 			{#if numResult != undefined && numResult.toString() != latexResult
 						.toString()
-						.replace('\\,', '')}
+						.replaceAll('\\,', '')}
 				<span class="ML__cmr mx-2">≈</span>
 				<div class="ML__latex mr-auto">{numResult}</div>
 			{/if}
