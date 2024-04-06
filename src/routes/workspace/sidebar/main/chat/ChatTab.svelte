@@ -65,7 +65,7 @@
 		>
 			<TextareaAutosize
 				placeholder={'Giv feedback til opgaven...'}
-				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0' +
+				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0' +
 					(file.grade ? 'h-1 min-h-full' : 'min-h-[9rem]')}
 				id="feedback"
 				bind:value={msg}
