@@ -62,11 +62,5 @@
 				color: var(--color-text-0);
 			}
 		}
-
-		div {
-			display: flex;
-			align-items: stretch;
-			justify-content: center;
-		}
 	}
 </style>
