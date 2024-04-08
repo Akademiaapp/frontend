@@ -54,12 +54,13 @@
 			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
 		($currentFile instanceof AssignmentAnswer &&
 			$currentFile.progress === AssignmentProgress.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic);
+		($currentFile instanceof Assignment && $currentFile.isPublic === false);
 
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
 	let calenderOpen = false;
+	$: console.log("editable", editable, $currentFile);
 </script>
 
 <NodeViewWrapper>
@@ -76,7 +77,7 @@
 						variant={'ghost'}
 						class={cn(
 							'w-auto justify-start px-2 py-1 text-left text-base font-normal',
-							!date && 'text-muted-foreground'
+							!date && 'text-muted-foreground',
 						)}
 						builders={[builder]}
 						disabled={!editable}
@@ -101,8 +102,8 @@
 			<p class="pl-3">kl.</p>
 			<Input
 				type="time"
-				readonly={!editable}
-				class="h-full w-40 border-none px-1 text-base"
+				disabled={!editable}
+				class="h-full w-40 border-none px-1 text-base cursor-pointer"
 				bind:value={time}
 			></Input>
 		</div>

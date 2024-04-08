@@ -10,6 +10,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},
+	"type": "module",
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.0.12",
 		"@neoconfetti/svelte": "^2.2.1",
@@ -38,7 +39,6 @@
 		"typescript": "^5.4.4",
 		"vite": "^5.2.8"
 	},
-	"type": "module",
 	"dependencies": {
 		"@cortex-js/compute-engine": "^0.24.1",
 		"@hocuspocus/provider": "^2.11.3",

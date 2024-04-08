@@ -52,6 +52,7 @@
 	}
 
 	function nextStudent() {
+		if (answers.length === 0) return;
 		const previous_index = answers.findIndex((f) => f.id === $answer);
 		if (answers[previous_index + 1]?.id !== undefined && answers.length > 1) {
 			$answer = answers[previous_index + 1].id;
@@ -61,6 +62,7 @@
 	}
 
 	function previousStudent() {
+		if (answers.length === 0) return;
 		const previous_index = answers.findIndex((f) => f.id === $answer);
 		if (answers[previous_index - 1]?.id !== undefined && answers.length > 1) {
 			$answer = answers[previous_index - 1].id;
