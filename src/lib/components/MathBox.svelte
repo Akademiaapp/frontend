@@ -44,7 +44,6 @@
 	}
 
 	function handleKeyDown(event) {
-		console.log(event);
 		if (event.data === 'insertLineBreak') {
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			$editor.commands.setTextSelection($editor.state.selection.$to.pos + 1);
@@ -52,9 +51,9 @@
 		}
 
 		if (!mf || !mf.expression) return;
-		console.log('mf: ', mf);
+
 		value = mf.value;
-		console.log('value: ', value);
+
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
 
 		const r = mf.expression.evaluate();
@@ -66,16 +65,13 @@
 				isEq = isEquation(value);
 				if (isEq) {
 					const letter = findFirstLowerCaseSymbol(value);
-					console.log(convertLatexToAsciiMath(value));
 					const nv = nerdamer.solveEquations([convertLatexToAsciiMath(value)]);
-					console.log(nv.x);
 
 					numResult = Object.entries(nv)
 						.map(([k, v]) => k + ' = ' + v)
 						.join(', ');
 				} else {
 					const nv = nerdamer(convertLatexToAsciiMath(value)).evaluate();
-					console.log(+nv);
 					if (+nv) {
 						numResult = Math.round(nv * 100000) / 100000;
 					} else {
@@ -85,19 +81,11 @@
 			} catch (e) {
 				numResult = null;
 			}
-
-			// } else {
-			// numResult = null;
-			// }
-			console.log(latexResult, numResult);
 			oldRes = false;
 		} else {
 			oldRes = true;
 		}
 	}
-	// console.log(b.value);
-	// console.log(a.latex, b.latex, 'isEqual?');
-	// console.log(a.isEqual(b));
 	let mf: MathfieldElement;
 
 	onMount(() => {
