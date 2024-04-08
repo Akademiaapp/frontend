@@ -15,6 +15,7 @@
 	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
 	export let value = '';
 	export let expression = '';
+	export let onFocus = () => {};
 
 	$: {
 		mf?.setValue(expression);
@@ -112,6 +113,7 @@
 		mf.addEventListener('focusin', () => {
 			if (editable) {
 				mathVirtualKeyboard.show();
+				onFocus();
 			}
 		});
 		mf.addEventListener('focusout', () => {

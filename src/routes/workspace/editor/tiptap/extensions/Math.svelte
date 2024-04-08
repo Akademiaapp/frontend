@@ -6,7 +6,7 @@
 
 	export let getPos: NodeViewProps['getPos'];
 	import MathBox from '@/components/MathBox.svelte';
-	import { NodeViewContent, NodeViewWrapper } from 'svelte-tiptap';
+	import { NodeViewWrapper } from 'svelte-tiptap';
 
 	let value;
 
@@ -19,20 +19,18 @@
 	} catch (e) {
 		console.error(e);
 	}
+
+	function focus() {
+		console.log(getPos());
+		setTimeout(() => {
+			editor.commands.setNodeSelection(getPos() - 2);
+		}, 100);
+	}
 </script>
 
 <NodeViewWrapper as="span">
-	<button
-		class="inline-flex"
-		on:focus={() => console.log('focus')}
-		on:click={() => {
-			console.log(getPos());
-			setTimeout(() => {
-				editor.commands.setNodeSelection(getPos() - 2);
-			}, 100);
-		}}
-	>
-		<MathBox bind:value expression={node.attrs.count}>
+	<button class="inline-flex" on:focus={() => console.log('focus')} on:click={focus}>
+		<MathBox bind:value onFocus={focus} expression={node.attrs.count}>
 			{startVal}
 		</MathBox>
 	</button>
