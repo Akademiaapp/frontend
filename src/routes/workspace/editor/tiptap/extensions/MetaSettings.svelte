@@ -101,12 +101,7 @@
 				</PopoverContent>
 			</Popover>
 			<p class="pl-3">kl.</p>
-			<Input
-				type="time"
-				class="h-full w-24 border-none px-1 text-base"
-				bind:value={time}
-				readonly={!editable}
-			></Input>
+			<Input type="time" class="h-full w-24 border-none px-1 text-base" bind:value={time}></Input>
 		</div>
 		<div>
 			<Users size="18"></Users>
