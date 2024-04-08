@@ -17,11 +17,12 @@
 	export let expression = '';
 	export let onFocus = () => {};
 
-	$: {
-		if (expression != value) {
-			mf?.setValue(expression);
-			handleKeyDown({ data: '' });
-		}
+	$: updateValue(expression);
+
+	function updateValue(expression) {
+		if (expression == value) return;
+		mf?.setValue(expression);
+		handleKeyDown({ data: '' });
 	}
 
 	function isEquation(str): boolean {
@@ -115,8 +116,6 @@
 		mf.addEventListener('input', handleKeyDown);
 
 		mf.addEventListener('move-out', (event) => {
-			console.log('move-out', event.detail.direction);
-
 			event.preventDefault();
 
 			document.querySelector('.tiptap').focus({ preventScroll: true });
@@ -127,30 +126,6 @@
 				$editor.commands.setTextSelection($editor.state.selection.$from.pos);
 			}
 		});
-
-		// 	console.log('dhdh');
-		// 	const { key } = event;
-		// 	const target = event.target as HTMLInputElement;
-		// 	console.log(mf.selection);
-
-		// 	console.log(
-		// 		'key',
-		// 		key,
-		// 		'selectionStart',
-		// 		selectionStart,
-		// 		'selectionEnd',
-		// 		selectionEnd,
-		// 		'value',
-		// 		value
-		// 	);
-
-		// 	if (
-		// 		(key === 'ArrowLeft' && selectionStart === 0) ||
-		// 		(key === 'ArrowRight' && selectionEnd === value.length)
-		// 	) {
-		// 		console.log('Attempted to move outside the input');
-		// 	}
-		// });
 	});
 
 	export let latexResult = null;
