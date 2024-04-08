@@ -21,7 +21,7 @@
 	}
 
 	function focus() {
-		editor.commands.setNodeSelection(getPos() - 2);
+		editor.commands.setNodeSelection(getPos());
 
 		console.log('focus mathbox');
 	}
