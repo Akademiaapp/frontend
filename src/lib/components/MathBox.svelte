@@ -45,6 +45,11 @@
 	}
 
 	function handleKeyDown(event) {
+		console.log(event);
+		if (event.data === 'delh	 eteContentBackward') {
+			event.preventDefault();
+		}
+
 		if (event.data === 'insertLineBreak') {
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			$editor.commands.setTextSelection($editor.state.selection.$to.pos + 1);
@@ -115,8 +120,16 @@
 
 		mf.addEventListener('input', handleKeyDown);
 
+		mf.addEventListener('keydown', (ev) => {
+			if (ev.key == 'Backspace') {
+				ev.preventDefault();
+				console.log('hi');
+			}
+		});
+
 		mf.addEventListener('move-out', (event) => {
 			event.preventDefault();
+			console.log('move-out');
 
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			if (event.detail.direction === 'forward') {
