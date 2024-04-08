@@ -18,8 +18,10 @@
 	export let onFocus = () => {};
 
 	$: {
-		mf?.setValue(expression);
-		handleKeyDown({ data: '' });
+		if (expression != value) {
+			mf?.setValue(expression);
+			handleKeyDown({ data: '' });
+		}
 	}
 
 	function isEquation(str): boolean {
