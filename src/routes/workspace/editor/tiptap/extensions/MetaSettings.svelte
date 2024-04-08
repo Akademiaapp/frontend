@@ -102,7 +102,7 @@
 			<Input
 				type="time"
 				readonly={!editable}
-				class="h-full w-24 border-none px-1 text-base"
+				class="h-full w-40 border-none px-1 text-base"
 				bind:value={time}
 			></Input>
 		</div>
