@@ -42,6 +42,12 @@ export const MathExtension = Node.create({
 				setTimeout(() => {
 					this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
 				}, 1);
+			},
+			'alt-m': () => {
+				this.editor.commands.insertContent('<math-component></math-component>');
+				setTimeout(() => {
+					this.editor.commands.setNodeSelection(this.editor.state.selection.from - 1);
+				}, 1);
 			}
 		};
 	},
