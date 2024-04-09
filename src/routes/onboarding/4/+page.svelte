@@ -2,8 +2,9 @@
 
 <h1>Notetagning</h1>
 <p>
-	Det er slut med at have alle dine noter spredt rundt, så du aldrig finder dem. Akademia, gør det
-	let og hurtigt at gemme og stukturere dine noter, så du altid, overalt kan finde på ingen tid.
+	Det er slut med at have alle dine noter spredt rundt, så du aldrig finder dem. Akademia gør det
+	let og hurtigt at gemme og strukturere dine noter, så du altid, overalt kan finde dem på ingen
+	tid.
 </p>
 
 <style>

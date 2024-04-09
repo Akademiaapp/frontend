@@ -3,8 +3,7 @@
 <h1>Alt samlet ét sted</h1>
 <p>
 	Akademia samler alle
-	<em>dine</em>
-	som opgaver, afleveringer, noter, og feedback fra lærene, samlet ét sted.
+	<em>dine</em> ting som opgaver, afleveringer, noter, og feedback fra lærene, ét sted.
 </p>
 
 <style>
