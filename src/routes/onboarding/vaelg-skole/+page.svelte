@@ -12,6 +12,7 @@
 	import { School, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import api from '@/api';
+	import commandScore from 'command-score';
 
 	canProceed.set($selectedSchoolId != '');
 
@@ -44,21 +45,30 @@
 
 	function search(query) {
 		searchedSchools = schools
-			.filter((school) => school.name.toLowerCase().includes(query.toLowerCase()))
+			.map((school) => ({
+				...school,
+				distance: commandScore(school.name, query)
+			}))
+			.filter((school) => school.distance > 0)
+			.sort((a, b) => b.distance - a.distance)
 			.splice(0, 20);
 	}
+
+	$: search(value);
+
+	let value = '';
 </script>
 
 <h1>Vælg din skole</h1>
 <div class:small={!focused && $selectedSchoolId}>
-	<Command>
+	<Command shouldFilter={false}>
 		<CommandInput
 			on:focus={() => {
 				focused = true;
 				selectedSchoolId.set(null);
 				selectedSchool = null;
 			}}
-			on:input={(e) => search(e.target.value)}
+			bind:value
 			placeholder={selectedSchool || 'Søg efter din skole'}
 			class={$selectedSchoolId ? 'placeholder:text-foreground' : ''}
 		>
@@ -70,7 +80,9 @@
 		</CommandInput>
 		{#if focused || !$selectedSchoolId}
 			<CommandList class="sidebar-scroll">
-				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
+				{#if searchedSchools.length == 0}
+					<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
+				{/if}
 				<CommandGroup heading="Suggestions">
 					{#each searchedSchools as school (school)}
 						<CommandItem id={school.id} onSelect={() => selectSchool(school.id, school.name)}>
