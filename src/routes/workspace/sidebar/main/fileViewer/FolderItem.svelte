@@ -1,12 +1,12 @@
 <script lang="ts">
 	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
-	import { Folder } from '@/api/fileClasses';
+	import { FileInfo, Folder } from '@/api/fileClasses';
 	import SideBarElem from '../../SideBarElem.svelte';
 	import { ArrowLeft, ChevronRight, Dot } from 'lucide-svelte';
 	import File from './File.svelte';
 	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
-	import { draggingElem, isDragging } from '../../sidebarStore';
+	import { draggingFile, folders } from '../../sidebarStore';
 
 	export let open: boolean = false;
 
@@ -17,28 +17,46 @@
 	let blue = false;
 
 	$: console.log(blue);
+
+	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: FileInfo) {
+		for (const folder of folders) {
+			const index = folder.files.findIndex((f) => f.id == fileTobeRemoved.id);
+			if (index != -1) {
+				folder.files.splice(index, 1);
+			}
+
+			findAndRemoveFile(folder.subFolders, fileTobeRemoved);
+		}
+		return folders;
+	}
 </script>
 
 <div>
 	<div
-		class={'sidebar-elem clickable br-1' + (blue && ' !bg-primary/20')}
+		class={'sidebar-elem clickable br-1' + (blue && ' bg-primary/20')}
 		on:dragenter={() => {
-			if ($isDragging) {
+			if ($draggingFile) {
 				blue = true;
-				draggingElem.set(folder);
 			}
+		}}
+		on:dragover|preventDefault
+		on:drop={() => {
+			console.log('is folder');
+			if (folder.files.findIndex((f) => f.id == $draggingFile.id) != -1) return;
+			folders.update((prev) => {
+				findAndRemoveFile(prev, $draggingFile);
+				folder.files = [...folder.files, $draggingFile];
+				return prev;
+			});
+			blue = false;
 		}}
 		on:dragleave={() => {
 			blue = false;
-			console.log('hddhd');
-			setTimeout(() => {
-				draggingElem.set(null);
-			}, 1000);
 		}}
 		role="button"
 		tabindex="0"
 	>
-		<div class="cont flex" class:pointer-events-none={$isDragging}>
+		<div class="cont flex" class:pointer-events-none={$draggingFile}>
 			<button
 				disabled={folder.files.length == 0 && folder.subFolders.length == 0}
 				on:click={() => {

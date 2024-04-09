@@ -5,7 +5,7 @@
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from '../../SideBarElem.svelte';
 	import { File, Notebook } from 'lucide-svelte';
-	import { draggingElem } from '../../sidebarStore';
+	import { draggingFile } from '../../sidebarStore';
 	import { folders } from '../../sidebarStore';
 	export let file: FileInfo | DocumentInfo;
 	export let onClick = () => {
@@ -16,32 +16,16 @@
 	$: if ($currentFile instanceof FileInfo) {
 		active = file.id == $currentFile.id;
 	}
-
-	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: FileInfo) {
-		for (const folder of folders) {
-			const index = folder.files.findIndex((f) => f.id == file.id);
-			if (index != -1) {
-				folder.files.splice(index, 1);
-			}
-
-			findAndRemoveFile(folder.subFolders, fileTobeRemoved);
-		}
-		return folders;
-	}
 </script>
 
-<DraggableElem
-	{active}
-	ondrop={() => {
-		if ($draggingElem instanceof Folder) {
-			console.log('is folder');
-			if ($draggingElem.files.findIndex((f) => f.id == file.id) != -1) return;
-			folders.update((prev) => {
-				findAndRemoveFile(prev, file);
-				$draggingElem.files = [...$draggingElem.files, file];
-				return prev;
-			});
-		}
+<div
+	class="sidebar-elem br-1 clickable"
+	draggable="true"
+	role="button"
+	tabindex="0"
+	on:dragstart={(e) => draggingFile.set(file)}
+	on:dragend={(e) => {
+		draggingFile.set(null);
 	}}
 >
 	<a
@@ -64,7 +48,7 @@
 		</div>
 		<span class="name">{file.name}</span>
 	</a>
-</DraggableElem>
+</div>
 
 <style lang="scss">
 	.name {

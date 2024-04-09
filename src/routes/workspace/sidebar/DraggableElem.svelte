@@ -22,7 +22,6 @@
 	class="br-1"
 	{...$$restProps}
 	draggable="true"
-	on:drag={(e) => console.log(e)}
 	role="button"
 	tabindex="0"
 	on:dragstart={(e) => isDragging.set(true)}

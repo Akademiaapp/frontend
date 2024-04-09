@@ -1,7 +1,7 @@
-import { FileInfo, Folder } from '@/api/fileClasses';
+import { Folder } from '@/api/fileClasses';
 import { writable } from 'svelte/store';
 
-export const draggingElem = writable(null);
+export const draggingFile = writable(null);
 export const isDragging = writable(false);
 
 const testFiles = [];
