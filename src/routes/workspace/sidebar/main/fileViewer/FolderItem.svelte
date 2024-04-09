@@ -2,9 +2,7 @@
 	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
 	import { FileInfo, Folder } from '@/api/fileClasses';
-	import SideBarElem from '../../SideBarElem.svelte';
-	import { ArrowLeft, ChevronRight, Dot } from 'lucide-svelte';
-	import File from './File.svelte';
+	import { ChevronRight, Dot } from 'lucide-svelte';
 	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
 	import { draggingFile, folders } from '../../sidebarStore';
 

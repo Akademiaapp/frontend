@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { assignmentAnswerStore, currentFile } from '@/api/apiStore';
+	import { assignmentAnswerStore, currentFile, userInfo } from '@/api/apiStore';
 	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
@@ -47,6 +47,11 @@
 	let grade = null;
 
 	let msg = '';
+
+	let placeholder = 'Giv feedback til opgaven...';
+
+	$: placeholder =
+		$userInfo.type === 'student' ? 'Skriv en besked...' : 'Giv feedback til opgaven...';
 </script>
 
 {#if !file}
@@ -65,7 +70,7 @@
 			class="flex border-t-2 border-border bg-background pt-1 shadow-2xl shadow-black/40 drop-shadow-sm"
 		>
 			<TextareaAutosize
-				placeholder={'Giv feedback til opgaven...'}
+				{placeholder}
 				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0' +
 					(file.grade ? 'h-1 min-h-full' : 'min-h-[9rem]')}
 				id="feedback"
