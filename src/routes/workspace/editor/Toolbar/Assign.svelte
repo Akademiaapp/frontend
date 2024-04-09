@@ -24,7 +24,7 @@
 	</Dialog.Trigger>
 	<Dialog.Content class="min-h-[15rem]">
 		<Dialog.Header>
-			<Dialog.Title>Tildel '{$currentFile?.name || ''}'</Dialog.Title>
+			<Dialog.Title>Tildel '{$currentFile?.name || ''}'?</Dialog.Title>
 			<Dialog.Description>
 				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>

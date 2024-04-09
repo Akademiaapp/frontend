@@ -13,7 +13,7 @@ export class FileInfo {
 
 	store;
 
-	constructor(info, fileType = 'documents', store) {
+	constructor(info, store, fileType = 'documents') {
 		this.fileType = fileType;
 		this.id = info.id;
 		this.name = info.name;
@@ -95,7 +95,7 @@ export class Assignment extends FileInfo {
 	teacherId: string;
 
 	constructor(info, store) {
-		super(info, fileType, store);
+		super(info, store, 'assignments');
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
