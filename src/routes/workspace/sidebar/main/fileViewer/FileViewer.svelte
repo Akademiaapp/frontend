@@ -27,8 +27,8 @@
 
 <div class="cont">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
-		<Category name="Fag" open={false} folders={$folders}></Category>
-		<Category name="Andet" {files}></Category>
+		<Category name="Fag" open={false} folders={$folders[0].subFolders}></Category>
+		<Category name="Andet" files={$folders[1].files}></Category>
 	</div>
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>

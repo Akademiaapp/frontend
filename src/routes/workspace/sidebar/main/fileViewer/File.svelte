@@ -16,6 +16,10 @@
 	$: if ($currentFile instanceof FileInfo) {
 		active = file.id == $currentFile.id;
 	}
+
+	window.onclick = (e) => {
+		draggingFile.set(null);
+	};
 </script>
 
 <div

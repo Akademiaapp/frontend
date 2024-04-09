@@ -49,6 +49,7 @@
 				folder.files = [...folder.files, $draggingFile];
 				return prev;
 			});
+			draggingFile.set(null);
 		}}
 		on:dragleave={() => {
 			blue = false;
