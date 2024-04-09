@@ -94,7 +94,7 @@ export class Assignment extends FileInfo {
 	isPublic: boolean;
 	teacherId: string;
 
-	constructor(info, fileType = 'assignments', store) {
+	constructor(info, store) {
 		super(info, fileType, store);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
@@ -141,7 +141,7 @@ export class AssignmentAnswer extends FileInfo {
 	feedback: string | null;
 
 	constructor(info, store) {
-		super(info, 'assignmentAnswers', store);
+		super(info, store, 'assignmentAnswers');
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;

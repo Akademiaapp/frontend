@@ -87,7 +87,7 @@ export async function updateAssignments() {
 	console.log(json);
 
 	assignmentStore.set(
-		json.map((assignmentInfo) => new Assignment(assignmentInfo, null, assignmentStore))
+		json.map((assignmentInfo) => new Assignment(assignmentInfo, assignmentStore))
 	);
 	console.log('updated assignments');
 }
@@ -128,7 +128,7 @@ export async function newAssignment(
 		throw new Error('Could not create document due to no response');
 	}
 	const json = await response.json();
-	const newAssignment = new Assignment(json, null, assignmentStore);
+	const newAssignment = new Assignment(json, assignmentStore);
 
 	if (open) {
 		newAssignment.open();

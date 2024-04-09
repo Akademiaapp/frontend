@@ -34,14 +34,17 @@
 		}
 		api.getAssignmentAnswer(answer).then((res) => {
 			res.json().then((data) => {
-				file = new AssignmentAnswer(data);
+				file = new AssignmentAnswer(data, assignmentAnswerStore);
 			});
 		});
 	}
 
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
 		if (!the_file || !grade || !feedback) return;
-		file = new AssignmentAnswer(await (await the_file.setGrade(grade, feedback)).json());
+		file = new AssignmentAnswer(
+			await (await the_file.setGrade(grade, feedback)).json(),
+			assignmentAnswerStore
+		);
 	}
 
 	let grade = null;
@@ -51,7 +54,7 @@
 	let placeholder = 'Giv feedback til opgaven...';
 
 	$: placeholder =
-		$userInfo.type === 'student' ? 'Skriv en besked...' : 'Giv feedback til opgaven...';
+		$userInfo.type === 'STUDENT' ? 'Skriv en besked...' : 'Giv feedback til opgaven...';
 </script>
 
 {#if !file}
@@ -61,7 +64,7 @@
 		<div class="flex flex-col gap-2 p-5">
 			<div class="flex flex-col gap-1"></div>
 			<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
-			<Card class="w-17 grid aspect-square place-items-center p-4 text-3xl font-semibold"
+			<Card class="grid aspect-square w-[4.5rem] place-items-center p-4 text-3xl font-semibold"
 				>{file.grade}</Card
 			>
 		</div>

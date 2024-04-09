@@ -47,7 +47,7 @@
 				} else if (apiType === 'assignmentAnswers') {
 					currentFile.set(new AssignmentAnswer(fileContent, assignmentAnswerStore));
 				} else if (apiType === 'assignments') {
-					currentFile.set(new Assignment(fileContent, null, assignmentStore));
+					currentFile.set(new Assignment(fileContent, assignmentStore));
 				}
 			});
 		});
