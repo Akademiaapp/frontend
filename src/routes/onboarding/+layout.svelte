@@ -69,7 +69,7 @@
 </script>
 
 <div class="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center">
-	<div class="cont br-3 border">
+	<div class="cont br-3 min-h-[34rem] border">
 		<div class="relative flex-1">
 			{#key data.url}
 				<!-- {#if data.url.endsWith('signup')} -->
