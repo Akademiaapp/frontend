@@ -12,7 +12,8 @@
 	import { NodeViewContent } from 'svelte-tiptap';
 	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
-	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
+	import { currentFile } from '@/api/apiStore';
 	export let value = '';
 	export let expression = '';
 	export let onFocus = () => {};

@@ -11,7 +11,8 @@
 	import { TiptapTransformer } from '@hocuspocus/transformer';
 	import { onMount } from 'svelte';
 	import * as Y from 'yjs';
-	import { AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { AssignmentAnswer } from '@/api/fileClasses';
 
 	export let assignmentId: string =
 		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;

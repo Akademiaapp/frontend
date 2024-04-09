@@ -1,22 +1,9 @@
 <script lang="ts">
 	import { folders } from './../../sidebarStore';
-	import FileList from './FileList.svelte';
-	import File from './File.svelte';
-	import api from '$lib/api';
 
 	import SideBarElem from '../../SideBarElem.svelte';
-	import randomName from '$lib/randomName';
-	import {
-		DocumentInfo,
-		FileInfo,
-		Folder,
-		currentFile,
-		documentStore,
-		newDocument
-	} from '@/api/apiStore';
-	import FolderItem from './FolderItem.svelte';
-	import Document from '../../../home/activeFiles/Document.svelte';
-	import { onMount, tick } from 'svelte';
+	import { documentStore, newDocument } from '@/api/apiStore';
+	import { tick } from 'svelte';
 	import Category from './Category.svelte';
 
 	$: files = $documentStore;

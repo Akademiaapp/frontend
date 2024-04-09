@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 import api from '.';
-import { currentFile, documentStore } from './apiStore';
+import { assignmentAnswerStore, currentFile, documentStore } from './apiStore';
 
 export class FileInfo {
 	id: string;
@@ -11,15 +11,17 @@ export class FileInfo {
 
 	fileType: string = 'documents';
 
-	store = documentStore;
+	store;
 
-	constructor(info, fileType = 'documents') {
+	constructor(info, fileType = 'documents', store) {
 		this.fileType = fileType;
 		this.id = info.id;
 		this.name = info.name;
 		this.data = info.data;
 		this.created_at = info.created_at;
 		this.updated_at = info.updated_at;
+
+		this.store = store;
 	}
 
 	get path() {
@@ -72,8 +74,8 @@ export class DocumentInfo extends FileInfo {
 	fileType = 'documents';
 	isNote: boolean;
 
-	constructor(info) {
-		super(info);
+	constructor(info, store) {
+		super(info, 'documents', store);
 		this.isNote = info.isNote;
 	}
 }
@@ -92,10 +94,8 @@ export class Assignment extends FileInfo {
 	isPublic: boolean;
 	teacherId: string;
 
-	store = assignmentStore;
-
-	constructor(info, fileType = 'assignments') {
-		super(info, fileType);
+	constructor(info, fileType = 'assignments', store) {
+		super(info, fileType, store);
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
@@ -140,10 +140,8 @@ export class AssignmentAnswer extends FileInfo {
 	grade: number | null;
 	feedback: string | null;
 
-	store = assignmentAnswerStore;
-
-	constructor(info) {
-		super(info, 'assignmentAnswers');
+	constructor(info, store) {
+		super(info, 'assignmentAnswers', store);
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
 		this.isPublic = info.isPublic;

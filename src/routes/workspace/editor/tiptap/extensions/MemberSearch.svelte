@@ -1,7 +1,8 @@
 <script lang="ts">
 	import MemberSearch from './MemberSearch.svelte';
 	import api from '@/api';
-	import { Assignment, currentFile, userInfo } from '@/api/apiStore';
+	import { currentFile, userInfo } from '@/api/apiStore';
+	import { Assignment } from '@/api/fileClasses';
 	import {
 		Command,
 		CommandEmpty,

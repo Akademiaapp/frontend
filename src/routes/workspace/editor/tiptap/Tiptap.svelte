@@ -4,15 +4,8 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
-	import {
-		Assignment,
-		AssignmentAnswer,
-		AssignmentProgress,
-		DocumentInfo,
-		FileInfo,
-		currentFile,
-		documentStore
-	} from '@/api/apiStore';
+	import { currentFile, documentStore } from '@/api/apiStore';
+	import { FileInfo, Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 

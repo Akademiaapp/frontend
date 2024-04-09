@@ -6,14 +6,17 @@
 	import type { Editor } from 'svelte-tiptap';
 	import { goto } from '$app/navigation';
 	import {
+		currentFile,
+		documentStore,
+		assignmentAnswerStore,
+		assignmentStore
+	} from '@/api/apiStore';
+	import {
+		DocumentInfo,
 		Assignment,
 		AssignmentAnswer,
-		AssignmentProgress,
-		currentFile,
-		DocumentInfo,
-		documentStore,
-		FileInfo
-	} from '@/api/apiStore';
+		AssignmentProgress
+	} from '@/api/fileClasses';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
 
@@ -40,11 +43,11 @@
 				console.log('What????', documentType);
 
 				if (apiType === 'documents') {
-					currentFile.set(new DocumentInfo(fileContent));
+					currentFile.set(new DocumentInfo(fileContent, documentStore));
 				} else if (apiType === 'assignmentAnswers') {
-					currentFile.set(new AssignmentAnswer(fileContent));
+					currentFile.set(new AssignmentAnswer(fileContent, assignmentAnswerStore));
 				} else if (apiType === 'assignments') {
-					currentFile.set(new Assignment(fileContent));
+					currentFile.set(new Assignment(fileContent, null, assignmentStore));
 				}
 			});
 		});
@@ -67,7 +70,7 @@
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector bind:value />
-			<FileEditor bind:isNote answer={value} />
+			<FileEditor bind:isNote />
 		{:else}
 			<Toolbar bind:isNote />
 			<FileEditor bind:isNote />

@@ -15,7 +15,8 @@
 		today
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
-	import { Assignment, AssignmentAnswer, AssignmentProgress, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
@@ -60,7 +61,7 @@
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
 	let calenderOpen = false;
-	$: console.log("editable", editable, $currentFile);
+	$: console.log('editable', editable, $currentFile);
 </script>
 
 <NodeViewWrapper>
@@ -77,7 +78,7 @@
 						variant={'ghost'}
 						class={cn(
 							'w-auto justify-start px-2 py-1 text-left text-base font-normal',
-							!date && 'text-muted-foreground',
+							!date && 'text-muted-foreground'
 						)}
 						builders={[builder]}
 						disabled={!editable}
@@ -103,7 +104,7 @@
 			<Input
 				type="time"
 				disabled={!editable}
-				class="h-full w-40 border-none px-1 text-base cursor-pointer"
+				class="h-full w-40 cursor-pointer border-none px-1 text-base"
 				bind:value={time}
 			></Input>
 		</div>

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Assignment, AssignmentAnswer, assignmentAnswerStore, currentFile } from '@/api/apiStore';
+	import { assignmentAnswerStore, currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 	import SelectTrigger from '@/components/ui/select/select-trigger.svelte';

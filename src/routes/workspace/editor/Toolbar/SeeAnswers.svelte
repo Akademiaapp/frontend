@@ -2,8 +2,6 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import { Button } from '$lib/components/ui/button';
-	import { Assignment, currentFile } from '@/api/apiStore';
 
 	let open = false;
 </script>

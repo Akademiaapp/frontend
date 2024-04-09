@@ -5,7 +5,8 @@
 	import { page } from '$app/stores';
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
-	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';

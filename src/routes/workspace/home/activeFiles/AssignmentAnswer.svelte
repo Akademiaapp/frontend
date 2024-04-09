@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AssignmentProgress } from '@/api/apiStore';
+	import { AssignmentProgress } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
 
 	export let name: string;

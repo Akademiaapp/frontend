@@ -12,7 +12,8 @@
 		NotebookPen,
 		File
 	} from 'lucide-svelte';
-	import { FileInfo, currentFile, documentStore } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { FileInfo } from '@/api/fileClasses';
 	import { printUsingWindow } from '@/utils/printer';
 	import { keycloakState } from '../../../../authStore';
 	import { get } from 'svelte/store';

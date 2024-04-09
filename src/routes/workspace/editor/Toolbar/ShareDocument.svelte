@@ -9,7 +9,8 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { getContext, onMount } from 'svelte';
 	import api from '@/api';
-	import { FileInfo, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { FileInfo } from '@/api/fileClasses';
 	import { page } from '$app/stores';
 
 	var urlParams = new URLSearchParams(window.location.search);

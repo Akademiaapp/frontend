@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Assignment, AssignmentProgress } from '@/api/apiStore';
+	import { Assignment, AssignmentProgress } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
@@ -81,40 +81,40 @@
 	}
 
 	svg {
-		height: 100%;
-		rotate: -90deg;
+		// height: 100%;
+		// rotate: -90deg;
 
-		.red {
-			stroke: #ff0000;
-		}
+		// .red {
+		// 	stroke: #ff0000;
+		// }
 
-		.yellow {
-			stroke: #ffa800;
-		}
+		// .yellow {
+		// 	stroke: #ffa800;
+		// }
 
-		.green {
-			stroke: #2cde00;
-		}
+		// .green {
+		// 	stroke: #2cde00;
+		// }
 
-		.progress-circle {
-			stroke-dasharray: 100;
-			stroke-dashoffset: 0;
+		// .progress-circle {
+		// 	stroke-dasharray: 100;
+		// 	stroke-dashoffset: 0;
 
-			stroke-linecap: round;
+		// 	stroke-linecap: round;
 
-			transition: all 1s;
+		// 	transition: all 1s;
 
-			animation: load-in 600ms ease-out;
+		// 	animation: load-in 600ms ease-out;
 
-			animation-fill-mode: backwards;
+		// 	animation-fill-mode: backwards;
 
-			z-index: 10;
-		}
+		// 	z-index: 10;
+		// }
 
-		.bg-circle {
-			stroke: rgba(0, 0, 0, 0.15);
-			position: absolute;
-		}
+		// .bg-circle {
+		// 	stroke: rgba(0, 0, 0, 0.15);
+		// 	position: absolute;
+		// }
 	}
 
 	@keyframes load-in {

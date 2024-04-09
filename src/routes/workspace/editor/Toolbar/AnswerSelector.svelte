@@ -7,7 +7,8 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
-	import { Assignment, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { Assignment } from '@/api/fileClasses';
 	import { answer } from '../editorStore';
 
 	let answers = [] as {

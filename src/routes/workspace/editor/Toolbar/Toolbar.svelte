@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { AssignmentAnswer, DocumentInfo } from './../../../../lib/api/apiStore';
 	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 
@@ -33,7 +32,8 @@
 	} from 'lucide-svelte';
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
-	import { Assignment, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer, DocumentInfo } from '@/api/fileClasses';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ToolbarButton from './ToolbarButton.svelte';
 	import Aflever from './Aflever.svelte';

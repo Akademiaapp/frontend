@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store';
 import api from '.';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
-import { DocumentInfo } from './fileClasses';
+import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo } from './fileClasses';
 
 export async function updateDocuments() {
 	const response = await api.getUserDocuments();
@@ -13,9 +13,9 @@ export async function updateDocuments() {
 	const json = await response.json();
 	console.log(json);
 
-	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo)));
+	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
 	folders.update((prev) => {
-		const docs = json.map((docuemntInfo) => new DocumentInfo(docuemntInfo));
+		const docs = json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore));
 		docs.forEach((doc) => {
 			prev.find((f) => f.name === 'Andet').files.push(doc);
 		});
@@ -72,7 +72,9 @@ export async function updateAssignmentsAnswers() {
 	}
 	const json = await response.json();
 
-	assignmentAnswerStore.set(json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo)));
+	assignmentAnswerStore.set(
+		json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo, assignmentAnswerStore))
+	);
 	console.log('updated assignments', get(assignmentAnswerStore));
 }
 
@@ -84,7 +86,9 @@ export async function updateAssignments() {
 	const json = await response.json();
 	console.log(json);
 
-	assignmentStore.set(json.map((assignmentInfo) => new Assignment(assignmentInfo)));
+	assignmentStore.set(
+		json.map((assignmentInfo) => new Assignment(assignmentInfo, null, assignmentStore))
+	);
 	console.log('updated assignments');
 }
 
@@ -94,7 +98,7 @@ export async function newDocument(name: string, open: boolean = true, isNote = f
 		throw new Error('Could not create document due to no response');
 	}
 	const json = await response.json();
-	const newDoc = new DocumentInfo(json);
+	const newDoc = new DocumentInfo(json, documentStore);
 
 	if (open) {
 		newDoc.open();
@@ -124,7 +128,7 @@ export async function newAssignment(
 		throw new Error('Could not create document due to no response');
 	}
 	const json = await response.json();
-	const newAssignment = new Assignment(json);
+	const newAssignment = new Assignment(json, null, assignmentStore);
 
 	if (open) {
 		newAssignment.open();

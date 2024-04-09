@@ -17,7 +17,6 @@
 	let blue = false;
 
 	$: console.log(blue);
-	console.log('hkdujd');
 </script>
 
 <div>

@@ -7,7 +7,8 @@
 
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
-	import { Assignment, AssignmentAnswer, currentFile } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
+	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
 	import { answer, editor } from '../editor/editorStore';
 	import ChatTab from './main/chat/ChatTab.svelte';
 	export let isExpanded: boolean;
@@ -62,28 +63,5 @@
 		align-items: center;
 
 		justify-content: space-between;
-
-		button {
-			span {
-				font-size: 2rem;
-
-				transition: rotate 300ms ease;
-				vertical-align: middle;
-			}
-
-			transition: all 100ms;
-
-			background-color: var(--color-bg-1);
-
-			padding: 0.25rem;
-
-			color: var(--color-text-1);
-
-			border-radius: 8px;
-
-			&:hover {
-				color: var(--color-text-0);
-			}
-		}
 	}
 </style>
