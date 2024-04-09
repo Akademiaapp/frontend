@@ -33,7 +33,7 @@
 			console.log('hddhd');
 			setTimeout(() => {
 				draggingElem.set(null);
-			}, 10);
+			}, 1000);
 		}}
 		role="button"
 		tabindex="0"

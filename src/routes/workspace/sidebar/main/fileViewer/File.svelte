@@ -17,15 +17,16 @@
 		active = file.id == $currentFile.id;
 	}
 
-	function findAndRemoveFile(files: FileInfo[], folders: Folder[], fileTobeRemoved: FileInfo) {
-		const index = files.findIndex((f) => f.id == file.id);
-		if (index != -1) {
-			files.splice(index, 1);
-		}
+	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: FileInfo) {
 		for (const folder of folders) {
-			findAndRemoveFile(folder.files, [], fileTobeRemoved);
+			const index = folder.files.findIndex((f) => f.id == file.id);
+			if (index != -1) {
+				folder.files.splice(index, 1);
+			}
+
+			findAndRemoveFile(folder.subFolders, fileTobeRemoved);
 		}
-		return files;
+		return folders;
 	}
 </script>
 
@@ -34,8 +35,9 @@
 	ondrop={() => {
 		if ($draggingElem instanceof Folder) {
 			console.log('is folder');
+			if ($draggingElem.files.findIndex((f) => f.id == file.id) != -1) return;
 			folders.update((prev) => {
-				findAndRemoveFile([], prev, file);
+				findAndRemoveFile(prev, file);
 				$draggingElem.files = [...$draggingElem.files, file];
 				return prev;
 			});
