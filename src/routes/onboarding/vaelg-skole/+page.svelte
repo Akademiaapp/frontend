@@ -1,5 +1,4 @@
 <script lang="ts">
-	import levenshein from 'js-levenshtein';
 	import {
 		Command,
 		CommandInput,
@@ -50,10 +49,9 @@
 				...school,
 				distance: commandScore(school.name, query)
 			}))
+			.filter((school) => school.distance > 0)
 			.sort((a, b) => b.distance - a.distance)
 			.splice(0, 20);
-
-		console.log(searchedSchools);
 	}
 
 	$: search(value);
