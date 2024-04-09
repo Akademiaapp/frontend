@@ -13,20 +13,13 @@ export const MathExtension = Node.create({
 	},
 
 	onSelectionUpdate({ editor }) {
-		const startTime = performance.now();
 		const selection = editor.state.selection;
 		if (!selection.node) return;
 		const type: string = selection.node.type.name;
 		if (type != 'math') return;
-		console.log(selection);
+
 		const elem: HTMLSpanElement = editor.view.nodeDOM(selection.from);
-		console.log(elem);
-		this.editor.commands.setTextSelection(this.editor.state.selection.from);
-		console.log(elem.querySelector('math-field').focus());
-		// Existing code
-		const endTime = performance.now();
-		const duration = endTime - startTime;
-		console.log(`Selection update took ${duration} milliseconds.`);
+		elem.querySelector('math-field').focus();
 	},
 
 	renderHTML({ HTMLAttributes }) {
