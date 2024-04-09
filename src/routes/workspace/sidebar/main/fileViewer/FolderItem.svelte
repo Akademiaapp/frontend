@@ -33,7 +33,7 @@
 
 <div>
 	<div
-		class={'sidebar-elem clickable br-1' + (blue && ' bg-primary/20')}
+		class={'sidebar-elem clickable br-1' + (blue ? ' bg-primary/20' : '')}
 		on:dragenter={() => {
 			if ($draggingFile) {
 				blue = true;
@@ -41,6 +41,7 @@
 		}}
 		on:dragover|preventDefault
 		on:drop={() => {
+			blue = false;
 			console.log('is folder');
 			if (folder.files.findIndex((f) => f.id == $draggingFile.id) != -1) return;
 			folders.update((prev) => {
@@ -48,7 +49,6 @@
 				folder.files = [...folder.files, $draggingFile];
 				return prev;
 			});
-			blue = false;
 		}}
 		on:dragleave={() => {
 			blue = false;

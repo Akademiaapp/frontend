@@ -27,6 +27,7 @@
 	on:dragend={(e) => {
 		draggingFile.set(null);
 	}}
+	class:active
 >
 	<a
 		on:click={onClick}
