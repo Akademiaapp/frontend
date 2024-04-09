@@ -3,7 +3,7 @@
 	import { slide } from 'svelte/transition';
 	import { Folder } from '@/api/fileClasses';
 	import SideBarElem from '../../SideBarElem.svelte';
-	import { ArrowLeft, ChevronRight } from 'lucide-svelte';
+	import { ArrowLeft, ChevronRight, Dot } from 'lucide-svelte';
 	import File from './File.svelte';
 	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
 	import { draggingElem, isDragging } from '../../sidebarStore';
@@ -40,6 +40,7 @@
 	>
 		<div class="cont flex" class:pointer-events-none={$isDragging}>
 			<button
+				disabled={folder.files.length == 0 && folder.subFolders.length == 0}
 				on:click={() => {
 					open = !open;
 				}}
@@ -47,7 +48,11 @@
 				class:rotate-90={open}
 				tabindex="0"
 			>
-				<ChevronRight size={20}></ChevronRight>
+				{#if folder.files.length > 0 || folder.subFolders.length > 0}
+					<ChevronRight size={20}></ChevronRight>
+				{:else}
+					<Dot size={20}></Dot>
+				{/if}
 			</button>
 			{#if folder.emoji}
 				<EmojiSelector value={folder.emoji} />

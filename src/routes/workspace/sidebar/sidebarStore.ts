@@ -4,22 +4,7 @@ import { writable } from 'svelte/store';
 export const draggingElem = writable(null);
 export const isDragging = writable(false);
 
-const testFiles = [
-	new FileInfo({
-		id: '1',
-		name: 'Noget',
-		data: '1',
-		created: new Date().toDateString(),
-		updated: new Date().toDateString()
-	}),
-	new FileInfo({
-		id: '1',
-		name: 'ABC',
-		data: '1',
-		created: new Date().toDateString(),
-		updated: new Date().toDateString()
-	})
-];
+const testFiles = [];
 export const subjects = [
 	new Folder({
 		name: 'Dansk',
