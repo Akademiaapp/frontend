@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { folders } from './../../sidebarStore';
 	import FileList from './FileList.svelte';
 	import File from './File.svelte';
 	import api from '$lib/api';
@@ -17,74 +18,6 @@
 	import Document from '../../../home/activeFiles/Document.svelte';
 	import { onMount, tick } from 'svelte';
 	import Category from './Category.svelte';
-
-	const testFiles = [
-		new FileInfo({
-			id: '1',
-			name: 'Noget',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
-		}),
-		new FileInfo({
-			id: '1',
-			name: 'ABC',
-			data: '1',
-			created: new Date().toDateString(),
-			updated: new Date().toDateString()
-		})
-	];
-
-	export let folders: Folder[] = [
-		new Folder({
-			name: 'Dansk',
-			emoji: '🇩🇰',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Engelsk',
-			emoji: '🇬🇧',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Fransk',
-			emoji: '🇫🇷',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Matematik',
-			emoji: '📊',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Fysik/Kemi',
-			emoji: '⚛️',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Biologi',
-			emoji: '🌱',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Historie',
-			emoji: '🏛️',
-			subFolders: [],
-			files: testFiles
-		}),
-		new Folder({
-			name: 'Samfundsfag',
-			emoji: '🌍',
-			subFolders: [],
-			files: testFiles
-		})
-	];
 
 	$: files = $documentStore;
 
@@ -107,7 +40,7 @@
 
 <div class="cont">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
-		<Category name="Fag" open={false} {folders}></Category>
+		<Category name="Fag" open={false} folders={$folders}></Category>
 		<Category name="Andet" {files}></Category>
 	</div>
 	<div class="splitter"></div>

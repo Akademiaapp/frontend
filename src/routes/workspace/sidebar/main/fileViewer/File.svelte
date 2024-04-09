@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { DocumentInfo, FileInfo, currentFile } from '@/api/apiStore';
+	import DraggableElem from './../../DraggableElem.svelte';
+	import { currentFile } from '@/api/apiStore';
+	import { FileInfo, DocumentInfo, Folder } from '@/api/fileClasses';
 	import { capLength } from '$lib/utils/stringUtils';
 	import SideBarElem from '../../SideBarElem.svelte';
 	import { File, Notebook } from 'lucide-svelte';
+	import { draggingElem } from '../../sidebarStore';
+	import { folders } from '../../sidebarStore';
 	export let file: FileInfo | DocumentInfo;
 	export let onClick = () => {
 		currentFile.set(file);
@@ -12,9 +16,32 @@
 	$: if ($currentFile instanceof FileInfo) {
 		active = file.id == $currentFile.id;
 	}
+
+	function findAndRemoveFile(files: FileInfo[], folders: Folder[], fileTobeRemoved: FileInfo) {
+		const index = files.findIndex((f) => f.id == file.id);
+		if (index != -1) {
+			files.splice(index, 1);
+		}
+		for (const folder of folders) {
+			findAndRemoveFile(folder.files, [], fileTobeRemoved);
+		}
+		return files;
+	}
 </script>
 
-<SideBarElem {active}>
+<DraggableElem
+	{active}
+	ondrop={() => {
+		if ($draggingElem instanceof Folder) {
+			console.log('is folder');
+			folders.update((prev) => {
+				findAndRemoveFile([], prev, file);
+				$draggingElem.files = [...$draggingElem.files, file];
+				return prev;
+			});
+		}
+	}}
+>
 	<a
 		on:click={onClick}
 		href="editor?id={file.id}&type={file instanceof DocumentInfo
@@ -24,6 +51,7 @@
 			: file.fileType}"
 		class="reset"
 		class:active
+		draggable="false"
 	>
 		<div>
 			{#if file instanceof DocumentInfo && file.isNote}
@@ -34,7 +62,7 @@
 		</div>
 		<span class="name">{file.name}</span>
 	</a>
-</SideBarElem>
+</DraggableElem>
 
 <style lang="scss">
 	.name {

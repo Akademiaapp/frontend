@@ -1,28 +1,52 @@
 <script lang="ts">
 	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
-	import type { FileInfo, Folder } from '@/api/apiStore';
+	import { Folder } from '@/api/fileClasses';
 	import SideBarElem from '../../SideBarElem.svelte';
 	import { ArrowLeft, ChevronRight } from 'lucide-svelte';
 	import File from './File.svelte';
 	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
+	import { draggingElem, isDragging } from '../../sidebarStore';
 
 	export let open: boolean = false;
 
 	export let folder: Folder;
 
 	export let active = false;
+
+	let blue = false;
+
+	$: console.log(blue);
+	console.log('hkdujd');
 </script>
 
 <div>
-	<SideBarElem {active}>
-		<div class="cont flex">
+	<div
+		class={'sidebar-elem clickable br-1' + (blue && ' !bg-primary/20')}
+		on:dragenter={() => {
+			if ($isDragging) {
+				blue = true;
+				draggingElem.set(folder);
+			}
+		}}
+		on:dragleave={() => {
+			blue = false;
+			console.log('hddhd');
+			setTimeout(() => {
+				draggingElem.set(null);
+			}, 10);
+		}}
+		role="button"
+		tabindex="0"
+	>
+		<div class="cont flex" class:pointer-events-none={$isDragging}>
 			<button
 				on:click={() => {
 					open = !open;
 				}}
 				class="openbox origin-center"
 				class:rotate-90={open}
+				tabindex="0"
 			>
 				<ChevronRight size={20}></ChevronRight>
 			</button>
@@ -32,7 +56,8 @@
 			{/if}
 			<span class="name">{folder.name}</span>
 		</div>
-	</SideBarElem>
+	</div>
+
 	<div class="w-full pl-5">
 		{#if open}
 			<!-- content here -->
