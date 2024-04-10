@@ -8,7 +8,7 @@
 		CommandList,
 		CommandSeparator
 	} from '@/components/ui/command';
-	import { canProceed, selectedSchoolId } from '../onboardingStores';
+	import { canProceed, selectedSchoolId, userType } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import api from '@/api';
@@ -59,7 +59,12 @@
 	let value = '';
 </script>
 
-<h1>Vælg din skole</h1>
+<h1 class="-mb-1">Vælg din skole</h1>
+{#if $userType == 'TESTER'}
+	<p class=" text-xs text-muted-foreground">
+		Som tester kan du bare vælge en hvilken som helst skole.
+	</p>
+{/if}
 <div class:small={!focused && $selectedSchoolId}>
 	<Command shouldFilter={false}>
 		<CommandInput
