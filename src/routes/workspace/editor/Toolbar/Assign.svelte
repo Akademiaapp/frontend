@@ -9,7 +9,10 @@
 	let open = false;
 
 	async function assignCurrentFile() {
-		if ($currentFile instanceof Assignment) await $currentFile.assign();
+		if ($currentFile instanceof Assignment) {
+			await $currentFile.assign()
+			$currentFile.isPublic = true;
+		};
 		open = false;
 	}
 </script>
