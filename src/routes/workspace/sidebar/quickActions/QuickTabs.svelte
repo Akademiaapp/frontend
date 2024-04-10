@@ -15,7 +15,7 @@
 		currentTab = tab;
 	}
 
-	if ($currentFile != null && $currentFile instanceof DocumentInfo) {
+	$: if ($currentFile != null && $currentFile instanceof DocumentInfo) {
 		currentTab = 'files';
 	}
 
