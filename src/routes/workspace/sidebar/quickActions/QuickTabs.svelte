@@ -6,13 +6,17 @@
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
+	import { AssignmentAnswer, Assignment, DocumentInfo } from '@/api/fileClasses';
 	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';
 
 	function switchTab(tab) {
 		currentTab = tab;
+	}
+
+	if ($currentFile != null && $currentFile instanceof DocumentInfo) {
+		currentTab = 'files';
 	}
 
 	export let onClose = () => {};
