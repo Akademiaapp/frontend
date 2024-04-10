@@ -30,6 +30,9 @@
 			<Tiptap bind:connected />
 		</div>
 		<div class="page" hidden={isNote} />
+		<div class="page" hidden={isNote} />
+		<div class="page" hidden={isNote} />
+		<div class="page" hidden={isNote} />
 	</div>
 	{#if !isNote}
 		<Overview />
