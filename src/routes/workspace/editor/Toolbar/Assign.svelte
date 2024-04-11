@@ -4,7 +4,7 @@
 	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { currentFile } from '@/api/apiStore';
+	import { currentFile, userInfo } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
 	import Label from '@/components/ui/label/label.svelte';
 
@@ -12,11 +12,17 @@
 
 	async function assignCurrentFile() {
 		if ($currentFile instanceof Assignment) {
+			if (asignSelf)
+				await $currentFile.updateInfo({
+					asigned_users_ids: [$userInfo.id]
+				});
 			await $currentFile.assign();
 			$currentFile.isPublic = true;
 		}
 		open = false;
 	}
+
+	let asignSelf = false;
 </script>
 
 <Dialog.Root bind:open>
@@ -34,7 +40,7 @@
 				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
 			<div class="flex items-center gap-2 pt-3">
-				<Switch></Switch>
+				<Switch bind:value={asignSelf}></Switch>
 				<Label for="airplane-mode">Tildel også til mig selv</Label>
 			</div>
 		</Dialog.Header>
