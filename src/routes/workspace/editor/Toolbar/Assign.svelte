@@ -12,17 +12,23 @@
 
 	async function assignCurrentFile() {
 		if ($currentFile instanceof Assignment) {
+			console.log('asignSelf: ', asignSelf);
 			if (asignSelf)
 				await $currentFile.updateInfo({
 					asigned_users_ids: [$userInfo.id]
 				});
-			await $currentFile.assign();
-			$currentFile.isPublic = true;
+
+			setTimeout(async () => {
+				if ($currentFile instanceof Assignment) {
+					await $currentFile.assign();
+					$currentFile.isPublic = true;
+				}
+			}, 4000);
 		}
 		open = false;
 	}
 
-	let asignSelf = false;
+	let asignSelf: boolean = false;
 </script>
 
 <Dialog.Root bind:open>
@@ -40,7 +46,7 @@
 				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
 			<div class="flex items-center gap-2 pt-3">
-				<Switch bind:value={asignSelf}></Switch>
+				<Switch bind:checked={asignSelf}></Switch>
 				<Label for="airplane-mode">Tildel også til mig selv</Label>
 			</div>
 		</Dialog.Header>
