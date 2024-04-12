@@ -18,12 +18,8 @@
 					asigned_users_ids: [$userInfo.id]
 				});
 
-			setTimeout(async () => {
-				if ($currentFile instanceof Assignment) {
-					await $currentFile.assign();
-					$currentFile.isPublic = true;
-				}
-			}, 4000);
+			await $currentFile.assign();
+			$currentFile.isPublic = true;
 		}
 		open = false;
 	}
