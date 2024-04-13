@@ -95,7 +95,7 @@
 				{#if bigInputBox}
 					<Select>
 						<SelectTrigger noArrow class="flex w-10 overflow-hidden">
-							<SelectValue placeholder={file.grade ? file.grade : '??'} />
+							<SelectValue placeholder={file.grade ? file.grade.toString() : '??'} />
 						</SelectTrigger>
 						<SelectContent class="!w-[70px]">
 							{#each karakter as k}
