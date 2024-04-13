@@ -15,10 +15,6 @@
 		currentTab = tab;
 	}
 
-	$: if ($currentFile != null && $currentFile instanceof DocumentInfo) {
-		currentTab = 'files';
-	}
-
 	export let onClose = () => {};
 
 	$: console.log(currentTab);

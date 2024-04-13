@@ -14,7 +14,7 @@
 	export let autoresize = false;
 	export { className as class };
 
-	// $: value && autosize.update(textarea);
+	$: value && autosize.update(textarea);
 
 	const conditionalAutosize = autoresize ? autosize : () => {};
 </script>
