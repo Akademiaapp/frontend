@@ -19,7 +19,7 @@
 
 	$: hasAssignmentDescription =
 		$currentFile instanceof AssignmentAnswer ||
-		($currentFile instanceof Assignment && $currentFile.isPublic);
+		($currentFile instanceof Assignment && $answer !== null);
 
 	$: console.log($currentFile instanceof AssignmentAnswer);
 
