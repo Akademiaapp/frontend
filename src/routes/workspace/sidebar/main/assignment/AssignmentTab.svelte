@@ -12,16 +12,14 @@
 	import { onMount } from 'svelte';
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer } from '@/api/fileClasses';
-	import Assignment from '../../../home/activeFiles/Assignment.svelte';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 
-	export let assignmentId: string =
-		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
-
-	currentFile.subscribe((value) => {
-		if (value instanceof AssignmentAnswer) assignmentId = value.assignment_id;
-		else if (value instanceof Assignment) assignmentId = value.id;
-	});
+	$: assignmentId =
+		$currentFile instanceof AssignmentAnswer
+			? $currentFile.assignment_id
+			: $currentFile instanceof Assignment
+				? $currentFile.id
+				: '';
 
 	async function getDescription() {
 		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');
@@ -37,7 +35,6 @@
 		// Wait for the assignmentId to be set
 		while (!assignmentId) {
 			await new Promise((resolve) => setTimeout(resolve, 100));
-			console.log('hi');
 		}
 
 		const data = await getDescription();
