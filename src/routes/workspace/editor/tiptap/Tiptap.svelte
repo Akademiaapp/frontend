@@ -156,13 +156,6 @@
 <EditorContent editor={$editor} />
 
 <style lang="scss">
-	.editor_content {
-		overflow-wrap: break-word;
-		margin-top: 1rem;
-
-		max-width: 100%;
-	}
-
 	:global(.page > div) {
 		height: 100%;
 	}

@@ -67,52 +67,7 @@
 </div>
 
 <style lang="scss">
-	label {
-		cursor: pointer;
-
-		display: flex;
-
-		align-items: center;
-		gap: 1rem;
-
-		padding: 0.5rem 1rem;
-
-		border-width: 1px;
-
-		border-radius: 0.25rem;
-
-		// box-sizing: border-box;
-
-		img {
-			aspect-ratio: 1;
-			height: 3rem;
-			width: auto;
-		}
-
-		.des {
-			font-size: 0.75rem;
-			color: var(--color-text-2);
-		}
-
-		transition: all 100ms;
-	}
-
 	.small {
 		height: 2.8rem;
-	}
-
-	input[type='radio']:checked + label {
-		/* color: #ff0000; Change this to the color you want */
-		/* font-weight: bold; Add any other styles you want */
-
-		border: solid 1px var(--color-accent);
-
-		box-shadow: inset 0 0 0 1px var(--color-accent);
-
-		// border: none;
-	}
-
-	input {
-		display: none;
 	}
 </style>
