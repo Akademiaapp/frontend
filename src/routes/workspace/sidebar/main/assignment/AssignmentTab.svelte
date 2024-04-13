@@ -13,13 +13,14 @@
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
 	import { AssignmentAnswer } from '@/api/fileClasses';
+	import Assignment from '../../../home/activeFiles/Assignment.svelte';
 
 	export let assignmentId: string =
 		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
 
 	currentFile.subscribe((value) => {
-		if (!(value instanceof AssignmentAnswer)) return;
-		assignmentId = value.assignment_id;
+		if (value instanceof AssignmentAnswer) assignmentId = value.assignment_id;
+		else if (value instanceof Assignment) assignmentId = value.id;
 	});
 
 	async function getDescription() {
@@ -36,6 +37,7 @@
 		// Wait for the assignmentId to be set
 		while (!assignmentId) {
 			await new Promise((resolve) => setTimeout(resolve, 100));
+			console.log('hi');
 		}
 
 		const data = await getDescription();
