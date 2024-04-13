@@ -9,8 +9,6 @@
 
 	let open = false;
 
-	$: console.log($currentFile.id);
-
 	async function submit() {
 		// $currentFile.updateInfo({ status: 'SUBMITTED' });
 		if ($currentFile instanceof AssignmentAnswer) {
@@ -22,8 +20,6 @@
 					a.id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
 				)
 			);
-			console.log(get($currentFile.store));
-			console.log($currentFile.id);
 		}
 		open = false;
 	}

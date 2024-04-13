@@ -29,10 +29,6 @@ export const MathExtension = Node.create({
 	addNodeView() {
 		return SvelteNodeViewRenderer(Math);
 	},
-
-	onBlur({ editor }) {
-		console.log('blur');
-	},
 	addKeyboardShortcuts() {
 		return {
 			'Mod-m': () => {

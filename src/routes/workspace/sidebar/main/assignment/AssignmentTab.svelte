@@ -18,7 +18,6 @@
 	async function getDescription() {
 		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');
 		const json = await res.json();
-		console.log(json);
 		return json.data;
 	}
 
@@ -32,7 +31,6 @@
 		}
 
 		const data = await getDescription();
-		console.log('aaaa', typeof data, data, new Uint8Array(data.data));
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);

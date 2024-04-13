@@ -33,7 +33,6 @@
 					button.addEventListener('click', () => {
 						value = emoji.char;
 						closeAndFocusTrigger('trigger');
-						console.log('clicked');
 					});
 					elem.appendChild(button);
 				});
@@ -44,8 +43,6 @@
 	}
 
 	let renderedHtmlsVal = null;
-
-	$: console.log(searchVal);
 
 	$: if (open && searchVal === '') {
 		tick().then(() => {

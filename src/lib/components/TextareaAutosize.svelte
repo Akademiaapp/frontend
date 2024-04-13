@@ -14,14 +14,11 @@
 		if (!textarea) return;
 
 		height = textarea.scrollHeight;
-		console.log(textarea);
-		console.log('i changed the height of the textarea');
 	}
 </script>
 
 <Textarea
 	style="height: {height}px;"
-	on:change={() => console.log('hi')}
 	bind:value
 	bind:textarea
 	{...$$restProps}

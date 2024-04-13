@@ -58,8 +58,6 @@
 	let bigInputBox = false;
 
 	$: bigInputBox = file && !file.grade && $currentFile instanceof Assignment;
-
-	$: console.log(bigInputBox);
 </script>
 
 {#if !file}

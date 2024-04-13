@@ -22,15 +22,11 @@
 
 	// This will set the date to tomorrow
 	let jsDate = new Date(($currentFile as Assignment).due_date);
-	console.log(($currentFile as Assignment).due_date);
 	let [hours, minutes] = jsDate
 		.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
 		.split('.');
 	let time = `${hours}:${minutes}`;
 
-	console.log(time);
-	console.log(jsDate);
-	console.log(jsDate.getFullYear(), jsDate.getMonth(), jsDate.getDate());
 	let date: DateValue = new CalendarDate(
 		jsDate.getFullYear(),
 		jsDate.getMonth() + 1,
@@ -42,10 +38,7 @@
 		return new Date(date.toDate(getLocalTimeZone()).setHours(hours, minutes));
 	}
 
-	$: console.log(getDateWithTime(date, time).toISOString());
 	$: $currentFile.updateInfo({ due_date: getDateWithTime(date, time).toISOString() });
-
-	$: console.log(time);
 
 	let editable = true;
 	$: editable =
@@ -59,7 +52,6 @@
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
 	// });
 	let calenderOpen = false;
-	$: console.log('editable', editable, $currentFile);
 </script>
 
 <NodeViewWrapper>

@@ -19,13 +19,10 @@
 
 	onMount(async () => {
 		schools = await (await api.getSchools()).json();
-		console.log(schools);
 		searchedSchools = schools.splice(0, 20);
 	});
 
 	function selectSchool(schoolId, schoolName) {
-		console.log('wah', schoolId);
-		console.log('wah', schools);
 		canProceed.set(true);
 
 		selectedSchoolId.set(schoolId);

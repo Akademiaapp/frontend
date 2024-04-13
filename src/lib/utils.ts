@@ -57,10 +57,7 @@ export const flyAndScale = (
 };
 
 export function getApiUrl() {
-	console.log(import.meta.env);
-	console.log(env);
 	if (import.meta.env.PROD) {
-		console.log('hey!');
 		return 'https://akademia-api.arctix.dev';
 	} else {
 		if (env.PUBLIC_API_URL) {

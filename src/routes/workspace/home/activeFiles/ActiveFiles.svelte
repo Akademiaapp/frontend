@@ -8,10 +8,6 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
-	console.log('assignments', $assignmentStore);
-	console.log('assignmentsAnswers', $assignmentAnswerStore);
-	console.log('documents', $documentStore);
-
 	let notes = $documentStore.filter((f) => f.isNote);
 	let documents = $documentStore.filter((f) => !f.isNote);
 

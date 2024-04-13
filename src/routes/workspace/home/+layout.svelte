@@ -7,8 +7,6 @@
 
 	currentFile.set(null);
 	answer.set(null);
-
-	console.log('url: ', getCollaborationUrl());
 </script>
 
 <svelte:head>

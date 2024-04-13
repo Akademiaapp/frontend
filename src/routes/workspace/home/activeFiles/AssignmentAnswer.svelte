@@ -10,7 +10,6 @@
 
 	let progressNumber = 5;
 	let finished = false;
-	console.log(progress);
 
 	if (progress == AssignmentProgress.NOT_STARTED || progress == undefined) {
 		progressNumber = 5;

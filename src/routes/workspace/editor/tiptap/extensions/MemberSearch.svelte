@@ -15,7 +15,6 @@
 	import { onMount } from 'svelte';
 
 	let focused = false;
-	$: console.log(value);
 
 	let value: string;
 
@@ -38,7 +37,6 @@
 		// Clear undefined values
 		selectedMembers = selectedMembers.filter((member) => member !== undefined);
 
-		console.log('MEMMEEM: ', selectedMembers);
 		return selectedMembers.map((member) => member.id).filter((id) => id);
 	}
 
@@ -47,9 +45,6 @@
 			$currentFile instanceof Assignment &&
 			$currentFile.asigned_groups_ids.toString() != getIdList().toString()
 		) {
-			console.log($currentFile.asigned_groups_ids);
-			console.log(getIdList());
-			console.log($currentFile.asigned_groups_ids == getIdList());
 			if (getIdList().length > 0) {
 				$currentFile.updateInfo({
 					asigned_groups_ids: getIdList()
@@ -71,7 +66,6 @@
 		if (!document.getElementById('memberSearch').contains(e.target)) {
 			focused = false;
 			window.removeEventListener('click', updateFocus);
-			console.log('hd');
 			value = '';
 		}
 	}

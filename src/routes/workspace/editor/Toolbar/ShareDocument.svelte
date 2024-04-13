@@ -71,7 +71,6 @@
 
 		const members = await $currentFile.getMembers();
 
-		console.log(members);
 		members.forEach((member) => {
 			// Only add people who aren't already in the list
 			if (people.find((person) => person.email == member.email)) return;
@@ -88,7 +87,6 @@
 				permission: permissions[0]
 			});
 		});
-		console.log(people);
 		people = people;
 	}
 
@@ -102,11 +100,8 @@
 	function addUserToDocument() {
 		if (!$currentFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		console.log(email);
 		if ($currentFile instanceof FileInfo) {
-			$currentFile.addUser(email).then((response) => {
-				console.log(response);
-			});
+			$currentFile.addUser(email);
 		}
 	}
 

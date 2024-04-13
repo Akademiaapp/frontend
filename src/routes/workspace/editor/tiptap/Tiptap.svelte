@@ -21,13 +21,6 @@
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
 
-	$: if ($currentFile instanceof Assignment) {
-		console.log('Assignment');
-	}
-
-	$: console.log('currentFile: ', $currentFile instanceof Assignment);
-	$: console.log('currentFile: ', $currentFile);
-
 	export let connected = false;
 
 	let editable = true;
@@ -41,8 +34,6 @@
 	)
 		editable = false;
 
-	$: console.log('token: ', $keycloakState.token);
-
 	function initializeTiptap(initcurrentFile: FileInfo | Assignment | AssignmentAnswer | null) {
 		if (!initcurrentFile && !$answer) {
 			return;
@@ -54,7 +45,6 @@
 			return;
 		}
 		connected = false;
-		console.log('Initializing tiptap', fileName);
 		if ($editor) {
 			$editor.destroy();
 		}
@@ -82,7 +72,6 @@
 						extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
 						editable: editable,
 						onUpdate: ({ transaction }) => {
-							// console.log('too', transaction);
 							if (!transaction.isGeneric) return;
 
 							const title: string =

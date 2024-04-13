@@ -19,12 +19,9 @@
 	export let isNote = false;
 
 	function deleteActiveFile() {
-		console.log($currentFile);
 		if (!($currentFile instanceof FileInfo)) return;
 		$currentFile.delete().then((response) => {
-			console.log(get($currentFile.store));
 			if (!response || response.status !== 200) return;
-			console.log(response);
 			$currentFile.store.update((prev) => prev.filter((it) => it.id !== $currentFile.id));
 			currentFile.set(null);
 		});
@@ -80,20 +77,12 @@
 		<DropdownMenu.Separator />
 		<DropdownMenu.Group>
 			{#if isNote}
-				<DropdownMenu.Item
-					on:click={() => {
-						console.log('convert to document');
-					}}
-				>
+				<DropdownMenu.Item>
 					<File size="15" stroke-width="1.5" />
 					Konvertér til dokument
 				</DropdownMenu.Item>
 			{:else}
-				<DropdownMenu.Item
-					on:click={() => {
-						console.log('convert to note');
-					}}
-				>
+				<DropdownMenu.Item>
 					<NotebookPen size="15" stroke-width="1.5" />
 					Konvertér til note
 				</DropdownMenu.Item>

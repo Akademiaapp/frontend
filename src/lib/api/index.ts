@@ -27,16 +27,6 @@ class ApiHandler {
 			Authorization: `Bearer ${get(keycloakState).token}`
 		};
 
-		console.log(options);
-
-		console.log(
-			url +
-				'?' +
-				new URLSearchParams({
-					...options
-				})
-		);
-
 		return fetch(
 			url +
 				'?' +
@@ -50,7 +40,6 @@ class ApiHandler {
 		).catch((error) => {
 			// Handle CORS-related errors
 			if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-				console.log('API seems to be down at the moment');
 				apiDownStore.set(true);
 			} else {
 				console.error('Other error:', error);

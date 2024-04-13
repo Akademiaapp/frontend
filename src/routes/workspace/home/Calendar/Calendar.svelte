@@ -49,7 +49,6 @@
 
 		let eventsToDelete = [];
 
-		console.log(events.length);
 		const len = events.length;
 		for (let i = 0; i < len - 1; i++) {
 			let j = 1;

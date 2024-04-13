@@ -17,8 +17,6 @@
 	var type = urlParams.get('type');
 
 	let sidebarVisible: boolean = true;
-
-	$: console.log(sidebarVisible);
 </script>
 
 <div class="cont">

@@ -3,8 +3,6 @@
 
 	export let emoji;
 
-	console.log(emoji);
-
 	let emo = toUni(emoji);
 
 	$: emo = toUni(emoji);

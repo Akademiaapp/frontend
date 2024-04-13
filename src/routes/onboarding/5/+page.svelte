@@ -5,21 +5,7 @@
 
 	let selectedOption = $userType;
 
-	$: console.log($userType);
-
 	$: canProceed.set($userType !== '');
-
-	$: {
-		if (selectedOption) {
-			console.log(selectedOption);
-			// userType.set(selectedOption);
-		}
-	}
-
-	$: {
-		console.log(selectedOption);
-		console.log($userType);
-	}
 </script>
 
 <h1>Hvad beskriver dig bedst?</h1>

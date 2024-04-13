@@ -15,8 +15,6 @@
 			window.location.href = '/';
 		});
 	}
-
-	$: console.log($userInfo);
 </script>
 
 {#if $userInfo}

@@ -35,10 +35,6 @@
 		api.callApi(`/${apiType}/${id}`, null, 'GET').then((file) => {
 			if (!file) return;
 			file.json().then((fileContent) => {
-				console.log('hey!', fileContent);
-				console.log('What??', id);
-				console.log('What????', documentType);
-
 				if (apiType === 'documents') {
 					currentFile.set(new DocumentInfo(fileContent, documentStore));
 				} else if (apiType === 'assignmentAnswers') {

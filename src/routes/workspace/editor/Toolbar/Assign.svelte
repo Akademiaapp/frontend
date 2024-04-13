@@ -12,7 +12,6 @@
 
 	async function assignCurrentFile() {
 		if ($currentFile instanceof Assignment) {
-			console.log('asignSelf: ', asignSelf);
 			if (asignSelf)
 				await $currentFile.updateInfo({
 					asigned_users_ids: [$userInfo.id]

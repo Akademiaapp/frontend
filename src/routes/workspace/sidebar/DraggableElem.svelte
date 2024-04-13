@@ -10,9 +10,6 @@
 	export let active = false;
 
 	export let clickable = true;
-
-	$: console.log($isDragging);
-
 	export let ondrop = () => {};
 </script>
 
@@ -27,7 +24,6 @@
 	on:dragstart={(e) => isDragging.set(true)}
 	on:dragend={(e) => {
 		isDragging.set(false);
-		console.log('dropped');
 		ondrop();
 	}}
 >

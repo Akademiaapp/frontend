@@ -21,8 +21,6 @@
 		$currentFile instanceof AssignmentAnswer ||
 		($currentFile instanceof Assignment && $answer !== null);
 
-	$: console.log($currentFile instanceof AssignmentAnswer);
-
 	export let currentTab;
 	$: currentTab = hasAssignmentDescription ? 'assignment' : 'files';
 </script>

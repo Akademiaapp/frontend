@@ -13,8 +13,6 @@
 
 	export let onClose = () => {};
 
-	$: console.log(currentTab);
-
 	let showAssignmentTabs = false;
 	$: showAssignmentTabs =
 		($currentFile instanceof AssignmentAnswer ||
