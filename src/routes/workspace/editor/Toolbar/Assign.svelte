@@ -18,7 +18,7 @@
 					asigned_users_ids: [$userInfo.id]
 				});
 
-			await $currentFile.assign();;
+			await $currentFile.assign();
 			$currentFile.isPublic = true;
 		}
 		open = false;
