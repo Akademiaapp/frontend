@@ -156,24 +156,12 @@
 <EditorContent editor={$editor} />
 
 <style lang="scss">
-	.editor_content {
-		overflow-wrap: break-word;
-		margin-top: 1rem;
-
-		max-width: 100%;
-	}
-
 	:global(.page > div) {
 		height: 100%;
 	}
 
 	:global(.tiptap) {
 		height: 100%;
-	}
-
-	button.active {
-		background: rgb(0, 0, 0);
-		color: white;
 	}
 
 	:global(.tiptap h1.is-empty::before) {
@@ -213,21 +201,5 @@
 		top: -1.4em;
 		user-select: none;
 		white-space: nowrap;
-	}
-
-	#editor {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 0rem 4rem;
-	}
-
-	#text-editor {
-		flex: 1;
-		display: flex;
-	}
-
-	#text-editor :global(.tiptap) {
-		flex: 1;
 	}
 </style>
