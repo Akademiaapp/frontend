@@ -21,7 +21,7 @@
 
 	let showAssignmentTabs = false;
 	$: showAssignmentTabs =
-		((isAssignment || ($currentFile instanceof Assignment && $currentFile.isPublic)) && ($answer !== null || $currentFile instanceof AssignmentAnswer));
+		(($currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic)) && ($answer !== null || $currentFile instanceof AssignmentAnswer));
 </script>
 
 <div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
