@@ -12,15 +12,14 @@
 	import { onMount } from 'svelte';
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer } from '@/api/fileClasses';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 
-	export let assignmentId: string =
-		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
-
-	currentFile.subscribe((value) => {
-		if (!(value instanceof AssignmentAnswer)) return;
-		assignmentId = value.assignment_id;
-	});
+	$: assignmentId =
+		$currentFile instanceof AssignmentAnswer
+			? $currentFile.assignment_id
+			: $currentFile instanceof Assignment
+				? $currentFile.id
+				: '';
 
 	async function getDescription() {
 		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');

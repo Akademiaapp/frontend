@@ -17,13 +17,14 @@
 
 	let hasAssignmentDescription = false;
 
-	$: hasAssignmentDescription = $currentFile instanceof AssignmentAnswer;
-
-	$: if (hasAssignmentDescription) currentTab = 'assignment';
+	$: hasAssignmentDescription =
+		$currentFile instanceof AssignmentAnswer ||
+		($currentFile instanceof Assignment && $answer !== null);
 
 	$: console.log($currentFile instanceof AssignmentAnswer);
 
 	export let currentTab;
+	$: currentTab = hasAssignmentDescription ? 'assignment' : 'files';
 </script>
 
 <div class="cont br-2 float-panel">
