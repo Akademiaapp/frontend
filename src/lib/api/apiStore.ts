@@ -2,9 +2,16 @@ import { get, writable } from 'svelte/store';
 import api from '.';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
-import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo, Folder } from './fileClasses';
+import {
+	Assignment,
+	AssignmentAnswer,
+	AssignmentStatus,
+	DocumentInfo,
+	FileInfo,
+	Folder
+} from './fileClasses';
 
-export { FileInfo, Folder }
+export { FileInfo, Folder };
 
 export async function updateDocuments() {
 	const response = await api.getUserDocuments();
@@ -33,6 +40,24 @@ export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
 
 export const currentFile = writable<FileInfo | Assignment | AssignmentAnswer>(null);
+export const currentStatus = writable<AssignmentStatus>(null);
+
+currentFile.subscribe((file) => {
+	if (file instanceof AssignmentAnswer) {
+		currentStatus.set(file.status);
+	} else {
+		currentStatus.set(null);
+	}
+});
+
+currentStatus.subscribe((status) => {
+	const file = get(currentFile);
+	if (file instanceof AssignmentAnswer) {
+		file.updateInfo({
+			status: status
+		});
+	}
+});
 
 interface FilePermission {
 	id: string;

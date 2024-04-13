@@ -10,11 +10,11 @@
 		DateFormatter,
 		getLocalTimeZone,
 		type DateValue,
-		CalendarDate,
+		CalendarDate
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
+	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
@@ -43,9 +43,8 @@
 	let editable = true;
 	$: editable =
 		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.GRADED) ||
+			$currentFile.status === AssignmentStatus.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
 		($currentFile instanceof Assignment && $currentFile.isPublic === false);
 
 	// $: $currentFile.updateInfo({

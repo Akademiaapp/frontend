@@ -28,7 +28,7 @@
 			{#each $assignmentAnswerStore as assignment}
 				<AssignmentAnswer
 					name={assignment.name}
-					progress={assignment.progress}
+					progress={assignment.status}
 					id={assignment.id}
 					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
 						year: 'numeric',

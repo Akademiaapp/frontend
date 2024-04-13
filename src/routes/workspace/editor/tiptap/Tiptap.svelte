@@ -4,8 +4,8 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
-	import { currentFile, documentStore } from '@/api/apiStore';
-	import { FileInfo, Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
+	import { currentFile, currentStatus, documentStore } from '@/api/apiStore';
+	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 
@@ -24,9 +24,8 @@
 	let editable = true;
 	$: if (
 		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.GRADED) ||
+			$currentFile.status === AssignmentStatus.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
 		($currentFile instanceof Assignment && $currentFile.isPublic) ||
 		$answer
 	)
@@ -68,6 +67,13 @@
 						editable: editable,
 						onUpdate: ({ transaction }) => {
 							if (!transaction.isGeneric) return;
+
+							if (
+								$currentFile instanceof AssignmentAnswer &&
+								$currentStatus !== AssignmentStatus.IN_PROGRESS
+							) {
+								currentStatus.set(AssignmentStatus.IN_PROGRESS);
+							}
 
 							const title: string =
 								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';

@@ -79,7 +79,7 @@ export class DocumentInfo extends FileInfo {
 	}
 }
 
-export enum AssignmentProgress {
+export enum AssignmentStatus {
 	NOT_STARTED,
 	IN_PROGRESS,
 	SUBMITTED,
@@ -131,7 +131,7 @@ export class Assignment extends FileInfo {
 }
 
 export class AssignmentAnswer extends FileInfo {
-	progress: AssignmentProgress;
+	status: AssignmentStatus;
 	assignment_id: string;
 	due_date: string;
 	assignment_answers;
@@ -149,7 +149,7 @@ export class AssignmentAnswer extends FileInfo {
 		this.teacherId = info.teacherId;
 		this.due_date = info.due_date;
 		this.assignment_id = info.assignment_id;
-		this.progress = AssignmentProgress[info.status as keyof typeof AssignmentProgress];
+		this.status = AssignmentStatus[info.status as keyof typeof AssignmentStatus];
 		this.store = assignmentAnswerStore;
 		this.grade = info.grade;
 		this.feedback = info.feedback;
@@ -162,7 +162,11 @@ export class AssignmentAnswer extends FileInfo {
 	async setGrade(grade: number, feedback: string) {
 		this.grade = grade;
 		this.feedback = feedback;
-		return api.callApi(this.path, { grade, feedback }, 'PUT');
+		return api.callApi(
+			this.path,
+			{ grade, feedback, status: AssignmentStatus[AssignmentStatus.GRADED] },
+			'PUT'
+		);
 	}
 
 	// rename(newName) {

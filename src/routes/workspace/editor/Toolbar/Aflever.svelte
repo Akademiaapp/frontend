@@ -4,7 +4,7 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
+	import { AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { get } from 'svelte/store';
 
 	let open = false;
@@ -12,7 +12,7 @@
 	async function submit() {
 		// $currentFile.updateInfo({ status: 'SUBMITTED' });
 		if ($currentFile instanceof AssignmentAnswer) {
-			$currentFile.progress = AssignmentProgress.SUBMITTED;
+			$currentFile.status = AssignmentStatus.SUBMITTED;
 			$currentFile.updateInfo({ status: 'SUBMITTED' });
 
 			$currentFile.store.update((assignmentAnswers) =>

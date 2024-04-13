@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { AssignmentProgress } from '@/api/fileClasses';
+	import { AssignmentStatus } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
 
 	export let name: string;
 	export let date: string | undefined = undefined;
-	export let progress: AssignmentProgress = null;
+	export let progress: AssignmentStatus = null;
 	export let id: string;
 	export let grade: number | null = null;
 
 	let progressNumber = 5;
 	let finished = false;
 
-	if (progress == AssignmentProgress.NOT_STARTED || progress == undefined) {
+	if (progress == AssignmentStatus.NOT_STARTED || progress == undefined) {
 		progressNumber = 5;
-	} else if (progress == AssignmentProgress.IN_PROGRESS) {
+	} else if (progress == AssignmentStatus.IN_PROGRESS) {
 		progressNumber = 50;
-	} else if (progress == AssignmentProgress.SUBMITTED) {
+	} else if (progress == AssignmentStatus.SUBMITTED) {
 		progressNumber = 100;
-	} else if (progress == AssignmentProgress.GRADED) {
+	} else if (progress == AssignmentStatus.GRADED) {
 		finished = true;
 		progressNumber = 100;
 	}

@@ -2,15 +2,12 @@
 	import { onMount } from 'svelte';
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
-	import {
-		convertLatexToMarkup,
-		MathfieldElement,
-		convertLatexToAsciiMath
-	} from 'mathlive';
+	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
 	import { editor } from '../../routes/workspace/editor/editorStore';
-	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
+	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';
 	export let value = '';
+
 	export let expression = '';
 	export let onFocus = () => {};
 
@@ -141,9 +138,8 @@
 	let editable = true;
 	$: if (
 		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.progress === AssignmentProgress.GRADED) ||
+			$currentFile.status === AssignmentStatus.SUBMITTED) ||
+		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
 		($currentFile instanceof Assignment && $currentFile.isPublic)
 	)
 		editable = false;
@@ -153,7 +149,8 @@
 	let cont;
 </script>
 
-<!-- <input type="text" class="m-20 bg-background p-3 text-3xl" bind:value on:keydown={handleKeyDown} /> -->
+AssignmentStatusAssignmentStatuse="text" class="m-20 bg-background p-3 text-3xl" bind:value
+on:keydown={handleKeyDown} /> -->
 
 <button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
 	<math-field

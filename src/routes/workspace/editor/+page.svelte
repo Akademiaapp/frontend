@@ -9,12 +9,7 @@
 		assignmentAnswerStore,
 		assignmentStore
 	} from '@/api/apiStore';
-	import {
-		DocumentInfo,
-		Assignment,
-		AssignmentAnswer,
-		AssignmentProgress
-	} from '@/api/fileClasses';
+	import { DocumentInfo, Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
 	import 'https://unpkg.com/@cortex-js/compute-engine?module';
@@ -54,9 +49,9 @@
 
 {#if $currentFile}
 	<div class="editor" style:width={'calc(100% - ' + $sidebarWidth + ')'}>
-		{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED}
+		{#if $currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.SUBMITTED}
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
-		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
+		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED}
 			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
