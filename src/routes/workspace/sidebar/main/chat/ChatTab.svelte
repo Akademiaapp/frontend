@@ -54,7 +54,13 @@
 	let placeholder = 'Giv feedback til opgaven...';
 
 	$: placeholder =
-		$userInfo.type === 'STUDENT' ? 'Skriv en besked...' : 'Giv feedback til opgaven...';
+		$currentFile instanceof Assignment ? 'Giv feedback til opgaven...' : 'Skriv en besked...';
+
+	let bigInputBox = false;
+
+	$: bigInputBox = file && !file.grade && $currentFile instanceof Assignment;
+
+	$: console.log(bigInputBox);
 </script>
 
 {#if !file}
@@ -63,25 +69,30 @@
 	<div class="flex h-full flex-col justify-between text-lg">
 		<div class="flex flex-col gap-2 p-5">
 			<div class="flex flex-col gap-1"></div>
-			<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
-			<Card class="grid aspect-square w-[4.5rem] place-items-center p-4 text-3xl font-semibold"
-				>{file.grade}</Card
-			>
+			{#if file.grade !== null && file.grade !== undefined}
+				<ChatMessage senderName="Lærer" tags={['Feedback']} message={file.feedback} />
+				<Card class="grid aspect-square w-[4.5rem] place-items-center p-4 text-3xl font-semibold"
+					>{file.grade}</Card
+				>
+			{:else}
+				<p class="text-muted-foreground">Ingen feedback endnu</p>
+			{/if}
 		</div>
 
 		<div
 			class="flex border-t-2 border-border bg-background pt-1 shadow-2xl shadow-black/40 drop-shadow-sm"
 		>
-			<TextareaAutosize
+			<Textarea
+				autoresize={true}
 				{placeholder}
-				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0' +
-					(file.grade ? 'h-1 min-h-full' : 'min-h-[9rem]')}
+				class={'sidebar-scroll max-h-[16rem] resize-none border-none bg-transparent text-lg !ring-0 !ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 ' +
+					(bigInputBox ? 'min-h-[10rem]' : 'h-1 min-h-full')}
 				id="feedback"
 				bind:value={msg}
-				rows={file.grade ? 1 : 5}
+				rows={1}
 			/>
 			<div class="flex flex-col justify-between gap-1 p-2">
-				{#if !file.grade}
+				{#if bigInputBox}
 					<Select>
 						<SelectTrigger noArrow class="flex w-10 overflow-hidden">
 							<SelectValue placeholder={file.grade ? file.grade : '??'} />

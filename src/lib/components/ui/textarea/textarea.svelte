@@ -1,15 +1,22 @@
 <script lang="ts">
 	import type { HTMLTextareaAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils.js';
+	import autosize from 'svelte-autosize';
 
 	type $$Props = HTMLTextareaAttributes & {
 		textarea?: string;
+		autoresize?: boolean;
 	};
 
 	let className: $$Props['class'] = undefined;
 	export let value: $$Props['value'] = undefined;
 	export let textarea = undefined;
+	export let autoresize = false;
 	export { className as class };
+
+	// $: value && autosize.update(textarea);
+
+	const conditionalAutosize = autoresize ? autosize : () => {};
 </script>
 
 <textarea
@@ -31,5 +38,6 @@
 	on:paste
 	on:input
 	bind:this={textarea}
+	use:conditionalAutosize
 	{...$$restProps}
 />
