@@ -25,7 +25,7 @@
 	let editor: Editor;
 
 	async function init () {
-		editor = null;
+		if (editor) editor.destroy();
 		// Wait for the assignmentId to be set
 		while (!assignmentId) {
 			await new Promise((resolve) => setTimeout(resolve, 100));
