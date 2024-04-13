@@ -34,9 +34,3 @@
 		</MathBox>
 	</button>
 </NodeViewWrapper>
-
-<style>
-	span {
-		color: red;
-	}
-</style>

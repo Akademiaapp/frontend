@@ -170,30 +170,5 @@
 		padding-bottom: 1rem;
 
 		position: absolute;
-
-		// overflow: auto;
-	}
-
-	h1 {
-		margin: 0;
-	}
-
-	h2 {
-		font-weight: normal;
-		margin: 0;
-	}
-
-	img {
-		margin-left: -1rem;
-	}
-
-	a {
-		color: var(--color-text-2);
-		font-size: 0.75rem;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 </style>
