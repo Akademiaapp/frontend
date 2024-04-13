@@ -30,7 +30,6 @@
 	onMount(async () => {
 		if (!($currentFile instanceof Assignment)) return;
 		let new_answers = await $currentFile.getAnswers();
-		console.log('New answers: ', new_answers);
 		if (new_answers instanceof Array) answers = new_answers;
 	});
 

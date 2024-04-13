@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-svelte';
+	import { Loader2 } from 'lucide-svelte';
 	import { prettyTime, type CalendarEvent } from './CalendarUtils';
 	import Event from './Event.svelte';
 
@@ -50,7 +49,6 @@
 
 		let eventsToDelete = [];
 
-		console.log(events.length);
 		const len = events.length;
 		for (let i = 0; i < len - 1; i++) {
 			let j = 1;

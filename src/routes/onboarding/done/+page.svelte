@@ -12,15 +12,12 @@
 		if ($userType === 'TESTER') {
 			$selectedSchoolId = 'https://forms.gle/S55B7xnTSMoBaXWR6';
 		}
-		console.log('userType: ', $userType);
 		await api.callApi('/users/self', { type: $userType || 'TESTER' }, 'PUT');
-		console.log('selectedSchoolId: ', $selectedSchoolId);
 		await api.callApi(
 			'/users/self',
 			{ schoolId: $selectedSchoolId || 'https://forms.gle/S55B7xnTSMoBaXWR6' },
 			'PUT'
 		);
-		console.log('selectedClassId: ', $selectedClassId);
 		if ($selectedClassId !== '') {
 			await api.callApi('/users/self/groups', { groupId: $selectedClassId }, 'POST');
 		}

@@ -28,9 +28,6 @@
 		}
 	}, 1000);
 
-	$: console.log(remainingTime);
-	$: console.log(value);
-
 	let value = [remainingTime];
 </script>
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import SeeAnswers from './SeeAnswers.svelte';
 	import Assign from './Assign.svelte';
 
 	import ShareDocument from './ShareDocument.svelte';

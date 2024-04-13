@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { BookCopy, BookUp } from 'lucide-svelte';
+	import { BookUp } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { currentFile } from '@/api/apiStore';
@@ -8,8 +8,6 @@
 	import { get } from 'svelte/store';
 
 	let open = false;
-
-	$: console.log($currentFile.id);
 
 	async function submit() {
 		// $currentFile.updateInfo({ status: 'SUBMITTED' });
@@ -22,8 +20,6 @@
 					a.id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
 				)
 			);
-			console.log(get($currentFile.store));
-			console.log($currentFile.id);
 		}
 		open = false;
 	}

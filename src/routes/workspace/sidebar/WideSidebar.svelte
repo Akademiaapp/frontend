@@ -9,7 +9,7 @@
 	import Timer from './Timer.svelte';
 	import { currentFile } from '@/api/apiStore';
 	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
-	import { answer, editor } from '../editor/editorStore';
+	import { answer } from '../editor/editorStore';
 	import ChatTab from './main/chat/ChatTab.svelte';
 	export let isExpanded: boolean;
 
@@ -17,13 +17,12 @@
 
 	let hasAssignmentDescription = false;
 
-	$: hasAssignmentDescription = $currentFile instanceof AssignmentAnswer;
-
-	$: if (hasAssignmentDescription) currentTab = 'assignment';
-
-	$: console.log($currentFile instanceof AssignmentAnswer);
+	$: hasAssignmentDescription =
+		$currentFile instanceof AssignmentAnswer ||
+		($currentFile instanceof Assignment && $answer !== null);
 
 	export let currentTab;
+	$: currentTab = hasAssignmentDescription ? 'assignment' : 'files';
 </script>
 
 <div class="cont br-2 float-panel">

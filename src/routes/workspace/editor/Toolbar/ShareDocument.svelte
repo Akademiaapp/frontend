@@ -1,14 +1,12 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { BookCheck, UserRoundPlus } from 'lucide-svelte';
+	import { UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
-	import { getContext, onMount } from 'svelte';
-	import api from '@/api';
 	import { currentFile } from '@/api/apiStore';
 	import { FileInfo } from '@/api/fileClasses';
 	import { page } from '$app/stores';
@@ -73,7 +71,6 @@
 
 		const members = await $currentFile.getMembers();
 
-		console.log(members);
 		members.forEach((member) => {
 			// Only add people who aren't already in the list
 			if (people.find((person) => person.email == member.email)) return;
@@ -90,7 +87,6 @@
 				permission: permissions[0]
 			});
 		});
-		console.log(people);
 		people = people;
 	}
 
@@ -104,11 +100,8 @@
 	function addUserToDocument() {
 		if (!$currentFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		console.log(email);
 		if ($currentFile instanceof FileInfo) {
-			$currentFile.addUser(email).then((response) => {
-				console.log(response);
-			});
+			$currentFile.addUser(email);
 		}
 	}
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fetchAula } from '@/api/AulaApiStore';
-	import { cubicIn, cubicOut, expoIn, expoInOut, expoOut } from 'svelte/easing';
+	import { expoOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 
 	let notfiCount = 0;

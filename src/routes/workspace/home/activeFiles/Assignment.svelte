@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { Assignment, AssignmentProgress } from '@/api/fileClasses';
+	import { Assignment } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
-	import AssignmentAnswer from './AssignmentAnswer.svelte';
 
 	export let assingment: Assignment;
 	export let date: string | undefined = undefined;

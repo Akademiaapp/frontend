@@ -1,12 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import SearchQ from './SearchQ.svelte';
-	import QuickAction from './QuickAction.svelte';
-	import { page } from '$app/stores';
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, Assignment, DocumentInfo } from '@/api/fileClasses';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';
@@ -15,33 +11,23 @@
 		currentTab = tab;
 	}
 
-	$: if ($currentFile != null && $currentFile instanceof DocumentInfo) {
-		currentTab = 'files';
-	}
-
 	export let onClose = () => {};
 
-	$: console.log(currentTab);
+	$: if (!($currentFile instanceof AssignmentAnswer)) answer.set(null);
 
-	let isAssignment = false;
-
-	$: isAssignment = $currentFile instanceof AssignmentAnswer;
+	let showAssignmentTabs = false;
+	$: showAssignmentTabs = $currentFile instanceof AssignmentAnswer || $answer !== null;
 </script>
 
-<div
-	class="flex items-center px-3 py-3 pb-2.5"
-	class:gap-3={$currentFile instanceof AssignmentAnswer}
->
+<div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
 	<QuickTab
 		action={() => switchTab('files')}
 		tooltip="Filer"
-		active={currentTab == 'files' &&
-			($currentFile instanceof AssignmentAnswer ||
-				($currentFile instanceof Assignment && $currentFile.isPublic))}
+		active={currentTab == 'files' && showAssignmentTabs}
 	>
 		<Folder size="27"></Folder>
 	</QuickTab>
-	{#if $currentFile instanceof AssignmentAnswer}
+	{#if showAssignmentTabs}
 		<QuickTab
 			action={() => switchTab('assignment')}
 			active={currentTab == 'assignment'}
@@ -49,12 +35,11 @@
 		>
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
-	{/if}
-	{#if $currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic && $answer)}
 		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'} tooltip="Feedback">
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>
-	{:else}
+	{/if}
+	{#if !showAssignmentTabs}
 		<p class="text-lg font-semibold">Filer</p>
 	{/if}
 	<div class="flex-1"></div>

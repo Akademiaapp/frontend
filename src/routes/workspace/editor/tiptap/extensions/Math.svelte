@@ -12,8 +12,6 @@
 
 	let startVal = node.attrs.count;
 
-	$: console.log(node.attrs.count);
-
 	$: try {
 		updateAttributes({ count: value });
 	} catch (e) {
@@ -22,13 +20,11 @@
 
 	function focus() {
 		editor.commands.setNodeSelection(getPos());
-
-		console.log('focus mathbox');
 	}
 </script>
 
 <NodeViewWrapper as="span">
-	<button class="inline-flex" on:focus={() => console.log('focus')} on:click={focus}>
+	<button class="inline-flex" on:click={focus}>
 		<MathBox bind:value onFocus={focus} expression={node.attrs.count}>
 			{startVal}
 		</MathBox>

@@ -1,9 +1,7 @@
 <script lang="ts">
-	import api from '@/api';
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
 	import { keycloakState } from '../../../authStore';
-	import { goto } from '$app/navigation';
 	import { redirect } from '@/utils/onboardingUtils';
 
 	let isLoading = false;

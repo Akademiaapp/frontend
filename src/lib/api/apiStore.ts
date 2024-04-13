@@ -2,16 +2,16 @@ import { get, writable } from 'svelte/store';
 import api from '.';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
-import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo } from './fileClasses';
+import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo, Folder } from './fileClasses';
+
+export { FileInfo, Folder }
 
 export async function updateDocuments() {
 	const response = await api.getUserDocuments();
-	console.log('response: ', response);
 	if (!response) {
 		throw new Error('Could not update files due to no response');
 	}
 	const json = await response.json();
-	console.log(json);
 
 	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
 	folders.update((prev) => {
@@ -21,7 +21,6 @@ export async function updateDocuments() {
 		});
 		return prev;
 	});
-	console.log('updated files');
 }
 
 export async function updateUserInfo() {
@@ -75,7 +74,6 @@ export async function updateAssignmentsAnswers() {
 	assignmentAnswerStore.set(
 		json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo, assignmentAnswerStore))
 	);
-	console.log('updated assignments', get(assignmentAnswerStore));
 }
 
 export async function updateAssignments() {
@@ -84,12 +82,10 @@ export async function updateAssignments() {
 		throw new Error('Could not update assignments due to no response');
 	}
 	const json = await response.json();
-	console.log(json);
 
 	assignmentStore.set(
 		json.map((assignmentInfo) => new Assignment(assignmentInfo, assignmentStore))
 	);
-	console.log('updated assignments');
 }
 
 export async function newDocument(name: string, open: boolean = true, isNote = false) {

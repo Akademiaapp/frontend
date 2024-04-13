@@ -76,8 +76,6 @@
 	$: selectedTextStyle.fontFamily &&
 		(selectedFontObject =
 			text_fonts.find((font) => font.value == selectedTextStyle.fontFamily) || text_fonts[0]);
-
-	$: console.log(selectedFontObject);
 </script>
 
 <Popover.Root bind:open let:ids>

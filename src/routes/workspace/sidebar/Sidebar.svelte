@@ -6,9 +6,7 @@
 	let isExpanded = true;
 
 	function handleMouseMove(event) {
-		console.log(event);
 		const width = event.clientX - sidebar.getBoundingClientRect().left;
-		console.log(width, slimSidebarWidth);
 		if (width > 150) {
 			sidebarWidth.set(clamp(width, minWidth, maxWidth) + 'px');
 			isExpanded = true;

@@ -1,25 +1,12 @@
 <script lang="ts">
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
-	import swipe from '$lib/transitions/swipe.js';
 	import { fly, fade, scale } from 'svelte/transition';
-	import { page } from '$app/stores'; // <-- new
 	import {
-		cubicIn,
-		cubicInOut,
-		cubicOut,
-		expoIn,
-		expoInOut,
-		expoOut,
-		quadIn,
-		quadInOut,
-		quadOut,
-		sineIn,
-		sineOut
+		quadInOut
 	} from 'svelte/easing';
 	import { goto } from '$app/navigation';
 	import { canProceed, userType } from './onboardingStores.js';
-	import { setContext } from 'svelte';
 
 	let currentProgress = 1;
 	export let data;
@@ -136,10 +123,6 @@
 		background-color: var(--color-bg-1);
 
 		overflow: hidden;
-
-		div {
-			// max-height: calc(100% - 1rem);
-		}
 	}
 
 	.progress div {

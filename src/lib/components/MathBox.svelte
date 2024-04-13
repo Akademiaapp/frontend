@@ -2,15 +2,11 @@
 	import { onMount } from 'svelte';
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
-	import { ComputeEngine } from '@cortex-js/compute-engine';
 	import {
 		convertLatexToMarkup,
 		MathfieldElement,
-		convertLatexToAsciiMath,
-		makeSharedVirtualKeyboard
+		convertLatexToAsciiMath
 	} from 'mathlive';
-	import { NodeViewContent } from 'svelte-tiptap';
-	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';
@@ -46,7 +42,6 @@
 	}
 
 	function handleKeyDown(event) {
-		console.log(event);
 		if (event.data === 'delh	 eteContentBackward') {
 			event.preventDefault();
 		}
@@ -124,13 +119,11 @@
 		mf.addEventListener('keydown', (ev) => {
 			if (ev.key == 'Backspace') {
 				ev.preventDefault();
-				console.log('hi');
 			}
 		});
 
 		mf.addEventListener('move-out', (event) => {
 			event.preventDefault();
-			console.log('move-out');
 
 			document.querySelector('.tiptap').focus({ preventScroll: true });
 			if (event.detail.direction === 'forward') {

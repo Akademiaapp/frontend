@@ -15,7 +15,6 @@
 	}
 
 	let connected;
-	console.log('isNote', isNote);
 </script>
 
 <!-- content here -->

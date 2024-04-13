@@ -10,11 +10,7 @@
 
 	export let folder: Folder;
 
-	export let active = false;
-
 	let blue = false;
-
-	$: console.log(blue);
 
 	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: FileInfo) {
 		for (const folder of folders) {
@@ -40,7 +36,6 @@
 		on:dragover|preventDefault
 		on:drop={() => {
 			blue = false;
-			console.log('is folder');
 			if (folder.files.findIndex((f) => f.id == $draggingFile.id) != -1) return;
 			folders.update((prev) => {
 				findAndRemoveFile(prev, $draggingFile);

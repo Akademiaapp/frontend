@@ -18,7 +18,6 @@
 
 	onMount(async () => {
 		classes = await (await api.getSchoolClasses($selectedSchoolId)).json();
-		console.log(classes);
 	});
 
 	function selectClass(classId) {

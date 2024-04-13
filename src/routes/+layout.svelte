@@ -20,7 +20,6 @@
 		},
 		word: {}
 	};
-	$: console.log($themeVariant);
 
 	let currentTheme = themes.default;
 
@@ -41,15 +40,10 @@
 			onLoad: 'check-sso'
 		})
 		.then((authenticated) => {
-			console.log(
-				$keycloakState.createRegisterUrl({ redirectUri: window.location.hostname + '/onboarding' })
-			);
 			if (authenticated) {
 				// Check if token is valid
 				$keycloakState.loadUserInfo().then((userInfoKc) => {
 					keycloakUserInfo.set({ ...userInfoKc } as KeycloakUserInfo);
-					console.log('User info:', userInfoKc);
-					console.log('Token:', $keycloakState.token);
 					setInterval(() => {
 						$keycloakState.updateToken(70).then((refreshed) => {
 							if (refreshed) {
@@ -58,10 +52,8 @@
 						});
 					}, 6000);
 					keycloakState.update((it) => it);
-					console.log('Authenticated');
 				});
 			} else {
-				console.log('Not authenticated');
 				if (!$page.url.pathname.includes('/onboarding')) {
 					if ($page.url.pathname.endsWith('/register')) {
 						goto('/onboarding/signup');

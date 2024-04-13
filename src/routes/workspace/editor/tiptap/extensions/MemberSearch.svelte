@@ -1,5 +1,4 @@
 <script lang="ts">
-	import MemberSearch from './MemberSearch.svelte';
 	import api from '@/api';
 	import { currentFile, userInfo } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
@@ -16,7 +15,6 @@
 	import { onMount } from 'svelte';
 
 	let focused = false;
-	$: console.log(value);
 
 	let value: string;
 
@@ -88,7 +86,6 @@
 		if (!document.getElementById('memberSearch').contains(e.target)) {
 			focused = false;
 			window.removeEventListener('click', updateFocus);
-			console.log('hd');
 			value = '';
 		}
 	}

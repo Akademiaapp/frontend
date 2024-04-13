@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Emoji from './Emoji.svelte';
-	import Check from 'lucide-svelte/icons/check';
-	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -35,7 +33,6 @@
 					button.addEventListener('click', () => {
 						value = emoji.char;
 						closeAndFocusTrigger('trigger');
-						console.log('clicked');
 					});
 					elem.appendChild(button);
 				});
@@ -46,8 +43,6 @@
 	}
 
 	let renderedHtmlsVal = null;
-
-	$: console.log(searchVal);
 
 	$: if (open && searchVal === '') {
 		tick().then(() => {

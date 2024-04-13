@@ -17,7 +17,6 @@ export async function redirect() {
 export async function isUserSetupCurrectly() {
 	const req = await api.callApi('/users/self', null, 'GET');
 	const json = await req.json();
-	console.log(json);
 
 	return !(
 		json.schoolId === null ||

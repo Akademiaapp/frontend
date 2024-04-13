@@ -1,10 +1,4 @@
 <script lang="ts">
-	import QuickBar from '../../quickActions/QuickBar.svelte';
-	import UserAvatar from '$lib/components/UserAvatar.svelte';
-	import { ChevronLeft } from 'lucide-svelte';
-	import { EditorExtensions } from '@/editor/extensions';
-	import { Title } from '../../../editor/tiptap/extensions/title';
-	import Document from '@tiptap/extension-document';
 	import getExtensions from '../../../editor/tiptap/getExtensions';
 	import api from '@/api';
 	import { Editor, EditorContent } from 'svelte-tiptap';
@@ -12,20 +6,18 @@
 	import { onMount } from 'svelte';
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer } from '@/api/fileClasses';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 
-	export let assignmentId: string =
-		$currentFile instanceof AssignmentAnswer ? $currentFile.assignment_id : null;
-
-	currentFile.subscribe((value) => {
-		if (!(value instanceof AssignmentAnswer)) return;
-		assignmentId = value.assignment_id;
-	});
+	$: assignmentId =
+		$currentFile instanceof AssignmentAnswer
+			? $currentFile.assignment_id
+			: $currentFile instanceof Assignment
+				? $currentFile.id
+				: '';
 
 	async function getDescription() {
 		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');
 		const json = await res.json();
-		console.log(json);
 		return json.data;
 	}
 
@@ -39,7 +31,6 @@
 		}
 
 		const data = await getDescription();
-		console.log('aaaa', typeof data, data, new Uint8Array(data.data));
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
@@ -59,7 +50,7 @@
 	class="settings assignment br-2 float-panel sidebar-scroll flex max-w-[40rem] flex-1 overflow-scroll"
 	class:hidden={!isAssignmentDescriptionOpen}
 >
-	<div class="assignment-tiptap">
+	<div class="assignment-tiptap mt-[-4rem]">
 		{#if editor}
 			<EditorContent bind:editor />
 		{:else}
@@ -75,7 +66,7 @@
 		margin: revert;
 	}
 	.settings {
-		padding: 1rem;
+		padding: 2.5rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);
 	}

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import SidebarAssignment from './sidebar/main/assignment/AssignmentTab.svelte';
 	import Sidebar from './sidebar/Sidebar.svelte';
 	import {
 		updateDocuments,
@@ -18,8 +17,6 @@
 	var type = urlParams.get('type');
 
 	let sidebarVisible: boolean = true;
-
-	$: console.log(sidebarVisible);
 </script>
 
 <div class="cont">
