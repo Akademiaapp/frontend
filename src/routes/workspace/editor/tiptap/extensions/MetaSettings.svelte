@@ -140,8 +140,4 @@
 		align-items: center;
 		gap: 0.25rem;
 	}
-
-	.time-input {
-		width: 1.5rem;
-	}
 </style>

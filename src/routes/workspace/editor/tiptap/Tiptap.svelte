@@ -164,11 +164,6 @@
 		height: 100%;
 	}
 
-	button.active {
-		background: rgb(0, 0, 0);
-		color: white;
-	}
-
 	:global(.tiptap h1.is-empty::before) {
 		color: #adb5bd;
 		content: attr(data-placeholder);
@@ -206,21 +201,5 @@
 		top: -1.4em;
 		user-select: none;
 		white-space: nowrap;
-	}
-
-	#editor {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 0rem 4rem;
-	}
-
-	#text-editor {
-		flex: 1;
-		display: flex;
-	}
-
-	#text-editor :global(.tiptap) {
-		flex: 1;
 	}
 </style>
