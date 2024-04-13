@@ -50,7 +50,7 @@
 	class="settings assignment br-2 float-panel sidebar-scroll flex max-w-[40rem] flex-1 overflow-scroll"
 	class:hidden={!isAssignmentDescriptionOpen}
 >
-	<div class="assignment-tiptap">
+	<div class="assignment-tiptap mt-[-4rem]">
 		{#if editor}
 			<EditorContent bind:editor />
 		{:else}
@@ -66,7 +66,7 @@
 		margin: revert;
 	}
 	.settings {
-		padding: 1rem;
+		padding: 2.5rem;
 		flex-direction: column;
 		background-color: var(--color-bg-1);
 	}
