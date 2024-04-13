@@ -1,4 +1,4 @@
-import { Editor, Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes } from '@tiptap/core';
 import { SvelteNodeViewRenderer } from 'svelte-tiptap';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import MetaSettings from './MetaSettings.svelte';

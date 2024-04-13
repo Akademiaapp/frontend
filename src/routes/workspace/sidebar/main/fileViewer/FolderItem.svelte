@@ -10,8 +10,6 @@
 
 	export let folder: Folder;
 
-	export let active = false;
-
 	let blue = false;
 
 	$: console.log(blue);

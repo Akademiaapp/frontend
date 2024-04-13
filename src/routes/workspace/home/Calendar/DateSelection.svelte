@@ -1,10 +1,8 @@
 <script lang="ts">
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
 	import {
 		type DateValue,
 		DateFormatter,
 		getLocalTimeZone,
-		CalendarDate,
 		today
 	} from '@internationalized/date';
 	import { cn } from '$lib/utils.js';

@@ -1,12 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import SearchQ from './SearchQ.svelte';
-	import QuickAction from './QuickAction.svelte';
-	import { page } from '$app/stores';
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, Assignment, DocumentInfo } from '@/api/fileClasses';
+	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';

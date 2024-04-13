@@ -2,7 +2,9 @@ import { get, writable } from 'svelte/store';
 import api from '.';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
-import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo } from './fileClasses';
+import { Assignment, AssignmentAnswer, DocumentInfo, FileInfo, Folder } from './fileClasses';
+
+export { FileInfo, Folder }
 
 export async function updateDocuments() {
 	const response = await api.getUserDocuments();

@@ -5,8 +5,7 @@
 		CommandEmpty,
 		CommandGroup,
 		CommandItem,
-		CommandList,
-		CommandSeparator
+		CommandList
 	} from '@/components/ui/command';
 	import { canProceed, selectedSchoolId, userType } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';

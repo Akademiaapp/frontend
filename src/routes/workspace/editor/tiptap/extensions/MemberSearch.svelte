@@ -1,5 +1,4 @@
 <script lang="ts">
-	import MemberSearch from './MemberSearch.svelte';
 	import api from '@/api';
 	import { currentFile, userInfo } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';

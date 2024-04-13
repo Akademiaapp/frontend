@@ -1,24 +1,13 @@
 <script lang="ts">
-	import { keycloakUserInfo } from './../../authStore.ts';
 	import { userInfo } from '@/api/apiStore';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from './ui/button';
 	import {
-		CirclePlus,
 		Cloud,
-		CreditCard,
 		Github,
-		Keyboard,
-		LifeBuoy,
 		LogOut,
-		Mail,
-		MessageSquare,
-		Plus,
 		Settings,
-		User,
-		UserPlus,
-		Users,
-		SquareX
+		User
 	} from 'lucide-svelte';
 	import { keycloakState } from '../../authStore';
 	import { goto } from '$app/navigation';

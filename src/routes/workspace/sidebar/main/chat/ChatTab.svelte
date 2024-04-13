@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { assignmentAnswerStore, currentFile, userInfo } from '@/api/apiStore';
+	import { assignmentAnswerStore, currentFile } from '@/api/apiStore';
 	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
@@ -11,7 +11,6 @@
 	import { onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
-	import TextareaAutosize from '@/components/TextareaAutosize.svelte';
 
 	onMount(() => {
 		grade = null;

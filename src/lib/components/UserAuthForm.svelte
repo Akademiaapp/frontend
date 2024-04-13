@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Github, Loader2 } from 'lucide-svelte';
+	import { Loader2 } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import { keycloakState } from '../../authStore';

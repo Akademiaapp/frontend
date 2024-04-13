@@ -5,7 +5,6 @@
 	import {
 		MoreHorizontal,
 		Trash2,
-		LogOut,
 		Download,
 		Printer,
 		Users,
@@ -15,7 +14,6 @@
 	import { currentFile } from '@/api/apiStore';
 	import { FileInfo } from '@/api/fileClasses';
 	import { printUsingWindow } from '@/utils/printer';
-	import { keycloakState } from '../../../../authStore';
 	import { get } from 'svelte/store';
 	let isDeleteOpen = false;
 	export let isNote = false;

@@ -1,12 +1,8 @@
 <script lang="ts">
-	import DraggableElem from './../../DraggableElem.svelte';
 	import { currentFile } from '@/api/apiStore';
 	import { FileInfo, DocumentInfo, Folder } from '@/api/fileClasses';
-	import { capLength } from '$lib/utils/stringUtils';
-	import SideBarElem from '../../SideBarElem.svelte';
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
-	import { folders } from '../../sidebarStore';
 	export let file: FileInfo | DocumentInfo;
 	export let onClick = () => {
 		currentFile.set(file);

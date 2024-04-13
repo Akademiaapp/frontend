@@ -9,7 +9,7 @@
 	import Timer from './Timer.svelte';
 	import { currentFile } from '@/api/apiStore';
 	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
-	import { answer, editor } from '../editor/editorStore';
+	import { answer } from '../editor/editorStore';
 	import ChatTab from './main/chat/ChatTab.svelte';
 	export let isExpanded: boolean;
 

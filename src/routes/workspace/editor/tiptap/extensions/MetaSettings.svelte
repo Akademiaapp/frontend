@@ -1,6 +1,5 @@
 <script lang="ts">
 	import MemberSearch from './MemberSearch.svelte';
-	import type { NodeViewProps } from '@tiptap/core';
 	import { NodeViewWrapper } from 'svelte-tiptap';
 	import { CalendarClock, CalendarIcon, Users } from 'lucide-svelte';
 	import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -12,7 +11,6 @@
 		getLocalTimeZone,
 		type DateValue,
 		CalendarDate,
-		today
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
 	import { currentFile } from '@/api/apiStore';

@@ -2,15 +2,11 @@
 	import { onMount } from 'svelte';
 	import nerdamer from 'nerdamer-41fb3b2/all';
 	import 'mathlive';
-	import { ComputeEngine } from '@cortex-js/compute-engine';
 	import {
 		convertLatexToMarkup,
 		MathfieldElement,
-		convertLatexToAsciiMath,
-		makeSharedVirtualKeyboard
+		convertLatexToAsciiMath
 	} from 'mathlive';
-	import { NodeViewContent } from 'svelte-tiptap';
-	import { HelpCircleIcon } from 'lucide-svelte';
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentProgress } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';

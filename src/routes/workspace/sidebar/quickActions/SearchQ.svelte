@@ -1,13 +1,8 @@
 <script lang="ts">
 	import QuickAction from './QuickAction.svelte';
-	import { getContext } from 'svelte';
 	import * as Command from '$lib/components/ui/command';
-	import { currentFile, documentStore, newDocument, type FileInfo } from '@/api/apiStore';
-	import { goto } from '$app/navigation';
-	import { BookPlus, File, FilePen, NotebookPen } from 'lucide-svelte';
-	import { CalendarPlus } from 'lucide-svelte';
-	import api from '@/api';
-	import randomName from '@/randomName';
+	import { documentStore, newDocument } from '@/api/apiStore';
+	import { File, FilePen, NotebookPen } from 'lucide-svelte';
 	let isSeaching = false;
 
 	window.addEventListener('keydown', (ev) => {

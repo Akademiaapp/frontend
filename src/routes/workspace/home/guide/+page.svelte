@@ -3,8 +3,7 @@
 
 	// import { type TourGuideOptions } from '@sjmc11/tourguidejs/src/core/options.ts';
 	import { TourGuideClient } from '@sjmc11/tourguidejs/src/Tour'; // JS
-	import { onDestroy, onMount } from 'svelte';
-	import { tryGc } from 'yjs';
+	import { onMount } from 'svelte';
 
 	const steps = [
 		{
