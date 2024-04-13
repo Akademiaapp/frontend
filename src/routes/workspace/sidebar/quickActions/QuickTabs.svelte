@@ -25,7 +25,7 @@
 
 	let showAssignmentTabs = false;
 	$: showAssignmentTabs =
-		isAssignment || ($currentFile instanceof Assignment && $currentFile.isPublic);
+		((isAssignment || ($currentFile instanceof Assignment && $currentFile.isPublic)) && ($answer !== null || $currentFile instanceof AssignmentAnswer));
 </script>
 
 <div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
@@ -44,8 +44,6 @@
 		>
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
-	{/if}
-	{#if showAssignmentTabs && $answer}
 		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'} tooltip="Feedback">
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>
