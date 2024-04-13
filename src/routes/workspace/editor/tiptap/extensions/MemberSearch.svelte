@@ -22,28 +22,28 @@
 
 	let groups = [];
 	let members = [];
-	let selectedMembers = [];
+	let selectedGrups = [];
 
 	onMount(async () => {
 		groups = await (await api.getSchoolClasses($userInfo.schoolId)).json();
 		members = await (await api.getSchoolMembers($userInfo.schoolId)).json();
-		selectedMembers = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
+		selectedGrups = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
 			let group = groups.find((group) => group.id == id);
 			if (group) return group;
 		});
 	});
 
-	$: updateServerSideSelectedMembers(selectedMembers);
+	$: updateServerSideSelectedGroups(selectedGrups);
 	function getIdList() {
-		if (selectedMembers.length === 0) return [];
+		if (selectedGrups.length === 0) return [];
 		// Clear undefined values
-		selectedMembers = selectedMembers.filter((member) => member !== undefined);
+		selectedGrups = selectedGrups.filter((member) => member !== undefined);
 
-		console.log('MEMMEEM: ', selectedMembers);
-		return selectedMembers.map((member) => member.id).filter((id) => id);
+		console.log('MEMMEEM: ', selectedGrups);
+		return selectedGrups.map((member) => member.id).filter((id) => id);
 	}
 
-	function updateServerSideSelectedMembers(selectedMembers) {
+	function updateServerSideSelectedGroups(selectedGroups) {
 		if (
 			$currentFile instanceof Assignment &&
 			$currentFile.asigned_groups_ids.toString() != getIdList().toString()
@@ -59,8 +59,8 @@
 		}
 	}
 	function addMember(member) {
-		if (!selectedMembers.includes(member)) {
-			selectedMembers = [...selectedMembers, member];
+		if (!selectedGrups.includes(member)) {
+			selectedGrups = [...selectedGrups, member];
 		}
 		value = '';
 		focused = false;
@@ -92,15 +92,15 @@
 			wrapperClass={focused ? 'border-b' : 'border-none'}
 			disabled={!editable}
 		>
-			{#if selectedMembers.length > 0}
-				{#each selectedMembers as member}
+			{#if selectedGrups.length > 0}
+				{#each selectedGrups as member}
 					<!-- content here -->
 					<div class="mr-2 flex gap-1">
 						<div class="selectedMemeber">
 							<button
 								class="reset"
 								on:click={() => {
-									selectedMembers = selectedMembers.filter((item) => item !== member);
+									selectedGrups = selectedGrups.filter((item) => item !== member);
 								}}
 								disabled={!editable}
 							>
