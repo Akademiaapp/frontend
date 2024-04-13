@@ -24,8 +24,8 @@
 	export let isAssignmentDescriptionOpen: boolean;
 	let editor: Editor;
 
-	async function init () {
-		if (editor) editor.destroy();
+	async function init() {
+		editor?.destroy();
 		// Wait for the assignmentId to be set
 		while (!assignmentId) {
 			await new Promise((resolve) => setTimeout(resolve, 100));
@@ -45,8 +45,8 @@
 			content: doc.default,
 			editable: false
 		});
-	};
-	
+	}
+
 	$: if (assignmentId) init();
 </script>
 
