@@ -31,11 +31,7 @@
 >
 	<a
 		on:click={onClick}
-		href="editor?id={file.id}&type={file instanceof DocumentInfo
-			? file.isNote
-				? 'notes'
-				: 'documents'
-			: file.fileType}"
+		href="editor?id={file.id}&type={file.fileType}"
 		class="reset"
 		class:active
 		draggable="false"

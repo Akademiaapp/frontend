@@ -17,7 +17,7 @@
 	} from '@/api/fileClasses';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
-	import "https://unpkg.com/@cortex-js/compute-engine?module"
+	import 'https://unpkg.com/@cortex-js/compute-engine?module';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
@@ -56,18 +56,15 @@
 	<div class="editor" style:width={'calc(100% - ' + $sidebarWidth + ')'}>
 		{#if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.SUBMITTED}
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
-			<FileEditor bind:isNote />
 		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.progress === AssignmentProgress.GRADED}
 			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
-			<FileEditor bind:isNote />
 		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
-			<FileEditor bind:isNote />
 		{:else}
 			<Toolbar bind:isNote />
-			<FileEditor bind:isNote />
 		{/if}
+		<FileEditor bind:isNote />
 	</div>
 {/if}
 

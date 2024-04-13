@@ -43,26 +43,23 @@
 			return;
 		}
 		connected = false;
-		if ($editor) {
-			$editor.destroy();
-		}
-		if (provider) {
-			provider.destroy();
-		}
+
+		$editor?.destroy();
+		provider?.destroy();
+
 		provider = new HocuspocusProvider({
 			url: getCollaborationUrl(),
 			token: 'Bearer ' + $keycloakState.token,
 			name: fileName,
 			onAuthenticationFailed: () => {
-				$editor.destroy();
-				provider.destroy();
+				$editor?.destroy();
+				provider?.destroy();
 				throw new Error('Authentication failed');
 				// goto('/workspace/home');
 			},
 			onConnect: () => {
-				if ($editor) {
-					$editor.destroy();
-				}
+				$editor?.destroy();
+
 				connected = true;
 
 				editor.set(
@@ -130,9 +127,7 @@
 	});
 
 	onDestroy(() => {
-		if ($editor) {
-			$editor.destroy();
-		}
+		$editor?.destroy();
 	});
 </script>
 
