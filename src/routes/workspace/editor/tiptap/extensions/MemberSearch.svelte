@@ -22,48 +22,64 @@
 
 	let groups = [];
 	let members = [];
-	let selectedGrups = [];
+	let selectedGroups = [];
+	let selectedMembers = [];
 
 	onMount(async () => {
 		groups = await (await api.getSchoolClasses($userInfo.schoolId)).json();
 		members = await (await api.getSchoolMembers($userInfo.schoolId)).json();
-		selectedGrups = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
+		selectedGroups = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
 			let group = groups.find((group) => group.id == id);
 			if (group) return group;
 		});
 	});
 
-	$: updateServerSideSelectedGroups(selectedGrups);
-	function getIdList() {
-		if (selectedGrups.length === 0) return [];
-		// Clear undefined values
-		selectedGrups = selectedGrups.filter((member) => member !== undefined);
+	$: updateServerSideSelectedGroups(selectedGroups);
+	$: updateServerSideSelectedMembers(selectedMembers);
 
-		console.log('MEMMEEM: ', selectedGrups);
-		return selectedGrups.map((member) => member.id).filter((id) => id);
+	function getIdList(list) {
+		// Get the ids and clear undefined values
+		return list.map((v) => v?.id).filter((id) => id);
 	}
 
-	function updateServerSideSelectedGroups(selectedGroups) {
+	function updateServerSideSelectedGroups(selected) {
 		if (
 			$currentFile instanceof Assignment &&
-			$currentFile.asigned_groups_ids.toString() != getIdList().toString()
+			$currentFile.asigned_groups_ids.toString() != getIdList(selected).toString()
 		) {
-			console.log($currentFile.asigned_groups_ids);
-			console.log(getIdList());
-			console.log($currentFile.asigned_groups_ids == getIdList());
-			if (getIdList().length > 0) {
-				$currentFile.updateInfo({
-					asigned_groups_ids: getIdList()
-				});
-			}
+			$currentFile.updateInfo({
+				asigned_groups_ids: getIdList(selected)
+			});
 		}
 	}
-	function addMember(member) {
-		if (!selectedGrups.includes(member)) {
-			selectedGrups = [...selectedGrups, member];
+	function updateServerSideSelectedMembers(selected) {
+		if (
+			$currentFile instanceof Assignment &&
+			$currentFile.asigned_users_ids.toString() != getIdList(selected).toString()
+		) {
+			$currentFile.updateInfo({
+				asigned_users_ids: getIdList(selected)
+			});
 		}
+	}
+
+	function resetInput() {
 		value = '';
 		focused = false;
+	}
+
+	function addGroup(group) {
+		if (!selectedGroups.includes(group)) {
+			selectedGroups = [...selectedGroups, group];
+		}
+		resetInput();
+	}
+
+	function addMember(member) {
+		if (!selectedMembers.includes(member)) {
+			selectedMembers = [...selectedMembers, member];
+		}
+		resetInput();
 	}
 
 	export let editable = true;
@@ -76,6 +92,12 @@
 			value = '';
 		}
 	}
+
+	$: memberList = [
+		['Elever', members.filter((m) => m.type == 'STUDENT')],
+		['Lærere', members.filter((m) => m.type == 'TEACHER')],
+		['Testere', members.filter((m) => m.type == 'TESTER')]
+	];
 </script>
 
 <Command class="grid overflow-visible border-none" id="memberSearch">
@@ -92,48 +114,49 @@
 			wrapperClass={focused ? 'border-b' : 'border-none'}
 			disabled={!editable}
 		>
-			{#if selectedGrups.length > 0}
-				{#each selectedGrups as member}
-					<!-- content here -->
-					<div class="mr-2 flex gap-1">
-						<div class="selectedMemeber">
-							<button
-								class="reset"
-								on:click={() => {
-									selectedGrups = selectedGrups.filter((item) => item !== member);
-								}}
-								disabled={!editable}
-							>
-								<X size="10"></X>
-							</button>
-							<p>
-								{member.name}
-							</p>
-						</div>
+			{#each [...selectedGroups, ...selectedMembers] as member}
+				<!-- content here -->
+				<div class="mr-2 flex gap-1">
+					<div class="selectedMemeber">
+						<button
+							class="reset"
+							on:click={() => {
+								selectedGroups = selectedGroups.filter((item) => item !== member);
+								selectedMembers = selectedMembers.filter((item) => item !== member);
+							}}
+							disabled={!editable}
+						>
+							<X size="10"></X>
+						</button>
+						<p>
+							{member.name}
+						</p>
 					</div>
-				{/each}
-			{/if}
+				</div>
+			{/each}
 		</CommandInput>
 		{#if focused}
 			<CommandList>
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Grupper">
 					{#each groups as group}
-						<CommandItem onSelect={() => addMember(group)}>{group.name}</CommandItem>
+						<CommandItem onSelect={() => addGroup(group)}>{group.name}</CommandItem>
 					{/each}
 				</CommandGroup>
-				<CommandSeparator />
-				<CommandGroup heading="Elever">
-					{#each members as member}
-						<CommandItem
-							on:click={() =>
-								addMember({ name: member.first_name + ' ' + member.last_name, id: member.id })}
-							onSelect={() =>
-								addMember({ name: member.first_name + ' ' + member.last_name, id: member.id })}
-							>{member.first_name} {member.last_name}</CommandItem
-						>
-					{/each}
-				</CommandGroup>
+				{#each memberList as [type, members]}
+					<CommandSeparator />
+					<CommandGroup heading={type.toString()}>
+						{#each members as member}
+							<CommandItem
+								id={member.id}
+								value={`${member.first_name} ${member.last_name} ${type} ${member.email}`}
+								onSelect={() =>
+									addMember({ name: `${member.first_name} ${member.last_name}`, id: member.id })}
+								>{member.first_name} {member.last_name}</CommandItem
+							>
+						{/each}
+					</CommandGroup>
+				{/each}
 			</CommandList>
 		{/if}
 	</div>
