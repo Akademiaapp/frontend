@@ -91,6 +91,7 @@ export class Assignment extends FileInfo {
 	due_date: string;
 	assignment_answers;
 	asigned_groups_ids: string[];
+	asigned_users_ids: string[];
 	isPublic: boolean;
 	teacherId: string;
 
@@ -99,6 +100,7 @@ export class Assignment extends FileInfo {
 		this.due_date = info.due_date;
 		this.assignment_answers = info.assignment_answers;
 		this.asigned_groups_ids = info.asigned_groups_ids;
+		this.asigned_users_ids = info.asigned_users_ids;
 		this.isPublic = info.isPublic;
 		this.teacherId = info.teacherId;
 	}
