@@ -3,11 +3,11 @@
 	import api from '@/api';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 	import { TiptapTransformer } from '@hocuspocus/transformer';
-	import { onMount } from 'svelte';
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
 	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 
+	let assignmentId: string;
 	$: assignmentId =
 		$currentFile instanceof AssignmentAnswer
 			? $currentFile.assignment_id
@@ -24,13 +24,15 @@
 	export let isAssignmentDescriptionOpen: boolean;
 	let editor: Editor;
 
-	onMount(async () => {
+	async function init () {
+		editor = null;
 		// Wait for the assignmentId to be set
 		while (!assignmentId) {
 			await new Promise((resolve) => setTimeout(resolve, 100));
 		}
 
 		const data = await getDescription();
+		if (!data.data) return;
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
@@ -43,7 +45,9 @@
 			content: doc.default,
 			editable: false
 		});
-	});
+	};
+	
+	$: if (assignmentId) init();
 </script>
 
 <div
