@@ -45,7 +45,7 @@
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
 	{/if}
-	{#if showAssignmentTabs}
+	{#if showAssignmentTabs && $answer}
 		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'} tooltip="Feedback">
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>
