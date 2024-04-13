@@ -26,22 +26,21 @@
 	let isAssignment = false;
 
 	$: isAssignment = $currentFile instanceof AssignmentAnswer;
+
+	let showAssignmentTabs = false;
+	$: showAssignmentTabs =
+		isAssignment || ($currentFile instanceof Assignment && $currentFile.isPublic);
 </script>
 
-<div
-	class="flex items-center px-3 py-3 pb-2.5"
-	class:gap-3={$currentFile instanceof AssignmentAnswer}
->
+<div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
 	<QuickTab
 		action={() => switchTab('files')}
 		tooltip="Filer"
-		active={currentTab == 'files' &&
-			($currentFile instanceof AssignmentAnswer ||
-				($currentFile instanceof Assignment && $currentFile.isPublic))}
+		active={currentTab == 'files' && showAssignmentTabs}
 	>
 		<Folder size="27"></Folder>
 	</QuickTab>
-	{#if $currentFile instanceof AssignmentAnswer}
+	{#if showAssignmentTabs}
 		<QuickTab
 			action={() => switchTab('assignment')}
 			active={currentTab == 'assignment'}
@@ -50,7 +49,7 @@
 			<ClipboardList size="27"></ClipboardList>
 		</QuickTab>
 	{/if}
-	{#if $currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic && $answer)}
+	{#if showAssignmentTabs}
 		<QuickTab action={() => switchTab('chat')} active={currentTab == 'chat'} tooltip="Feedback">
 			<MessagesSquare size="27"></MessagesSquare>
 		</QuickTab>
