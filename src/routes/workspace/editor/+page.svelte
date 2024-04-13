@@ -17,6 +17,7 @@
 	} from '@/api/fileClasses';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
+	import "https://unpkg.com/@cortex-js/compute-engine?module"
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
