@@ -15,11 +15,10 @@
 
 	$: console.log(currentTab);
 
+	$: if (!($currentFile instanceof AssignmentAnswer)) answer.set(null);
+
 	let showAssignmentTabs = false;
-	$: showAssignmentTabs =
-		($currentFile instanceof AssignmentAnswer ||
-			($currentFile instanceof Assignment && $currentFile.isPublic)) &&
-		($answer !== null || $currentFile instanceof AssignmentAnswer);
+	$: showAssignmentTabs = $currentFile instanceof AssignmentAnswer || $answer !== null;
 </script>
 
 <div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>

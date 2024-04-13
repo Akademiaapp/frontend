@@ -15,8 +15,6 @@
 
 	$: if ($currentFile) initializeTiptap($currentFile);
 
-	$: if ($answer) initializeTiptap(false);
-
 	// this is needed
 	let currentFileName = '';
 	$: currentFileName = $currentFile?.name || '';
