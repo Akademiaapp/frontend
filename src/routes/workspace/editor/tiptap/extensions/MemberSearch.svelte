@@ -145,7 +145,6 @@
 					<CommandGroup heading={type.toString()}>
 						{#each members as member}
 							<CommandItem
-								id={member.id}
 								value={`${member.first_name} ${member.last_name} ${type} ${member.email}`}
 								onSelect={() =>
 									addMember({ name: `${member.first_name} ${member.last_name}`, id: member.id })}
