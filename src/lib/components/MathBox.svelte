@@ -149,7 +149,7 @@
 	let cont;
 </script>
 
-AssignmentStatusAssignmentStatuse="text" class="m-20 bg-background p-3 text-3xl" bind:value
+<!-- AssignmentStatusAssignmentStatuse="text" class="m-20 bg-background p-3 text-3xl" bind:value
 on:keydown={handleKeyDown} /> -->
 
 <button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
