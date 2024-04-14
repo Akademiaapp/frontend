@@ -9,9 +9,6 @@
 	let isLoading = true;
 
 	onMount(async () => {
-		if ($userType === 'TESTER') {
-			$selectedSchoolId = '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4';
-		}
 		await api.callApi('/users/self', { type: $userType || 'TESTER' }, 'PUT');
 		await api.callApi(
 			'/users/self',
