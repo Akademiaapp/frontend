@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import nerdamer from 'nerdamer-41fb3b2/all';
+	import nerdamer from 'nerdamer-prime/all';
 	import 'mathlive';
 	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
 	import { editor } from '../../routes/workspace/editor/editorStore';
