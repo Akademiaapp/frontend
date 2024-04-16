@@ -23,9 +23,7 @@ export async function updateDocuments() {
 	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
 	folders.update((prev) => {
 		const docs = json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore));
-		docs.forEach((doc) => {
-			prev.find((f) => f.name === 'Andet').files.push(doc);
-		});
+		prev.find((f) => f.name === 'Andet').files = docs;
 		return prev;
 	});
 }
