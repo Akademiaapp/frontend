@@ -38,7 +38,7 @@
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
 
 		// Remove metaSettings node from ydoc
-		doc.default.content.splice(1, 2);
+		doc.default.content.splice(1, 1);
 
 		editor = new Editor({
 			extensions: getExtensions(null, false),
