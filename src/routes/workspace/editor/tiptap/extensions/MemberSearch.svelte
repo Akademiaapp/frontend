@@ -45,8 +45,10 @@
 			$currentFile instanceof Assignment &&
 			$currentFile.asigned_groups_ids.toString() != getIdList(selected).toString()
 		) {
+			let idList = getIdList(selected);
+			if (idList.length === 0) return;
 			$currentFile.updateInfo({
-				asigned_groups_ids: getIdList(selected)
+				asigned_groups_ids: idList
 			});
 		}
 	}
@@ -55,8 +57,10 @@
 			$currentFile instanceof Assignment &&
 			$currentFile.asigned_users_ids.toString() != getIdList(selected).toString()
 		) {
+			let idList = getIdList(selected);
+			if (idList.length === 0) return;
 			$currentFile.updateInfo({
-				asigned_users_ids: getIdList(selected)
+				asigned_users_ids: idList
 			});
 		}
 	}
