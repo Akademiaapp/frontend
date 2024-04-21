@@ -4,7 +4,7 @@
 
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
-	import { currentFile, currentStatus, documentStore } from '@/api/apiStore';
+	import { currentFile, currentStatus } from '@/api/apiStore';
 	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
@@ -14,6 +14,7 @@
 	let provider: HocuspocusProvider;
 
 	$: if ($currentFile) initializeTiptap($currentFile);
+	$: if ($answer) initializeTiptap(null);
 
 	// this is needed
 	let currentFileName = '';
