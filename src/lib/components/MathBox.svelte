@@ -6,6 +6,7 @@
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';
+	import { cn } from '@/utils';
 	export let value = '';
 
 	export let expression = '';
@@ -153,12 +154,12 @@
 on:keydown={handleKeyDown} /> -->
 
 <button
-	class="box-border cursor-auto overflow-hidden border border-transparent pr-2 hover:border-foreground/10"
+	class={'box-border cursor-auto overflow-hidden border border-transparent pr-2 ' +
+		(editable ? ' hover:border-foreground/10' : '')}
 	bind:this={cont}
 >
 	<math-field
-		class={'rounded-none bg-background p-1 px-2 text-foreground outline-none' +
-			(editable ? ' ' : '')}
+		class="rounded-none bg-background p-1 px-2 text-foreground outline-none"
 		readonly={!editable}
 		bind:this={mf}
 	>
