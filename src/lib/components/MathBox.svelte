@@ -152,10 +152,13 @@
 <!-- AssignmentStatusAssignmentStatuse="text" class="m-20 bg-background p-3 text-3xl" bind:value
 on:keydown={handleKeyDown} /> -->
 
-<button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
+<button
+	class="box-border cursor-auto overflow-hidden border border-transparent pr-2 hover:border-foreground/10"
+	bind:this={cont}
+>
 	<math-field
 		class={'rounded-none bg-background p-1 px-2 text-foreground outline-none' +
-			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
+			(editable ? ' ' : '')}
 		readonly={!editable}
 		bind:this={mf}
 	>
@@ -182,3 +185,9 @@ on:keydown={handleKeyDown} /> -->
 		{/if}
 	</span>
 </button>
+
+<style>
+	button:has(math-field:focus) {
+		border: 1px solid hsl(var(--foreground) / 0.2);
+	}
+</style>

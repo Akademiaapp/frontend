@@ -24,9 +24,7 @@
 </script>
 
 <NodeViewWrapper as="span">
-	<button class="inline-flex" on:click={focus}>
-		<MathBox bind:value onFocus={focus} expression={node.attrs.count}>
-			{startVal}
-		</MathBox>
-	</button>
+	<MathBox bind:value onFocus={focus} expression={node.attrs.count}>
+		{startVal}
+	</MathBox>
 </NodeViewWrapper>
