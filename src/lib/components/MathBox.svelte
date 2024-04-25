@@ -10,13 +10,18 @@
 	export let value = '';
 
 	export let expression = '';
+
 	export let onFocus = () => {};
+	export let onDelete = () => {};
 
 	$: updateValue(expression);
 
 	function updateValue(expression) {
+		expression = expression == 0 ? '' : expression;
 		if (expression == value) return;
+		console.log(expression, value);
 		mf?.setValue(expression);
+		value = expression;
 		handleKeyDown({ data: '' });
 	}
 
@@ -40,8 +45,8 @@
 	}
 
 	function handleKeyDown(event) {
-		if (event.data === 'delh	 eteContentBackward') {
-			event.preventDefault();
+		if (event.data === 'deleteContentBackward') {
+			// event.preventDefault();
 		}
 
 		if (event.data === 'insertLineBreak') {
@@ -51,7 +56,6 @@
 		}
 
 		if (!mf || !mf.expression) return;
-
 		value = mf.value;
 
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
@@ -88,6 +92,8 @@
 	}
 	let mf: MathfieldElement;
 
+	let oldValue = value;
+
 	onMount(() => {
 		try {
 			setTimeout(() => {
@@ -100,24 +106,31 @@
 		const mathVirtualKeyboard = window.mathVirtualKeyboard;
 
 		mf.mathVirtualKeyboardPolicy = 'manual';
+
+		MathfieldElement.soundsDirectory = null;
 		mf.addEventListener('focusin', () => {
 			if (editable) {
 				mathVirtualKeyboard.show();
 				onFocus();
 			}
 		});
-		mf.addEventListener('focusout', () => {
+		mf.addEventListener('focusout', (ev) => {
 			if (editable) {
 				mathVirtualKeyboard.hide();
 			}
+			if (mf?.value === '') onDelete();
 		});
 
 		mf.addEventListener('input', handleKeyDown);
 
 		mf.addEventListener('keydown', (ev) => {
 			if (ev.key == 'Backspace') {
-				ev.preventDefault();
+				if (oldValue == '') {
+					onDelete();
+					document.querySelector('.tiptap').focus({ preventScroll: true });
+				}
 			}
+			oldValue = value;
 		});
 
 		mf.addEventListener('move-out', (event) => {
@@ -131,6 +144,9 @@
 				$editor.commands.setTextSelection($editor.state.selection.$from.pos);
 			}
 		});
+
+		// mf.selection = 0;
+		// mf.blur();
 	});
 
 	export let latexResult = null;
