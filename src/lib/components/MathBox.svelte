@@ -6,16 +6,22 @@
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';
+	import { cn } from '@/utils';
 	export let value = '';
 
 	export let expression = '';
+
 	export let onFocus = () => {};
+	export let onDelete = () => {};
 
 	$: updateValue(expression);
 
 	function updateValue(expression) {
+		expression = expression == 0 ? '' : expression;
 		if (expression == value) return;
+		console.log(expression, value);
 		mf?.setValue(expression);
+		value = expression;
 		handleKeyDown({ data: '' });
 	}
 
@@ -39,8 +45,8 @@
 	}
 
 	function handleKeyDown(event) {
-		if (event.data === 'delh	 eteContentBackward') {
-			event.preventDefault();
+		if (event.data === 'deleteContentBackward') {
+			// event.preventDefault();
 		}
 
 		if (event.data === 'insertLineBreak') {
@@ -50,7 +56,6 @@
 		}
 
 		if (!mf || !mf.expression) return;
-
 		value = mf.value;
 
 		nerdamer.set('SOLUTIONS_AS_OBJECT', true);
@@ -87,6 +92,8 @@
 	}
 	let mf: MathfieldElement;
 
+	let oldValue = value;
+
 	onMount(() => {
 		try {
 			setTimeout(() => {
@@ -99,24 +106,31 @@
 		const mathVirtualKeyboard = window.mathVirtualKeyboard;
 
 		mf.mathVirtualKeyboardPolicy = 'manual';
+
+		MathfieldElement.soundsDirectory = null;
 		mf.addEventListener('focusin', () => {
 			if (editable) {
 				mathVirtualKeyboard.show();
 				onFocus();
 			}
 		});
-		mf.addEventListener('focusout', () => {
+		mf.addEventListener('focusout', (ev) => {
 			if (editable) {
 				mathVirtualKeyboard.hide();
 			}
+			if (mf?.value === '') onDelete();
 		});
 
 		mf.addEventListener('input', handleKeyDown);
 
 		mf.addEventListener('keydown', (ev) => {
 			if (ev.key == 'Backspace') {
-				ev.preventDefault();
+				if (oldValue == '') {
+					onDelete();
+					document.querySelector('.tiptap').focus({ preventScroll: true });
+				}
 			}
+			oldValue = value;
 		});
 
 		mf.addEventListener('move-out', (event) => {
@@ -130,6 +144,9 @@
 				$editor.commands.setTextSelection($editor.state.selection.$from.pos);
 			}
 		});
+
+		// mf.selection = 0;
+		// mf.blur();
 	});
 
 	export let latexResult = null;
@@ -152,10 +169,13 @@
 <!-- AssignmentStatusAssignmentStatuse="text" class="m-20 bg-background p-3 text-3xl" bind:value
 on:keydown={handleKeyDown} /> -->
 
-<button class="cursor-auto overflow-hidden rounded-sm border bg-background pr-2" bind:this={cont}>
+<button
+	class={'box-border cursor-auto overflow-hidden border border-transparent pr-2 ' +
+		(editable ? ' hover:border-foreground/10' : '')}
+	bind:this={cont}
+>
 	<math-field
-		class={'rounded-none bg-background p-1 px-2 text-foreground outline-none' +
-			(editable ? ' border-b-2 border-b-primary/50 focus:border-b-primary/100' : '')}
+		class="rounded-none bg-background p-1 px-2 text-foreground outline-none"
 		readonly={!editable}
 		bind:this={mf}
 	>
@@ -182,3 +202,9 @@ on:keydown={handleKeyDown} /> -->
 		{/if}
 	</span>
 </button>
+
+<style>
+	button:has(math-field:focus) {
+		border: 1px solid hsl(var(--foreground) / 0.2);
+	}
+</style>
