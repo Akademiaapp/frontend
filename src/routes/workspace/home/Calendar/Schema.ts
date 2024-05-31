@@ -147,7 +147,7 @@ const days: CalendarEvent[][] = [monday, tuesday, wedensday, thursdag, friday];
 
 const weeksInMayAndJune: Date[] = [];
 const startDate = new Date("2024-04-01T00:00:00.000Z");
-const endDate = new Date("2024-06-30T23:59:59.999Z");
+const endDate = new Date("2024-07-30T23:59:59.999Z");
 
 const currentDate = startDate;
 while (currentDate <= endDate) {
