@@ -132,7 +132,18 @@
 	const colors: Record<string, string> = {
 		dansk: '#FF3D00',
 		matematik: '#349BEB',
-		engelsk: '#f5ce42'
+		engelsk: '#f5ce42',
+		kristendom: '#8b65fc',
+		idræt: '#525252',
+		samfundsfag: '#349BEB',
+		'fysik/kemi': '#3e3085',
+		biologi: '#84fc03',
+		teknologi: '#FF3D00',
+		musik: '#8403fc',
+		billedkunst: '#fc03ca',
+		historie: '#308534',
+		geografi: '#FF3D00',
+		valgfag: '#fcdf03',
 	};
 
 	const calendarStart = 8 * 60;
@@ -203,7 +214,7 @@
 				</div>
 			{/if} -->
 			{#each events.filter((event) => isToday(today, event.start)) as event (event)}
-				<Event {event} {calendarLength} {calendarStart} color={colors[event.name] || '#8b65fc'}
+				<Event {event} {calendarLength} {calendarStart} color={colors[event.name.toLowerCase()] || '#8b65fc'}
 				></Event>
 			{/each}
 		</div>

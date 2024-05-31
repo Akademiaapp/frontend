@@ -106,15 +106,9 @@ const thursdag: CalendarEvent[] = [
 ]
 const friday: CalendarEvent[] = [
     {
-        name: "Esport",
-        start: new Date("2024-05-31T06:00:00.000Z"),
-        end: new Date("2024-05-31T07:30:00.000Z")
-    },
-    {
         name: "Dansk",
         start: new Date("2024-05-31T06:00:00.000Z"),
         end: new Date("2024-05-31T07:30:00.000Z"),
-        "x": "50%"
     },
     {
         name: "Matematik",
