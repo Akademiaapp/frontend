@@ -77,7 +77,7 @@
 		state = 'loading';
 
 		if ($loginInfo == null) {
-			await getLoginInfo();
+			// await getLoginInfo();
 		}
 		if (state == 'missignCred') return;
 
@@ -86,17 +86,18 @@
 			end: end
 		};
 
-		const calenderData = await fetchAula('getCalenderEvents', payload);
+		// const calenderData = await fetchAula('getCalenderEvents', payload);
 
-		let result = (await calenderData.json()).map((event) => {
-			return {
-				name: titelMap[event.title] || event.title,
-				start: new Date(event.startDateTime),
-				end: new Date(event.endDateTime)
-			};
-		});
+		// let result = (await calenderData.json()).map((event) => {
+		// 	return {
+		// 		name: titelMap[event.title] || event.title,
+		// 		start: new Date(event.startDateTime),
+		// 		end: new Date(event.endDateTime)
+		// 	};
+		// });
 
-		events = [...events, ...checkOverlap(result)];
+		//events = [...events, ...checkOverlap(result)];
+		events = eventsInMayAndJune;
 
 		return;
 	}
@@ -104,6 +105,7 @@
 	import { onMount } from 'svelte';
 	import DateSelection from './DateSelection.svelte';
 	import { fetchAula, loginInfo, logintoAula } from '@/api/AulaApiStore';
+	import eventsInMayAndJune from './Schema';
 
 	onMount(async () => {
 		try {
@@ -186,7 +188,7 @@
 			{/each}
 		</div>
 		<div class="events">
-			{#if state !== 'loaded'}
+			<!-- {#if state !== 'loaded'}
 				<div
 					class="text-2 absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-1 font-semibold"
 				>
@@ -199,7 +201,7 @@
 						<p class="text-2">Failed to load</p>
 					{/if}
 				</div>
-			{/if}
+			{/if} -->
 			{#each events.filter((event) => isToday(today, event.start)) as event (event)}
 				<Event {event} {calendarLength} {calendarStart} color={colors[event.name] || '#8b65fc'}
 				></Event>
