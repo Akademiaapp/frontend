@@ -143,7 +143,7 @@
 		billedkunst: '#fc03ca',
 		historie: '#308534',
 		geografi: '#FF3D00',
-		valgfag: '#fcdf03',
+		valgfag: '#F5CE42',
 	};
 
 	const calendarStart = 8 * 60;
