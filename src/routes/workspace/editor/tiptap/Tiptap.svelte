@@ -5,7 +5,7 @@
 	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
 	import { currentFile, currentStatus } from '@/api/apiStore';
-	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
+	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus, DocumentInfo } from '@/api/fileClasses';
 	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 
