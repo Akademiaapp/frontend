@@ -66,6 +66,11 @@
 					new Editor({
 						extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
 						editable: editable,
+						onCreate: ({ editor }) => {
+						editor.view.dom.setAttribute("spellcheck", "false");
+						editor.view.dom.setAttribute("autocomplete", "off");
+						editor.view.dom.setAttribute("autocapitalize", "off");
+						},
 						onUpdate: ({ transaction }) => {
 							if (!transaction.isGeneric) return;
 
