@@ -42,7 +42,7 @@ function getCollabExtensions(provider) {
 			provider: provider,
 			user: {
 				name: get(keycloakUserInfo).preferred_username,
-				color: '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
+				color: `hsla(${~~(360 * Math.random())}, 70%,  72%, 0.8)`
 			}
 		}),
 		Collaboration.configure({
