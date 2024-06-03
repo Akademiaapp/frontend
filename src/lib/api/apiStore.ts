@@ -91,10 +91,28 @@ export const userInfo = writable<UserInfo>();
 
 export async function updateAssignmentsAnswers() {
 	const response = await api.getAssignmentAnswers();
-	if (!response) {
+	if (!response || response.status == 401) {
+		som++;
+		console.log('SOM');
+		if (som > 2) {
+			location.reload();
+			som = 0;
+		}
 		throw new Error('Could not update assignments due to no response');
 	}
+
 	const json = await response.json();
+	if (!json) {
+		som++;
+		if (som > 2) {
+			location.reload();
+			som = 0;
+		}
+
+		throw new Error('Could not update assignments due to no response');
+	}
+
+	som = 0;
 
 	assignmentAnswerStore.set(
 		json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo, assignmentAnswerStore))
@@ -108,9 +126,10 @@ export async function updateAssignments() {
 	if (!u) return;
 	if (u.type != 'TEACHER' && u.type != 'TESTER') return;
 	const response = await api.getAssignments();
-	if (!response) {
+	if (!response || response.status == 401) {
 		som++;
-		if (som > 10) {
+		console.log('SOM');
+		if (som > 2) {
 			location.reload();
 			som = 0;
 		}
@@ -120,7 +139,7 @@ export async function updateAssignments() {
 	const json = await response.json();
 	if (!json) {
 		som++;
-		if (som > 10) {
+		if (som > 2) {
 			location.reload();
 			som = 0;
 		}

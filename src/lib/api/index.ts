@@ -38,6 +38,7 @@ class ApiHandler {
 				headers
 			}
 		).catch((error) => {
+			console.log('hdhdhd');
 			if (error.message.includes('Unauthorized - Token verification failed')) {
 				location.reload();
 			}
