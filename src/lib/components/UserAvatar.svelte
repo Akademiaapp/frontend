@@ -5,15 +5,24 @@
 	import { Cloud, Github, LogOut, Settings, User } from 'lucide-svelte';
 	import { keycloakState } from '../../authStore';
 	import { goto } from '$app/navigation';
+	import { onDestroy, onMount } from 'svelte';
 	export let name = false;
 
-	setTimeout(() => {
-		setInterval(() => {
-			if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
-				location.reload();
-			}
-		}, 1000);
-	}, 5000);
+	let interval;
+
+	onMount(() => {
+		setTimeout(() => {
+			interval = setInterval(() => {
+				if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
+					location.reload();
+				}
+			}, 1000);
+		}, 5000);
+	});
+
+	onDestroy(() => {
+		clearInterval(interval);
+	});
 </script>
 
 <div class="cage">
