@@ -8,7 +8,7 @@
 	import { Send } from 'lucide-svelte';
 	import { answer } from '../../../editor/editorStore';
 	import api from '@/api';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
 
@@ -38,14 +38,22 @@
 		});
 	}
 
-	setInterval(async () => {
-		if (!file) return;
-		api.getAssignmentAnswer(file.id).then((res) => {
-			res.json().then((data) => {
-				file = new AssignmentAnswer(data, assignmentAnswerStore);
+	let interval;
+
+	onMount(() => {
+		interval = setInterval(async () => {
+			if (!file) return;
+			api.getAssignmentAnswer(file.id).then((res) => {
+				res.json().then((data) => {
+					file = new AssignmentAnswer(data, assignmentAnswerStore);
+				});
 			});
-		});
-	}, 1000);
+		}, 1000);
+	});
+
+	onDestroy(() => {
+		clearInterval(interval);
+	});
 
 	let error = false;
 
