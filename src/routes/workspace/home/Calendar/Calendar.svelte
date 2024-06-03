@@ -143,11 +143,11 @@
 		billedkunst: '#fc03ca',
 		historie: '#308534',
 		geografi: '#FF3D00',
-		valgfag: '#F5CE42',
+		valgfag: '#F5CE42'
 	};
 
 	const calendarStart = 8 * 60;
-	const calendarEnd = 16 * 60;
+	const calendarEnd = 15 * 60;
 	const calendarLength = calendarEnd - calendarStart;
 
 	const timeStamps: number[] = [];
@@ -214,7 +214,11 @@
 				</div>
 			{/if} -->
 			{#each events.filter((event) => isToday(today, event.start)) as event (event)}
-				<Event {event} {calendarLength} {calendarStart} color={colors[event.name.toLowerCase()] || '#8b65fc'}
+				<Event
+					{event}
+					{calendarLength}
+					{calendarStart}
+					color={colors[event.name.toLowerCase()] || '#8b65fc'}
 				></Event>
 			{/each}
 		</div>
@@ -243,6 +247,6 @@
 
 	.events {
 		position: relative;
-		width: 300px;
+		width: 200px;
 	}
 </style>

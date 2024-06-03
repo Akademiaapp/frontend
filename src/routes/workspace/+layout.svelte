@@ -7,16 +7,27 @@
 		updateAssignments
 	} from '@/api/apiStore';
 	import ApiDown from '@/components/ApiDown.svelte';
+	import { onDestroy } from 'svelte';
 
 	updateDocuments();
 	updateAssignmentsAnswers();
 	updateAssignments();
 	updateUserInfo();
 
+	let autoRealodDocs = setInterval(() => {
+		updateDocuments();
+		updateAssignmentsAnswers();
+		updateAssignments();
+	}, 1000);
+
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
 
 	let sidebarVisible: boolean = true;
+
+	onDestroy(() => {
+		clearInterval(autoRealodDocs);
+	});
 </script>
 
 <div class="cont">
