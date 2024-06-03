@@ -13,7 +13,7 @@
 
 	export let onClose = () => {};
 
-	$: if (!($currentFile instanceof AssignmentAnswer)) answer.set(null);
+	// $: if (!($currentFile instanceof AssignmentAnswer)) answer.set(null);
 
 	let showAssignmentTabs = false;
 	$: showAssignmentTabs = $currentFile instanceof AssignmentAnswer || $answer !== null;
