@@ -33,6 +33,12 @@
 		if (new_answers instanceof Array) answers = new_answers;
 	});
 
+	setTimeout(async () => {
+		if (!($currentFile instanceof Assignment)) return;
+		let new_answers = await $currentFile.getAnswers();
+		if (new_answers instanceof Array) answers = new_answers;
+	}, 1000);
+
 	let open = false;
 
 	$: selectedValue = $answer
