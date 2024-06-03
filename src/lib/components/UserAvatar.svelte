@@ -13,6 +13,7 @@
 	onMount(() => {
 		setTimeout(() => {
 			interval = setInterval(() => {
+				if (!$userInfo) location.reload();
 				if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
 					location.reload();
 				}
