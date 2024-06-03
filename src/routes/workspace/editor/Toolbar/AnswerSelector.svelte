@@ -33,7 +33,7 @@
 		if (new_answers instanceof Array) answers = new_answers;
 	});
 
-	setTimeout(async () => {
+	setInterval(async () => {
 		if (!($currentFile instanceof Assignment)) return;
 		let new_answers = await $currentFile.getAnswers();
 		if (new_answers instanceof Array) answers = new_answers;

@@ -38,6 +38,15 @@
 		});
 	}
 
+	setInterval(async () => {
+		if (!file) return;
+		api.getAssignmentAnswer(file.id).then((res) => {
+			res.json().then((data) => {
+				file = new AssignmentAnswer(data, assignmentAnswerStore);
+			});
+		});
+	}, 1000);
+
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
 		if (!the_file || !grade || !feedback) return;
 		file = new AssignmentAnswer(
