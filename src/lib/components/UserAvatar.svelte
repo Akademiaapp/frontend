@@ -2,16 +2,18 @@
 	import { userInfo } from '@/api/apiStore';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from './ui/button';
-	import {
-		Cloud,
-		Github,
-		LogOut,
-		Settings,
-		User
-	} from 'lucide-svelte';
+	import { Cloud, Github, LogOut, Settings, User } from 'lucide-svelte';
 	import { keycloakState } from '../../authStore';
 	import { goto } from '$app/navigation';
 	export let name = false;
+
+	setTimeout(() => {
+		setInterval(() => {
+			if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
+				location.reload();
+			}
+		}, 1000);
+	}, 5000);
 </script>
 
 <div class="cage">
