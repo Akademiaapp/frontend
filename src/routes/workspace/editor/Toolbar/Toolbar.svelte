@@ -278,7 +278,7 @@
 					style={'color: ' + selection.getAttributes('textStyle').color}><Brush size="18" /></label
 				>
 			</div>
-			<Select.Root
+			<!-- <Select.Root
 				portal={null}
 				selected={{ value: selectedType, label: selectedTypeObject.label }}
 			>
@@ -297,7 +297,7 @@
 					{/each}
 				</Select.Content>
 				<Select.Input name="selectedTextType" />
-			</Select.Root>
+			</Select.Root> -->
 			<ToolbarButton
 				onClick={(event) => nodeOrSelected().toggleSuperscript().run()}
 				title="Eksponent"
