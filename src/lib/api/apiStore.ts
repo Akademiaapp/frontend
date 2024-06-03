@@ -19,11 +19,12 @@ export async function updateDocuments() {
 		throw new Error('Could not update files due to no response');
 	}
 	const json = await response.json();
-
+	const oldDocs = get(documentStore);
 	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
 	folders.update((prev) => {
-		const docs = json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore));
-		prev.find((f) => f.name === 'Andet').files = docs;
+		const docs = get(documentStore).filter((doc) => !oldDocs.find((f) => f.id === doc.id));
+
+		prev.find((f) => f.name === 'Andet').files.push(...docs);
 		return prev;
 	});
 }

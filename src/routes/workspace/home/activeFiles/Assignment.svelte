@@ -11,7 +11,7 @@
 
 <a
 	href={'/workspace/editor?id=' + assingment.id + '&type=' + assingment.fileType}
-	class="reset cont frontground"
+	class="reset activeFile frontground"
 >
 	<div class="text">
 		<p class="name">{assingment.name}</p>
@@ -48,7 +48,7 @@
 
 		border-radius: 0.7rem;
 
-		border: solid rgba(var(--rga), 0.06) 0.1rem;
+		border: 1rem solid rgba(var(--rga), 0.06);
 		box-shadow: 0.05rem 0.05rem 0.7rem rgba(0, 0, 0, 0.06);
 
 		padding: 0.4rem 1rem;
