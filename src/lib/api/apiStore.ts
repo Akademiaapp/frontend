@@ -6,6 +6,7 @@ import {
 	Assignment,
 	AssignmentAnswer,
 	AssignmentStatus,
+	AssignmentStatusStrings,
 	DocumentInfo,
 	FileInfo,
 	Folder
@@ -53,7 +54,7 @@ currentStatus.subscribe((status) => {
 	const file = get(currentFile);
 	if (file instanceof AssignmentAnswer) {
 		file.updateInfo({
-			status: status
+			status: AssignmentStatusStrings[status]
 		});
 	}
 });
