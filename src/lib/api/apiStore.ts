@@ -101,6 +101,9 @@ export async function updateAssignmentsAnswers() {
 }
 
 export async function updateAssignments() {
+	const u = get(userInfo);
+	if (!u) return;
+	if (u.type != 'TEACHER' && u.type != 'TESTER') return;
 	const response = await api.getAssignments();
 	if (!response) {
 		throw new Error('Could not update assignments due to no response');
