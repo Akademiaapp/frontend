@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { scale } from 'svelte/transition';
 	import { AssignmentStatus } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
 
@@ -23,7 +24,11 @@
 	}
 </script>
 
-<a href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'} class="reset cont frontground">
+<a
+	href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'}
+	class="reset cont frontground"
+	transition:scale
+>
 	<div class="text">
 		<p class="name">{name}</p>
 		{#if grade != null}
