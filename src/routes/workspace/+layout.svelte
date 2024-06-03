@@ -18,8 +18,7 @@
 		updateDocuments();
 		updateAssignmentsAnswers();
 		updateAssignments();
-		updateUserInfo();
-	}, 5000);
+	}, 1000);
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
