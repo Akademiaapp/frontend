@@ -38,10 +38,13 @@ class ApiHandler {
 				headers
 			}
 		).catch((error) => {
-			console.log('hmm errrrorr');
+			if (error.message.includes('Unauthorized - Token verification failed')) {
+				location.reload();
+			}
 			// Handle CORS-related errors
 			if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
 				// apiDownStore.set(true);
+				console.error('Failed to fetch:', error);
 			} else {
 				console.error('Other error:', error);
 			}
