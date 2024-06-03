@@ -86,6 +86,13 @@ export enum AssignmentStatus {
 	GRADED
 }
 
+export const AssignmentStatusStrings = {
+	[AssignmentStatus.NOT_STARTED]: 'NOT_STARTED',
+	[AssignmentStatus.IN_PROGRESS]: 'IN_PROGRESS',
+	[AssignmentStatus.SUBMITTED]: 'SUBMITTED',
+	[AssignmentStatus.GRADED]: 'GRADED'
+};
+
 export class Assignment extends FileInfo {
 	due_date: string;
 	assignment_answers;
