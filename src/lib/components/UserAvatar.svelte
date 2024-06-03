@@ -12,7 +12,7 @@
 			if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
 				location.reload();
 			}
-		}, 5000);
+		}, 1000);
 	}, 5000);
 </script>
 
