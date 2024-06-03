@@ -11,7 +11,7 @@
 
 <a
 	href={'/workspace/editor?id=' + assingment.id + '&type=' + assingment.fileType}
-	class="reset cont frontground"
+	class="reset activeFile frontground"
 >
 	<div class="text">
 		<p class="name">{assingment.name}</p>
