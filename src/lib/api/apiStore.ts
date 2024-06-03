@@ -100,14 +100,22 @@ export async function updateAssignmentsAnswers() {
 	);
 }
 
+let som = 0;
+
 export async function updateAssignments() {
 	const u = get(userInfo);
 	if (!u) return;
 	if (u.type != 'TEACHER' && u.type != 'TESTER') return;
 	const response = await api.getAssignments();
 	if (!response) {
+		som++;
+		if (som > 10) {
+			location.reload();
+			som = 0;
+		}
 		throw new Error('Could not update assignments due to no response');
 	}
+	som = 0;
 	const json = await response.json();
 
 	if (!json) {
