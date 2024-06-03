@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Check from 'lucide-svelte/icons/check';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight, MessagesSquare } from 'lucide-svelte';
 	import { currentFile } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
 	import { answer } from '../editorStore';
@@ -27,17 +27,23 @@
 		};
 	}[];
 
+	let inter;
+
 	onMount(async () => {
 		if (!($currentFile instanceof Assignment)) return;
 		let new_answers = await $currentFile.getAnswers();
 		if (new_answers instanceof Array) answers = new_answers;
+
+		inter = setInterval(async () => {
+			if (!($currentFile instanceof Assignment)) return;
+			let new_answers = await $currentFile.getAnswers();
+			if (new_answers instanceof Array) answers = new_answers;
+		}, 1000);
 	});
 
-	setInterval(async () => {
-		if (!($currentFile instanceof Assignment)) return;
-		let new_answers = await $currentFile.getAnswers();
-		if (new_answers instanceof Array) answers = new_answers;
-	}, 1000);
+	onDestroy(() => {
+		clearInterval(inter);
+	});
 
 	let open = false;
 
@@ -121,3 +127,9 @@
 		<ChevronRight size="24" />
 	</Button>
 </div>
+{#if $answer}
+	<Button class="fixed bottom-5 z-10 ">
+		<MessagesSquare size="24" />
+		Giv feedback
+	</Button>
+{/if}
