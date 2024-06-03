@@ -26,7 +26,7 @@
 
 <a
 	href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'}
-	class="reset cont frontground"
+	class="reset activeFile frontground"
 	transition:scale
 >
 	<div class="text">
