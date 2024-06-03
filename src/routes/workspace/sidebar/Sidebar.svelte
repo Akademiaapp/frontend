@@ -49,7 +49,7 @@
 		});
 	}
 
-	const widths = { files: '300px', assignment: '450px', chat: '400px' };
+	const widths = { files: '300px', assignment: '400px', chat: '400px' };
 
 	let sidebar;
 	let currentTab;
