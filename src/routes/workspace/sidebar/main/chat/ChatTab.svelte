@@ -8,7 +8,7 @@
 	import { Send } from 'lucide-svelte';
 	import { answer } from '../../../editor/editorStore';
 	import api from '@/api';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
 
@@ -38,21 +38,41 @@
 		});
 	}
 
-	setInterval(async () => {
-		if (!file) return;
-		api.getAssignmentAnswer(file.id).then((res) => {
-			res.json().then((data) => {
-				file = new AssignmentAnswer(data, assignmentAnswerStore);
+	let interval;
+
+	onMount(() => {
+		interval = setInterval(async () => {
+			if (!file) return;
+			api.getAssignmentAnswer(file.id).then((res) => {
+				res.json().then((data) => {
+					file = new AssignmentAnswer(data, assignmentAnswerStore);
+				});
 			});
-		});
-	}, 1000);
+		}, 1000);
+	});
+
+	onDestroy(() => {
+		clearInterval(interval);
+	});
+
+	let error = false;
 
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
-		if (!the_file || !grade || !feedback) return;
+		if (!the_file || !grade || !feedback) {
+			error = true
+			console.log(error);
+			setTimeout(() => {
+				error = false
+				console.log(error);
+			}, 2000)
+			return;
+		};
 		file = new AssignmentAnswer(
 			await (await the_file.setGrade(grade, feedback)).json(),
 			assignmentAnswerStore
 		);
+
+		msg = '';
 	}
 
 	let grade = null;
@@ -111,11 +131,11 @@
 					</Select>
 				{/if}
 				<Button
-					class="aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground"
-					variant="ghost"
+					class={"aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground" + error ? '' : ' text-red-500'}
+					variant={error ? "destructive" : "ghost"}
+					disabled={!msg || !grade}
 					on:click={async () => {
 						await sendFeedback(file, grade, msg);
-						msg = '';
 					}}
 				>
 					<Send size="20" class="fill-current " />
