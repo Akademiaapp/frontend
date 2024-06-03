@@ -27,11 +27,16 @@
 
 		gap: 0.5rem;
 
-		transition: transform 300ms ease;
+		transition:
+			transform 300ms ease,
+			border 200ms ease;
 
 		&:hover {
 			transform: translateY(-0.15rem);
-			transition: transform 200ms ease;
+			transition:
+				transform 200ms ease,
+				border 150ms ease;
+			border: solid rgba(var(--rga), 0.2) 0.1rem;
 		}
 	}
 
