@@ -106,6 +106,10 @@ export async function updateAssignments() {
 	}
 	const json = await response.json();
 
+	if (!json) {
+		console.error('Could not update assignments due to no response');
+	}
+
 	assignmentStore.set(
 		json.map((assignmentInfo) => new Assignment(assignmentInfo, assignmentStore))
 	);
