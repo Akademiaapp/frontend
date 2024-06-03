@@ -38,6 +38,7 @@ class ApiHandler {
 				headers
 			}
 		).catch((error) => {
+			console.log('hmm errrrorr');
 			// Handle CORS-related errors
 			if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
 				// apiDownStore.set(true);
