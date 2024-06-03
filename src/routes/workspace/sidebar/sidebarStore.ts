@@ -3,8 +3,10 @@ import { writable } from 'svelte/store';
 
 export const draggingFile = writable(null);
 export const isDragging = writable(false);
+export const currentTab = writable('files');
 
 const testFiles = [];
+
 export const subjects = [
 	new Folder({
 		name: 'Dansk',

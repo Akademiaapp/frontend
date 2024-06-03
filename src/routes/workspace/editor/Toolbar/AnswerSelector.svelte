@@ -10,6 +10,7 @@
 	import { currentFile } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
 	import { answer } from '../editorStore';
+	import { currentTab } from '../../sidebar/sidebarStore';
 
 	let answers = [] as {
 		id: string;
@@ -128,7 +129,12 @@
 	</Button>
 </div>
 {#if $answer}
-	<Button class="fixed bottom-5 z-10 ">
+	<Button
+		class="fixed bottom-5 z-10"
+		on:click={() => {
+			$currentTab = 'chat';
+		}}
+	>
 		<MessagesSquare size="24" />
 		Giv feedback
 	</Button>

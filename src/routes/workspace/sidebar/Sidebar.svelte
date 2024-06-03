@@ -3,6 +3,7 @@
 	import { clamp } from '@/utils/mathUtils';
 	import SlimSidebar from './SlimSidebar.svelte';
 	import WideSidebar from './WideSidebar.svelte';
+	import { currentTab } from './sidebarStore';
 	let isExpanded = true;
 
 	function handleMouseMove(event) {
@@ -52,19 +53,19 @@
 	const widths = { files: '300px', assignment: '400px', chat: '400px' };
 
 	let sidebar;
-	let currentTab;
 
-	$: maxWidth = currentTab == 'assignment' ? 600 : 550;
-	$: minWidth = currentTab == 'assignment' ? 350 : 275;
+	$: maxWidth = $currentTab == 'assignment' ? 600 : 550;
+	$: minWidth = $currentTab == 'assignment' ? 350 : 275;
 	$: {
 		anim();
-		$sidebarWidth = currentTab == 'assignment' ? '450px' : currentTab == 'chat' ? '400px' : '300px';
+		$sidebarWidth =
+			$currentTab == 'assignment' ? '450px' : $currentTab == 'chat' ? '400px' : '300px';
 	}
 </script>
 
 <nav class="sideBar relative" bind:this={sidebar} style:width={$sidebarWidth}>
 	{#if isExpanded}
-		<WideSidebar bind:currentTab bind:isExpanded />
+		<WideSidebar bind:currentTab={$currentTab} bind:isExpanded />
 	{:else}
 		<SlimSidebar bind:isExpanded />
 	{/if}
