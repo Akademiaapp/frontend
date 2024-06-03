@@ -11,6 +11,7 @@
 	import { Assignment } from '@/api/fileClasses';
 	import { answer } from '../editorStore';
 	import { currentTab } from '../../sidebar/sidebarStore';
+	import { sidebarWidth } from '../../../store';
 
 	let answers = [] as {
 		id: string;
@@ -128,9 +129,9 @@
 		<ChevronRight size="24" />
 	</Button>
 </div>
-{#if $answer}
+{#if $answer && $currentTab != 'chat'}
 	<Button
-		class="fixed bottom-5 z-10"
+		class="fixed bottom-5 z-10 gap-2"
 		on:click={() => {
 			$currentTab = 'chat';
 		}}
