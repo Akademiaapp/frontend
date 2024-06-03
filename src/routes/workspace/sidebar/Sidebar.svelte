@@ -55,7 +55,7 @@
 	let currentTab;
 
 	$: maxWidth = currentTab == 'assignment' ? 600 : 550;
-	$: minWidth = currentTab == 'assignment' ? 400 : 275;
+	$: minWidth = currentTab == 'assignment' ? 350 : 275;
 	$: {
 		anim();
 		$sidebarWidth = currentTab == 'assignment' ? '450px' : currentTab == 'chat' ? '400px' : '300px';
