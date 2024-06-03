@@ -36,7 +36,6 @@
 		const ydoc = new Y.Doc();
 		Y.applyUpdate(ydoc, new Uint8Array(data.data));
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
-		F;
 		// Remove metaSettings node from ydoc
 		doc.default.content.splice(1, 1);
 
