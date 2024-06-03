@@ -125,7 +125,6 @@ export async function updateAssignments() {
 		}
 
 		throw new Error('Could not update assignments due to no response');
-		return;
 	}
 
 	som = 0;
