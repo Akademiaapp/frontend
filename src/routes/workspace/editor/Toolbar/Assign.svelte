@@ -40,10 +40,10 @@
 			<Dialog.Description>
 				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
-			<div class="flex items-center gap-2 pt-3">
+			<!-- <div class="flex items-center gap-2 pt-3">
 				<Switch bind:checked={asignSelf}></Switch>
 				<Label for="airplane-mode">Tildel også til mig selv</Label>
-			</div>
+			</div> -->
 		</Dialog.Header>
 		<div class="flex w-full items-end gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Nej</Button>
