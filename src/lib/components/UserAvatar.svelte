@@ -54,7 +54,7 @@
 				</DropdownMenu.Item>
 			</DropdownMenu.Group>
 			<DropdownMenu.Separator />
-			<DropdownMenu.Item
+			<!-- <DropdownMenu.Item
 				on:click={() => {
 					window.location.href = 'https://github.com/akademiaapp/';
 				}}
@@ -70,7 +70,7 @@
 				<Cloud class="h-4 w-4" />
 				<span>API Status</span>
 			</DropdownMenu.Item>
-			<DropdownMenu.Separator />
+			<DropdownMenu.Separator /> -->
 			<DropdownMenu.Item
 				on:click={() => {
 					$keycloakState.logout();
