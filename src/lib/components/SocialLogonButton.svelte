@@ -1,11 +1,11 @@
 <script>
 	import { Loader2 } from 'lucide-svelte';
-	import { keycloakState } from '../../authStore';
+	import { supabase } from '@/supabaseClient';
 	import { Button } from './ui/button';
 
 	export let icon = '';
 	export let name = '';
-	export let keycloakName = '';
+	export let providerName = '';
 	export let isLoading = false;
 	export let redirectUri = '';
 
@@ -17,7 +17,7 @@
 	type="button"
 	disabled={isLoading}
 	on:click={() => {
-		$keycloakState.login({ idpHint: keycloakName, redirectUri });
+		supabase.auth.signInWithSSO({providerId: providerName, options: { redirectTo: redirectUri } });
 		additionalAction();
 	}}
 >

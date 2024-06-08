@@ -62,14 +62,14 @@
 	<div class="flex flex-col gap-2">
 		<SocialLogonButton
 			name="Google"
-			keycloakName="google"
+			providerName="google"
 			icon="/icons/social/google.svg"
 			{isLoading}
 			{redirectUri}
 		/>
 		<SocialLogonButton
 			name="Microsoft"
-			keycloakName="microsoft"
+			providerName="microsoft"
 			icon="/icons/social/microsoft.svg"
 			{isLoading}
 			{redirectUri}
