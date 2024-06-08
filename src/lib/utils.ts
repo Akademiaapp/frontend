@@ -56,30 +56,6 @@ export const flyAndScale = (
 	};
 };
 
-export function getApiUrl() {
-	if (import.meta.env.PROD) {
-		return 'https://akademia-api.arctix.dev';
-	} else {
-		if (env.PUBLIC_API_URL) {
-			return env.PUBLIC_API_URL;
-		} else {
-			return 'https://akademia-api.arctix.dev';
-		}
-	}
-}
-
-export function getCollaborationUrl() {
-	if (import.meta.env.PROD) {
-		return 'wss://akademia-collaboration.arctix.dev';
-	} else {
-		if (env.PUBLIC_COLLABORATION_URL) {
-			return env.PUBLIC_COLLABORATION_URL;
-		} else {
-			return 'wss://akademia-collaboration.arctix.dev';
-		}
-	}
-}
-
 export function getAuthUrl() {
 	if (import.meta.env.PROD) {
 		return 'https://akademia-auth.arctix.dev';
