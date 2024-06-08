@@ -4,6 +4,7 @@
 	import Input from '@/components/ui/input/input.svelte';
 	import SocialLogonButton from './SocialLogonButton.svelte';
 	import { supabase } from '@/supabaseClient';
+	import { page } from '$app/stores';
 
 	export let isLoading = false;
 
@@ -22,12 +23,13 @@
 			supabase.auth.signInWithPassword({ email, password });
 			return;
 		} else if (actionName === 'Sign Up') {
-			supabase.auth.signUp({ email, password });
+			supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectUri } });
 			return;
 		}
 	};
 
-	export let redirectUri = '';
+	// Full redirect url
+	export let redirectUri = $page.url.host + '/onboarding/login';
 </script>
 
 <div class="grid gap-6" {...$$restProps}>
