@@ -59,7 +59,7 @@
 					name: 'id',
 					content: 'content',
 				},
-				conflictColumns: 'conflict',
+				conflictColumns: 'id',
 			},
 			document: document,
 		});
