@@ -11,6 +11,7 @@ import {
 	FileInfo,
 	Folder
 } from './fileClasses';
+import { tomorrow } from '@/utils/dateUtils';
 
 export { FileInfo, Folder };
 
@@ -195,14 +196,6 @@ export async function newAssignment(
 		newAssignment.open();
 	}
 	assignmentStore.update((files) => [...files, newAssignment]);
-}
-
-function tomorrow(): Date {
-	const today = new Date();
-	const tomorrow = new Date(today);
-	tomorrow.setDate(tomorrow.getDate() + 1);
-
-	return tomorrow;
 }
 
 export const apiDownStore = writable<boolean>(false);
