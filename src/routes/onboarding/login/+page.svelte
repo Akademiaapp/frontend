@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
-	import { keycloakState } from '../../../authStore';
 	import { redirect } from '@/utils/onboardingUtils';
+	import { supabase } from '@/supabaseClient';
 
 	let isLoading = false;
 
-	$: if ($keycloakState.authenticated) {
+	$: if (supabase.auth.getSession().then((session) => session)){
 		isLoading = true;
 		redirect().catch(console.error);
 	}

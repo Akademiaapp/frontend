@@ -2,7 +2,6 @@
 	import { Loader2 } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
-	import { keycloakState } from '../../authStore';
 	import SocialLogonButton from './SocialLogonButton.svelte';
 
 	export let isLoading = false;
@@ -16,14 +15,6 @@
 		setTimeout(() => {
 			isLoading = false;
 		}, 3000);
-
-		if (actionName === 'Sign In') {
-			$keycloakState.login({ loginHint: email });
-			return;
-		} else if (actionName === 'Sign Up') {
-			$keycloakState.register({ loginHint: email });
-			return;
-		}
 	};
 
 	export let redirectUri = '';
@@ -69,7 +60,7 @@
 		/>
 		<SocialLogonButton
 			name="Microsoft"
-			providerName="microsoft"
+			providerName="azure"
 			icon="/icons/social/microsoft.svg"
 			{isLoading}
 			{redirectUri}

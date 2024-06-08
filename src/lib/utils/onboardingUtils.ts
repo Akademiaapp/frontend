@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import api from '@/api';
+// import api from '@/api';
 
 export async function redirect() {
 	// check if the user is correctly set up
@@ -15,13 +15,14 @@ export async function redirect() {
 }
 
 export async function isUserSetupCurrectly() {
-	const req = await api.callApi('/users/self', null, 'GET');
-	const json = await req.json();
+	return true;
+	// const req = await api.callApi('/users/self', null, 'GET');
+	// const json = await req.json();
 
-	return !(
-		json.schoolId === null ||
-		json.schoolId === undefined ||
-		json.type === null ||
-		json.type === undefined
-	);
+	// return !(
+	// 	json.schoolId === null ||
+	// 	json.schoolId === undefined ||
+	// 	json.type === null ||
+	// 	json.type === undefined
+	// );
 }

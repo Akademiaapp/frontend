@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
 	import { Loader2 } from 'lucide-svelte';
 	import { supabase } from '@/supabaseClient';
 	import { Button } from './ui/button';
+	import type { Provider } from '@supabase/supabase-js';
 
 	export let icon = '';
 	export let name = '';
-	export let providerName = '';
+	export let providerName: Provider | null;
 	export let isLoading = false;
 	export let redirectUri = '';
 
@@ -17,7 +18,12 @@
 	type="button"
 	disabled={isLoading}
 	on:click={() => {
-		supabase.auth.signInWithSSO({providerId: providerName, options: { redirectTo: redirectUri } });
+		supabase.auth.signInWithOAuth({
+			provider: providerName,
+			options: {
+				redirectTo: redirectUri,
+			}
+		});
 		additionalAction();
 	}}
 >

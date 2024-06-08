@@ -1,17 +1,17 @@
 <script lang="ts">
 	import '../app.pcss';
 	import { themeVariant } from './store';
-	import Keycloak from 'keycloak-js';
-	import { keycloakUserInfo, type KeycloakUserInfo, keycloakState } from '../authStore';
-	import { goto } from '$app/navigation';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
 	import 'katex/dist/katex.min.css';
-	import { page } from '$app/stores';
 	import { Toaster } from '@/components/ui/sonner';
-	import { getAuthUrl } from '@/utils';
 	export let themeName = `dark`;
+	import { supabase } from '@/supabaseClient';
+	import { onMount } from 'svelte';
+	import type { AuthSession } from '@supabase/supabase-js';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	const themes = {
 		default: {
@@ -27,53 +27,23 @@
 		themeName = it ? 'light' : 'dark';
 	});
 
-	keycloakState.set(
-		new Keycloak({
-			url: getAuthUrl(),
-			realm: 'akademia',
-			clientId: 'akademia-frontend'
-		})
-	);
+	let session: AuthSession
 
-	$keycloakState
-		.init({
-			onLoad: 'check-sso'
+	onMount(() => {
+		supabase.auth.getSession().then(({ data }) => {
+			session = data.session
 		})
-		.then((authenticated) => {
-			if (authenticated) {
-				// Check if token is valid
-				$keycloakState.loadUserInfo().then((userInfoKc) => {
-					keycloakUserInfo.set({ ...userInfoKc } as KeycloakUserInfo);
-					setInterval(() => {
-						$keycloakState.updateToken(70).then((refreshed) => {
-							if (refreshed) {
-								console.log('Token refreshed');
-							}
-						});
-					}, 6000);
-					keycloakState.update((it) => it);
-				});
-			} else {
-				if (!$page.url.pathname.includes('/onboarding')) {
-					if ($page.url.pathname.endsWith('/register')) {
-						goto('/onboarding/signup');
-					} else {
-						goto('/onboarding/login');
-					}
-				}
-				// reload page
-				// if ($page.url.pathname.endsWith('/register')) {
-				// 	window.location.href = $keycloakState.createRegisterUrl({
-				// 		redirectUri: window.location.hostname + '/onboarding'
-				// 	});
-				// } else {
-				// 	$keycloakState.login();
-				// }
-			}
+
+		supabase.auth.onAuthStateChange((_event, _session) => {
+			session = _session
 		})
-		.catch((e) => {
-			console.error(e);
-		});
+	})
+
+	$: console.log(session);
+
+	$: if (!session) {
+		goto('/onboarding/login')
+	}
 </script>
 
 <svelte:head>
@@ -85,10 +55,10 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if $keycloakState.authenticated || $page.url.pathname.includes('/onboarding')}
-	<div class="app">
-		<slot />
-	</div>
+{#if session || $page.url.pathname.includes('/onboarding')}
+<div class="app">
+	<slot />
+</div>
 {/if}
 
 <Toaster />

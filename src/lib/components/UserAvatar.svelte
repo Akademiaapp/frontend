@@ -2,8 +2,7 @@
 	import { userInfo } from '@/api/apiStore';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from './ui/button';
-	import { Cloud, Github, LogOut, Settings, User } from 'lucide-svelte';
-	import { keycloakState } from '../../authStore';
+	import { LogOut, Settings, User } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
 	export let name = false;
@@ -73,7 +72,7 @@
 			<DropdownMenu.Separator /> -->
 			<DropdownMenu.Item
 				on:click={() => {
-					$keycloakState.logout();
+					// $keycloakState.logout();
 				}}
 			>
 				<LogOut class="h-4 w-4" />
