@@ -4,15 +4,16 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { buttonVariants } from '@/components/ui/button';
 	import Card from '@/components/ui/card/card.svelte';
-	import api from '@/api';
-	import { keycloakState } from '../../../authStore';
-	let open = false;
+	import { supabase } from '@/supabaseClient';
+	import { goto } from '$app/navigation';
 
+	let open = false;
+	
 	function deleteProfile() {
-		api.deleteProfile().then(() => {
-			$keycloakState = null;
-			$userInfo = null;
-			window.location.href = '/';
+		supabase.rpc('delete_user').then(() => {
+			supabase.auth.signOut().then(() => {
+				goto('/onboarding/login');
+			})
 		});
 	}
 </script>
