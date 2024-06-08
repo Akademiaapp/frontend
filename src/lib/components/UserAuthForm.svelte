@@ -3,6 +3,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import SocialLogonButton from './SocialLogonButton.svelte';
+	import { supabase } from '@/supabaseClient';
 
 	export let isLoading = false;
 
@@ -11,10 +12,19 @@
 		isLoading = true;
 
 		let email = (document.getElementById('email') as HTMLInputElement).value;
+		let password = (document.getElementById('password') as HTMLInputElement).value;
 
 		setTimeout(() => {
 			isLoading = false;
 		}, 3000);
+
+		if (actionName === 'Sign In') {
+			supabase.auth.signInWithPassword({ email, password });
+			return;
+		} else if (actionName === 'Sign Up') {
+			supabase.auth.signUp({ email, password });
+			return;
+		}
 	};
 
 	export let redirectUri = '';
@@ -32,6 +42,12 @@
 					autocomplete="email"
 					autocorrect="off"
 					disabled={isLoading}
+				/>
+				<Input
+					id="password"
+					type="password"
+					disabled={isLoading}
+					placeholder="Password"
 				/>
 			</div>
 			<Button type="submit" disabled={isLoading}>

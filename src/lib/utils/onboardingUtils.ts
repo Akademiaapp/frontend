@@ -15,7 +15,7 @@ export async function redirect() {
 }
 
 export async function isUserSetupCurrectly() {
-	return true;
+	return false;
 	// const req = await api.callApi('/users/self', null, 'GET');
 	// const json = await req.json();
 
