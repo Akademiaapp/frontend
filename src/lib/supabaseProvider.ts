@@ -59,8 +59,8 @@ export class SupabaseProvider extends EventEmitter {
 
         this.on('connect', this.onConnect);
         this.on('disconnect', this.onDisconnect);
-        this.document.on('update', debounce(this.documentUpdateHandler.bind(this), 10));
-        this.awareness?.on('update', debounce(this.onAwarenessUpdate.bind(this), 10))        
+        this.document.on('update', debounce(this.documentUpdateHandler.bind(this), 1));
+        this.awareness?.on('update', debounce(this.onAwarenessUpdate.bind(this), 1))        
         this.connect();
 
         if (typeof window !== 'undefined') {
