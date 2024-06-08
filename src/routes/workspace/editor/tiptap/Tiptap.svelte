@@ -7,7 +7,7 @@
 	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus, DocumentInfo } from '@/api/fileClasses';
 	import getExtensions from './getExtensions';
 
-	import { SupabaseProvider } from '@kamick/supabaseprovider';
+	import { SupabaseProvider } from '@/supabaseProvider';
 	import { supabase } from '@/supabaseClient';
 
 	import * as Y from 'yjs';
