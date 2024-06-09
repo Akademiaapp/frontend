@@ -87,41 +87,6 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 			console.error(error);
 		}
 	}
-
-	
-
-	async update(value);
-}
-
-class compare {
-	colomn;
-	value;
-	constructor(colomn, value) {
-		this.colomn = colomn;
-		this.value = value;
-	}
-
-	check(colomn, value): boolean {
-		return true;
-	}
-
-	query(q) {
-		return q;
-	}
-}
-
-class EQ extends compare {
-	check(colomn, value): boolean {
-		return colomn === this.colomn && value === this.value;
-	}
-
-	query(q) {
-		return q.eq(this.colomn, this.value);
-	}
-}
-
-class comparitor {
-	EQ(colomn, value) { return {(c, v) => c === colomn && v === value}; }
 }
 
 const documents = new SupabaseStore('document');
