@@ -22,7 +22,7 @@ type SelectResult<K extends keyof Database['public']['Tables']> = {
 
 export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	tableName: keyof Database['public']['Tables'];
-	store = writable<TableRow<K>[] & { isServerValidatet: boolean | null }>(null);
+	store = writable<TableRow<K>[]>(null);
 
 	constructor(table: K) {
 		this.tableName = table;
@@ -53,8 +53,10 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return data;
 	}
 
-	async insert(data: TableInsert<K>[]) {
-		const { error } = await supabase.from(this.tableName).insert(data);
+	async insert(data: TableInsert<K>[] | TableInsert<K>) {
+		const { error } = await supabase
+			.from(this.tableName)
+			.insert(Array.isArray(data) ? data : [data]);
 
 		if (error) {
 			console.error(error);
