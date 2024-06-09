@@ -73,6 +73,28 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return this._delete(new EQ(colomn, value));
 	}
 
+	async update(d, value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>) {
+		return this._update(d, new EQ(colomn, value));
+	}
+
+	async _update(changes, compare: Compare) {
+		// apply the changes to the localy
+		this.store.update((prev) =>
+			prev.map((row) =>
+				compare.check(row[compare.colomn], compare.value) ? { ...row, ...changes } : row
+			)
+		);
+
+		const { error } = (
+			await compare.query(
+				supabase
+					.from(this.tableName)
+					.update(changes)) 
+					// here we use the compare to find the correct row
+					.select()
+		) as SelectResult<K>;
+	}
+
 	async _delete(compare: Compare) {
 		// if they got an id they should be used to find the correct row to delete
 		// if not we search for an identical row
@@ -80,9 +102,8 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 			prev.filter((row) => compare.check(row[compare.colomn], compare.value))
 		);
 
-		const { error } = (await compare.query(
-			supabase.from(this.tableName).delete()
-		)) as SelectResult<K>;
+		const { error } = (await compare.query(supabase.from(this.tableName).delete()).select())
+			 as SelectResult<K>;
 
 		if (error) {
 			console.error(error);
