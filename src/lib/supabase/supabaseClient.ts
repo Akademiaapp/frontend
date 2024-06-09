@@ -1,5 +1,5 @@
 import { createClient, type PostgrestError } from '@supabase/supabase-js';
-import type { Database } from './supabase.types';
+import type { Database } from '../supabase.types';
 import { table } from 'console';
 import { get, writable } from 'svelte/store';
 

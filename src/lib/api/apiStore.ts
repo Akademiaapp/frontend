@@ -12,7 +12,7 @@ import {
 	Folder
 } from './fileClasses';
 import { tomorrow } from '@/utils/dateUtils';
-import { supabase } from '@/supabaseClient';
+import { supabase } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
 
 export { FileInfo, Folder };
