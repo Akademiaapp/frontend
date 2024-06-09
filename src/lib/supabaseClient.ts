@@ -53,14 +53,14 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return data;
 	}
 
-	async insert(data: TableInsert<K>[] | TableInsert<K>) {
-		const { error } = await supabase
-			.from(this.tableName)
-			.insert(Array.isArray(data) ? data : [data]);
+	async insert(d: TableInsert<K>[] | TableInsert<K>) {
+		const { data, error } = await supabase.from(this.tableName).insert(Array.isArray(d) ? d : [d]);
 
 		if (error) {
 			console.error(error);
 		}
+
+		this.store.update((data) => [...data, ...(Array.isArray(d) ? d : [d])]);
 	}
 }
 
