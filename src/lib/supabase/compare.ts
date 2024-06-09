@@ -1,4 +1,4 @@
-class Compare {
+export class Compare {
 	colomn;
 	value;
 	constructor(colomn, value) {
