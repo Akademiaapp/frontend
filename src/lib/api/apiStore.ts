@@ -155,17 +155,24 @@ export async function updateAssignments() {
 }
 
 export async function newDocument(name: string, open: boolean = true, isNote = false) {
-	const response = await api.createDocument(name, isNote);
-	if (!response) {
-		throw new Error('Could not create document due to no response');
-	}
-	const json = await response.json();
-	const newDoc = new DocumentInfo(json, documentStore);
+	const { data, error } = await supabase.from('document').insert([{ name, isNote }]).select();
+
+	const newDoc = new DocumentInfo(data[0], documentStore);
 
 	if (open) {
 		newDoc.open();
 	}
+
 	documentStore.update((files) => [...files, newDoc]);
+	// if (!response) {
+	// 	throw new Error('Could not create document due to no response');
+	// }
+	// const json = await response.json();	const newDoc = new DocumentInfo(json, documentStore);
+
+	// if (open) {
+	// 	newDoc.open();
+	// }
+	// documentStore.update((files) => [...files, newDoc]);
 }
 export async function newAssignment(
 	name: string = '',
