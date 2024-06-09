@@ -269,14 +269,17 @@ export type Database = {
       user: {
         Row: {
           id: string
+          school_id: string | null
           type: Database["public"]["Enums"]["user_type"]
         }
         Insert: {
           id: string
+          school_id?: string | null
           type: Database["public"]["Enums"]["user_type"]
         }
         Update: {
           id?: string
+          school_id?: string | null
           type?: Database["public"]["Enums"]["user_type"]
         }
         Relationships: [
@@ -285,6 +288,13 @@ export type Database = {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "school"
             referencedColumns: ["id"]
           },
         ]
