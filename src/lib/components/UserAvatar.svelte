@@ -5,6 +5,7 @@
 	import { LogOut, Settings, User } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
+	import { supabase } from '@/supabaseClient';
 	export let name = false;
 
 	let interval;
@@ -72,7 +73,8 @@
 			<DropdownMenu.Separator /> -->
 			<DropdownMenu.Item
 				on:click={() => {
-					// $keycloakState.logout();
+					supabase.auth.signOut();
+					goto('/');
 				}}
 			>
 				<LogOut class="h-4 w-4" />

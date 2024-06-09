@@ -1,6 +1,8 @@
 import { goto } from '$app/navigation';
 
 import { supabase } from '@/supabaseClient';
+import { session } from '../../routes/store';
+import { get } from 'svelte/store';
 
 export async function redirect() {
 	// check if the user is correctly set up
@@ -16,7 +18,7 @@ export async function redirect() {
 }
 
 export async function isUserSetupCurrectly() {
-	const { data, error } = await supabase.from('user').select('*').eq('id', (await supabase.auth.getUser())?.data?.user?.id).single();
+	const { data, error } = await supabase.from('user').select('*').eq('id', get(session).user.id).single();
 
 	if (error || !data.type || !data.school_id) {
 		return false;

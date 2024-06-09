@@ -4,6 +4,7 @@
 	import { redirect } from '@/utils/onboardingUtils';
 	import { supabase } from '@/supabaseClient';
 	import { onMount } from 'svelte';
+	import { session } from '../../store';
 
 	let isLoading = false;
 
@@ -17,11 +18,9 @@
 	});
 
 	onMount(() => {
-		supabase.auth.getSession().then(({ data }) => {
-			if (data.session?.access_token) {
-				redirect().catch(console.error);
-			}
-		});
+		if ($session.access_token) {
+			redirect().catch(console.error);
+		}
 	});
 </script>
 

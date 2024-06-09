@@ -9,9 +9,9 @@
 	export let themeName = `dark`;
 	import { supabase } from '@/supabaseClient';
 	import { onMount } from 'svelte';
-	import type { AuthSession } from '@supabase/supabase-js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { session } from './store';
 
 	const themes = {
 		default: {
@@ -27,21 +27,19 @@
 		themeName = it ? 'light' : 'dark';
 	});
 
-	let session: AuthSession
-
 	onMount(() => {
 		supabase.auth.getSession().then(({ data }) => {
-			session = data.session
+			$session = data.session
 		})
 
 		supabase.auth.onAuthStateChange((_event, _session) => {
-			session = _session
+			$session = _session
 		})
 	})
 
-	$: console.log(session);
+	$: console.log('Session:', session);
 
-	$: if (!session) {
+	$: if (!$session) {
 		goto('/onboarding/login')
 	}
 </script>
@@ -55,7 +53,7 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if session || $page.url.pathname.includes('/onboarding')}
+{#if $session || $page.url.pathname.includes('/onboarding')}
 <div class="app">
 	<slot />
 </div>
