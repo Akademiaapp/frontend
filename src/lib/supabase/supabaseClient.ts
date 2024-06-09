@@ -27,7 +27,9 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 
 	store = writable<TableRow<K>[]>(null);
 
-	constructor(table: K, filter: Compare = new Compare(null, null)) {
+	eq: Compare;
+
+	constructor(table: K, unique = 'id', filter: Compare = new Compare(null, null)) {
 		this.tableName = table;
 		this.filter = filter;
 
@@ -108,6 +110,24 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		if (error) {
 			console.error(error);
 		}
+	}
+
+	async _subscribe() {
+		supabase.channel('custom-all-channel').on(
+			'postgres_changes',
+			{ event: '*', schema: 'public', table: this.tableName },
+			(payload) => {
+				
+				if(payload.eventType === 'INSERT') {
+					this.store.update((prev) => [...prev, payload.new as TableRow<K>]);
+				}
+				if(payload.eventType === 'DELETE') {
+					this.store.update((prev) => prev.filter((row) => row !== payload.old));
+				}
+			  console.log('Change received!', payload)
+			}
+		  )
+		  .subscribe()
 	}
 }
 
