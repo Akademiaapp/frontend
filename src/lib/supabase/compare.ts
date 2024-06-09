@@ -7,8 +7,12 @@ export class Compare {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	check(colomn, value): boolean {
+	check(value): boolean {
 		return true;
+	}
+
+	checkRow(row) {
+		this.check(row[this.colomn]);
 	}
 
 	query(q) {
@@ -17,8 +21,8 @@ export class Compare {
 }
 
 export class EQ extends Compare {
-	check(colomn, value): boolean {
-		return colomn === this.colomn && value === this.value;
+	check(value): boolean {
+		return value === this.value;
 	}
 
 	query(q) {
