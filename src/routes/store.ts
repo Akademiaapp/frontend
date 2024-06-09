@@ -9,4 +9,4 @@ themeVariant.subscribe((value) => {
 
 export const sidebarWidth = writable('300px');
 
-export const session: Writable<AuthSession> = writable(null);
+export const session: Writable<AuthSession | null> = writable(null);

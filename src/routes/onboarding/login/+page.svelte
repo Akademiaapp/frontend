@@ -18,7 +18,7 @@
 	});
 
 	onMount(() => {
-		if ($session.access_token) {
+		if ($session?.access_token) {
 			redirect().catch(console.error);
 		}
 	});
