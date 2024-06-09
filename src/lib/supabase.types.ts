@@ -266,19 +266,57 @@ export type Database = {
         }
         Relationships: []
       }
+      subjects: {
+        Row: {
+          icon: string | null
+          id: number
+          name: string
+          user_id: string
+        }
+        Insert: {
+          icon?: string | null
+          id?: number
+          name: string
+          user_id?: string
+        }
+        Update: {
+          icon?: string | null
+          id?: number
+          name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user: {
         Row: {
+          avatar_url: string | null
+          first_name: string | null
           id: string
+          last_name: string | null
           school_id: string | null
           type: Database["public"]["Enums"]["user_type"]
         }
         Insert: {
+          avatar_url?: string | null
+          first_name?: string | null
           id: string
+          last_name?: string | null
           school_id?: string | null
           type: Database["public"]["Enums"]["user_type"]
         }
         Update: {
+          avatar_url?: string | null
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           school_id?: string | null
           type?: Database["public"]["Enums"]["user_type"]
         }
