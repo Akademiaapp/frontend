@@ -21,8 +21,8 @@ type SelectResult<K extends keyof Database['public']['Tables']> = {
 };
 
 export class SupabaseStore<K extends keyof Database['public']['Tables']> {
-	tableName: K;
-	store = writable<TableRow<K>[]>(null);
+	tableName: keyof Database['public']['Tables'];
+	store = writable<TableRow<K>[] & { isServerValidatet: boolean | null }>(null);
 
 	constructor(table: K) {
 		this.tableName = table;
@@ -53,7 +53,7 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return data;
 	}
 
-	async insert(data: TableInsert<K>) {
+	async insert(data: TableInsert<K>[]) {
 		const { error } = await supabase.from(this.tableName).insert(data);
 
 		if (error) {
@@ -65,4 +65,4 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 const documents = new SupabaseStore('document');
 const assignments = new SupabaseStore('assignment');
 
-documents.getData().isNote;
+documents.getData()[0].isNote;
