@@ -24,14 +24,18 @@ type SelectResult<K extends keyof Database['public']['Tables']> = {
 export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	tableName: keyof Database['public']['Tables'];
 	filter: Compare;
+	unique: keyof TableRow<K>;
 
 	store = writable<TableRow<K>[]>(null);
 
-	eq: Compare;
-
-	constructor(table: K, unique = 'id', filter: Compare = new Compare(null, null)) {
+	constructor(
+		table: K,
+		unique: keyof TableRow<K> = 'id' as keyof TableRow<K>,
+		filter: Compare = new Compare(null, null)
+	) {
 		this.tableName = table;
 		this.filter = filter;
+		this.unique = unique;
 
 		supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
@@ -59,7 +63,11 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return data;
 	}
 
-	async insert(d: TableInsert<K>[] | TableInsert<K>) {
+	async insert(d: TableInsert<K>[] | TableInsert<K>, server = true) {
+		this.store.update((prev) => [...prev, ...data]);
+
+		if (!server) return;
+
 		const { data, error } = (await supabase
 			.from(this.tableName)
 			.insert(Array.isArray(d) ? d : [d])) as SelectResult<K>;
@@ -67,45 +75,39 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		if (error) {
 			console.error(error);
 		}
-
-		this.store.update((prev) => [...prev, ...data]);
 	}
 
-	async delete(value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>) {
-		return this._delete(new EQ(colomn, value));
+	async delete(row, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>, server = true) {
+		return this._delete(new EQ(colomn, row[this.unique]), server);
 	}
 
-	async update(d, value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>) {
-		return this._update(d, new EQ(colomn, value));
+	async update(d, value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>, server = true) {
+		return this._update(d, new EQ(colomn, value), server);
 	}
 
-	async _update(changes, compare: Compare) {
+	async _update(changes, compare: Compare, server = true) {
 		// apply the changes to the localy
 		this.store.update((prev) =>
-			prev.map((row) =>
-				compare.check(row[compare.colomn], compare.value) ? { ...row, ...changes } : row
-			)
+			prev.map((row) => (compare.check(row) ? { ...row, ...changes } : row))
 		);
+		if (!server) return;
 
-		const { error } = (
-			await compare.query(
-				supabase
-					.from(this.tableName)
-					.update(changes)) 
-					// here we use the compare to find the correct row
-					.select()
-		) as SelectResult<K>;
+		const { error } = (await compare
+			.query(supabase.from(this.tableName).update(changes))
+			// here we use the compare to find the correct row
+			.select()) as SelectResult<K>;
 	}
 
-	async _delete(compare: Compare) {
+	async _delete(compare: Compare, server = true) {
 		// if they got an id they should be used to find the correct row to delete
 		// if not we search for an identical row
-		this.store.update((prev) =>
-			prev.filter((row) => compare.check(row[compare.colomn], compare.value))
-		);
+		this.store.update((prev) => prev.filter(compare.checkRow));
 
-		const { error } = (await compare.query(supabase.from(this.tableName).delete()).select())
-			 as SelectResult<K>;
+		if (!server) return;
+
+		const { error } = (await compare
+			.query(supabase.from(this.tableName).delete())
+			.select()) as SelectResult<K>;
 
 		if (error) {
 			console.error(error);
@@ -113,21 +115,23 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	}
 
 	async _subscribe() {
-		supabase.channel('custom-all-channel').on(
-			'postgres_changes',
-			{ event: '*', schema: 'public', table: this.tableName },
-			(payload) => {
-				
-				if(payload.eventType === 'INSERT') {
-					this.store.update((prev) => [...prev, payload.new as TableRow<K>]);
+		supabase
+			.channel('custom-all-channel')
+			.on(
+				'postgres_changes',
+				{ event: '*', schema: 'public', table: this.tableName },
+				(payload) => {
+					if (payload.eventType === 'INSERT') {
+						this.insert([payload.new as TableRow<K>], false);
+					}
+					if (payload.eventType === 'DELETE') {
+						this.delete(payload.old, undefined, false);
+					}
+
+					console.log('Change received!', payload);
 				}
-				if(payload.eventType === 'DELETE') {
-					this.store.update((prev) => prev.filter((row) => row !== payload.old));
-				}
-			  console.log('Change received!', payload)
-			}
-		  )
-		  .subscribe()
+			)
+			.subscribe();
 	}
 }
 
