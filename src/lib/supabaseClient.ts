@@ -22,10 +22,13 @@ type SelectResult<K extends keyof Database['public']['Tables']> = {
 
 export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	tableName: keyof Database['public']['Tables'];
+	filter: compare;
+
 	store = writable<TableRow<K>[]>(null);
 
-	constructor(table: K) {
+	constructor(table: K, filter: compare = new compare(null, null)) {
 		this.tableName = table;
+		this.filter = filter;
 
 		supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_IN') {
@@ -54,17 +57,75 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	}
 
 	async insert(d: TableInsert<K>[] | TableInsert<K>) {
-		const { data, error } = await supabase.from(this.tableName).insert(Array.isArray(d) ? d : [d]);
+		const { data, error } = (await supabase
+			.from(this.tableName)
+			.insert(Array.isArray(d) ? d : [d])) as SelectResult<K>;
 
 		if (error) {
 			console.error(error);
 		}
 
-		this.store.update((data) => [...data, ...(Array.isArray(d) ? d : [d])]);
+		this.store.update((prev) => [...prev, ...data]);
+	}
+
+	async delete(value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>) {
+		return this._delete(new EQ(colomn, value));
+	}
+
+	async _delete(compare: compare) {
+		// if they got an id they should be used to find the correct row to delete
+		// if not we search for an identical row
+		this.store.update((prev) =>
+			prev.filter((row) => compare.check(row[compare.colomn], compare.value))
+		);
+
+		const { error } = (await compare.query(
+			supabase.from(this.tableName).delete()
+		)) as SelectResult<K>;
+
+		if (error) {
+			console.error(error);
+		}
+	}
+
+	
+
+	async update(value);
+}
+
+class compare {
+	colomn;
+	value;
+	constructor(colomn, value) {
+		this.colomn = colomn;
+		this.value = value;
+	}
+
+	check(colomn, value): boolean {
+		return true;
+	}
+
+	query(q) {
+		return q;
 	}
 }
 
-const documents = new SupabaseStore('document');
-const assignments = new SupabaseStore('assignment');
+class EQ extends compare {
+	check(colomn, value): boolean {
+		return colomn === this.colomn && value === this.value;
+	}
 
-documents.getData()[0].isNote;
+	query(q) {
+		return q.eq(this.colomn, this.value);
+	}
+}
+
+class comparitor {
+	EQ(colomn, value) { return {(c, v) => c === colomn && v === value}; }
+}
+
+const documents = new SupabaseStore('document');
+
+documents.delete(1);
+
+documents.getData()?.[0].isNote;
