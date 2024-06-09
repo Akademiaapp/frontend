@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     
     onMount(() => {
-        supabase.auth.signOut().then(() => {
+        supabase.auth.signOut({ scope: 'local' }).then(() => {
             goto('/onboarding/login')
         });
     })

@@ -73,8 +73,8 @@
 			<DropdownMenu.Separator /> -->
 			<DropdownMenu.Item
 				on:click={() => {
-					supabase.auth.signOut();
-					goto('/');
+					supabase.auth.signOut({ scope: 'local' });
+					goto('/onboarding/login');
 				}}
 			>
 				<LogOut class="h-4 w-4" />

@@ -1,5 +1,4 @@
 <script>
-	import { userInfo } from './../../../lib/api/apiStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { buttonVariants } from '@/components/ui/button';
@@ -11,7 +10,7 @@
 	
 	function deleteProfile() {
 		supabase.rpc('delete_user').then(() => {
-			supabase.auth.signOut().then(() => {
+			supabase.auth.signOut({ scope: 'local' }).then(() => {
 				goto('/onboarding/login');
 			})
 		});
