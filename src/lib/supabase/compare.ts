@@ -1,4 +1,4 @@
-class compare {
+class Compare {
 	colomn;
 	value;
 	constructor(colomn, value) {
@@ -16,7 +16,7 @@ class compare {
 	}
 }
 
-export class EQ extends compare {
+export class EQ extends Compare {
 	check(colomn, value): boolean {
 		return colomn === this.colomn && value === this.value;
 	}
