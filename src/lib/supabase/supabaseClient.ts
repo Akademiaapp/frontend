@@ -137,6 +137,6 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 
 const documents = new SupabaseStore('document');
 
-documents.delete(1);
+documents.delete({ id: 1 }, 'id');
 
 documents.getData()?.[0].isNote;
