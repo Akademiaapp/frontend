@@ -40,9 +40,7 @@ class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
 
 export class SupabaseStore<
 	D extends typicalDatabase,
-	T extends keyof D['public']['Tables'] = keyof D['public']['Tables'],
-	// Here we use a quite usefull hack to be able to use create types inside of classes
-	TR = D['public']['Tables'][T]['Row']
+	T extends keyof D['public']['Tables'] = keyof D['public']['Tables']
 > {
 	tableName: keyof D['public']['Tables'];
 	filter: Compare;
