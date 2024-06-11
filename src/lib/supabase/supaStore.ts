@@ -38,14 +38,17 @@ export class SupabaseStore<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
 	// Using hack to create type alias
-	TRow extends TableRow<D, T> = TableRow<D, T>
+	TRow extends TableRow<D, T> = TableRow<D, T>,
+	TInsert extends TableInsert<D, T> = TableInsert<D, T>
 > {
 	tableName: T & string;
 	filter: Compare;
 	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
 
-	store = writable<TRow[]>([]);
+	// We need the cid for svelte.
+	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
+	store = writable<(TRow & { cid: number })[]>([]);
 
 	constructor(
 		table: T,
@@ -67,6 +70,10 @@ export class SupabaseStore<
 		});
 	}
 
+	// This function should be set to generete the same deafult values as the server
+	// eg. things like created_at and updated_at
+	deafultGen: () => Partial<TRow> = () => ({});
+
 	getData(): TRow[] {
 		return get(this.store);
 	}
@@ -80,14 +87,18 @@ export class SupabaseStore<
 			console.error(error);
 			return null;
 		}
+
 		if (update) {
-			this.store.set(data);
+			this.store.set(data.map((row: any) => (row.cid = row.id)) as (TRow & { cid: number })[]);
 		}
 		return data;
 	}
 
-	async insert(d: TRow, server = true) {
-		this.store.update((prev) => [...prev, ...data]);
+	async insert(d: TInsert, server = true) {
+		this.store.update((prev) => [
+			...prev,
+			{ ...(d as undefined as TRow), cid: this.getData().length + 1, ...this.deafultGen() }
+		]);
 
 		if (!server) return;
 
@@ -145,7 +156,7 @@ export class SupabaseStore<
 				{ event: '*', schema: 'public', table: this.tableName },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						this.insert(payload.new as TRow, false);
+						this.insert(payload.new as TInsert, false);
 					}
 					if (payload.eventType === 'DELETE') {
 						this.delete(payload.old, undefined, false);
