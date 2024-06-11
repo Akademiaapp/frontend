@@ -14,7 +14,7 @@ export type TableRow<
 type TableInsert<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
-> = D['public']['Tables'][T]['Row'];
+> = D['public']['Tables'][T]['Insert'];
 // type TableUpdate<T extends keyof Database['public']['Tables']> =
 // 	Database['public']['Tables'][T]['Row'];
 
@@ -85,14 +85,14 @@ export class SupabaseStore<
 		return data;
 	}
 
-	async insert(d: TableInsert<D, T>[] | TableInsert<D, T>, server = true) {
+	async insert(d: D['public']['Tables'][T]['Insert'], server = true) {
 		this.store.update((prev) => [...prev, ...data]);
 
 		if (!server) return;
 
 		const { data, error } = (await this.supabase
 			.from(this.tableName)
-			.insert(Array.isArray(d) ? d : [d])) as SelectResult<TRow>;
+			.insert([d] as any)) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
