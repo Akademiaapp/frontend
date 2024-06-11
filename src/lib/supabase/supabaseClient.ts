@@ -40,19 +40,21 @@ class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
 
 export class SupabaseStore<
 	D extends typicalDatabase,
-	T extends keyof D['public']['Tables'] = keyof D['public']['Tables']
+	T extends keyof D['public']['Tables'] = keyof D['public']['Tables'],
+	// Using hack to create type alias
+	TRow extends TableRow<D, T> = TableRow<D, T>
 > {
 	tableName: keyof D['public']['Tables'];
 	filter: Compare;
-	unique: keyof TR;
+	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
 
-	store = writable<TableRow<D, T>[]>(null);
+	store = writable<TRow[]>(null);
 
 	constructor(
 		table: T,
 		supabse: SupabaseClient<D>,
-		unique: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
+		unique: keyof TRow = 'id' as keyof TRow,
 		filter: Compare = new Compare(null, null)
 	) {
 		this.tableName = table;
@@ -69,11 +71,11 @@ export class SupabaseStore<
 		});
 	}
 
-	getData(): TableRow<D, T>[] {
+	getData(): TRow[] {
 		return get(this.store);
 	}
 
-	async forceFetch(update = true): Promise<TableRow<D, T>[]> {
+	async forceFetch(update = true): Promise<TRow[]> {
 		const { data, error } = (await this.supabase.from(this.tableName).select('id')) as SelectResult<
 			D,
 			T
@@ -103,16 +105,11 @@ export class SupabaseStore<
 		}
 	}
 
-	async delete(value, colomn: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>, server = true) {
+	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = true) {
 		return this._delete(new EQ(colomn, value), server);
 	}
 
-	async update(
-		d,
-		value,
-		colomn: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
-		server = true
-	) {
+	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = true) {
 		return this._update(d, new EQ(colomn, value), server);
 	}
 
@@ -153,7 +150,7 @@ export class SupabaseStore<
 				{ event: '*', schema: 'public', table: this.tableName },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						this.insert([payload.new as TableRow<D, T>], false);
+						this.insert([payload.new as TRow], false);
 					}
 					if (payload.eventType === 'DELETE') {
 						this.delete(payload.old, undefined, false);
@@ -168,6 +165,6 @@ export class SupabaseStore<
 
 const documents = supabase.store('document');
 
-documents.delete(1, '');
+documents.delete(1);
 
 documents.getData()?.[0].isNote;
