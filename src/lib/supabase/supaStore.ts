@@ -1,3 +1,7 @@
+import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
+import { Compare } from './compare';
+import { get, writable } from 'svelte/store';
+
 export type typicalDatabase = {
 	public: { Tables: Record<string, { Row: Record<string, unknown> }> };
 };
@@ -18,10 +22,10 @@ type SelectResult<TableRow> = {
 	error: PostgrestError;
 };
 
-class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
+export class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
 	store<T extends keyof D['public']['Tables']>(
 		table: T,
-		unique: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
+		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
 		filter: Compare = new Compare(null, null)
 	): SupabaseStore<D, T> {
 		return new SupabaseStore<D, T>(table, this, unique, filter);
@@ -34,7 +38,7 @@ export class SupabaseStore<
 	// Using hack to create type alias
 	TRow extends TableRow<D, T> = TableRow<D, T>
 > {
-	tableName: keyof D['public']['Tables'];
+	tableName: T;
 	filter: Compare;
 	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
