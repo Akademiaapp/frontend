@@ -145,7 +145,7 @@ export class SupabaseStore<
 				{ event: '*', schema: 'public', table: this.tableName },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						this.insert([payload.new as TRow], false);
+						this.insert(payload.new as TRow, false);
 					}
 					if (payload.eventType === 'DELETE') {
 						this.delete(payload.old, undefined, false);
