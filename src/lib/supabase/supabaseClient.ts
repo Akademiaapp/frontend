@@ -1,43 +1,89 @@
-import { createClient, type PostgrestError } from '@supabase/supabase-js';
+import { SupabaseClient, createClient, type PostgrestError } from '@supabase/this.supabase-js';
 import type { Database } from '../supabase.types';
 
 import { get, writable } from 'svelte/store';
 import { EQ, Compare } from './compare';
-
 export const supabase = createClient<Database>(
-	'https://khpnlpgmzmocwqjkvemv.supabase.co',
+	'https://khpnlpgmzmocwqjkvemv.this.supabase.co',
 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtocG5scGdtem1vY3dxamt2ZW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NDIwNTIsImV4cCI6MjAzMzQxODA1Mn0.PfFI_eQ5qU6t9mlFUePdnVJHX6Xqt0UDAdUsTXWCPDI'
-);
+) as svelteSupabase<Database>;
 
-export type TableRow<K extends keyof Database['public']['Tables']> =
-	Database['public']['Tables'][K]['Row'];
-type TableInsert<K extends keyof Database['public']['Tables']> =
-	Database['public']['Tables'][K]['Row'];
-type TableUpdate<K extends keyof Database['public']['Tables']> =
-	Database['public']['Tables'][K]['Row'];
+export type typicalDatabase = {
+	public: { Tables: Record<string, { Row: Record<string, unknown> }> };
+};
 
-type SelectResult<K extends keyof Database['public']['Tables']> = {
-	data: TableRow<K>[];
+export type TableRow<
+	D extends typicalDatabase,
+	T extends keyof D['public']['Tables']
+> = D['public']['Tables'][T]['Row'];
+type TableInsert<
+	D extends typicalDatabase,
+	T extends keyof D['public']['Tables']
+> = D['public']['Tables'][T]['Row'];
+// type TableUpdate<T extends keyof Database['public']['Tables']> =
+// 	Database['public']['Tables'][T]['Row'];
+
+type SelectResult<D extends typicalDatabase, T extends keyof D['public']['Tables']> = {
+	data: TableRow<D, T>[];
 	error: PostgrestError;
 };
 
-export class SupabaseStore<K extends keyof Database['public']['Tables']> {
-	tableName: keyof Database['public']['Tables'];
-	filter: Compare;
-	unique: keyof TableRow<K>;
+class MyClass {
+    // Type alias within the class
+    private type Coordinates = {
+        x: number;
+        y: number;
+    };
 
-	store = writable<TableRow<K>[]>(null);
+    // Interface within the class
+    interface Point {
+        x: number;
+        y: number;
+    };
+
+    // Using the type alias
+    getCoordinates(): Coordinates {
+        return { x: 0, y: 0 };
+    }
+
+    // Using the interface
+    getPoint(): Point {
+        return { x: 0, y: 0 };
+    }
+}
+class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
+	store<T extends keyof D['public']['Tables']>(
+		table: T,
+		unique: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
+		filter: Compare = new Compare(null, null)
+	): SupabaseStore<D, T> {
+		return new SupabaseStore<D, T>(table, this, unique, filter);
+	}
+}
+
+export class SupabaseStore<
+	D extends typicalDatabase,
+	T extends keyof D['public']['Tables'] = keyof D['public']['Tables']
+> {
+	tableName: keyof D['public']['Tables'];
+	filter: Compare;
+	unique: keyof TableRow<D, T>;
+	supabase: SupabaseClient<D>;
+
+	store = writable<TableRow<D, T>[]>(null);
 
 	constructor(
-		table: K,
-		unique: keyof TableRow<K> = 'id' as keyof TableRow<K>,
+		table: T,
+		supabse: SupabaseClient<D>,
+		unique: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
 		filter: Compare = new Compare(null, null)
 	) {
 		this.tableName = table;
 		this.filter = filter;
 		this.unique = unique;
+		this.supabase = supabse;
 
-		supabase.auth.onAuthStateChange(async (event) => {
+		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
 				await this.forceFetch();
 			} else if (event === 'SIGNED_OUT') {
@@ -46,12 +92,15 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		});
 	}
 
-	getData(): TableRow<K>[] {
+	getData(): TableRow<D, T>[] {
 		return get(this.store);
 	}
 
-	async forceFetch(update = true): Promise<TableRow<K>[]> {
-		const { data, error } = (await supabase.from(this.tableName).select('id')) as SelectResult<K>;
+	async forceFetch(update = true): Promise<TableRow<D, T>[]> {
+		const { data, error } = (await this.supabase.from(this.tableName).select('id')) as SelectResult<
+			D,
+			T
+		>;
 
 		if (error) {
 			console.error(error);
@@ -63,25 +112,30 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		return data;
 	}
 
-	async insert(d: TableInsert<K>[] | TableInsert<K>, server = true) {
+	async insert(d: TableInsert<D, T>[] | TableInsert<D, T>, server = true) {
 		this.store.update((prev) => [...prev, ...data]);
 
 		if (!server) return;
 
-		const { data, error } = (await supabase
+		const { data, error } = (await this.supabase
 			.from(this.tableName)
-			.insert(Array.isArray(d) ? d : [d])) as SelectResult<K>;
+			.insert(Array.isArray(d) ? d : [d])) as SelectResult<D, T>;
 
 		if (error) {
 			console.error(error);
 		}
 	}
 
-	async delete(row, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>, server = true) {
-		return this._delete(new EQ(colomn, row[this.unique]), server);
+	async delete(value, colomn: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>, server = true) {
+		return this._delete(new EQ(colomn, value), server);
 	}
 
-	async update(d, value, colomn: keyof TableRow<K> = 'id' as keyof TableRow<K>, server = true) {
+	async update(
+		d,
+		value,
+		colomn: keyof TableRow<D, T> = 'id' as keyof TableRow<D, T>,
+		server = true
+	) {
 		return this._update(d, new EQ(colomn, value), server);
 	}
 
@@ -93,9 +147,9 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		if (!server) return;
 
 		const { error } = (await compare
-			.query(supabase.from(this.tableName).update(changes))
+			.query(this.supabase.from(this.tableName).update(changes))
 			// here we use the compare to find the correct row
-			.select()) as SelectResult<K>;
+			.select()) as SelectResult<D, T>;
 	}
 
 	async _delete(compare: Compare, server = true) {
@@ -106,8 +160,8 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 		if (!server) return;
 
 		const { error } = (await compare
-			.query(supabase.from(this.tableName).delete())
-			.select()) as SelectResult<K>;
+			.query(this.supabase.from(this.tableName).delete())
+			.select()) as SelectResult<D, T>;
 
 		if (error) {
 			console.error(error);
@@ -115,14 +169,14 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	}
 
 	async _subscribe() {
-		supabase
+		this.supabase
 			.channel('custom-all-channel')
 			.on(
 				'postgres_changes',
 				{ event: '*', schema: 'public', table: this.tableName },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
-						this.insert([payload.new as TableRow<K>], false);
+						this.insert([payload.new as TableRow<D, T>], false);
 					}
 					if (payload.eventType === 'DELETE') {
 						this.delete(payload.old, undefined, false);
@@ -135,8 +189,10 @@ export class SupabaseStore<K extends keyof Database['public']['Tables']> {
 	}
 }
 
-const documents = new SupabaseStore('document');
+const i = new SupabaseStore('', supabase);
 
-documents.delete({ id: 1 }, 'id');
+const documents = supabase.store('document');
+
+documents.delete(1);
 
 documents.getData()?.[0].isNote;
