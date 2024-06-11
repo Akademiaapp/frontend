@@ -7,8 +7,8 @@
 	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus, DocumentInfo } from '@/api/fileClasses';
 	import getExtensions from './getExtensions';
 
-	import { SupabaseProvider } from '@/supabaseProvider';
-	import { supabase } from '@/supabaseClient';
+	import { SupabaseProvider } from '@/supabase/supabaseProvider';
+	import { supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
 

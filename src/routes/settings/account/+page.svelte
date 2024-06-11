@@ -3,7 +3,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { buttonVariants } from '@/components/ui/button';
 	import Card from '@/components/ui/card/card.svelte';
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	import { goto } from '$app/navigation';
 
 	let open = false;

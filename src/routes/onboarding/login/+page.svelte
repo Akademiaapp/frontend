@@ -2,7 +2,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
 	import { redirect } from '@/utils/onboardingUtils';
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	import { onMount } from 'svelte';
 	import { session } from '../../store';
 

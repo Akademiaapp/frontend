@@ -3,7 +3,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
 	import SocialLogonButton from './SocialLogonButton.svelte';
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	import { page } from '$app/stores';
 
 	export let isLoading = false;

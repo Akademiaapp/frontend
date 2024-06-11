@@ -5,7 +5,7 @@
 	import { LogOut, Settings, User } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	export let name = false;
 
 	let interval;

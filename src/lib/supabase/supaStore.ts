@@ -1,5 +1,5 @@
 import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
-import { Compare } from './compare';
+import { Compare, EQ } from './compare';
 import { get, writable } from 'svelte/store';
 import type { GenericSchema } from '@supabase/supabase-js/dist/module/lib/types';
 

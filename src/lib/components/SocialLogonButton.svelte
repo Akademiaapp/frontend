@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Loader2 } from 'lucide-svelte';
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	import { Button } from './ui/button';
 	import type { Provider } from '@supabase/supabase-js';
 

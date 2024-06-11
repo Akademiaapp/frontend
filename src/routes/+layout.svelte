@@ -7,7 +7,7 @@
 	import 'katex/dist/katex.min.css';
 	import { Toaster } from '@/components/ui/sonner';
 	export let themeName = `dark`;
-	import { supabase } from '@/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
