@@ -86,7 +86,7 @@ export class SupabaseStore<
 		return data;
 	}
 
-	async insert(d: D['public']['Tables'][T]['Insert'], server = true) {
+	async insert(d: TRow, server = true) {
 		this.store.update((prev) => [...prev, ...data]);
 
 		if (!server) return;
