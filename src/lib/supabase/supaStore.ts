@@ -1,17 +1,18 @@
 import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
 import { Compare } from './compare';
 import { get, writable } from 'svelte/store';
+import type { GenericSchema } from '@supabase/supabase-js/dist/module/lib/types';
 
-export type typicalDatabase = {
-	public: { Tables: Record<string, { Row: Record<string, unknown> }> };
+export type GenericDatabase = {
+	public: GenericSchema;
 };
 
 export type TableRow<
-	D extends typicalDatabase,
+	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
 > = D['public']['Tables'][T]['Row'];
 type TableInsert<
-	D extends typicalDatabase,
+	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
 > = D['public']['Tables'][T]['Row'];
 // type TableUpdate<T extends keyof Database['public']['Tables']> =
@@ -22,7 +23,7 @@ type SelectResult<TableRow> = {
 	error: PostgrestError;
 };
 
-export class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
+export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D> {
 	store<T extends keyof D['public']['Tables']>(
 		table: T,
 		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
@@ -33,21 +34,21 @@ export class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D>
 }
 
 export class SupabaseStore<
-	D extends typicalDatabase,
-	T extends keyof D['public']['Tables'] = keyof D['public']['Tables'],
+	D extends GenericDatabase,
+	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
 	// Using hack to create type alias
 	TRow extends TableRow<D, T> = TableRow<D, T>
 > {
-	tableName: T;
+	tableName: T & string;
 	filter: Compare;
 	unique: keyof TRow;
-	supabase: SupabaseClient<D>;
+	supabase: SupabaseClient<D, 'public'>;
 
 	store = writable<TRow[]>(null);
 
 	constructor(
 		table: T,
-		supabse: SupabaseClient<D>,
+		supabse: SupabaseClient<D, 'public', D['public']>,
 		unique: keyof TRow = 'id' as keyof TRow,
 		filter: Compare = new Compare(null, null)
 	) {
@@ -71,7 +72,7 @@ export class SupabaseStore<
 
 	async forceFetch(update = true): Promise<TRow[]> {
 		const { data, error } = (await this.supabase
-			.from(this.tableName)
+			.from(this.tableName as string)
 			.select('id')) as SelectResult<TRow>;
 
 		if (error) {
