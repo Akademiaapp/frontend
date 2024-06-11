@@ -46,7 +46,7 @@ export class SupabaseStore<
 	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
 
-	// We need the cid for svelte.
+	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
 	store = writable<(TRow & { cid: number })[]>([]);
 
