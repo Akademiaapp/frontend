@@ -28,29 +28,6 @@ type SelectResult<D extends typicalDatabase, T extends keyof D['public']['Tables
 	error: PostgrestError;
 };
 
-class MyClass {
-    // Type alias within the class
-    private type Coordinates = {
-        x: number;
-        y: number;
-    };
-
-    // Interface within the class
-    interface Point {
-        x: number;
-        y: number;
-    };
-
-    // Using the type alias
-    getCoordinates(): Coordinates {
-        return { x: 0, y: 0 };
-    }
-
-    // Using the interface
-    getPoint(): Point {
-        return { x: 0, y: 0 };
-    }
-}
 class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
 	store<T extends keyof D['public']['Tables']>(
 		table: T,
@@ -63,11 +40,13 @@ class svelteSupabase<D extends typicalDatabase> extends SupabaseClient<D> {
 
 export class SupabaseStore<
 	D extends typicalDatabase,
-	T extends keyof D['public']['Tables'] = keyof D['public']['Tables']
+	T extends keyof D['public']['Tables'] = keyof D['public']['Tables'],
+	// Here we use a quite usefull hack to be able to use create types inside of classes
+	TR = D['public']['Tables'][T]['Row']
 > {
 	tableName: keyof D['public']['Tables'];
 	filter: Compare;
-	unique: keyof TableRow<D, T>;
+	unique: keyof TR;
 	supabase: SupabaseClient<D>;
 
 	store = writable<TableRow<D, T>[]>(null);
@@ -189,10 +168,8 @@ export class SupabaseStore<
 	}
 }
 
-const i = new SupabaseStore('', supabase);
-
 const documents = supabase.store('document');
 
-documents.delete(1);
+documents.delete(1, '');
 
 documents.getData()?.[0].isNote;
