@@ -25,7 +25,7 @@ type SelectResult<TableRow> = {
 };
 
 export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D> {
-	store<T extends keyof D['public']['Tables']>(
+	store<T extends keyof D['public']['Tables'] & string>(
 		table: T,
 		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
 		filter: Compare = new Compare(null, null)
@@ -43,20 +43,20 @@ export class SupabaseStore<
 	tableName: T & string;
 	filter: Compare;
 	unique: keyof TRow;
-	supabase: SupabaseClient<D, 'public'>;
+	supabase: SupabaseClient<D>;
 
 	store = writable<TRow[]>(null);
 
 	constructor(
 		table: T,
-		supabse: SupabaseClient<D, 'public', D['public']>,
+		supabase: SupabaseClient<D>,
 		unique: keyof TRow = 'id' as keyof TRow,
 		filter: Compare = new Compare(null, null)
 	) {
 		this.tableName = table;
 		this.filter = filter;
 		this.unique = unique;
-		this.supabase = supabse;
+		this.supabase = supabase;
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
