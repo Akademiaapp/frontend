@@ -65,7 +65,7 @@ export class SupabaseStore<
 			if (event === 'SIGNED_IN') {
 				await this.forceFetch();
 			} else if (event === 'SIGNED_OUT') {
-				this.store.set(null);
+				this.store.set([]);
 			}
 		});
 	}
@@ -95,12 +95,15 @@ export class SupabaseStore<
 	}
 
 	async insert(d: TInsert, server = true) {
-		this.store.update((prev) => [
-			...prev,
-			{ ...(d as undefined as TRow), cid: this.getData().length + 1, ...this.deafultGen() }
-		]);
+		const cid = this.getData().length + 1;
+		const clientRow = {
+			...(d as undefined as TRow),
+			cid,
+			...this.deafultGen()
+		};
+		this.store.update((prev) => [...prev, clientRow]);
 
-		if (!server) return;
+		if (!server) return clientRow;
 
 		const { data, error } = (await this.supabase
 			.from(this.tableName)
@@ -108,7 +111,17 @@ export class SupabaseStore<
 
 		if (error) {
 			console.error(error);
+			return;
 		}
+
+		this.store.update((prev) => {
+			const index = prev.findIndex((row) => row.cid === cid);
+			if (index !== -1) {
+				console.log(prev[index]);
+				prev[index] = { ...data[0], cid };
+			}
+			return prev;
+		});
 	}
 
 	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = true) {
