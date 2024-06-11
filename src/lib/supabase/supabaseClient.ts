@@ -23,8 +23,8 @@ type TableInsert<
 // type TableUpdate<T extends keyof Database['public']['Tables']> =
 // 	Database['public']['Tables'][T]['Row'];
 
-type SelectResult<D extends typicalDatabase, T extends keyof D['public']['Tables']> = {
-	data: TableRow<D, T>[];
+type SelectResult<TableRow> = {
+	data: TableRow[];
 	error: PostgrestError;
 };
 
@@ -76,10 +76,9 @@ export class SupabaseStore<
 	}
 
 	async forceFetch(update = true): Promise<TRow[]> {
-		const { data, error } = (await this.supabase.from(this.tableName).select('id')) as SelectResult<
-			D,
-			T
-		>;
+		const { data, error } = (await this.supabase
+			.from(this.tableName)
+			.select('id')) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
@@ -98,7 +97,7 @@ export class SupabaseStore<
 
 		const { data, error } = (await this.supabase
 			.from(this.tableName)
-			.insert(Array.isArray(d) ? d : [d])) as SelectResult<D, T>;
+			.insert(Array.isArray(d) ? d : [d])) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
@@ -123,7 +122,7 @@ export class SupabaseStore<
 		const { error } = (await compare
 			.query(this.supabase.from(this.tableName).update(changes))
 			// here we use the compare to find the correct row
-			.select()) as SelectResult<D, T>;
+			.select()) as SelectResult<TRow>;
 	}
 
 	async _delete(compare: Compare, server = true) {
@@ -135,7 +134,7 @@ export class SupabaseStore<
 
 		const { error } = (await compare
 			.query(this.supabase.from(this.tableName).delete())
-			.select()) as SelectResult<D, T>;
+			.select()) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
