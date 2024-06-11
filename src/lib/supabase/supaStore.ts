@@ -45,7 +45,7 @@ export class SupabaseStore<
 	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
 
-	store = writable<TRow[]>(null);
+	store = writable<TRow[]>([]);
 
 	constructor(
 		table: T,
