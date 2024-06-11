@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
 import { RealtimeChannel, SupabaseClient } from "@supabase/supabase-js";
 import debounce from 'debounce';
 import { EventEmitter } from 'events';
@@ -32,9 +35,7 @@ export interface SupabaseProviderConfiguration {
 export class SupabaseProvider extends EventEmitter {
     public configuration: SupabaseProviderConfiguration = {
         name: '',
-        // @ts-ignore
         document: undefined,
-        // @ts-ignore
         awareness: undefined,
         databaseDetails: {
             schema: '',

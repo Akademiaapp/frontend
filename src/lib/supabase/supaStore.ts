@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
 import { Compare, EQ } from './compare';
 import { get, writable } from 'svelte/store';
