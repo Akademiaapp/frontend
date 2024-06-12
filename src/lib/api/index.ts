@@ -20,6 +20,7 @@ class ApiHandler {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	callApi(endpoint: string, options?: any, method: string = 'GET') {
+		console.log('calling api');
 		const url = ApiHandler.baseUrl + endpoint;
 		// Add bearer token to headers
 		const headers = {

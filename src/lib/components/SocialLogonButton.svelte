@@ -21,7 +21,7 @@
 		supabase.auth.signInWithOAuth({
 			provider: providerName,
 			options: {
-				redirectTo: redirectUri,
+				redirectTo: window.location.origin
 			}
 		});
 		additionalAction();

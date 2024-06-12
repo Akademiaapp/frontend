@@ -123,6 +123,7 @@ export async function updateAssignmentsAnswers() {
 let som = 0;
 
 export async function updateAssignments() {
+	console.log('updating assignments');
 	const user = get(session).user;
 	if (!user) return;
 	if (user.type != 'TEACHER' && user.type != 'TESTER') return;

@@ -63,7 +63,10 @@ export class SupabaseStore<
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
-				await this.forceFetch();
+				setTimeout(async () => {
+					this._subscribe();
+					console.log(await this.forceFetch());
+				}, 0);
 			} else if (event === 'SIGNED_OUT') {
 				this.store.set([]);
 			}
@@ -79,17 +82,21 @@ export class SupabaseStore<
 	}
 
 	async forceFetch(update = true): Promise<TRow[]> {
-		const { data, error } = (await this.supabase
-			.from(this.tableName as string)
-			.select('id')) as SelectResult<TRow>;
+		console.log('force fetching data from', this.tableName, 'from', this.supabase);
 
+		const { data, error } = (await this.supabase
+			.from('document')
+			.select('*')) as SelectResult<TRow>;
+
+		console.log('2');
+		console.log(data);
 		if (error) {
 			console.error(error);
 			return null;
 		}
 
 		if (update) {
-			this.store.set(data.map((row: any) => (row.cid = row.id)) as (TRow & { cid: number })[]);
+			this.store.set(data.map((row) => ({ ...row, cid: row.cid })) as (TRow & { cid: number })[]);
 		}
 		return data;
 	}
@@ -97,9 +104,9 @@ export class SupabaseStore<
 	async insert(d: TInsert, server = true) {
 		const cid = this.getData().length + 1;
 		const clientRow = {
+			...this.deafultGen(),
 			...(d as undefined as TRow),
-			cid,
-			...this.deafultGen()
+			cid
 		};
 		this.store.update((prev) => [...prev, clientRow]);
 
