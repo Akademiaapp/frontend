@@ -140,7 +140,7 @@ export class SupabaseStore<
 	async _update(changes, compare: Compare, server = true) {
 		// apply the changes to the localy
 		this.store.update((prev) =>
-			prev.map((row) => (compare.check(row) ? { ...row, ...changes } : row))
+			prev.map((row) => (compare.checkRow(row) ? { ...row, ...changes } : row))
 		);
 		if (!server) return;
 
@@ -151,10 +151,6 @@ export class SupabaseStore<
 	}
 
 	async _delete(compare: Compare, server = true) {
-		console.log(compare);
-		console.log(compare.check('1'));
-		console.log(compare.checkRow({ id: '1' }));
-		// console.log(compare.checkRow(this.getData[0]));
 		this.store.update((prev) => prev.filter((row) => !compare.checkRow(row)));
 
 		if (!server) return;
