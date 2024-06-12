@@ -1,33 +1,17 @@
 <script lang="ts">
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import {
-		updateDocuments,
-		updateUserInfo,
-		updateAssignmentsAnswers,
-		updateAssignments
-	} from '@/api/apiStore';
+	import { updateDocuments } from '@/api/apiStore';
 	import ApiDown from '@/components/ApiDown.svelte';
-	import { onDestroy } from 'svelte';
 
 	updateDocuments();
-	updateAssignmentsAnswers();
-	updateAssignments();
-	updateUserInfo();
+	// updateAssignmentsAnswers();
+	// updateAssignments();
 
-	let autoRealodDocs = setInterval(() => {
-		updateDocuments();
-		updateAssignmentsAnswers();
-		updateAssignments();
-	}, 1000);
-
-	var urlParams = new URLSearchParams(window.location.search);
-	var type = urlParams.get('type');
-
-	let sidebarVisible: boolean = true;
-
-	onDestroy(() => {
-		clearInterval(autoRealodDocs);
-	});
+	// let autoRealodDocs = setInterval(() => {
+	// 	updateDocuments();
+	// 	updateAssignmentsAnswers();
+	// 	updateAssignments();
+	// }, 1000);
 </script>
 
 <div class="cont">
