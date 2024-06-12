@@ -12,7 +12,7 @@ export class Compare {
 	}
 
 	checkRow(row) {
-		this.check(row[this.colomn]);
+		return this.check(row[this.colomn]);
 	}
 
 	query(q) {
@@ -21,11 +21,11 @@ export class Compare {
 }
 
 export class EQ extends Compare {
-	check(value): boolean {
+	override check(value): boolean {
 		return value === this.value;
 	}
 
-	query(q) {
+	override query(q) {
 		return q.eq(this.colomn, this.value);
 	}
 }

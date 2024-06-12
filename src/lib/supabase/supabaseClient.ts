@@ -1,4 +1,5 @@
 import type { Database } from '../supabase.types';
+import { Compare, EQ } from './compare';
 
 import { svelteSupabase } from './supaStore';
 export const supabase = new svelteSupabase<Database>(
@@ -28,6 +29,10 @@ documents.deafultGen = () => ({
 // console.log(documents.getData());
 
 // console.log(await documents.insert({}));
+const comp = new EQ('id', '0') as Compare;
+console.log(comp.checkRow({ id: '0' }));
+console.log(comp.check('0'));
+
 console.log('hi from supabase');
 
 documents.store.subscribe((val) => {

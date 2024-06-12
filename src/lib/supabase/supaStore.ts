@@ -60,11 +60,11 @@ export class SupabaseStore<
 		this.filter = filter;
 		this.unique = unique;
 		this.supabase = supabase;
+		this._subscribe();
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
 				setTimeout(async () => {
-					this._subscribe();
 					console.log(await this.forceFetch());
 				}, 0);
 			} else if (event === 'SIGNED_OUT') {
@@ -88,8 +88,6 @@ export class SupabaseStore<
 			.from('document')
 			.select('*')) as SelectResult<TRow>;
 
-		console.log('2');
-		console.log(data);
 		if (error) {
 			console.error(error);
 			return null;
@@ -153,9 +151,11 @@ export class SupabaseStore<
 	}
 
 	async _delete(compare: Compare, server = true) {
-		// if they got an id they should be used to find the correct row to delete
-		// if not we search for an identical row
-		this.store.update((prev) => prev.filter(compare.checkRow));
+		console.log(compare);
+		console.log(compare.check('1'));
+		console.log(compare.checkRow({ id: '1' }));
+		// console.log(compare.checkRow(this.getData[0]));
+		this.store.update((prev) => prev.filter((row) => !compare.checkRow(row)));
 
 		if (!server) return;
 
@@ -179,7 +179,10 @@ export class SupabaseStore<
 						this.insert(payload.new as TInsert, false);
 					}
 					if (payload.eventType === 'DELETE') {
-						this.delete(payload.old, undefined, false);
+						this.delete((payload.old as TRow)[this.unique], undefined, false);
+					}
+					if (payload.eventType === 'UPDATE') {
+						this.update(payload.new, (payload.old as TRow)[this.unique], undefined, false);
 					}
 
 					console.log('Change received!', payload);
