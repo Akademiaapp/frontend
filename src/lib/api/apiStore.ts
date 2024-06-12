@@ -207,3 +207,4 @@ export async function newAssignment(
 }
 
 export const apiDownStore = writable<boolean>(false);
+export const userInfo = writable<UserInfo>(null);

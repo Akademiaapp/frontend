@@ -1,10 +1,9 @@
 // import { apiDownStore } from './apiStore';
 import { keycloakState, keycloakUserInfo } from '../../authStore';
 import { get } from 'svelte/store';
-import { getApiUrl } from '@/utils';
 
 class ApiHandler {
-	static baseUrl = getApiUrl();
+	static baseUrl = 'getApiUrl();'
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
