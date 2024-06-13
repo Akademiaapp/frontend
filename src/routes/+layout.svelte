@@ -7,7 +7,7 @@
 	import 'katex/dist/katex.min.css';
 	import { Toaster } from '@/components/ui/sonner';
 	export let themeName = `dark`;
-	import { supabase } from '@/supabase/supabaseClient';
+	import { documents, supabase } from '@/supabase/supabaseClient';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -21,6 +21,8 @@
 		word: {}
 	};
 
+	$: console.log('docs', $documents);
+
 	let currentTheme = themes.default;
 
 	themeVariant.subscribe((it) => {
@@ -29,18 +31,18 @@
 
 	onMount(() => {
 		supabase.auth.getSession().then(({ data }) => {
-			$session = data.session
-		})
+			$session = data.session;
+		});
 
 		supabase.auth.onAuthStateChange((_event, _session) => {
-			$session = _session
-		})
-	})
+			$session = _session;
+		});
+	});
 
 	$: console.log('Session:', session);
 
 	$: if (!$session) {
-		goto('/onboarding/login')
+		goto('/onboarding/login');
 	}
 </script>
 
@@ -54,9 +56,9 @@
 </svelte:head>
 
 {#if $session || $page.url.pathname.includes('/onboarding')}
-<div class="app">
-	<slot />
-</div>
+	<div class="app">
+		<slot />
+	</div>
 {/if}
 
 <Toaster />

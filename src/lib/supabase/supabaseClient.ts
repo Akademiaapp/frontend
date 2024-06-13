@@ -11,8 +11,8 @@ supabase.auth.onAuthStateChange((event, session) => {
 	console.log('auth change', event, session);
 });
 
-const documents = supabase.store('document');
-documents.deafultGen = () => ({
+export const documents = supabase.store('document');
+documents.deafults = () => ({
 	created_at: new Date().toISOString(),
 	updated_at: new Date().toISOString(),
 	name: 'Unavngivet'

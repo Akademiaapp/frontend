@@ -49,6 +49,8 @@ export class SupabaseStore<
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
 	store = writable<(TRow & { cid: number })[]>([]);
+	subscribe = this.store.subscribe;
+	set = this.store.set;
 
 	constructor(
 		table: T,
@@ -56,16 +58,15 @@ export class SupabaseStore<
 		unique: keyof TRow = 'id' as keyof TRow,
 		filter: Compare = new Compare(null, null)
 	) {
-		this.tableName = table;
 		this.filter = filter;
 		this.unique = unique;
 		this.supabase = supabase;
-		this._subscribe();
+		this.subscribeSupabase();
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
 				setTimeout(async () => {
-					console.log(await this.forceFetch());
+					await this.forceFetch();
 				}, 0);
 			} else if (event === 'SIGNED_OUT') {
 				this.store.set([]);
@@ -73,17 +74,25 @@ export class SupabaseStore<
 		});
 	}
 
+	useFilter(filter: Compare) {
+		this.filter = filter;
+		return this;
+	}
+
 	// This function should be set to generete the same deafult values as the server
 	// eg. things like created_at and updated_at
-	deafultGen: () => Partial<TRow> = () => ({});
+	deafults: () => Partial<TRow> = () => ({});
+
+	setDeafults(deafults: typeof this.deafults) {
+		this.deafults = deafults;
+		return this;
+	}
 
 	getData(): TRow[] {
 		return get(this.store);
 	}
 
 	async forceFetch(update = true): Promise<TRow[]> {
-		console.log('force fetching data from', this.tableName, 'from', this.supabase);
-
 		const { data, error } = (await this.supabase
 			.from('document')
 			.select('*')) as SelectResult<TRow>;
@@ -99,10 +108,11 @@ export class SupabaseStore<
 		return data;
 	}
 
-	async insert(d: TInsert, server = true) {
+	async insert(d: TInsert[] | D['public']['Tables'][T]['Insert'], server = true) {
+		const insertData = Array.isArray(d) ? d : [d as D['public']['Tables'][T]['Insert']];
 		const cid = this.getData().length + 1;
 		const clientRow = {
-			...this.deafultGen(),
+			...this.deafults(),
 			...(d as undefined as TRow),
 			cid
 		};
@@ -122,7 +132,6 @@ export class SupabaseStore<
 		this.store.update((prev) => {
 			const index = prev.findIndex((row) => row.cid === cid);
 			if (index !== -1) {
-				console.log(prev[index]);
 				prev[index] = { ...data[0], cid };
 			}
 			return prev;
@@ -164,7 +173,7 @@ export class SupabaseStore<
 		}
 	}
 
-	async _subscribe() {
+	async subscribeSupabase() {
 		this.supabase
 			.channel('custom-all-channel')
 			.on(
@@ -189,8 +198,6 @@ export class SupabaseStore<
 							this.update(payload.new, (payload.old as TRow)[this.unique], undefined, false);
 						}
 					}
-
-					console.log('Change received!', payload);
 				}
 			)
 			.subscribe();
