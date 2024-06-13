@@ -48,10 +48,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "assignment_teacher_id_fkey"
+            foreignKeyName: "assignment_teacher_id_fkey1"
             columns: ["teacher_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -103,10 +103,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "assignment_answer_student_id_fkey"
+            foreignKeyName: "assignment_answer_student_id_fkey1"
             columns: ["student_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -192,17 +192,17 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "document_permission_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "file_permission_file_id_fkey"
             columns: ["file_id"]
             isOneToOne: false
             referencedRelation: "document"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "file_permission_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -277,7 +277,7 @@ export type Database = {
           icon?: string | null
           id?: number
           name: string
-          user_id?: string
+          user_id: string
         }
         Update: {
           icon?: string | null
@@ -287,10 +287,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "subjects_user_id_fkey"
+            foreignKeyName: "subjects_user_id_fkey1"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -298,27 +298,27 @@ export type Database = {
       user: {
         Row: {
           avatar_url: string | null
-          first_name: string | null
+          full_name: string | null
           id: string
-          last_name: string | null
           school_id: string | null
-          type: Database["public"]["Enums"]["user_type"]
+          type: Database["public"]["Enums"]["user_type"] | null
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
-          first_name?: string | null
+          full_name?: string | null
           id: string
-          last_name?: string | null
           school_id?: string | null
-          type: Database["public"]["Enums"]["user_type"]
+          type?: Database["public"]["Enums"]["user_type"] | null
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
-          first_name?: string | null
+          full_name?: string | null
           id?: string
-          last_name?: string | null
           school_id?: string | null
-          type?: Database["public"]["Enums"]["user_type"]
+          type?: Database["public"]["Enums"]["user_type"] | null
+          username?: string | null
         }
         Relationships: [
           {
@@ -359,10 +359,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_group_user_id_fkey"
+            foreignKeyName: "user_group_user_id_fkey1"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
