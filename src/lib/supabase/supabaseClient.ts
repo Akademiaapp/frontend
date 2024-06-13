@@ -11,7 +11,7 @@ supabase.auth.onAuthStateChange((event, session) => {
 	console.log('auth change', event, session);
 });
 
-export const documents = supabase.store('document');
+const documents = supabase.store('document');
 documents.deafults = () => ({
 	created_at: new Date().toISOString(),
 	updated_at: new Date().toISOString(),
@@ -37,9 +37,3 @@ console.log(d3);
 const comp = new EQ('id', '0') as Compare;
 console.log(comp.checkRow({ id: '0' }));
 console.log(comp.check('0'));
-
-console.log('hi from supabase');
-
-documents.store.subscribe((val) => {
-	console.log('documents', val);
-});
