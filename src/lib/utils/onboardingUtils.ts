@@ -18,16 +18,15 @@ export async function redirect() {
 }
 
 export async function isUserSetupCurrectly() {
-	// const { data, error } = await supabase
-	// 	.from('user')
-	// 	.select('*')
-	// 	.eq('id', get(session).user.id)
-	// 	.single();
+	const { data, error } = await supabase
+		.from('user')
+		.select('*')
+		.eq('id', get(session).user.id)
+		.single();
 
-	// if (error || !data.type || !data.school_id) {
-	// 	return false;
-	// } else {
-	// 	return true;
-	// }
-	return false;
+	if (error || !data.type || !data.school_id) {
+		return false;
+	} else {
+		return true;
+	}
 }
