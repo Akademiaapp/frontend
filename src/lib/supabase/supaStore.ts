@@ -178,7 +178,16 @@ export class SupabaseStore<
 						this.delete((payload.old as TRow)[this.unique], undefined, false);
 					}
 					if (payload.eventType === 'UPDATE') {
-						this.update(payload.new, (payload.old as TRow)[this.unique], undefined, false);
+						// If the row is not in the local store, we insert it
+						if (
+							this.getData().findIndex(
+								(row) => row[this.unique] === (payload.old as TRow)[this.unique]
+							) === -1
+						) {
+							this.insert(payload.new as TInsert, false);
+						} else {
+							this.update(payload.new, (payload.old as TRow)[this.unique], undefined, false);
+						}
 					}
 
 					console.log('Change received!', payload);

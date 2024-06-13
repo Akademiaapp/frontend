@@ -28,6 +28,11 @@ documents.deafultGen = () => ({
 
 // console.log(documents.getData());
 
+const d1 = { a: 1, b: 2, c: -1 };
+const d2 = { a: 1, b: 4, d: 10 };
+const d3 = { ...d1, ...d2 };
+console.log(d3);
+
 // console.log(await documents.insert({}));
 const comp = new EQ('id', '0') as Compare;
 console.log(comp.checkRow({ id: '0' }));
