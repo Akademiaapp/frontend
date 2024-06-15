@@ -24,23 +24,43 @@ type SelectResult<TableRow> = {
 	error: PostgrestError;
 };
 
+function cDB() {
+	const request = indexedDB.open('supabase', 1);
+	request.onupgradeneeded = (event) => {
+		const db = event.target.result;
+		db.createObjectStore('names', { keyPath: 'name' });
+	};
+}
+cDB();
+
 export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D> {
+	isInited = false;
+
+	db;
+	request;
 	store<T extends keyof D['public']['Tables'] & string>(
 		table: T,
-		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
-		filter: Compare = new Compare(null, null)
+		settings: SupaStoreSettings = {},
+		IndexedDBName: string = 'supabase'
 	): SupaStore<D, T> {
-		return new SupaStore<D, T>(table, this, unique, filter);
+		return new SupaStore<D, T>(table, this, settings, IndexedDBName);
 	}
 
 	keyedStore<T extends keyof D['public']['Tables'] & string>(
 		table: T,
-		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
-		filter: Compare = new Compare(null, null)
+		settings: SupaStoreSettings = {},
+		IndexedDBName: string = 'supabase'
 	): KeyedSupaStore<D, T> {
-		return new KeyedSupaStore<D, T>(table, this, unique, filter);
+		return new KeyedSupaStore<D, T>(table, this, settings, IndexedDBName);
 	}
 }
+
+type SupaStoreSettings = {
+	unique?: string;
+	filter?: Compare;
+	useServer?: boolean;
+	useIndexedDB?: boolean;
+};
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -64,20 +84,23 @@ export class SupaStore<
 	subscribe = this.store.subscribe;
 	set = this.store.set;
 
+	indexedDBHandler;
+
 	constructor(
 		table: T,
 		supabase: SupabaseClient<D>,
-		settings: {
-			unique?: keyof TRow;
-			filter?: Compare;
-			useServer?: boolean;
-			useIndexedDB?: boolean;
-		}
+		settings: SupaStoreSettings = {},
+		IndexedDBName: string = 'supabase'
 	) {
 		this.unique = settings.unique || 'id';
 		this.filter = settings.filter;
-		this.useServer = settings.useServer;
-		this.useIndexedDB = settings.useIndexedDB;
+		this.useServer = settings.useServer === null ? true : settings.useServer;
+		this.useIndexedDB = settings.useIndexedDB == undefined ? true : settings.useIndexedDB;
+
+		if (this.useIndexedDB) {
+			console.log('SupaStore created', this.useIndexedDB);
+			this.indexedDBHandler = new IndexedDBHandler(table, this.unique, IndexedDBName);
+		}
 
 		if (!this.useServer) {
 			this.supabase = supabase;
@@ -143,6 +166,7 @@ export class SupaStore<
 
 		const { data, error } = (await this.supabase
 			.from(this.tableName)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.insert([d] as any)) as SelectResult<TRow>;
 
 		if (error) {
@@ -296,5 +320,50 @@ export class KeyedSupaStore<
 		const r = await super.forceFetch(update);
 		this._group();
 		return r;
+	}
+}
+
+class IndexedDBHandler {
+	db: IDBOpenDBRequest;
+	table: string;
+	key: string;
+	dbName: string;
+
+	constructor(table: string, key: string, dbName: string) {
+		console.log('IndexedDBHandler created');
+		this.table = table;
+		this.key = key;
+		this.dbName = dbName;
+
+		const request = indexedDB.open('supadb_' + table, 1);
+
+		request.onupgradeneeded = (event) => {
+			const db = event.target.result;
+
+			if (!db.objectStoreNames.contains(table)) {
+				const productStore = db.createObjectStore(table, {
+					keyPath: this.key,
+					autoIncrement: true
+				});
+				console.log('products store created');
+			}
+			setTimeout(() => {
+				const objectStore = db.transaction([this.table], 'readwrite').objectStore(this.table);
+				const request = objectStore.add({ name: 'John Doe', id: 1 });
+				request.onsuccess = (event) => {
+					console.log('Item added to the database');
+				};
+				request.onerror = (event) => {
+					console.error('Error adding item to the database:', event.target.error);
+				};
+			}, 100);
+			// Initial setup, no 'category' index yet
+		};
+		request.onerror = (event) => {
+			console.error('Database error:', event.target.errorCode);
+		};
+		request.onsuccess = (event) => {
+			console.log('Database opened successfully');
+		};
 	}
 }

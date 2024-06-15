@@ -11,12 +11,13 @@ supabase.auth.onAuthStateChange((event, session) => {
 });
 
 export const documents = supabase.keyedStore('document').setKey('id');
-documents.deafults = () => ({
-	created_at: new Date().toISOString(),
-	updated_at: new Date().toISOString(),
-	name: 'Unavngivet'
-});
+export const files = supabase.keyedStore('assignment').setKey('id');
+// documents.deafults = () => ({
+// 	created_at: new Date().toISOString(),
+// 	updated_at: new Date().toISOString(),
+// 	name: 'Unavngivet'
+// });
 
-documents.keyedStore.subscribe((data) => {
-	console.log(data);
-});
+// documents.keyedStore.subscribe((data) => {
+// 	console.log(data);
+// });
