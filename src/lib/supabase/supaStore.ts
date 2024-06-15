@@ -245,37 +245,25 @@ export class KeyedSupaStore<
 	async _delete(compare: Compare, server?: boolean) {
 		const r = await super._delete(compare, server);
 
-		this.keyedStore.update((prev) => {
-			Object.entries(prev).forEach(([k, v]) => {
-				prev[k] = v.filter((row) => compare.checkRow(row));
-			});
+		// this.keyedStore.update((prev) => {
+		// 	Object.entries(prev).forEach(([k, v]) => {
+		// 		prev[k] = v.filter((row) => compare.checkRow(row));
+		// 	});
 
-			return prev;
-		});
-		this.getData();
-		this.keyedStore.set(Object.groupBy(this.getData(), (d) => d[this.key] as string));
+		// 	return prev;
+		// });
+		this._group();
 
 		return r;
 	}
 
-	// override _delete(compare: Compare, server?: boolean): Promise<void> {
-	// 	this.keyedStore.update((prev) => {
-	// 		const key = Object.keys(prev).forEach(a => {
-	// 			a.filter(row => compare.checkRow(row) ? prev[a] : null);
-	// 		});
+	_group() {
+		this.keyedStore.set(Object.groupBy(this.getData(), (d) => d[this.key] as string));
+	}
 
-	// 		return prev;
-	// 	});
-	// 	return super._delete(compare, server);
-	// }
+	override async _update(changes, compare: Compare, server?: boolean): Promise<void> {
+		const r = await super._update(changes, compare, server);
+		this._group();
+		return r;
+	}
 }
-
-const inventory = [
-	{ name: 'asparagus', type: 'vegetables', quantity: 5 },
-	{ name: 'bananas', type: 'fruit', quantity: 0 },
-	{ name: 'goat', type: 'meat', quantity: 23 },
-	{ name: 'cherries', type: 'fruit', quantity: 5 },
-	{ name: 'fish', type: 'meat', quantity: 22 }
-];
-
-const result = Object.groupBy(inventory, (type) => type.type);
