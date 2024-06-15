@@ -3,6 +3,7 @@ import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
 import { Compare, EQ } from './compare';
 import { get, writable } from 'svelte/store';
 import type { GenericSchema } from '@supabase/supabase-js/dist/module/lib/types';
+import { randomUUID } from 'crypto';
 
 export type GenericDatabase = {
 	public: GenericSchema;
@@ -29,12 +30,12 @@ export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D>
 		table: T,
 		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
 		filter: Compare = new Compare(null, null)
-	): SupabaseStore<D, T> {
-		return new SupabaseStore<D, T>(table, this, unique, filter);
+	): SupaStore<D, T> {
+		return new SupaStore<D, T>(table, this, unique, filter);
 	}
 }
 
-export class SupabaseStore<
+export class SupaStore<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
 	// Using hack to create type alias
@@ -88,7 +89,7 @@ export class SupabaseStore<
 		return this;
 	}
 
-	getData(): TRow[] {
+	getData() {
 		return get(this.store);
 	}
 
@@ -108,7 +109,7 @@ export class SupabaseStore<
 		return data;
 	}
 
-	async insert(d: TInsert[] | D['public']['Tables'][T]['Insert'], server = true) {
+	async insert(d: TInsert[] | TInsert, server = true) {
 		const insertData = Array.isArray(d) ? d : [d as D['public']['Tables'][T]['Insert']];
 		const cid = this.getData().length + 1;
 		const clientRow = {
@@ -203,3 +204,78 @@ export class SupabaseStore<
 			.subscribe();
 	}
 }
+
+export class KeyedSupaStore<
+	D extends GenericDatabase,
+	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
+	// Using hack to create type alias
+	TRow extends TableRow<D, T> = TableRow<D, T>,
+	TInsert extends TableInsert<D, T> = TableInsert<D, T>
+> extends SupaStore<D, T> {
+	keyedStore = writable<Partial<Record<string | number, (TableRow<D, T> & { cid: number })[]>>>({});
+	key: keyof TableRow<D, T> = 'path';
+
+	init() {
+		this.store.subscribe((data) => {
+			this.keyedStore.set(Object.groupBy(data, (d) => d[this.key] as string));
+		});
+	}
+
+	override insert(
+		d: TableInsert<D, T>[] | TInsert,
+		server?: boolean
+	): Promise<Partial<TableRow<D, T>> & TableRow<D, T> & { cid: number }> {
+		this.keyedStore.update((prev) => {
+			const cid = this.getData().length + 1;
+			const clientRow = {
+				...this.deafults(),
+				...(d as undefined as TRow),
+				cid
+			};
+			prev[clientRow[this.key] as string] = [
+				...(prev[clientRow[this.key] as string] ?? []),
+				clientRow
+			];
+
+			return prev;
+		});
+		return super.insert(d, server);
+	}
+
+	async _delete(compare: Compare, server?: boolean) {
+		const r = await super._delete(compare, server);
+
+		this.keyedStore.update((prev) => {
+			Object.entries(prev).forEach(([k, v]) => {
+				prev[k] = v.filter((row) => compare.checkRow(row));
+			});
+
+			return prev;
+		});
+		this.getData();
+		this.keyedStore.set(Object.groupBy(this.getData(), (d) => d[this.key] as string));
+
+		return r;
+	}
+
+	// override _delete(compare: Compare, server?: boolean): Promise<void> {
+	// 	this.keyedStore.update((prev) => {
+	// 		const key = Object.keys(prev).forEach(a => {
+	// 			a.filter(row => compare.checkRow(row) ? prev[a] : null);
+	// 		});
+
+	// 		return prev;
+	// 	});
+	// 	return super._delete(compare, server);
+	// }
+}
+
+const inventory = [
+	{ name: 'asparagus', type: 'vegetables', quantity: 5 },
+	{ name: 'bananas', type: 'fruit', quantity: 0 },
+	{ name: 'goat', type: 'meat', quantity: 23 },
+	{ name: 'cherries', type: 'fruit', quantity: 5 },
+	{ name: 'fish', type: 'meat', quantity: 22 }
+];
+
+const result = Object.groupBy(inventory, (type) => type.type);
