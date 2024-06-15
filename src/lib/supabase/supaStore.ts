@@ -50,10 +50,13 @@ export class SupaStore<
 	TInsert extends TableInsert<D, T> = TableInsert<D, T>
 > {
 	tableName: T & string;
-	filter?: Compare;
-	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
+
+	// Settigns:
+	unique: keyof TRow;
+	filter?: Compare;
 	useServer: boolean;
+	useIndexedDB: boolean;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -71,14 +74,15 @@ export class SupaStore<
 			useIndexedDB?: boolean;
 		}
 	) {
+		this.unique = settings.unique || 'id';
+		this.filter = settings.filter;
 		this.useServer = settings.useServer;
+		this.useIndexedDB = settings.useIndexedDB;
+
 		if (!this.useServer) {
 			this.supabase = supabase;
 			this.subscribeSupabase();
 		}
-
-		this.filter = settings.filter;
-		this.unique = settings.unique || 'id';
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
