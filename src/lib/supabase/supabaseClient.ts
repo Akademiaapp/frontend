@@ -1,5 +1,4 @@
 import type { Database } from '../supabase.types';
-import { Compare, EQ } from './compare';
 
 import { svelteSupabase } from './supaStore';
 export const supabase = new svelteSupabase<Database>(
@@ -11,7 +10,7 @@ supabase.auth.onAuthStateChange((event, session) => {
 	console.log('auth change', event, session);
 });
 
-const documents = supabase.keyedStore('document').setKey('id');
+export const documents = supabase.keyedStore('document').setKey('id');
 documents.deafults = () => ({
 	created_at: new Date().toISOString(),
 	updated_at: new Date().toISOString(),

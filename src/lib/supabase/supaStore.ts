@@ -3,7 +3,6 @@ import { SupabaseClient, type PostgrestError } from '@supabase/supabase-js';
 import { Compare, EQ } from './compare';
 import { get, writable } from 'svelte/store';
 import type { GenericSchema } from '@supabase/supabase-js/dist/module/lib/types';
-import { randomUUID } from 'crypto';
 
 export type GenericDatabase = {
 	public: GenericSchema;
@@ -51,9 +50,10 @@ export class SupaStore<
 	TInsert extends TableInsert<D, T> = TableInsert<D, T>
 > {
 	tableName: T & string;
-	filter: Compare;
+	filter?: Compare;
 	unique: keyof TRow;
 	supabase: SupabaseClient<D>;
+	useServer: boolean;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -64,13 +64,21 @@ export class SupaStore<
 	constructor(
 		table: T,
 		supabase: SupabaseClient<D>,
-		unique: keyof TRow = 'id' as keyof TRow,
-		filter: Compare = new Compare(null, null)
+		settings: {
+			unique?: keyof TRow;
+			filter?: Compare;
+			useServer?: boolean;
+			useIndexedDB?: boolean;
+		}
 	) {
-		this.filter = filter;
-		this.unique = unique;
-		this.supabase = supabase;
-		this.subscribeSupabase();
+		this.useServer = settings.useServer;
+		if (!this.useServer) {
+			this.supabase = supabase;
+			this.subscribeSupabase();
+		}
+
+		this.filter = settings.filter;
+		this.unique = settings.unique || 'id';
 
 		this.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_IN') {
@@ -117,7 +125,7 @@ export class SupaStore<
 		return data;
 	}
 
-	async insert(d: TInsert[] | TInsert, server = true) {
+	async insert(d: TInsert[] | TInsert, server = this.useServer) {
 		const insertData = Array.isArray(d) ? d : [d as D['public']['Tables'][T]['Insert']];
 		const cid = this.getData().length + 1;
 		const clientRow = {
@@ -147,15 +155,15 @@ export class SupaStore<
 		});
 	}
 
-	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = true) {
+	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
 		return this._delete(new EQ(colomn, value), server);
 	}
 
-	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = true) {
+	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
 		return this._update(d, new EQ(colomn, value), server);
 	}
 
-	async _update(changes, compare: Compare, server = true) {
+	async _update(changes, compare: Compare, server = this.useServer) {
 		// apply the changes to the localy
 		this.store.update((prev) =>
 			prev.map((row) => (compare.checkRow(row) ? { ...row, ...changes } : row))
@@ -168,7 +176,7 @@ export class SupaStore<
 			.select()) as SelectResult<TRow>;
 	}
 
-	async _delete(compare: Compare, server = true) {
+	async _delete(compare: Compare, server = this.useServer) {
 		this.store.update((prev) => prev.filter((row) => !compare.checkRow(row)));
 
 		if (!server) return;
@@ -276,6 +284,12 @@ export class KeyedSupaStore<
 
 	override async _update(changes, compare: Compare, server?: boolean): Promise<void> {
 		const r = await super._update(changes, compare, server);
+		this._group();
+		return r;
+	}
+
+	override async forceFetch(update = true): Promise<TRow[]> {
+		const r = await super.forceFetch(update);
 		this._group();
 		return r;
 	}
