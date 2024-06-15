@@ -20,14 +20,4 @@ documents.deafults = () => ({
 
 documents.keyedStore.subscribe((data) => {
 	console.log(data);
-}
-
-// await documents.insert({
-// 	content: 'Hello, World!',
-// 	isNote: true,
-// 	created_at: '',
-// 	id: '0',
-// 	name: 'Test doc'
-// });
-
-// console.log(documents.getData());
+});
