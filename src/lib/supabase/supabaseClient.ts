@@ -11,12 +11,16 @@ supabase.auth.onAuthStateChange((event, session) => {
 	console.log('auth change', event, session);
 });
 
-const documents = supabase.store('document');
+const documents = supabase.keyedStore('document').setKey('id');
 documents.deafults = () => ({
 	created_at: new Date().toISOString(),
 	updated_at: new Date().toISOString(),
 	name: 'Unavngivet'
 });
+
+documents.keyedStore.subscribe((data) => {
+	console.log(data);
+}
 
 // await documents.insert({
 // 	content: 'Hello, World!',
@@ -27,13 +31,3 @@ documents.deafults = () => ({
 // });
 
 // console.log(documents.getData());
-
-const d1 = { a: 1, b: 2, c: -1 };
-const d2 = { a: 1, b: 4, d: 10 };
-const d3 = { ...d1, ...d2 };
-console.log(d3);
-
-// console.log(await documents.insert({}));
-const comp = new EQ('id', '0') as Compare;
-console.log(comp.checkRow({ id: '0' }));
-console.log(comp.check('0'));

@@ -33,6 +33,14 @@ export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D>
 	): SupaStore<D, T> {
 		return new SupaStore<D, T>(table, this, unique, filter);
 	}
+
+	keyedStore<T extends keyof D['public']['Tables'] & string>(
+		table: T,
+		unique: keyof TableRow<D, T> & string = 'id' as keyof TableRow<D, T> & string,
+		filter: Compare = new Compare(null, null)
+	): KeyedSupaStore<D, T> {
+		return new KeyedSupaStore<D, T>(table, this, unique, filter);
+	}
 }
 
 export class SupaStore<
@@ -214,6 +222,11 @@ export class KeyedSupaStore<
 > extends SupaStore<D, T> {
 	keyedStore = writable<Partial<Record<string | number, (TableRow<D, T> & { cid: number })[]>>>({});
 	key: keyof TableRow<D, T> = 'path';
+
+	setKey(key: keyof TableRow<D, T>) {
+		this.key = key;
+		return this;
+	}
 
 	init() {
 		this.store.subscribe((data) => {
