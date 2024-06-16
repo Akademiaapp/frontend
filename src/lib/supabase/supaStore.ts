@@ -142,7 +142,7 @@ export class SupaStore<
 
 	async forceFetch(update = true): Promise<TRow[]> {
 		const { data, error } = (await this.supabase
-			.from('document')
+			.from(this.tableName)
 			.select('*')) as SelectResult<TRow>;
 
 		if (error) {
@@ -151,7 +151,7 @@ export class SupaStore<
 		}
 
 		if (update) {
-			this.store.set(data.map((row) => ({ ...row, cid: row.cid })) as (TRow & { cid: number })[]);
+			this.store.set(data.map((row) => ({ ...row, cid: row.id })) as (TRow & { cid: number })[]);
 
 			if (this.useIndexedDB) {
 				this.indexedDBHandler.set(data);
@@ -169,7 +169,9 @@ export class SupaStore<
 		};
 		this.store.update((prev) => [...prev, clientRow]);
 
-		if (this.useIndexedDB) this.indexedDBHandler.put(clientRow);
+		if (!server && this.useIndexedDB) {
+			this.indexedDBHandler.put(clientRow);
+		}
 
 		if (!server) return clientRow;
 
@@ -184,8 +186,6 @@ export class SupaStore<
 			return;
 		}
 
-		console.log('inserted', data);
-
 		this.store.update((prev) => {
 			const index = prev.findIndex((row) => row.cid === cid);
 			if (index !== -1) {
@@ -193,13 +193,19 @@ export class SupaStore<
 			}
 			return prev;
 		});
+
+		if (this.useIndexedDB) {
+			this.indexedDBHandler.put(data[0]);
+		}
 	}
 
 	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
+		this.indexedDBHandler.delete(value);
 		return this._delete(new EQ(colomn, value), server);
 	}
 
 	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
+		this.indexedDBHandler.update(value, d);
 		return this._update(d, new EQ(colomn, value), server);
 	}
 
@@ -362,17 +368,12 @@ class IndexedDBHandler {
 	}
 
 	set(data) {
-		const request = this.openDB();
-
-		request.onsuccess = (event) => {
-			const db = (event.target as IDBOpenDBRequest).result;
-
-			const objectStore = db.transaction(this.tableName, 'readwrite').objectStore(this.tableName);
-
+		this.writeDB((objectStore) => {
+			objectStore.clear();
 			for (const row of data) {
 				objectStore.put(row);
 			}
-		};
+		});
 	}
 
 	openDB() {
@@ -402,6 +403,29 @@ class IndexedDBHandler {
 			for (const row of data) {
 				objectStore.put(row);
 			}
+		});
+	}
+
+	delete(key) {
+		this.writeDB((objectStore) => {
+			objectStore.delete(key);
+		});
+	}
+
+	clear() {
+		this.writeDB((objectStore) => {
+			objectStore.clear();
+		});
+	}
+
+	update(key, changes) {
+		this.writeDB((objectStore) => {
+			const request = objectStore.get(key);
+
+			request.onsuccess = (event) => {
+				const data = (event.target as IDBRequest).result;
+				objectStore.put({ ...data, ...changes });
+			};
 		});
 	}
 }

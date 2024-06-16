@@ -18,12 +18,9 @@ export const files = supabase.store('assignment');
 createIndexedDB([documents, files]);
 
 documents.subscribe((data) => {
-	console.log(data);
+	console.log('documents:', data);
 });
 
-setTimeout(() => {
-	documents.insert({ name: 'what??' });
-}, 2000);
 // documents.deafults = () => ({
 // 	created_at: new Date().toISOString(),
 // 	updated_at: new Date().toISOString(),
