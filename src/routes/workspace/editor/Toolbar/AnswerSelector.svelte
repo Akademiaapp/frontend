@@ -38,7 +38,7 @@
 
 		inter = setInterval(async () => {
 			if (!($currentFile instanceof Assignment)) return;
-			let new_answers = await $currentFile.getAnswers();
+			let new_answers = await $currentFile.getAnswers(); // TODO SUPABASE
 			if (new_answers instanceof Array) answers = new_answers;
 		}, 1000);
 	});

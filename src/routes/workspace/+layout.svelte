@@ -7,11 +7,6 @@
 	// updateAssignmentsAnswers();
 	// updateAssignments();
 
-	// let autoRealodDocs = setInterval(() => {
-	// 	updateDocuments();
-	// 	updateAssignmentsAnswers();
-	// 	updateAssignments();
-	// }, 1000);
 </script>
 
 <div class="cont">

@@ -7,23 +7,6 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { supabase } from '@/supabase/supabaseClient';
 	export let name = false;
-
-	let interval;
-
-	onMount(() => {
-		setTimeout(() => {
-			interval = setInterval(() => {
-				if (!$userInfo) location.reload();
-				if (!$userInfo?.full_name.split(' ')[0]) {
-					location.reload();
-				}
-			}, 1000);
-		}, 5000);
-	});
-
-	onDestroy(() => {
-		clearInterval(interval);
-	});
 </script>
 
 <div class="cage">

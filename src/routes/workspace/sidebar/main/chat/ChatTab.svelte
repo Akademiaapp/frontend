@@ -38,24 +38,6 @@
 		});
 	}
 
-	let interval;
-
-	onMount(() => {
-		interval = setInterval(async () => {
-			if (!file) return;
-			// TODO: update to supabase
-			// api.getAssignmentAnswer(file.id).then((res) => {
-			// 	res.json().then((data) => {
-			// 		file = new AssignmentAnswer(data, assignmentAnswerStore);
-			// 	});
-			// });
-		}, 1000);
-	});
-
-	onDestroy(() => {
-		clearInterval(interval);
-	});
-
 	let error = false;
 
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {

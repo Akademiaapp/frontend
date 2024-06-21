@@ -27,7 +27,7 @@
 			<h2 class="mb-1 text-2xl">Skole</h2>
 			<p></p>
 			<p>Navn: {$userInfo.school.name}</p>
-			<p>Addresse: {$userInfo.school.address}</p> TODO
+			<p>Addresse: {$userInfo.school.address}</p> //TODO
 		</Card> -->
 	</div>
 {/if}
