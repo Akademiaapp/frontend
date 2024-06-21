@@ -1,5 +1,8 @@
 import { goto } from '$app/navigation';
-import api from '@/api';
+
+import { supabase } from '@/supabase/supabaseClient';
+import { session } from '../../routes/store';
+import { get } from 'svelte/store';
 
 export async function redirect() {
 	// check if the user is correctly set up
@@ -15,13 +18,15 @@ export async function redirect() {
 }
 
 export async function isUserSetupCurrectly() {
-	const req = await api.callApi('/users/self', null, 'GET');
-	const json = await req.json();
+	const { data, error } = await supabase
+		.from('user')
+		.select('*')
+		.eq('id', get(session).user.id)
+		.single();
 
-	return !(
-		json.schoolId === null ||
-		json.schoolId === undefined ||
-		json.type === null ||
-		json.type === undefined
-	);
+	if (error || !data.type || !data.school_id) {
+		return false;
+	} else {
+		return true;
+	}
 }

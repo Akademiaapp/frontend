@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { apiDownStore } from '@/api/apiStore';
+	// import { apiDownStore } from '@/api/apiStore';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import Button from '@/components/ui/button/button.svelte';
 	import { RefreshCcw } from 'lucide-svelte';
 
 	let open = false;
-	$: open = $apiDownStore;
+	// $: open = $apiDownStore;
 </script>
 
 <Dialog.Dialog bind:open>

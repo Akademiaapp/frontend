@@ -5,9 +5,6 @@
 	import { cn } from '@/utils';
 	import { X } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
-	import { updateUserInfo } from '@/api/apiStore';
-
-	updateUserInfo();
 
 	const settingPages = [
 		{

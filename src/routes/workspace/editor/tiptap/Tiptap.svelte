@@ -2,16 +2,17 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
-	import { HocuspocusProvider } from '@hocuspocus/provider';
 	import { editor, answer } from '../editorStore';
 	import { currentFile, currentStatus } from '@/api/apiStore';
 	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus, DocumentInfo } from '@/api/fileClasses';
-	import { keycloakState } from '../../../../authStore';
 	import getExtensions from './getExtensions';
 
-	import { getCollaborationUrl } from '@/utils';
+	import { SupabaseProvider } from '@/supabase/supabaseProvider';
+	import { supabase } from '@/supabase/supabaseClient';
 
-	let provider: HocuspocusProvider;
+	import * as Y from 'yjs';
+
+	let provider: SupabaseProvider;
 
 	$: if ($currentFile) initializeTiptap($currentFile);
 	$: if ($answer) initializeTiptap(null);
@@ -47,91 +48,91 @@
 		$editor?.destroy();
 		provider?.destroy();
 
-		provider = new HocuspocusProvider({
-			url: getCollaborationUrl(),
-			token: 'Bearer ' + $keycloakState.token,
+		const document = new Y.Doc();
+
+		provider = new SupabaseProvider(supabase, {
 			name: fileName,
-			onAuthenticationFailed: () => {
-				$editor?.destroy();
-				provider?.destroy();
-				throw new Error('Authentication failed');
-				// goto('/workspace/home');
+			databaseDetails: {
+				schema: 'public',
+				table: 'documents',
+				updateColumns: {
+					name: 'id',
+					content: 'content',
+				},
+				conflictColumns: 'id',
 			},
-			onConnect: () => {
-				$editor?.destroy();
-
-				connected = true;
-
-				editor.set(
-					new Editor({
-						extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
-						editable: editable,
-						onCreate: ({ editor }) => {
-						editor.view.dom.setAttribute("spellcheck", "false");
-						editor.view.dom.setAttribute("autocomplete", "off");
-						editor.view.dom.setAttribute("autocapitalize", "off");
-						},
-						onUpdate: ({ transaction }) => {
-							if (!transaction.isGeneric) return;
-
-							if (
-								$currentFile instanceof AssignmentAnswer &&
-								$currentStatus !== AssignmentStatus.IN_PROGRESS
-							) {
-								currentStatus.set(AssignmentStatus.IN_PROGRESS);
-							}
-
-							const title: string =
-								transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
-							if (title && title !== currentFileName) {
-								$currentFile instanceof FileInfo && $currentFile.rename(title);
-
-								currentFileName = title;
-								if ($currentFile != null) {
-									const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo =
-										$currentFile;
-									newState.name = title;
-									const id = newState.id;
-									// Update the value for the specified key
-									$currentFile.store.update((prev: FileInfo[]): FileInfo[] => {
-										return prev.map((it) => {
-											if (it.id == id) return newState;
-											return it;
-										});
-									});
-								}
-							}
-
-							// if (transaction.isGeneric) {
-							// 	const steps = transaction.steps;
-
-							// 	if (steps.length != 1) {
-							// 		return;
-							// 	}
-							// 	const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
-							// 	if (!typedLetter) return false;
-
-							// 	const regex = /^[a-z]$/;
-
-							// 	if (!regex.test(typedLetter)) return;
-
-							// 	if (typedLetter === undefined) return;
-
-							// 	const letterBefore = transaction.doc.textBetween(
-							// 		transaction.selection.anchor - 3,
-							// 		transaction.selection.anchor - 1
-							// 	);
-
-							// 	if (letterBefore == '' || letterBefore[0] == '.') {
-							// 		$editor.commands.undo();
-							// 		$editor.commands.insertContent(typedLetter.toUpperCase());
-							// 	}
-							// }
-						}
-					})
-				);
-			}
+			document: document,
 		});
+		connected = true;
+
+		editor.set(
+			new Editor({
+				extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
+				editable: editable,
+				onCreate: ({ editor }) => {
+					editor.view.dom.setAttribute("spellcheck", "false");
+					editor.view.dom.setAttribute("autocomplete", "off");
+					editor.view.dom.setAttribute("autocapitalize", "off");
+				},
+				onUpdate: ({ transaction }) => {
+					if (!transaction.isGeneric) return;
+
+					if (
+						$currentFile instanceof AssignmentAnswer &&
+						$currentStatus !== AssignmentStatus.IN_PROGRESS
+					) {
+						currentStatus.set(AssignmentStatus.IN_PROGRESS);
+					}
+
+					const title: string =
+						transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
+					if (title && title !== currentFileName) {
+						$currentFile instanceof FileInfo && $currentFile.rename(title);
+
+						currentFileName = title;
+						if ($currentFile != null) {
+							const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo =
+								$currentFile;
+							newState.name = title;
+							const id = newState.id;
+							// Update the value for the specified key
+							$currentFile.store.update((prev: FileInfo[]): FileInfo[] => {
+								return prev.map((it) => {
+									if (it.id == id) return newState;
+									return it;
+								});
+							});
+						}
+					}
+
+					// if (transaction.isGeneric) {
+					// 	const steps = transaction.steps;
+
+					// 	if (steps.length != 1) {
+					// 		return;
+					// 	}
+					// 	const typedLetter: string = steps[0].slice?.content?.content[0]?.text;
+					// 	if (!typedLetter) return false;
+
+					// 	const regex = /^[a-z]$/;
+
+					// 	if (!regex.test(typedLetter)) return;
+
+					// 	if (typedLetter === undefined) return;
+
+					// 	const letterBefore = transaction.doc.textBetween(
+					// 		transaction.selection.anchor - 3,
+					// 		transaction.selection.anchor - 1
+					// 	);
+
+					// 	if (letterBefore == '' || letterBefore[0] == '.') {
+					// 		$editor.commands.undo();
+					// 		$editor.commands.insertContent(typedLetter.toUpperCase());
+					// 	}
+					// }
+				}
+			})
+		);
 	}
 
 	onMount(() => {

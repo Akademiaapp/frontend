@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { userInfo } from '@/api/apiStore';
+	import { userInfo } from '@/../routes/store';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from './ui/button';
-	import { Cloud, Github, LogOut, Settings, User } from 'lucide-svelte';
-	import { keycloakState } from '../../authStore';
+	import { LogOut, Settings, User } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
+	import { supabase } from '@/supabase/supabaseClient';
 	export let name = false;
 
 	let interval;
@@ -14,7 +14,7 @@
 		setTimeout(() => {
 			interval = setInterval(() => {
 				if (!$userInfo) location.reload();
-				if (!$userInfo.first_name || $userInfo.first_name == 'undefined') {
+				if (!$userInfo?.full_name.split(' ')[0]) {
 					location.reload();
 				}
 			}, 1000);
@@ -33,7 +33,7 @@
 				<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
 					{#if $userInfo}
 						<h3 class="m-0 -translate-y-[0.05rem] p-0 text-base">
-							{$userInfo.first_name[0]}{$userInfo.last_name[0] || ''}
+							{$userInfo?.full_name}
 						</h3>
 					{/if}
 				</div>
@@ -73,7 +73,8 @@
 			<DropdownMenu.Separator /> -->
 			<DropdownMenu.Item
 				on:click={() => {
-					$keycloakState.logout();
+					supabase.auth.signOut({ scope: 'local' });
+					goto('/onboarding/login');
 				}}
 			>
 				<LogOut class="h-4 w-4" />
@@ -83,7 +84,7 @@
 	</DropdownMenu.Root>
 	{#if name && $userInfo}
 		<p>
-			{$userInfo.first_name}
+			{$userInfo.full_name}
 		</p>
 	{/if}
 </div>

@@ -5,13 +5,13 @@
 
 	let selectedOption = $userType;
 
-	$: canProceed.set($userType !== '');
+	$: canProceed.set($userType !== null);
 </script>
 
 <h1>Hvad beskriver dig bedst?</h1>
 
 <div class="flex flex-col gap-2">
-	<input type="radio" id="option1" name="userType" value="TESTER" bind:group={$userType} />
+	<input type="radio" id="option1" name="userType" value="tester" bind:group={$userType} />
 	<label for="option1">
 		<div>
 			Tester
@@ -19,13 +19,13 @@
 		</div>
 	</label>
 
-	<input type="radio" id="option2" name="userType" value="TEACHER" bind:group={$userType} />
+	<input type="radio" id="option2" name="userType" value="teacher" bind:group={$userType} />
 	<label for="option2">
 		<img src="/illustrations/undraw_professor.svg" alt="A personal notebook" />
 		Underviser
 	</label>
 
-	<input type="radio" id="option3" name="userType" value="STUDENT" bind:group={$userType} />
+	<input type="radio" id="option3" name="userType" value="student" bind:group={$userType} />
 	<label for="option3">
 		<img src="/illustrations/undraw_education.svg" alt="A personal notebook" />
 		Elev

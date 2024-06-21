@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { assignmentStore, userInfo } from './../../../../lib/api/apiStore';
+	import { assignmentStore } from './../../../../lib/api/apiStore';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File, Plus } from 'lucide-svelte';
 	import { documentStore, assignmentAnswerStore, newDocument, newAssignment } from '@/api/apiStore';
-	import { keycloakUserInfo } from '../../../../authStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
+	import { userInfo } from '../../../store';
 
 	let notes = $documentStore.filter((f) => f.isNote);
 	let documents = $documentStore.filter((f) => !f.isNote);
@@ -17,7 +17,8 @@
 
 <div class="cont br-2 frontground" id="overview">
 	<h1>
-		Velkommen, {$keycloakUserInfo.given_name}
+		<!-- Velkommen, {$keycloakUserInfo.given_name} -->
+		Velkommen, Bruger
 	</h1>
 	<h2>
 		<Target />
@@ -56,7 +57,7 @@
 				<p class="">Der er ingen afleveringer</p>
 			{/if}
 		</div>
-		{#if $userInfo && ($userInfo.type == 'TEACHER' || $userInfo.type == 'TESTER')}
+		{#if $userInfo && ($userInfo.type == 'teacher' || $userInfo.type == 'tester')}
 			<Button variant="outline" class="mt-4 h-auto py-1.5" on:click={() => newAssignment()}>
 				<Plus size="19" />
 				Opret aflevering

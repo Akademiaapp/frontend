@@ -11,17 +11,19 @@ import {
 	FileInfo,
 	Folder
 } from './fileClasses';
+import { tomorrow } from '@/utils/dateUtils';
+import { supabase } from '@/supabase/supabaseClient';
+import { session } from '../../routes/store';
 
 export { FileInfo, Folder };
 
 export async function updateDocuments() {
-	const response = await api.getUserDocuments();
-	if (!response) {
-		throw new Error('Could not update files due to no response');
+	const { data, error } = await supabase.from('document').select('*');
+	if (error) {
+		throw new Error('Could not update files due to no response' + error);
 	}
-	const json = await response.json();
 	const oldDocs = get(documentStore);
-	documentStore.set(json.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
+	documentStore.set(data.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
 	folders.update((prev) => {
 		const docs = get(documentStore).filter((doc) => !oldDocs.find((f) => f.id === doc.id));
 
@@ -30,8 +32,8 @@ export async function updateDocuments() {
 	});
 }
 
-export async function updateUserInfo() {
-	userInfo.set(await api.callApi('/users/self').then((response) => response.json()));
+export async function updateSessionInfo() {
+	session.set((await supabase.auth.getSession()).data.session);
 }
 
 // Explicitly specify the type of the store
@@ -72,22 +74,14 @@ interface School {
 	address: string;
 }
 
-interface UserInfo {
+export interface UserInfo {
 	id: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-	created_at: string;
-	updated_at: string;
+	full_name: string;
+	username: string;
 	schoolId: string;
 	type: string;
 	school: School;
-	user_group: [];
-	assignment: [];
-	assignment_answer: [];
-	file_permission: FilePermission[];
 }
-export const userInfo = writable<UserInfo>();
 
 export async function updateAssignmentsAnswers() {
 	const response = await api.getAssignmentAnswers();
@@ -122,9 +116,10 @@ export async function updateAssignmentsAnswers() {
 let som = 0;
 
 export async function updateAssignments() {
-	const u = get(userInfo);
-	if (!u) return;
-	if (u.type != 'TEACHER' && u.type != 'TESTER') return;
+	console.log('updating assignments');
+	const user = get(session).user;
+	if (!user) return;
+	if (user.type != 'TEACHER' && user.type != 'TESTER') return;
 	const response = await api.getAssignments();
 	if (!response || response.status == 401) {
 		som++;
@@ -154,17 +149,24 @@ export async function updateAssignments() {
 }
 
 export async function newDocument(name: string, open: boolean = true, isNote = false) {
-	const response = await api.createDocument(name, isNote);
-	if (!response) {
-		throw new Error('Could not create document due to no response');
-	}
-	const json = await response.json();
-	const newDoc = new DocumentInfo(json, documentStore);
+	const { data, error } = await supabase.from('document').insert([{ name, isNote }]).select();
+
+	const newDoc = new DocumentInfo(data[0], documentStore);
 
 	if (open) {
 		newDoc.open();
 	}
+
 	documentStore.update((files) => [...files, newDoc]);
+	// if (!response) {
+	// 	throw new Error('Could not create document due to no response');
+	// }
+	// const json = await response.json();	const newDoc = new DocumentInfo(json, documentStore);
+
+	// if (open) {
+	// 	newDoc.open();
+	// }
+	// documentStore.update((files) => [...files, newDoc]);
 }
 export async function newAssignment(
 	name: string = '',
@@ -196,13 +198,3 @@ export async function newAssignment(
 	}
 	assignmentStore.update((files) => [...files, newAssignment]);
 }
-
-function tomorrow(): Date {
-	const today = new Date();
-	const tomorrow = new Date(today);
-	tomorrow.setDate(tomorrow.getDate() + 1);
-
-	return tomorrow;
-}
-
-export const apiDownStore = writable<boolean>(false);

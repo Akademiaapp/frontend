@@ -1,6 +1,6 @@
 <script lang="ts">
 	import api from '@/api';
-	import { currentFile, userInfo } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
 	import {
 		Command,
@@ -13,6 +13,7 @@
 	} from '@/components/ui/command';
 	import { X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	import { userInfo } from '../../../../store';
 
 	let focused = false;
 

@@ -2,8 +2,9 @@
 	import { Loader2 } from 'lucide-svelte';
 	import Button from '@/components/ui/button/button.svelte';
 	import Input from '@/components/ui/input/input.svelte';
-	import { keycloakState } from '../../authStore';
 	import SocialLogonButton from './SocialLogonButton.svelte';
+	import { supabase } from '@/supabase/supabaseClient';
+	import { page } from '$app/stores';
 
 	export let isLoading = false;
 
@@ -12,21 +13,23 @@
 		isLoading = true;
 
 		let email = (document.getElementById('email') as HTMLInputElement).value;
+		let password = (document.getElementById('password') as HTMLInputElement).value;
 
 		setTimeout(() => {
 			isLoading = false;
 		}, 3000);
 
 		if (actionName === 'Sign In') {
-			$keycloakState.login({ loginHint: email });
+			supabase.auth.signInWithPassword({ email, password });
 			return;
 		} else if (actionName === 'Sign Up') {
-			$keycloakState.register({ loginHint: email });
+			supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectUri } });
 			return;
 		}
 	};
 
-	export let redirectUri = '';
+	// Full redirect url
+	export let redirectUri = $page.url.host + '/onboarding/login';
 </script>
 
 <div class="grid gap-6" {...$$restProps}>
@@ -41,6 +44,12 @@
 					autocomplete="email"
 					autocorrect="off"
 					disabled={isLoading}
+				/>
+				<Input
+					id="password"
+					type="password"
+					disabled={isLoading}
+					placeholder="Password"
 				/>
 			</div>
 			<Button type="submit" disabled={isLoading}>
@@ -62,14 +71,14 @@
 	<div class="flex flex-col gap-2">
 		<SocialLogonButton
 			name="Google"
-			keycloakName="google"
+			providerName="google"
 			icon="/icons/social/google.svg"
 			{isLoading}
 			{redirectUri}
 		/>
 		<SocialLogonButton
 			name="Microsoft"
-			keycloakName="microsoft"
+			providerName="azure"
 			icon="/icons/social/microsoft.svg"
 			{isLoading}
 			{redirectUri}

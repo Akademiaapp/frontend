@@ -1,15 +1,14 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
-	import { keycloakState } from '../../../authStore';
 	import { redirect } from '@/utils/onboardingUtils';
 
 	let isLoading = false;
 
-	$: if ($keycloakState.authenticated) {
-		isLoading = true;
-		redirect().catch(console.error);
-	}
+	// $: if ($keycloakState.authenticated) {
+	// 	isLoading = true;
+	// 	redirect().catch(console.error);
+	// }
 </script>
 
 <div

@@ -10,15 +10,15 @@
 	import { canProceed, selectedSchoolId, userType } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import api from '@/api';
 	import commandScore from 'command-score';
+	import { supabase } from '../../../lib/supabase/supabaseClient';
 
 	canProceed.set($selectedSchoolId != '');
 
 	let schools = [];
 
 	onMount(async () => {
-		schools = await (await api.getSchools()).json();
+		schools = (await supabase.from('school').select('id, name, address').order('name', { ascending: true })).data;
 		searchedSchools = schools.splice(0, 20);
 	});
 
@@ -55,8 +55,8 @@
 	let value = '';
 </script>
 
-<h1 class:-mb-1={$userType == 'TESTER'}>Vælg din skole</h1>
-{#if $userType == 'TESTER'}
+<h1 class:-mb-1={$userType == 'tester'}>Vælg din skole</h1>
+{#if $userType == 'tester'}
 	<p class=" text-xs text-muted-foreground">
 		Som tester kan du bare vælge en hvilken som helst skole.
 	</p>

@@ -1,21 +1,33 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
-	import { keycloakState } from '../../../authStore';
 	import { redirect } from '@/utils/onboardingUtils';
+	import { supabase } from '@/supabase/supabaseClient';
+	import { onMount } from 'svelte';
+	import { session } from '../../store';
 
 	let isLoading = false;
 
-	$: if ($keycloakState.authenticated) {
+	supabase.auth.onAuthStateChange((event, session) => {
 		isLoading = true;
-		redirect().catch(console.error);
-	}
+		if (session) {
+			redirect().catch(console.error);
+		} else {
+			isLoading = false;
+		}
+	});
+
+	onMount(() => {
+		if ($session?.access_token) {
+			redirect().catch(console.error);
+		}
+	});
 </script>
 
 <div
 	class="container relative hidden flex-1 flex-col items-center justify-center bg-background p-0 md:grid lg:max-w-none lg:px-0"
 >
-	<Button href="/onboarding/signup" variant="ghost" class="absolute -bottom-4 -left-8 "
+	<Button href="/onboarding/signup" variant="ghost" class="absolute -bottom-4 -left-4 "
 		>Signup</Button
 	>
 

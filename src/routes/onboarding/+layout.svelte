@@ -20,7 +20,7 @@
 			'4',
 			'5',
 			'vaelg-skole',
-			$userType === 'STUDENT' ? 'vaelg-klasse' : null,
+			$userType === 'student' ? 'vaelg-klasse' : null,
 			'done'
 		].filter((it) => it !== null);
 	}

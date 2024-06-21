@@ -43,11 +43,12 @@
 	onMount(() => {
 		interval = setInterval(async () => {
 			if (!file) return;
-			api.getAssignmentAnswer(file.id).then((res) => {
-				res.json().then((data) => {
-					file = new AssignmentAnswer(data, assignmentAnswerStore);
-				});
-			});
+			// TODO: update to supabase
+			// api.getAssignmentAnswer(file.id).then((res) => {
+			// 	res.json().then((data) => {
+			// 		file = new AssignmentAnswer(data, assignmentAnswerStore);
+			// 	});
+			// });
 		}, 1000);
 	});
 
@@ -59,14 +60,14 @@
 
 	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
 		if (!the_file || !grade || !feedback) {
-			error = true
+			error = true;
 			console.log(error);
 			setTimeout(() => {
-				error = false
+				error = false;
 				console.log(error);
-			}, 2000)
+			}, 2000);
 			return;
-		};
+		}
 		file = new AssignmentAnswer(
 			await (await the_file.setGrade(grade, feedback)).json(),
 			assignmentAnswerStore
@@ -131,8 +132,11 @@
 					</Select>
 				{/if}
 				<Button
-					class={"aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground" + error ? '' : ' text-red-500'}
-					variant={error ? "destructive" : "ghost"}
+					class={'aspect-square h-auto p-2 text-muted-foreground transition-all hover:text-foreground' +
+					error
+						? ''
+						: ' text-red-500'}
+					variant={error ? 'destructive' : 'ghost'}
 					disabled={!msg || !grade}
 					on:click={async () => {
 						await sendFeedback(file, grade, msg);

@@ -1,10 +1,9 @@
 // import { apiDownStore } from './apiStore';
 import { keycloakState, keycloakUserInfo } from '../../authStore';
 import { get } from 'svelte/store';
-import { getApiUrl } from '@/utils';
 
 class ApiHandler {
-	static baseUrl = getApiUrl();
+	static baseUrl = 'getApiUrl();'
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	debounce(func: any, timeout = 300) {
@@ -20,6 +19,7 @@ class ApiHandler {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	callApi(endpoint: string, options?: any, method: string = 'GET') {
+		console.log('calling api');
 		const url = ApiHandler.baseUrl + endpoint;
 		// Add bearer token to headers
 		const headers = {
