@@ -19,39 +19,8 @@ class ApiHandler {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	callApi(endpoint: string, options?: any, method: string = 'GET') {
-		console.log('calling api');
-		const url = ApiHandler.baseUrl + endpoint;
-		// Add bearer token to headers
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${get(keycloakState).token}`
-		};
-
-		return fetch(
-			url +
-				'?' +
-				new URLSearchParams({
-					...options
-				}),
-			{
-				method,
-				headers
-			}
-		).catch((error) => {
-			console.log('hdhdhd');
-			if (error.message.includes('Unauthorized - Token verification failed')) {
-				location.reload();
-			}
-			// Handle CORS-related errors
-			if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-				// apiDownStore.set(true);
-				console.error('Failed to fetch:', error);
-			} else {
-				console.error('Other error:', error);
-			}
-
-			return undefined;
-		});
+		console.warn('Calling API DEPRECATED', endpoint, options, method);
+		return;
 	}
 
 	getDocument = (documentId: string) => {
