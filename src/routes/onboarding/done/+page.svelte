@@ -3,20 +3,20 @@
 	import { goto } from '$app/navigation';
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	import api from '@/api';
 	import { selectedSchoolId, userType, selectedClassId } from '../onboardingStores';
+	import { supabase } from '@/supabase/supabaseClient';
+	import { session } from '../../store';
 
 	let isLoading = true;
 
 	onMount(async () => {
-		await api.callApi('/users/self', { type: $userType || 'TESTER' }, 'PUT');
-		await api.callApi(
-			'/users/self',
-			{ schoolId: $selectedSchoolId || '0a6d3842-0ac6-489d-b7ce-3dc298ff30c4' },
-			'PUT'
-		);
+		await supabase.from('user').update(
+			{ type: $userType, school_id: $selectedSchoolId }
+		).match({ id: $session.user.id });
 		if ($selectedClassId !== '') {
-			await api.callApi('/users/self/groups', { groupId: $selectedClassId }, 'POST');
+			// await supabase.from('user').update(
+			// 	{ classId: $selectedClassId }
+			// );
 		}
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 
