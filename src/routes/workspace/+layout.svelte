@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Sidebar from './sidebar/Sidebar.svelte';
 	import { updateDocuments } from '@/api/apiStore';
-	import ApiDown from '@/components/ApiDown.svelte';
+	// import ApiDown from '@/components/ApiDown.svelte';
 
 	updateDocuments();
 	// updateAssignmentsAnswers();
@@ -21,7 +21,7 @@
 
 	<slot />
 
-	<ApiDown></ApiDown>
+	<!-- <ApiDown></ApiDown> -->
 </div>
 
 <style lang="scss">

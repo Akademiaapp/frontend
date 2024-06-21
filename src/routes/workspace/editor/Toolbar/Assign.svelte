@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Switch from './../../../../lib/components/ui/switch/switch.svelte';
+	import { session } from '../../../store';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { currentFile, userInfo } from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
 	import { Assignment } from '@/api/fileClasses';
-	import Label from '@/components/ui/label/label.svelte';
+	
 
 	let open = false;
 
@@ -14,7 +14,7 @@
 		if ($currentFile instanceof Assignment) {
 			if (asignSelf)
 				await $currentFile.updateInfo({
-					asigned_users_ids: [$userInfo.id]
+					asigned_users_ids: [$session.user.id]
 				});
 
 			await $currentFile.assign();

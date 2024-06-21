@@ -1,4 +1,6 @@
 import type { AuthSession } from '@supabase/supabase-js';
+import type { Tables } from '$lib/supabase.types';
+
 import { writable, type Writable } from 'svelte/store';
 
 export const themeVariant = writable(localStorage.getItem('themeVariant') || 'light');
@@ -10,3 +12,4 @@ themeVariant.subscribe((value) => {
 export const sidebarWidth = writable('300px');
 
 export const session: Writable<AuthSession | null> = writable(null);
+export const userInfo: Writable<Tables<'user'>> = writable(null);

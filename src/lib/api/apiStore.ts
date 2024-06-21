@@ -74,20 +74,13 @@ interface School {
 	address: string;
 }
 
-interface UserInfo {
+export interface UserInfo {
 	id: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-	created_at: string;
-	updated_at: string;
+	full_name: string;
+	username: string;
 	schoolId: string;
 	type: string;
 	school: School;
-	user_group: [];
-	assignment: [];
-	assignment_answer: [];
-	file_permission: FilePermission[];
 }
 
 export async function updateAssignmentsAnswers() {
@@ -205,6 +198,3 @@ export async function newAssignment(
 	}
 	assignmentStore.update((files) => [...files, newAssignment]);
 }
-
-export const apiDownStore = writable<boolean>(false);
-export const userInfo = writable<UserInfo>(null);

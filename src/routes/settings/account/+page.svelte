@@ -5,6 +5,7 @@
 	import Card from '@/components/ui/card/card.svelte';
 	import { supabase } from '@/supabase/supabaseClient';
 	import { goto } from '$app/navigation';
+	import { userInfo } from '@/../routes/store';
 
 	let open = false;
 	
@@ -19,15 +20,15 @@
 
 {#if $userInfo}
 	<div class="mb-8 text-lg">
-		<h1 class="mb-4 text-5xl">{$userInfo.first_name} {$userInfo.last_name}</h1>
-		<p>Email: {$userInfo.email}</p>
+		<h1 class="mb-4 text-5xl">{$userInfo.full_name}</h1>
+		<p>Username: {$userInfo.username}</p>
 
-		<Card class="my-2 p-4 px-6">
+		<!-- <Card class="my-2 p-4 px-6">
 			<h2 class="mb-1 text-2xl">Skole</h2>
 			<p></p>
 			<p>Navn: {$userInfo.school.name}</p>
-			<p>Addresse: {$userInfo.school.address}</p>
-		</Card>
+			<p>Addresse: {$userInfo.school.address}</p> TODO
+		</Card> -->
 	</div>
 {/if}
 
