@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.pcss';
 	import { themeVariant } from './store';
+	import { ServiceWorker } from "sveltekit-adapter-versioned-worker/svelte";
 
 	import './styles.css';
 	import './tiptap-styles.scss';
@@ -63,6 +64,7 @@
 	</div>
 {/if}
 
+<ServiceWorker />
 <Toaster />
 
 <style>
