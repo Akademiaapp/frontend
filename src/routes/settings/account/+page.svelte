@@ -36,6 +36,8 @@
 			<p></p>
 			<p>Navn: {school.name}</p>
 			<p>Addresse: {school.address}</p>
+			<p>By: {school.city}</p>
+			<p>Id: {school.id}</p>
 		</Card>
 	</div>
 {/if}
