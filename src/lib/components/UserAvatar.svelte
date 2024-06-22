@@ -12,14 +12,26 @@
 	<DropdownMenu.Root portal={null}>
 		<DropdownMenu.Trigger asChild let:builder>
 			<Button builders={[builder]} variant="link" class="p-0">
-				<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
-					{#if $userInfo}
-						<h3 class="m-0 p-0 text-base">
-							{$userInfo?.full_name.split(' ')[0][0]+$userInfo?.full_name.split(' ')[1][0]}
-						</h3>
-					{/if}
-				</div>
-				<!-- <img class="avatar br-2" src="" alt="User avatar" referrerpolicy="no-referrer" /> -->
+				{#if $userInfo.avatar_url}
+						<img
+							class="avatar br-2"
+							src={$userInfo.avatar_url}
+							alt="User avatar"
+							referrerpolicy="no-referrer"
+						/>
+				{:else}
+					<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
+						{#if $userInfo}
+							<h3 class="m-0 p-0 text-base">
+								{$userInfo?.full_name.split(' ')[0][0]+$userInfo?.full_name.split(' ')[1][0]}
+							</h3>
+						{:else}
+							<h3 class="m-0 p-0 text-base">
+								??
+							</h3>
+						{/if}
+					</div>
+				{/if}
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content class="w-60">
