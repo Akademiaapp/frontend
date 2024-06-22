@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { session } from './store';
+	import { session, userInfo } from './store';
 
 	const themes = {
 		default: {
@@ -34,8 +34,11 @@
 			$session = data.session;
 		});
 
+		supabase.from('user').select('*').eq('id', $session.user.id).single().then(({ data }) => userInfo.set(data));
+
 		supabase.auth.onAuthStateChange((_event, _session) => {
 			$session = _session;
+			supabase.from('user').select('*').eq('id', $session.user.id).single().then(({ data }) => userInfo.set(data));
 		});
 	});
 

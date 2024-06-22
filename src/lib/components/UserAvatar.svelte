@@ -15,8 +15,8 @@
 			<Button builders={[builder]} variant="link" class="p-0">
 				<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
 					{#if $userInfo}
-						<h3 class="m-0 -translate-y-[0.05rem] p-0 text-base">
-							{$userInfo?.full_name}
+						<h3 class="m-0 p-0 text-base">
+							{$userInfo?.full_name.split(' ')[0][0]+$userInfo?.full_name.split(' ')[1][0]}
 						</h3>
 					{/if}
 				</div>
