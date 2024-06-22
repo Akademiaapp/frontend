@@ -5,7 +5,7 @@ export const canProceed = writable(true);
 
 export const nextUrl = writable('');
 
-export const userType: Writable<"tester" | "student" | "teacher" | "admin"> = writable();
+export const userType: Writable<"tester" | "student" | "teacher" | "admin" | null> = writable();
 
 export const selectedSchoolId = writable('');
 export const selectedClassId = writable('');

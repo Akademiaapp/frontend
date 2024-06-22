@@ -2,13 +2,26 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import UserAuthForm from '../../../lib/components/UserAuthForm.svelte';
 	import { redirect } from '@/utils/onboardingUtils';
+	import { supabase } from '@/supabase/supabaseClient';
+	import { onMount } from 'svelte';
+	import { session } from '../../store';
 
 	let isLoading = false;
 
-	// $: if ($keycloakState.authenticated) {
-	// 	isLoading = true;
-	// 	redirect().catch(console.error);
-	// }
+	supabase.auth.onAuthStateChange((event, session) => {
+		isLoading = true;
+		if (session) {
+			redirect().catch(console.error);
+		} else {
+			isLoading = false;
+		}
+	});
+
+	onMount(() => {
+		if ($session?.access_token) {
+			redirect().catch(console.error);
+		}
+	});
 </script>
 
 <div

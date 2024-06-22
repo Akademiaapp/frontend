@@ -5,7 +5,7 @@
 
 	let selectedOption = $userType;
 
-	$: canProceed.set($userType !== null);
+	$: canProceed.set($userType !== undefined);
 </script>
 
 <h1>Hvad beskriver dig bedst?</h1>

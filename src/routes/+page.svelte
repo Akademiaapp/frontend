@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { redirect } from '@/utils/onboardingUtils';
 
-	goto('/workspace/home');
+	redirect();
 </script>

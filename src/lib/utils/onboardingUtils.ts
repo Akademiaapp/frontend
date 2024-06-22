@@ -23,7 +23,7 @@ export async function isUserSetupCurrectly() {
 		.select('*')
 		.eq('id', get(session).user.id)
 		.single();
-
+	
 	if (error || !data.type || !data.school_id) {
 		return false;
 	} else {

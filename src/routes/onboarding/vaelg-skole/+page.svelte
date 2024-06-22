@@ -9,18 +9,10 @@
 	} from '@/components/ui/command';
 	import { canProceed, selectedSchoolId, userType } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
-	import { onMount } from 'svelte';
 	import commandScore from 'command-score';
 	import { supabase } from '../../../lib/supabase/supabaseClient';
 
 	canProceed.set($selectedSchoolId != '');
-
-	let schools = [];
-
-	onMount(async () => {
-		schools = (await supabase.from('school').select('id, name, address').order('name', { ascending: true })).data;
-		searchedSchools = schools.splice(0, 20);
-	});
 
 	function selectSchool(schoolId, schoolName) {
 		canProceed.set(true);
@@ -40,14 +32,15 @@
 	let searchedSchools = [];
 
 	function search(query) {
-		searchedSchools = schools
-			.map((school) => ({
-				...school,
-				distance: commandScore(school.name, query)
-			}))
-			.filter((school) => school.distance > 0)
-			.sort((a, b) => b.distance - a.distance)
-			.splice(0, 20);
+		supabase
+			.rpc('search_schools_partial', { search_query: query }).then(({ data, error }) => {
+				if (error) {
+					console.error(error);
+					return;
+				}
+
+				searchedSchools = data;
+			})
 	}
 
 	$: search(value);
