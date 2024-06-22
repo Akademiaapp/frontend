@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { buttonVariants } from '@/components/ui/button';
@@ -6,6 +6,8 @@
 	import { supabase } from '@/supabase/supabaseClient';
 	import { goto } from '$app/navigation';
 	import { userInfo } from '@/../routes/store';
+	import { onMount } from 'svelte';
+	import type { Tables } from '@/supabase.types';
 
 	let open = false;
 	
@@ -16,19 +18,25 @@
 			})
 		});
 	}
+
+	let school: Tables<'school'>;
+
+	onMount(() => {
+		supabase.from('school').select('*').eq('id', $userInfo.school_id).single().then(({ data }) => school = data);
+	});
 </script>
 
-{#if $userInfo}
+{#if $userInfo && school}
 	<div class="mb-8 text-lg">
 		<h1 class="mb-4 text-5xl">{$userInfo.full_name}</h1>
 		<p>Username: {$userInfo.username}</p>
 
-		<!-- <Card class="my-2 p-4 px-6">
+		<Card class="my-2 p-4 px-6">
 			<h2 class="mb-1 text-2xl">Skole</h2>
 			<p></p>
-			<p>Navn: {$userInfo.school.name}</p>
-			<p>Addresse: {$userInfo.school.address}</p> //TODO
-		</Card> -->
+			<p>Navn: {school.name}</p>
+			<p>Addresse: {school.address}</p>
+		</Card>
 	</div>
 {/if}
 

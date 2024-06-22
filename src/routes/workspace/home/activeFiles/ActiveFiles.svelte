@@ -17,8 +17,7 @@
 
 <div class="cont br-2 frontground" id="overview">
 	<h1>
-		<!-- Velkommen, {$keycloakUserInfo.given_name} -->
-		Velkommen, Bruger
+		Velkommen, {$userInfo.full_name}
 	</h1>
 	<h2>
 		<Target />

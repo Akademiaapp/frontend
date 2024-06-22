@@ -4,7 +4,6 @@
 	import { Button } from './ui/button';
 	import { LogOut, Settings, User } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
 	import { supabase } from '@/supabase/supabaseClient';
 	export let name = false;
 </script>
@@ -67,7 +66,7 @@
 	</DropdownMenu.Root>
 	{#if name && $userInfo}
 		<p>
-			{$userInfo.full_name}
+			{$userInfo.full_name.split(' ')[0]}
 		</p>
 	{/if}
 </div>
