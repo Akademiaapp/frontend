@@ -4,11 +4,17 @@
 
 	import { editor, answer } from '../editorStore';
 	import { currentFile, currentStatus } from '@/api/apiStore';
-	import { FileInfo, Assignment, AssignmentAnswer, AssignmentStatus, DocumentInfo } from '@/api/fileClasses';
+	import {
+		FileInfo,
+		Assignment,
+		AssignmentAnswer,
+		AssignmentStatus,
+		DocumentInfo
+	} from '@/api/fileClasses';
 	import getExtensions from './getExtensions';
 
 	import { SupabaseProvider } from '@/supabase/supabaseProvider';
-	import { supabase } from '@/supabase/supabaseClient';
+	import { documents, supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
 	import type { Tables } from '@/supabase.types';
@@ -34,13 +40,13 @@
 	)
 		editable = false;
 
-	function initializeTiptap(initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null) {
+	function initializeTiptap(
+		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
+	) {
 		if (!initcurrentFile && !$answer) {
 			return;
 		}
-		let fileName = $answer
-			? $answer
-			: initcurrentFile.id;
+		let fileName = $answer ? $answer : initcurrentFile.id;
 		if (!fileName) {
 			return;
 		}
@@ -58,11 +64,11 @@
 				table: 'document',
 				updateColumns: {
 					name: 'id',
-					content: 'content',
+					content: 'content'
 				},
-				conflictColumns: 'id',
+				conflictColumns: 'id'
 			},
-			document: document,
+			document: document
 		});
 		connected = true;
 
@@ -71,9 +77,9 @@
 				extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
 				editable: editable,
 				onCreate: ({ editor }) => {
-					editor.view.dom.setAttribute("spellcheck", "false");
-					editor.view.dom.setAttribute("autocomplete", "off");
-					editor.view.dom.setAttribute("autocapitalize", "off");
+					editor.view.dom.setAttribute('spellcheck', 'false');
+					editor.view.dom.setAttribute('autocomplete', 'off');
+					editor.view.dom.setAttribute('autocapitalize', 'off');
 				},
 				onUpdate: ({ transaction }) => {
 					if (!transaction.isGeneric) return;
@@ -92,17 +98,14 @@
 
 						currentFileName = title;
 						if ($currentFile != null) {
-							const newState: Tables<'assignment' | 'assignment_answer' | 'document'> =
-								$currentFile;
-							newState.name = title;
-							const id = newState.id;
 							// Update the value for the specified key
-							$currentFile.store.update((prev: FileInfo[]): FileInfo[] => {
-								return prev.map((it) => {
-									if (it.id == id) return newState;
-									return it;
-								});
-							});
+							documents
+								.update(
+									{
+										name: title
+									},
+									$currentFile.id
+								)
 						}
 					}
 
