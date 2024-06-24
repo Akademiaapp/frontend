@@ -1,12 +1,8 @@
 <script lang="ts">
 	import Sidebar from './sidebar/Sidebar.svelte';
-	import { updateDocuments } from '@/api/apiStore';
 	// import ApiDown from '@/components/ApiDown.svelte';
-
-	updateDocuments();
 	// updateAssignmentsAnswers();
 	// updateAssignments();
-
 </script>
 
 <div class="cont">

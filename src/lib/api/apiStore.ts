@@ -12,25 +12,24 @@ import {
 	Folder
 } from './fileClasses';
 import { tomorrow } from '@/utils/dateUtils';
-import { supabase } from '@/supabase/supabaseClient';
+import { documents, supabase } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
 
 export { FileInfo, Folder };
 
-export async function updateDocuments() {
-	const { data, error } = await supabase.from('document').select('*');
-	if (error) {
-		throw new Error('Could not update files due to no response' + error);
-	}
-	const oldDocs = get(documentStore);
-	documentStore.set(data.map((docuemntInfo) => new DocumentInfo(docuemntInfo, documentStore)));
+export async function updateSessionInfo() {
+	session.set((await supabase.auth.getSession()).data.session);
+}
+
+const oldDocs = [];
+documents.subscribe((data) => {
 	folders.update((prev) => {
-		const docs = get(documentStore).filter((doc) => !oldDocs.find((f) => f.id === doc.id));
+		const docs = data.filter((doc) => !oldDocs.find((f) => f.id === doc.id));
 
 		prev.find((f) => f.name === 'Andet').files.push(...docs);
 		return prev;
 	});
-}
+});
 
 export async function updateSessionInfo() {
 	session.set((await supabase.auth.getSession()).data.session);
@@ -116,7 +115,6 @@ export async function updateAssignmentsAnswers() {
 let som = 0;
 
 export async function updateAssignments() {
-	console.log('updating assignments');
 	const user = get(session).user;
 	if (!user) return;
 	if (user.type != 'TEACHER' && user.type != 'TESTER') return;
