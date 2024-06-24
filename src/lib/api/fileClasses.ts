@@ -1,7 +1,4 @@
-import { goto } from '$app/navigation';
 import type { fileInfo } from '@/supabase/supabaseClient';
-import api from '.';
-import { assignmentAnswerStore, currentFile, documentStore } from './apiStore';
 
 export class Folder {
 	name: string;
