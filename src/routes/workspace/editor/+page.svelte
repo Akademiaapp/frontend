@@ -1,25 +1,21 @@
 <script lang="ts">
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
-	import api from '@/api';
 	import { goto } from '$app/navigation';
 	import {
-		currentFile,
-		documentStore,
-		assignmentAnswerStore,
-		assignmentStore
+		currentFile
 	} from '@/api/apiStore';
-	import { DocumentInfo, Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
 	import 'https://unpkg.com/@cortex-js/compute-engine?module';
 	import { documents, assignmentAnswers, assignments } from '@/supabase/supabaseClient';
+	import type { Tables } from '@/supabase.types';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
-	let isNote = documentType === 'notes';
-	$: isNote = $currentFile instanceof DocumentInfo && $currentFile.isNote;
+	let isNote: boolean = documentType === 'notes';
+	$: isNote = ($currentFile as Tables<'document'>).isNote || false;
 
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
@@ -54,10 +50,10 @@
 <svelte:head>
 	<title>{$currentFile?.id || 'Editor'} | Akademia</title>
 </svelte:head>
-
+<!-- TODO
 {#if $currentFile}
 	<div class="editor" style:width={'calc(100% - ' + $sidebarWidth + ')'}>
-		{#if $currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.SUBMITTED}
+		{#if $currentFile.status === 'SUBMITTED' }
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
 		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED}
 			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
@@ -69,7 +65,7 @@
 		{/if}
 		<FileEditor bind:isNote />
 	</div>
-{/if}
+{/if} -->
 
 <style>
 	.editor {
