@@ -1,3 +1,4 @@
+import { tomorrow } from '@/utils/dateUtils';
 import type { Database } from '../supabase.types';
 
 import { createIndexedDB, svelteSupabase } from './supaStore';
@@ -13,7 +14,21 @@ export const supabase = new svelteSupabase<Database>(
 // });
 
 export const documents = supabase.keyedStore('document', { useServer: true });
-export const assignments = supabase.keyedStore('assignment', { useServer: true });
+export const assignments = supabase
+	.keyedStore('assignment', { useServer: true })
+	.setDeafults(() => {
+		const dueDate = tomorrow();
+		return {
+			name: 'Unavngivet',
+			due_date: new Date(
+				dueDate.getFullYear(),
+				dueDate.getMonth(),
+				dueDate.getDate(),
+				23,
+				45
+			).toISOString()
+		};
+	});
 export const assignmentAnswers = supabase.keyedStore('assignment_answer', { useServer: true });
 
 export const files = supabase.store('assignment');
