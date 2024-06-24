@@ -32,10 +32,6 @@ documents.subscribe((data) => {
 	});
 });
 
-export async function updateSessionInfo() {
-	session.set((await supabase.auth.getSession()).data.session);
-}
-
 // Explicitly specify the type of the store
 export const documentStore = writable<DocumentInfo[]>([]);
 export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
