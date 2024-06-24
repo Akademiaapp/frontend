@@ -7,9 +7,9 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { MathExtension } from './extensions/MathExtension';
 import { MetaSettingsExtension } from './extensions/MetaSettingsExtension';
 import { get } from 'svelte/store';
-import { keycloakUserInfo } from '../../../../authStore';
 import Document from '@tiptap/extension-document';
 import { FontSize } from './extensions/FontSize';
+import { userInfo } from '../../../store';
 
 export default function getExtensions(provider = null, isAssignment = false) {
 	return [
@@ -41,7 +41,7 @@ function getCollabExtensions(provider) {
 		CollaborationCursor.configure({
 			provider: provider,
 			user: {
-				name: get(keycloakUserInfo).preferred_username,
+				name: get(userInfo).username,
 				color: `hsla(${~~(360 * Math.random())}, 70%,  72%, 0.8)`
 			}
 		}),

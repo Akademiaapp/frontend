@@ -1,6 +1,6 @@
 // import { apiDownStore } from './apiStore';
-import { keycloakState, keycloakUserInfo } from '../../authStore';
 import { get } from 'svelte/store';
+import { session } from '../../routes/store';
 
 class ApiHandler {
 	static baseUrl = 'getApiUrl();'
@@ -41,7 +41,7 @@ class ApiHandler {
 			'/documents',
 			{
 				name: documentName,
-				user_id: get(keycloakUserInfo).sub,
+				user_id: get(session).user.id,
 				isNote: isNote
 			},
 			'POST'
