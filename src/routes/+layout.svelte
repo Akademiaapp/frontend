@@ -33,15 +33,20 @@
 	onMount(() => {
 		supabase.auth.getSession().then(({ data }) => {
 			$session = data.session;
-			supabase.from('user').select('*').eq('id', $session.user.id).single().then(({ data }) => userInfo.set(data));
+			if (data.session === null || data.session === undefined) {
+				goto('/onboarding/login');
+			} else {
+				supabase.from('user').select('*').eq('id', data.session.user.id).single().then(({ data }) => userInfo.set(data));
+			}
 		});
 
 		supabase.auth.onAuthStateChange((_event, _session) => {
 			$session = _session;
-			if (!_session) {
+			if (_session === null || _session === undefined) {
 				goto('/onboarding/login');
+			} else {
+				supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
 			}
-			supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
 		});
 	});
 
