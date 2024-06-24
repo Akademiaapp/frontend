@@ -55,33 +55,3 @@ currentStatus.subscribe((status) => {
 		});
 	}
 });
-export async function newAssignment(
-	name: string = '',
-	dueDate: Date = tomorrow(),
-	open: boolean = true
-) {
-	const response = await api.callApi(
-		'/assignments',
-		{
-			name: name == '' ? 'Uden titel' : name,
-			due_date: new Date(
-				dueDate.getFullYear(),
-				dueDate.getMonth(),
-				dueDate.getDate(),
-				23,
-				45
-			).toISOString()
-		},
-		'POST'
-	);
-	if (!response) {
-		throw new Error('Could not create document due to no response');
-	}
-	const json = await response.json();
-	const newAssignment = new Assignment(json, assignmentStore);
-
-	if (open) {
-		newAssignment.open();
-	}
-	assignmentStore.update((files) => [...files, newAssignment]);
-}
