@@ -23,21 +23,21 @@ documents.subscribe((data) => {
 });
 
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
-export const currentStatus = writable<AssignmentStatus>(null);
+// export const currentStatus = writable<AssignmentStatus>(null);
 
-currentFile.subscribe((file) => {
-	if (file instanceof AssignmentAnswer) {
-		currentStatus.set(file.status);
-	} else {
-		currentStatus.set(null);
-	}
-});
+// currentFile.subscribe((file) => {
+// 	if (file instanceof ) {
+// 		currentStatus.set(file.status);
+// 	} else {
+// 		currentStatus.set(null);
+// 	}
+// });
 
-currentStatus.subscribe((status) => {
-	const file = get(currentFile);
-	if (file instanceof AssignmentAnswer) {
-		file.updateInfo({
-			status: AssignmentStatusStrings[status]
-		});
-	}
-});
+// currentStatus.subscribe((status) => {
+// 	const file = get(currentFile);
+// 	if (file instanceof AssignmentAnswer) {
+// 		file.updateInfo({
+// 			status: AssignmentStatusStrings[status]
+// 		});
+// 	}
+// });
