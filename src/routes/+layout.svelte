@@ -38,7 +38,10 @@
 
 		supabase.auth.onAuthStateChange((_event, _session) => {
 			$session = _session;
-			supabase.from('user').select('*').eq('id', $session.user.id).single().then(({ data }) => userInfo.set(data));
+			if (!_session) {
+				goto('/onboarding/login');
+			}
+			supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
 		});
 	});
 
