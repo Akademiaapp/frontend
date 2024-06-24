@@ -1,18 +1,12 @@
 import { get, writable } from 'svelte/store';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
-import {
-	AssignmentAnswer,
-	AssignmentStatus,
-	AssignmentStatusStrings,
-	FileInfo,
-	Folder
-} from './fileClasses';
+import { Folder } from './fileClasses';
 import { documents, supabase } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
 import type { Tables } from '@/supabase.types';
 
-export { FileInfo, Folder };
+export { Folder };
 
 export async function updateSessionInfo() {
 	session.set((await supabase.auth.getSession()).data.session);
@@ -27,10 +21,6 @@ documents.subscribe((data) => {
 		return prev;
 	});
 });
-
-export async function updateSessionInfo() {
-	session.set((await supabase.auth.getSession()).data.session);
-}
 
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
 export const currentStatus = writable<AssignmentStatus>(null);
