@@ -1,18 +1,33 @@
 <script lang="ts">
-	import { assignmentStore } from './../../../../lib/api/apiStore';
 	import Document from './Document.svelte';
 	import Assignment from './Assignment.svelte';
 	import { Notebook, Target, File, Plus } from 'lucide-svelte';
-	import { documentStore, assignmentAnswerStore, newDocument, newAssignment } from '@/api/apiStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 	import { userInfo } from '../../../store';
+	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
 
-	let notes = $documentStore.filter((f) => f.isNote);
-	let documents = $documentStore.filter((f) => !f.isNote);
+	// let notes = $documentStore.filter((f) => f.isNote);
+	// let documents = $documentStore.filter((f) => !f.isNote);
 
-	$: documents = $documentStore.filter((f) => !f.isNote);
-	$: notes = $documentStore.filter((f) => f.isNote);
+	// $: documents = $documentStore.filter((f) => !f.isNote);
+	// $: notes = $documentStore.filter((f) => f.isNote);
+
+	function newDocument(name: string = "Uden titel", isNote: boolean, open: boolean = false) {
+		documents.insert({
+			name: name,
+			isNote: isNote
+		});
+		if (open) {
+			// goto(`/workspace/editor?page?id=${id}&type=${isNote ? 'notes' : 'documents'}`);
+		}
+	}
+
+	function newAssignment() {
+		// goto('/workspace/editor?page?id=0&type=assignmentAnswers');
+	}
+
+
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -25,7 +40,7 @@
 	</h2>
 	<div class="mb-7">
 		<div class="filelist">
-			{#each $assignmentAnswerStore as assignment}
+			{#each $assignmentAnswers as assignment}
 				<AssignmentAnswer
 					name={assignment.name}
 					progress={assignment.status}
@@ -40,7 +55,7 @@
 					grade={assignment.grade}
 				/>
 			{/each}
-			{#each $assignmentStore as assignment}
+			{#each $assignments as assignment}
 				<Assignment
 					assingment={assignment}
 					date={new Date(assignment.due_date).toLocaleDateString('da-DK', {
@@ -52,7 +67,7 @@
 					})}
 				/>
 			{/each}
-			{#if $assignmentAnswerStore.length == 0 && $assignmentStore.length == 0}
+			{#if $assignmentAnswers.length == 0 && $assignments.length == 0}
 				<p class="">Der er ingen afleveringer</p>
 			{/if}
 		</div>
@@ -69,10 +84,10 @@
 	</h2>
 	<div class="mb-7">
 		<div class="filelist">
-			{#each documents as f}
+			{#each $documents as f}
 				<Document name={f.name} id={f.id} type="documents"></Document>
 			{/each}
-			{#if documents.length == 0}
+			{#if $documents.length == 0}
 				<p class="">Der er ingen dokumenter</p>
 			{/if}
 		</div>
@@ -91,10 +106,10 @@
 	</h2>
 	<div class="mb-7">
 		<div class="filelist">
-			{#each notes as f}
+			{#each $documents as f}
 				<Document name={f.name} id={f.id} type="notes"></Document>
 			{/each}
-			{#if notes.length == 0}
+			{#if $documents.length == 0}
 				<p class="">Der er ingen noter</p>
 			{/if}
 		</div>
