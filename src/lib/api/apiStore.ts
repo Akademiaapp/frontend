@@ -36,11 +36,6 @@ export async function updateSessionInfo() {
 	session.set((await supabase.auth.getSession()).data.session);
 }
 
-// Explicitly specify the type of the store
-export const documentStore = writable<DocumentInfo[]>([]);
-export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
-export const assignmentStore = writable<Assignment[]>([]);
-
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
 export const currentStatus = writable<AssignmentStatus>(null);
 
@@ -60,113 +55,6 @@ currentStatus.subscribe((status) => {
 		});
 	}
 });
-
-interface FilePermission {
-	id: string;
-	user_id: string;
-	permission: string;
-	document_id: string;
-}
-
-interface School {
-	id: string;
-	name: string;
-	address: string;
-}
-
-export interface UserInfo {
-	id: string;
-	full_name: string;
-	username: string;
-	schoolId: string;
-	type: string;
-	school: School;
-}
-
-export async function updateAssignmentsAnswers() {
-	const response = await api.getAssignmentAnswers();
-	if (!response || response.status == 401) {
-		som++;
-		console.log('SOM');
-		if (som > 2) {
-			location.reload();
-			som = 0;
-		}
-		throw new Error('Could not update assignments due to no response');
-	}
-
-	const json = await response.json();
-	if (!json) {
-		som++;
-		if (som > 2) {
-			location.reload();
-			som = 0;
-		}
-
-		throw new Error('Could not update assignments due to no response');
-	}
-
-	som = 0;
-
-	assignmentAnswerStore.set(
-		json.map((assignmentInfo) => new AssignmentAnswer(assignmentInfo, assignmentAnswerStore))
-	);
-}
-
-let som = 0;
-
-export async function updateAssignments() {
-	const user = get(session).user;
-	if (!user) return;
-	if (user.type != 'TEACHER' && user.type != 'TESTER') return;
-	const response = await api.getAssignments();
-	if (!response || response.status == 401) {
-		som++;
-		console.log('SOM');
-		if (som > 2) {
-			location.reload();
-			som = 0;
-		}
-		throw new Error('Could not update assignments due to no response');
-	}
-
-	const json = await response.json();
-	if (!json) {
-		som++;
-		if (som > 2) {
-			location.reload();
-			som = 0;
-		}
-
-		throw new Error('Could not update assignments due to no response');
-	}
-
-	som = 0;
-	assignmentStore.set(
-		json.map((assignmentInfo) => new Assignment(assignmentInfo, assignmentStore))
-	);
-}
-
-export async function newDocument(name: string, open: boolean = true, isNote = false) {
-	const { data, error } = await supabase.from('document').insert([{ name, isNote }]).select();
-
-	const newDoc = new DocumentInfo(data[0], documentStore);
-
-	if (open) {
-		newDoc.open();
-	}
-
-	documentStore.update((files) => [...files, newDoc]);
-	// if (!response) {
-	// 	throw new Error('Could not create document due to no response');
-	// }
-	// const json = await response.json();	const newDoc = new DocumentInfo(json, documentStore);
-
-	// if (open) {
-	// 	newDoc.open();
-	// }
-	// documentStore.update((files) => [...files, newDoc]);
-}
 export async function newAssignment(
 	name: string = '',
 	dueDate: Date = tomorrow(),
