@@ -28,10 +28,6 @@ documents.subscribe((data) => {
 	});
 });
 
-export async function updateSessionInfo() {
-	session.set((await supabase.auth.getSession()).data.session);
-}
-
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
 export const currentStatus = writable<AssignmentStatus>(null);
 
