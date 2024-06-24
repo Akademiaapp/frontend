@@ -13,6 +13,9 @@ export const supabase = new svelteSupabase<Database>(
 // });
 
 export const documents = supabase.keyedStore('document', { useServer: true });
+export const assignments = supabase.keyedStore('assignment', { useServer: true });
+export const assignmentAnswers = supabase.keyedStore('assignment_answer', { useServer: true });
+
 export const files = supabase.store('assignment');
 
 createIndexedDB([documents, files]);
