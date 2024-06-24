@@ -11,6 +11,7 @@
 	import { supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
+	import type { Tables } from '@/supabase.types';
 
 	let provider: SupabaseProvider;
 
@@ -33,13 +34,13 @@
 	)
 		editable = false;
 
-	function initializeTiptap(initcurrentFile: FileInfo | Assignment | AssignmentAnswer | null) {
+	function initializeTiptap(initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null) {
 		if (!initcurrentFile && !$answer) {
 			return;
 		}
 		let fileName = $answer
-			? 'assignmentAnswers.' + $answer
-			: `${initcurrentFile.fileType}.${initcurrentFile.id}`;
+			? $answer
+			: initcurrentFile.id;
 		if (!fileName) {
 			return;
 		}
@@ -91,7 +92,7 @@
 
 						currentFileName = title;
 						if ($currentFile != null) {
-							const newState: FileInfo | Assignment | AssignmentAnswer | DocumentInfo =
+							const newState: Tables<'assignment' | 'assignment_answer' | 'document'> =
 								$currentFile;
 							newState.name = title;
 							const id = newState.id;
