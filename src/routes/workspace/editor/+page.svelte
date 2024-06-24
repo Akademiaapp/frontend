@@ -13,6 +13,7 @@
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
 	import 'https://unpkg.com/@cortex-js/compute-engine?module';
+	import { documents, assignmentAnswers, assignments } from '@/supabase/supabaseClient';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
@@ -27,24 +28,31 @@
 	}
 
 	if (!$currentFile) {
-		api.callApi(`/${apiType}/${id}`, null, 'GET').then((file) => {
-			if (!file) return;
-			file.json().then((fileContent) => {
-				if (apiType === 'documents') {
-					currentFile.set(new DocumentInfo(fileContent, documentStore));
-				} else if (apiType === 'assignmentAnswers') {
-					currentFile.set(new AssignmentAnswer(fileContent, assignmentAnswerStore));
-				} else if (apiType === 'assignments') {
-					currentFile.set(new Assignment(fileContent, assignmentStore));
+		if (apiType === 'documents') {
+			$documents.map((doc) => {
+				if (doc.id === id) {
+					currentFile.set(doc);
 				}
 			});
-		});
+		} else if (apiType === 'assignmentAnswers') {
+			$assignmentAnswers.map((doc) => {
+				if (doc.id === id) {
+					currentFile.set(doc);
+				}
+			});
+		} else if (apiType === 'assignments') {
+			$assignments.map((doc) => {
+				if (doc.id === id) {
+					currentFile.set(doc);
+				}
+			});
+		}
 	}
 	let value;
 </script>
 
 <svelte:head>
-	<title>{$currentFile?.name || 'Editor'} | Akademia</title>
+	<title>{$currentFile?.id || 'Editor'} | Akademia</title>
 </svelte:head>
 
 {#if $currentFile}

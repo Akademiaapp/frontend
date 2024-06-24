@@ -66,7 +66,7 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if $session || $page.url.pathname.includes('/onboarding')}
+{#if $session || $page.url.pathname.includes('/onboarding') || $userInfo}
 	<div class="app">
 		<slot />
 	</div>

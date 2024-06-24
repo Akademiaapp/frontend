@@ -54,7 +54,7 @@
 			name: fileName,
 			databaseDetails: {
 				schema: 'public',
-				table: 'documents',
+				table: 'document',
 				updateColumns: {
 					name: 'id',
 					content: 'content',

@@ -8,6 +8,7 @@
 	export let name = false;
 </script>
 
+{#if $userInfo}
 <div class="cage">
 	<DropdownMenu.Root portal={null}>
 		<DropdownMenu.Trigger asChild let:builder>
@@ -82,6 +83,7 @@
 		</p>
 	{/if}
 </div>
+{/if}
 
 <style lang="scss">
 	p {

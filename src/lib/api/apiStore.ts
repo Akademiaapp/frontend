@@ -14,6 +14,7 @@ import {
 import { tomorrow } from '@/utils/dateUtils';
 import { documents, supabase } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
+import type { Tables } from '@/supabase.types';
 
 export { FileInfo, Folder };
 
@@ -40,7 +41,7 @@ export const documentStore = writable<DocumentInfo[]>([]);
 export const assignmentAnswerStore = writable<AssignmentAnswer[]>([]);
 export const assignmentStore = writable<Assignment[]>([]);
 
-export const currentFile = writable<FileInfo | Assignment | AssignmentAnswer>(null);
+export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
 export const currentStatus = writable<AssignmentStatus>(null);
 
 currentFile.subscribe((file) => {
