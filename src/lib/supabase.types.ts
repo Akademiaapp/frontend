@@ -63,6 +63,7 @@ export type Database = {
           created_at: string
           feedback_id: string | null
           id: string
+          name: string | null
           status: Database["public"]["Enums"]["assignment_status"]
           student_id: string
           updated_at: string
@@ -73,6 +74,7 @@ export type Database = {
           created_at?: string
           feedback_id?: string | null
           id?: string
+          name?: string | null
           status?: Database["public"]["Enums"]["assignment_status"]
           student_id: string
           updated_at?: string
@@ -83,6 +85,7 @@ export type Database = {
           created_at?: string
           feedback_id?: string | null
           id?: string
+          name?: string | null
           status?: Database["public"]["Enums"]["assignment_status"]
           student_id?: string
           updated_at?: string
