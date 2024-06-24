@@ -5,6 +5,7 @@
 	import SocialLogonButton from './SocialLogonButton.svelte';
 	import { supabase } from '@/supabase/supabaseClient';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let isLoading = false;
 
@@ -58,6 +59,17 @@
 				{/if}
 				{actionName} with Email
 			</Button>
+			{#if actionName === 'Sign In'}
+				<Button
+					type="button"
+					variant="link"
+					disabled={isLoading}
+					on:click={() => goto('/onboarding/forgot-password')}
+					class="text-sm text-muted-foreground h-min py-0"
+				>
+					Forgot password?
+				</Button>
+			{/if}
 		</div>
 	</form>
 	<div class="relative">

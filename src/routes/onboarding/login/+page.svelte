@@ -25,7 +25,7 @@
 </script>
 
 <div
-	class="container relative hidden flex-1 flex-col items-center justify-center bg-background p-0 md:grid lg:max-w-none lg:px-0"
+	class="container relative flex-1 flex-col items-center justify-center bg-background p-0 md:grid lg:max-w-none lg:px-0"
 >
 	<Button href="/onboarding/signup" variant="ghost" class="absolute -bottom-4 -left-4 "
 		>Signup</Button
