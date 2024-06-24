@@ -1,17 +1,13 @@
 import { get, writable } from 'svelte/store';
-import api from '.';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
 import {
-	Assignment,
 	AssignmentAnswer,
 	AssignmentStatus,
 	AssignmentStatusStrings,
-	DocumentInfo,
 	FileInfo,
 	Folder
 } from './fileClasses';
-import { tomorrow } from '@/utils/dateUtils';
 import { documents, supabase } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
 import type { Tables } from '@/supabase.types';

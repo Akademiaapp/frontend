@@ -1,5 +1,5 @@
 import { tomorrow } from '@/utils/dateUtils';
-import type { Database } from '../supabase.types';
+import type { Database, Tables } from '../supabase.types';
 
 import { createIndexedDB, svelteSupabase } from './supaStore';
 export const supabase = new svelteSupabase<Database>(
@@ -12,6 +12,7 @@ export const supabase = new svelteSupabase<Database>(
 // supabase.auth.onAuthStateChange((event, session) => {
 // 	console.log('auth change', event, session);
 // });
+export type fileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
 
 export const documents = supabase.keyedStore('document', { useServer: true });
 export const assignments = supabase
