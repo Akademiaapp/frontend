@@ -56,11 +56,9 @@ export class FileInfo {
 		);
 	}
 
-	// Gets the members of the file from the api
+	// Gets the members of the file from the api TODO
 	async getMembers() {
-		const res = await api.callApi(this.path + '/users');
-		const json = await res.json();
-		return json;
+		return [];
 	}
 
 	// Requests the api to update information
