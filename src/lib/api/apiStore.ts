@@ -26,7 +26,7 @@ export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 
 export const currentStatus = writable<AssignmentStatus>(null);
 
 currentFile.subscribe((file) => {
-	if (file instanceof AssignmentAnswer) {
+	if ('status' in file) {
 		currentStatus.set(file.status);
 	} else {
 		currentStatus.set(null);
@@ -34,10 +34,11 @@ currentFile.subscribe((file) => {
 });
 
 currentStatus.subscribe((status) => {
-	const file = get(currentFile);
-	if (file instanceof AssignmentAnswer) {
-		file.updateInfo({
-			status: AssignmentStatusStrings[status]
-		});
+	currentFile.update((file) => {
+		if ('status' in file) {
+			file.status = status;
+		}
+
+		return file;
 	}
 });

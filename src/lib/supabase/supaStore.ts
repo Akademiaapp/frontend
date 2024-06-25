@@ -228,20 +228,20 @@ export class SupaStore<
 			.select()) as SelectResult<TRow>;
 	}
 
-	async find(d, value, colomn: keyof TRow = 'id' as keyof TRow) {
-		return this._find(d, new EQ(colomn, value));
+	async find(value, colomn: keyof TRow = 'id' as keyof TRow) {
+		return this._find(new EQ(colomn, value));
 	}
 
-	async findAll(d, value, colomn: keyof TRow) {
-		return this._findAll(d, new EQ(colomn, value));
+	async findAll(value, colomn: keyof TRow) {
+		return this._findAll(new EQ(colomn, value));
 	}
 
-	async _find(changes, compare: Compare) {
+	async _find(compare: Compare) {
 		// find the first row that matches locally
 		return this.getData().find((row) => compare.checkRow(row));
 	}
 
-	async _findAll(changes, compare: Compare) {
+	async _findAll(compare: Compare) {
 		// find all the rows that match locally
 		return this.getData().filter((row) => compare.checkRow(row));
 	}
