@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
 import { Folder } from './fileClasses';
-import { documents, supabase } from '@/supabase/supabaseClient';
+import { documents, supabase, type fileInfo } from '@/supabase/supabaseClient';
 import { session } from '../../routes/store';
 import type { Tables } from '@/supabase.types';
 
@@ -41,3 +41,15 @@ currentStatus.subscribe((status) => {
 		});
 	}
 });
+
+function canEditFile(file: fileInfo) {
+	if ('status' in file) {
+		// students should only be able to edit files that are NOT submitted or graded
+		return file.status !== 'submitted' && file.status !== 'graded';
+	}
+
+	if ('isPublic' in file) {
+		// teachers should only be able to edit files that are NOT public
+		return !file.isPublic;
+	}
+}
