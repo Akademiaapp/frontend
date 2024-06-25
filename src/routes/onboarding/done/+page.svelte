@@ -14,9 +14,9 @@
 			{ type: $userType, school_id: $selectedSchoolId }
 		).match({ id: $session.user.id });
 		if ($selectedClassId !== '') {
-			// await supabase.from('user').update(
-			// 	{ classId: $selectedClassId }
-			// );
+			supabase.from('user_group').insert([
+				{ user_id: $session.user.id, group_id: $selectedClassId }
+			]);
 		}
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 

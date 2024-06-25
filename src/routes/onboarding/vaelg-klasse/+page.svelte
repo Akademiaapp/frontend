@@ -10,14 +10,16 @@
 	import { canProceed, selectedClassId, selectedSchoolId } from '../onboardingStores';
 	import { School, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import api from '@/api';
+	import { supabase } from '@/supabase/supabaseClient';
 
 	canProceed.set($selectedClassId != '');
 
 	let classes = [];
 
-	onMount(async () => {
-		classes = await (await api.getSchoolClasses($selectedSchoolId)).json();
+	onMount(() => {
+		supabase.from('group').select('*').eq('school_id', $selectedSchoolId).then(({ data }) => {
+			classes = data;
+		});
 	});
 
 	function selectClass(classId) {
