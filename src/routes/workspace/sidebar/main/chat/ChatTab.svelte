@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { assignmentAnswerStore, currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
+	import { currentFile } from '@/api/apiStore';
 	import Button from '@/components/ui/button/button.svelte';
 	import { Select, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 	import SelectTrigger from '@/components/ui/select/select-trigger.svelte';
@@ -8,9 +7,11 @@
 	import { Send } from 'lucide-svelte';
 	import { answer } from '../../../editor/editorStore';
 	import api from '@/api';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
+	import type { Tables } from '@/supabase.types';
+	import { assignmentAnswers, assignmentFeedbacks } from '@/supabase/supabaseClient';
 
 	onMount(() => {
 		grade = null;
@@ -27,20 +28,18 @@
 
 	function setAnswer(answer) {
 		if (!answer) return;
-		if (answer instanceof AssignmentAnswer) {
+		if ('feedback_id' in answer) {
 			file = answer;
 			return;
 		}
-		api.getAssignmentAnswer(answer).then((res) => {
-			res.json().then((data) => {
-				file = new AssignmentAnswer(data, assignmentAnswerStore);
-			});
+		assignmentAnswers.find(answer.id, 'id').then((data) => {
+			file = data;
 		});
 	}
 
 	let error = false;
 
-	async function sendFeedback(the_file: AssignmentAnswer, grade: number, feedback: string) {
+	async function sendFeedback(the_file: Tables<'assignment_answer'>, grade: number, feedback: string) {
 		if (!the_file || !grade || !feedback) {
 			error = true;
 			console.log(error);
@@ -50,10 +49,11 @@
 			}, 2000);
 			return;
 		}
-		file = new AssignmentAnswer(
-			await (await the_file.setGrade(grade, feedback)).json(),
-			assignmentAnswerStore
-		);
+		await assignmentFeedbacks.update(the_file.id, {
+			grade,
+			feedback
+		});
+		file = assignmentAnswers.find(the_file.id, 'id');
 
 		msg = '';
 	}
@@ -65,16 +65,16 @@
 	let placeholder = 'Giv feedback til opgaven...';
 
 	$: placeholder =
-		$currentFile instanceof Assignment ? 'Giv feedback til opgaven...' : 'Skriv en besked...';
+		'due_date' in $currentFile ? 'Giv feedback til opgaven...' : 'Skriv en besked...';
 
 	let bigInputBox = false;
 
-	$: bigInputBox = file && !file.grade && $currentFile instanceof Assignment;
+	$: bigInputBox = file && !file.grade && 'due_date' in $currentFile;
 </script>
 
 {#if !file}
 	<p>loading...</p>
-{:else if file instanceof AssignmentAnswer}
+{:else if 'feedback_id' in file}
 	<div class="flex h-full flex-col justify-between text-lg">
 		<div class="flex flex-col gap-2 p-5">
 			<div class="flex flex-col gap-1"></div>
