@@ -18,7 +18,7 @@
 		goto('onboarding/1');
 	}}>Kom i gang</Button
 >
-<a href="/workspace/home">Skip</a>
+<!-- <a href="/workspace/home">Skip</a> You shouldnt be able to skip onboarding -->
 
 <div></div>
 
