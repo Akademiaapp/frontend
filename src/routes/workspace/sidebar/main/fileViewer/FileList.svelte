@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { FileInfo, Folder } from '@/api/apiStore';
+	import type { Folder } from '@/api/apiStore';
 	import File from './File.svelte';
 	import FolderItem from './FolderItem.svelte';
+	import type { Tables } from '@/supabase.types';
 
 	export let folders: Folder[] = [];
-	export let files: FileInfo[] = [];
+	export let files: Tables<'document' | 'assignment' | 'assignment_answer'>[] = [];
 </script>
 
 <div class="files br-2">

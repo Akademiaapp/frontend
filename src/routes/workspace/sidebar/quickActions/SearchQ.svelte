@@ -1,8 +1,9 @@
 <script lang="ts">
 	import QuickAction from './QuickAction.svelte';
 	import * as Command from '$lib/components/ui/command';
-	import { documentStore, newDocument } from '@/api/apiStore';
+	import { newDocument, openFile } from '@/api/helpers';
 	import { File, FilePen, NotebookPen } from 'lucide-svelte';
+	import { documents } from '@/supabase/supabaseClient';
 	let isSeaching = false;
 
 	window.addEventListener('keydown', (ev) => {
@@ -30,10 +31,10 @@
 	<Command.List>
 		<Command.Empty>Ingen resultater.</Command.Empty>
 		<Command.Group heading="Filer">
-			{#each $documentStore as file}
+			{#each $documents as file}
 				<Command.Item
 					onSelect={() => {
-						file.open();
+						openFile(file.id, 'document'); // TODO not sure if this is correct
 						isSeaching = false;
 					}}
 				>

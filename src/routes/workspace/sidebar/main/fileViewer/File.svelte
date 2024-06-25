@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { currentFile } from '@/api/apiStore';
-	import { FileInfo, DocumentInfo, Folder } from '@/api/fileClasses';
+	import { Folder } from '@/api/fileClasses';
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
-	export let file: FileInfo | DocumentInfo;
+	import type { Tables } from '@/supabase.types';
+	export let file: Tables<'document' | 'assignment' | 'assignment_answer'>;
 	export let onClick = () => {
 		currentFile.set(file);
 	};

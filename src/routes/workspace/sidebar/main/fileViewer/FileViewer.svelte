@@ -2,11 +2,12 @@
 	import { folders } from './../../sidebarStore';
 
 	import SideBarElem from '../../SideBarElem.svelte';
-	import { documentStore, newDocument } from '@/api/apiStore';
+	import { newDocument } from '@/api/helpers';
 	import { tick } from 'svelte';
 	import Category from './Category.svelte';
+	import { documents } from '@/supabase/supabaseClient';
 
-	$: files = $documentStore;
+	$: files = $documents;
 
 	let atBottom = true;
 
@@ -18,7 +19,7 @@
 
 	let filesElem;
 
-	documentStore.subscribe(async (value) => {
+	documents.subscribe(async (value) => {
 		await tick();
 		onscroll({ target: filesElem });
 	});
@@ -32,7 +33,7 @@
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
 		<SideBarElem active={false}>
-			<button on:click={() => newDocument('Uden titel')} class="reset no-bg size-full">
+			<button on:click={() => newDocument('Uden titel', false, true)} class="reset no-bg size-full">
 				<span class="material-symbols-rounded icon-w-2">add</span>
 				<span>Ny fil</span>
 			</button>

@@ -8,8 +8,9 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
 	import { currentFile } from '@/api/apiStore';
-	import { FileInfo } from '@/api/fileClasses';
 	import { page } from '$app/stores';
+	import ActiveFiles from '../../home/activeFiles/ActiveFiles.svelte';
+	import type { Tables } from '@/supabase.types';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
@@ -66,7 +67,7 @@
 
 	$: $currentFile instanceof FileInfo && findMembers($currentFile);
 
-	async function findMembers(activeFile: FileInfo) {
+	async function findMembers(activeFile: Tables<'document' | 'assignment' | 'assignment_answer'>) {
 		people = [];
 
 		const members = await $currentFile.getMembers();
@@ -100,9 +101,7 @@
 	function addUserToDocument() {
 		if (!$currentFile) return;
 		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		if ($currentFile instanceof FileInfo) {
-			$currentFile.addUser(email);
-		}
+		$currentFile.addUser(email);
 	}
 
 	export let open = false;
