@@ -7,12 +7,12 @@
 	import { assignments } from '@/supabase/supabaseClient';
 
 	let assignmentId: string;
-	$: assignmentId =
+	$: assignmentId = $currentFile ?
 		'assignment_id' in $currentFile
 			? $currentFile.assignment_id
 			: 'due_date' in $currentFile
 				? $currentFile.id
-				: '';
+				: '' : '';
 
 	async function getDescription() {
 		return assignments.find(assignmentId, 'id');

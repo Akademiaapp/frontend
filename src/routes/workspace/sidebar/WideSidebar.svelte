@@ -16,9 +16,9 @@
 
 	let hasAssignmentDescription = false;
 
-	$: hasAssignmentDescription =
+	$: hasAssignmentDescription = $currentFile ? 
 		'feedback_id' in $currentFile ||
-		('due_date' in $currentFile && $answer !== null);
+		('due_date' in $currentFile && $answer !== null) : false;
 
 	export let currentTab;
 	$: currentTab = hasAssignmentDescription ? 'assignment' : 'files';

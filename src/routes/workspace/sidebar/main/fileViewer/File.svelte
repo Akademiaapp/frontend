@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { currentFile } from '@/api/apiStore';
-	import { Folder } from '@/api/fileClasses';
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
 	import type { Tables } from '@/supabase.types';
@@ -10,7 +9,7 @@
 	};
 	export let active = false;
 
-	$: if ($currentFile instanceof FileInfo) {
+	$: if ($currentFile) {
 		active = file.id == $currentFile.id;
 	}
 

@@ -13,7 +13,7 @@
 	export let onClose = () => {};
 
 	let showAssignmentTabs = false;
-	$: showAssignmentTabs = 'feedback_id' in $currentFile || $answer !== null;
+	$: showAssignmentTabs = $currentFile ? 'feedback_id' in $currentFile || $answer !== null : false;
 </script>
 
 <div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
