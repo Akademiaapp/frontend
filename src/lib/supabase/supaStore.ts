@@ -229,23 +229,21 @@ export class SupaStore<
 	}
 
 	async find(d, value, colomn: keyof TRow = 'id' as keyof TRow) {
-		this.indexedDBHandler.update(value, d);
-		return this._update(d, new EQ(colomn, value));
+		return this._find(d, new EQ(colomn, value));
 	}
 
 	async findAll(d, value, colomn: keyof TRow) {
-		this.indexedDBHandler.update(value, d);
-		return this._update(d, new EQ(colomn, value));
+		return this._findAll(d, new EQ(colomn, value));
 	}
 
 	async _find(changes, compare: Compare) {
 		// find the first row that matches locally
-		this.getData().find((row) => compare.checkRow(row));
+		return this.getData().find((row) => compare.checkRow(row));
 	}
 
 	async _findAll(changes, compare: Compare) {
 		// find all the rows that match locally
-		this.getData().filter((row) => compare.checkRow(row));
+		return this.getData().filter((row) => compare.checkRow(row));
 	}
 
 	async _delete(compare: Compare, server = this.useServer) {
