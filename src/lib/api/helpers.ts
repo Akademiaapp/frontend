@@ -1,6 +1,8 @@
 import { goto } from "$app/navigation";
 import type { Tables } from "@/supabase.types";
-import { documents } from "@/supabase/supabaseClient";
+import { assignments, documents } from "@/supabase/supabaseClient";
+import { get } from "svelte/store";
+import { session } from "../../routes/store";
 
 
 export async function newDocument(name: string = "Uden titel", is_note: boolean, open: boolean = false) {
@@ -13,9 +15,15 @@ export async function newDocument(name: string = "Uden titel", is_note: boolean,
     }
 }
 
-export function newAssignment() {
-    // goto('/workspace/editor?page?id=0&type=assignmentAnswers'); TODO
-    throw new Error("Not implemented");
+export async function newAssignment(name: string = "Uden titel", open: boolean = false) {
+    const assignment = await assignments.insert({
+        name: name,
+        due_date: new Date().toISOString(),
+        teacher_id: get(session).user.id,
+    });
+    if (open) {
+        openFile(assignment.id, "assignment");
+    }
 }
 
 export function openFile(id: string, type: string) {
