@@ -12,7 +12,7 @@
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
 	let is_note: boolean = documentType === 'notes';
-	$: is_note = 'is_note' in $currentFile && $currentFile.is_note;
+	$: is_note = $currentFile && 'is_note' in $currentFile && $currentFile.is_note;
 
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
@@ -43,7 +43,7 @@
 	}
 	let value;
 
-	$: status = 'status' in $currentFile ? $currentFile.status : null;
+	$: status = $currentFile && 'status' in $currentFile ? $currentFile.status : null;
 </script>
 
 <svelte:head>
