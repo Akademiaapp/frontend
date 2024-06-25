@@ -7,7 +7,7 @@
 	import { currentFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
 
-	const permissions = [
+	const permissionTypes = [
 		{
 			value: 'read',
 			label: 'Kan se'
@@ -53,10 +53,9 @@
 				name: person.full_name,
 				username: person.username,
 				avatar: person.avatar_url || '',
-				permission: permissions.find((a) => a.value == p.permission)
-			});
-		
-		people = people;
+				permission: permissionTypes.find((a) => a.value == p.permission)
+			}
+		);
 	}
 
 	function copyLinkToClipboard() {
@@ -118,7 +117,7 @@
 						<Select.Value placeholder="Vælg" />
 					</Select.Trigger>
 					<Select.Content>
-						{#each permissions as permission}
+						{#each permissionTypes as permission}
 							<Select.Item value={permission.value} label={permission.label}
 								>{permission.label}</Select.Item
 							>
@@ -153,7 +152,7 @@
 								<Select.Value placeholder="Select" />
 							</Select.Trigger>
 							<Select.Content class="w-8">
-								{#each permissions as permission}
+								{#each permissionTypes as permission}
 									<Select.Item value={permission.value} label={permission.label}
 										>{permission.label}</Select.Item
 									>
