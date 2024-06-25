@@ -67,7 +67,7 @@
 
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
+				extensions: getExtensions(provider, 'isPublic' in $currentFile && !$answer),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
@@ -77,18 +77,13 @@
 				onUpdate: ({ transaction }) => {
 					if (!transaction.isGeneric) return;
 
-					if (
-						$currentFile instanceof AssignmentAnswer &&
-						$currentStatus !== AssignmentStatus.IN_PROGRESS
-					) {
-						currentStatus.set(AssignmentStatus.IN_PROGRESS);
+					if ('status' in $currentFile && $currentStatus !== 'in_progress') {
+						currentStatus.set('in_progress');
 					}
 
 					const title: string =
 						transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 					if (title && title !== currentFileName) {
-						$currentFile instanceof FileInfo && $currentFile.rename(title);
-
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key

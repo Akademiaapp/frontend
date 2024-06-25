@@ -23,7 +23,7 @@ documents.subscribe((data) => {
 });
 
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
-export const currentStatus = writable<AssignmentStatus>(null);
+export const currentStatus = writable<Tables<'assignment_answer'>['status']>(null);
 
 currentFile.subscribe((file) => {
 	if ('status' in file) {
