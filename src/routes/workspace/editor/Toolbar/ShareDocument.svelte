@@ -1,8 +1,5 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { UserRoundPlus } from 'lucide-svelte';
-	import { buttonVariants } from '$lib/components/ui/button';
-	import { Button } from '$lib/components/ui/button';
+	import type { FileInfo } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
@@ -41,7 +38,7 @@
 
 	$: $currentFile && findMembers($currentFile);
 
-	async function findMembers(activeFile: Tables<'document' | 'assignment' | 'assignment_answer'>) {
+	async function findMembers(activeFile: FileInfo) {
 		people = [];
 
 		const members = getDocumentMembers(activeFile.id);
@@ -158,6 +155,10 @@
 						</Select.Root>
 					</div>
 				{/each}
+			</div>
+		</div>
+	</Dialog.Content>
+</Dialog.Root>
 			</div>
 		</div>
 	</Dialog.Content>

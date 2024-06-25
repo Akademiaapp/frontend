@@ -165,7 +165,7 @@ export class SupaStore<
 		return data;
 	}
 
-	async insert(d: TInsert, server = this.useServer) {
+	async insert(d: TInsert, server = this.useServer): Promise<TRow & { cid: number }> {
 		const cid = this.getData().length + 1;
 		const clientRow = {
 			...this.deafults(),
@@ -202,6 +202,8 @@ export class SupaStore<
 		if (this.useIndexedDB) {
 			this.indexedDBHandler.put(data[0]);
 		}
+
+		return { ...data[0], cid };
 	}
 
 	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
