@@ -34,11 +34,10 @@ currentFile.subscribe((file) => {
 });
 
 currentStatus.subscribe((status) => {
-	currentFile.update((file) => {
-		if ('status' in file) {
+	if ('status' in get(currentFile)) {
+		currentFile.update((file: Tables<'assignment_answer'>) => {
 			file.status = status;
-		}
-
-		return file;
+			return file;
+		});
 	}
 });
