@@ -1,7 +1,6 @@
 <script lang="ts">
 	import api from '@/api';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment } from '@/api/fileClasses';
 	import {
 		Command,
 		CommandEmpty,
@@ -14,6 +13,8 @@
 	import { X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { userInfo } from '../../../../store';
+	import { assignments } from '@/supabase/supabaseClient';
+	import type { Tables } from '@/supabase.types';
 
 	let focused = false;
 
@@ -25,9 +26,9 @@
 	let selectedMembers = [];
 
 	onMount(async () => {
-		groups = await (await api.getSchoolClasses($userInfo.schoolId)).json();
-		members = await (await api.getSchoolMembers($userInfo.schoolId)).json();
-		selectedGroups = ($currentFile as Assignment).asigned_groups_ids.map((id) => {
+		groups = await (await api.getSchoolClasses($userInfo.school_id)).json();
+		members = await (await api.getSchoolMembers($userInfo.school_id)).json();
+		selectedGroups = ($currentFile as Tables<'assignment'>).asigned_groups_ids.map((id) => {
 			let group = groups.find((group) => group.id == id);
 			if (group) return group;
 		});
@@ -43,26 +44,22 @@
 
 	function updateServerSideSelectedGroups(selected) {
 		if (
-			$currentFile instanceof Assignment &&
+			'asigned_groups_ids' in $currentFile &&
 			$currentFile.asigned_groups_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			$currentFile.updateInfo({
-				asigned_groups_ids: idList
-			});
+			assignments.update($currentFile.id, { asigned_groups_ids: idList });
 		}
 	}
 	function updateServerSideSelectedMembers(selected) {
 		if (
-			$currentFile instanceof Assignment &&
+			'asigned_users_ids' in $currentFile &&
 			$currentFile.asigned_users_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			$currentFile.updateInfo({
-				asigned_users_ids: idList
-			});
+			assignments.update($currentFile.id, { asigned_users_ids: idList });
 		}
 	}
 
