@@ -1,14 +1,14 @@
 import { goto } from '$app/navigation';
 
 import { supabase } from '@/supabase/supabaseClient';
-import { session } from '../../routes/store';
+import { isOnline, session } from '../../routes/store';
 import { get } from 'svelte/store';
 
 export async function redirect() {
 	// check if the user is correctly set up
 	const isUserSetupCurrecly = await isUserSetupCurrectly();
 
-	if (!isUserSetupCurrecly) {
+	if (!isUserSetupCurrecly && get(isOnline)) {
 		// if not, redirect to the onboarding
 		goto('/onboarding');
 	} else {

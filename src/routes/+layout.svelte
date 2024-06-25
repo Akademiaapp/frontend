@@ -35,7 +35,7 @@
 		window.ononline = () => ($isOnline = true);
 		window.onoffline = () => ($isOnline = false);
 
-		if (isOnline) {
+		if ($isOnline) {
 			supabase.auth.getSession().then(({ data }) => {
 				$session = data.session;
 				if (data.session === null || data.session === undefined) {
@@ -58,7 +58,7 @@
 
 	$: console.log('Session:', session);
 
-	$: if (!$session && isOnline) {
+	$: if (!$session && $isOnline) {
 		goto('/onboarding/login');
 	}
 </script>
