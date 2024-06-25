@@ -7,6 +7,7 @@
 	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { currentFile } from '@/api/apiStore';
 	import { cn } from '@/utils';
+	import type { Tables } from '@/supabase.types';
 	export let value = '';
 
 	export let expression = '';
@@ -153,13 +154,15 @@
 	export let numResult = null;
 
 	let editable = true;
-	$: if (
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic)
-	)
-		editable = false;
+	$: if ('status' in $currentFile) {
+		editable =
+			$currentFile.status !== AssignmentStatus.SUBMITTED &&
+			$currentFile.status !== AssignmentStatus.GRADED;
+	}
+
+	$: if ('isPublic' in $currentFile) {
+		editable = !$currentFile.isPublic;
+	}
 
 	let oldRes;
 
