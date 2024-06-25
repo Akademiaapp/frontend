@@ -9,12 +9,8 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { currentFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
-	import ActiveFiles from '../../home/activeFiles/ActiveFiles.svelte';
 	import type { Tables } from '@/supabase.types';
 	import { getDocumentMembers, inviteUserToDocument } from '@/api/helpers';
-
-	var urlParams = new URLSearchParams(window.location.search);
-	var type = urlParams.get('type');
 
 	const permissions = [
 		{
@@ -39,29 +35,6 @@
 			value: string;
 			label: string;
 		};
-	}
-
-	interface User {
-		id: string;
-		email: string;
-		preferred_username: string;
-		email_verified: boolean;
-		signup_methods: string;
-		given_name?: string | null;
-		family_name?: string | null;
-		middle_name?: string | null;
-		nickname?: string | null;
-		picture?: string | null;
-		gender?: string | null;
-		birthdate?: string | null;
-		phone_number?: string | null;
-		phone_number_verified?: boolean | null;
-		roles?: string[];
-		created_at: number;
-		updated_at: number;
-		is_multi_factor_auth_enabled?: boolean;
-		app_data?: Record<string, any>;
-		permission: string;
 	}
 
 	let people: Member[] = [];

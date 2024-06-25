@@ -26,7 +26,7 @@ isOnline.subscribe((value) => {
 	groups.useServer = value;
 });
 
-export type fileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
+export type FileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
 
 export const documents = supabase.keyedStore('document', { useServer: online });
 
