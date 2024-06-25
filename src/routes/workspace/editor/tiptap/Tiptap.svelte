@@ -4,13 +4,6 @@
 
 	import { editor, answer } from '../editorStore';
 	import { canEditFile, currentFile, currentStatus } from '@/api/apiStore';
-	import {
-		FileInfo,
-		Assignment,
-		AssignmentAnswer,
-		AssignmentStatus,
-		DocumentInfo
-	} from '@/api/fileClasses';
 	import getExtensions from './getExtensions';
 
 	import { SupabaseProvider } from '@/supabase/supabaseProvider';
