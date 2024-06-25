@@ -14,14 +14,15 @@
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
 	import { canEditFile, currentFile } from '@/api/apiStore';
-	import { Assignment } from '@/api/fileClasses';
+	import type { Tables } from '@/supabase.types';
+	import { assignments } from '@/supabase/supabaseClient';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
 	// This will set the date to tomorrow
-	let jsDate = new Date(($currentFile as Assignment).due_date);
+	let jsDate = new Date(($currentFile as Tables<'assignment'>).due_date);
 	let [hours, minutes] = jsDate
 		.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
 		.split('.');
@@ -38,7 +39,7 @@
 		return new Date(date.toDate(getLocalTimeZone()).setHours(hours, minutes));
 	}
 
-	$: $currentFile.updateInfo({ due_date: getDateWithTime(date, time).toISOString() });
+	$: assignments.update($currentFile.id, { due_date: getDateWithTime(date, time).toISOString() });
 
 	let editable = true;
 	$: editable = canEditFile($currentFile);
