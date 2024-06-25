@@ -7,13 +7,12 @@
 	import { sidebarWidth } from '../../store';
 	import 'https://unpkg.com/@cortex-js/compute-engine?module';
 	import { documents, assignmentAnswers, assignments } from '@/supabase/supabaseClient';
-	import type { Tables } from '@/supabase.types';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
 	let is_note: boolean = documentType === 'notes';
-	$: is_note = ($currentFile as Tables<'document'>).is_note || false;
+	$: is_note = 'is_note' in $currentFile && $currentFile.is_note;
 
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
