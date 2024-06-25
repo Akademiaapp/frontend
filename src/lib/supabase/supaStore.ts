@@ -298,6 +298,11 @@ export class SupaStore<
 	}
 }
 
+class Row<T extends Record<string, string | number | null | undefined>> {
+	d: T;
+	cid: number;
+}
+
 export class KeyedSupaStore<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
