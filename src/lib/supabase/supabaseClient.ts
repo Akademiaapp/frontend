@@ -2,6 +2,8 @@ import { tomorrow } from '@/utils/dateUtils';
 import type { Database, Tables } from '../supabase.types';
 
 import { createIndexedDB, svelteSupabase } from './supaStore';
+import { isOnline } from '../../routes/store';
+import { get } from 'svelte/store';
 export const supabase = new svelteSupabase<Database>(
 	'https://khpnlpgmzmocwqjkvemv.supabase.co',
 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtocG5scGdtem1vY3dxamt2ZW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NDIwNTIsImV4cCI6MjAzMzQxODA1Mn0.PfFI_eQ5qU6t9mlFUePdnVJHX6Xqt0UDAdUsTXWCPDI'
@@ -12,15 +14,26 @@ export const supabase = new svelteSupabase<Database>(
 // supabase.auth.onAuthStateChange((event, session) => {
 // 	console.log('auth change', event, session);
 // });
+let online = get(isOnline);
+isOnline.subscribe((value) => {
+	online = value;
+	documents.useServer = value;
+	assignments.useServer = value;
+	assignmentAnswers.useServer = value;
+	assignmentFeedbacks.useServer = value;
+	users.useServer = value;
+	groups.useServer = value;
+});
+
 export type fileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
 
-export const documents = supabase.keyedStore('document', { useServer: true });
+export const documents = supabase.keyedStore('document', { useServer: online });
 
-export const assignmentAnswers = supabase.store('assignment_answer');
-export const assignmentFeedbacks = supabase.store('assignment_feedback');
-export const users = supabase.store('user');
-export const groups = supabase.store('group');
-export const assignments = supabase.store('assignment').setDeafults(() => {
+export const assignmentAnswers = supabase.store('assignment_answer', { useServer: online });
+export const assignmentFeedbacks = supabase.store('assignment_feedback', { useServer: online });
+export const users = supabase.store('user', { useServer: online });
+export const groups = supabase.store('group', { useServer: online });
+export const assignments = supabase.store('assignment', { useServer: online }).setDeafults(() => {
 	const dueDate = tomorrow();
 	return {
 		name: 'Unavngivet',

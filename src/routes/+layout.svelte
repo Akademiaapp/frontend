@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.pcss';
-	import { themeVariant } from './store';
+	import { isOnline, themeVariant } from './store';
 	import { ServiceWorker } from "sveltekit-adapter-versioned-worker/svelte";
 
 	import './styles.css';
@@ -31,6 +31,9 @@
 	});
 
 	onMount(() => {
+		$isOnline = navigator.onLine;
+		window.ononline = () => ($isOnline = true);
+		window.onoffline = () => ($isOnline = false);
 		supabase.auth.getSession().then(({ data }) => {
 			$session = data.session;
 			if (data.session === null || data.session === undefined) {
