@@ -233,20 +233,20 @@ export class SupaStore<
 			.select()) as SelectResult<TRow>;
 	}
 
-	async find(value, colomn: keyof TRow = 'id' as keyof TRow) {
+	find(value, colomn: keyof TRow = 'id' as keyof TRow) {
 		return this._find(new EQ(colomn, value));
 	}
 
-	async findAll(value, colomn: keyof TRow) {
+	findAll(value, colomn: keyof TRow) {
 		return this._findAll(new EQ(colomn, value));
 	}
 
-	async _find(compare: Compare) {
+	_find(compare: Compare) {
 		// find the first row that matches locally
 		return this.getData().find((row) => compare.checkRow(row));
 	}
 
-	async _findAll(compare: Compare) {
+	_findAll(compare: Compare) {
 		// find all the rows that match locally
 		return this.getData().filter((row) => compare.checkRow(row));
 	}
@@ -476,23 +476,6 @@ export function createIndexedDB(supaStores: AnyStore[], version = 1) {
 			}
 		}
 
-		if (!db.objectStoreNames.contains('table')) {
-			const productStore = db.createObjectStore('table', {
-				keyPath: 'id',
-				autoIncrement: true
-			});
-			console.log('products store created');
-		}
-		setTimeout(() => {
-			const objectStore = db.transaction(['table'], 'readwrite').objectStore('table');
-			const request = objectStore.add({ name: 'John Doe', id: 1 });
-			request.onsuccess = (event) => {
-				console.log('Item added to the database');
-			};
-			request.onerror = (event) => {
-				console.error('Error adding item to the database:', (event.target as IDBRequest).error);
-			};
-		}, 100);
 		// Initial setup, no 'category' index yet
 	};
 	request.onerror = (event) => {
