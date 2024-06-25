@@ -117,7 +117,7 @@ export class SupaStore<
 	}
 
 	initIndexedDB(objectStore, dbName) {
-		console.log('creating indexedDB');
+		console.log('setting up indexededDB for ', this.tableName);
 		this.indexedDBHandler = new IndexedDBHandler(
 			this.tableName,
 			this.unique,
