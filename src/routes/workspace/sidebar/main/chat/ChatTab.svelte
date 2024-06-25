@@ -31,7 +31,7 @@
 			file = answer;
 			return;
 		}
-		file = assignmentAnswers.find(answer.id, 'id');
+		file = assignmentAnswers.find(answer.id);
 	}
 
 	let error = false;
@@ -50,7 +50,7 @@
 			grade,
 			feedback
 		});
-		file = assignmentAnswers.find(the_file.id, 'id');
+		file = assignmentAnswers.find(the_file.id);
 
 		msg = '';
 	}
