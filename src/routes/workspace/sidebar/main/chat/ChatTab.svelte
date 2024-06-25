@@ -6,7 +6,6 @@
 	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import { Send } from 'lucide-svelte';
 	import { answer } from '../../../editor/editorStore';
-	import api from '@/api';
 	import { onMount } from 'svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import Card from '@/components/ui/card/card.svelte';
@@ -32,9 +31,7 @@
 			file = answer;
 			return;
 		}
-		assignmentAnswers.find(answer.id, 'id').then((data) => {
-			file = data;
-		});
+		file = assignmentAnswers.find(answer.id, 'id');
 	}
 
 	let error = false;

@@ -4,10 +4,7 @@
 	import 'mathlive';
 	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
 	import { editor } from '../../routes/workspace/editor/editorStore';
-	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 	import { canEditFile, currentFile } from '@/api/apiStore';
-	import { cn } from '@/utils';
-	import type { Tables } from '@/supabase.types';
 	export let value = '';
 
 	export let expression = '';
