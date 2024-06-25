@@ -5,7 +5,7 @@
 	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
 	import { editor } from '../../routes/workspace/editor/editorStore';
 	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
-	import { currentFile } from '@/api/apiStore';
+	import { canEditFile, currentFile } from '@/api/apiStore';
 	import { cn } from '@/utils';
 	import type { Tables } from '@/supabase.types';
 	export let value = '';
@@ -154,15 +154,7 @@
 	export let numResult = null;
 
 	let editable = true;
-	$: if ('status' in $currentFile) {
-		editable =
-			$currentFile.status !== AssignmentStatus.SUBMITTED &&
-			$currentFile.status !== AssignmentStatus.GRADED;
-	}
-
-	$: if ('isPublic' in $currentFile) {
-		editable = !$currentFile.isPublic;
-	}
+	$: editable = canEditFile($currentFile);
 
 	let oldRes;
 

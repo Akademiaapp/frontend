@@ -3,7 +3,7 @@
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	import { editor, answer } from '../editorStore';
-	import { currentFile, currentStatus } from '@/api/apiStore';
+	import { canEditFile, currentFile, currentStatus } from '@/api/apiStore';
 	import {
 		FileInfo,
 		Assignment,
@@ -31,14 +31,7 @@
 	export let connected = false;
 
 	let editable = true;
-	$: if (
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic) ||
-		$answer
-	)
-		editable = false;
+	$: editable = canEditFile($currentFile);
 
 	function initializeTiptap(
 		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
@@ -99,13 +92,12 @@
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key
-							documents
-								.update(
-									{
-										name: title
-									},
-									$currentFile.id
-								)
+							documents.update(
+								{
+									name: title
+								},
+								$currentFile.id
+							);
 						}
 					}
 

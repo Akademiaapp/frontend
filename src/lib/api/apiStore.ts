@@ -42,7 +42,7 @@ currentStatus.subscribe((status) => {
 	}
 });
 
-function canEditFile(file: fileInfo) {
+export function canEditFile(file: fileInfo) {
 	if ('status' in file) {
 		// students should only be able to edit files that are NOT submitted or graded
 		return file.status !== 'submitted' && file.status !== 'graded';
