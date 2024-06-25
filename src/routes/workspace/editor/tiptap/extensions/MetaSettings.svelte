@@ -13,7 +13,7 @@
 		CalendarDate
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
-	import { currentFile } from '@/api/apiStore';
+	import { canEditFile, currentFile } from '@/api/apiStore';
 	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
 
 	const df = new DateFormatter('en-US', {
@@ -41,11 +41,7 @@
 	$: $currentFile.updateInfo({ due_date: getDateWithTime(date, time).toISOString() });
 
 	let editable = true;
-	$: editable =
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic === false);
+	$: editable = canEditFile($currentFile);
 
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()
