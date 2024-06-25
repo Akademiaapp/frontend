@@ -12,19 +12,22 @@
 		File
 	} from 'lucide-svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { FileInfo } from '@/api/fileClasses';
 	import { printUsingWindow } from '@/utils/printer';
-	import { get } from 'svelte/store';
+	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
 	let isDeleteOpen = false;
 	export let isNote = false;
 
 	function deleteActiveFile() {
-		if (!($currentFile instanceof FileInfo)) return;
-		$currentFile.delete().then((response) => {
-			if (!response || response.status !== 200) return;
-			$currentFile.store.update((prev) => prev.filter((it) => it.id !== $currentFile.id));
-			currentFile.set(null);
-		});
+		if (!$currentFile) return;
+
+		if ('due_date' in $currentFile) {
+			assignments.delete($currentFile.id);
+		} else if ('feedback_id' in $currentFile) {
+			assignmentAnswers.delete($currentFile.id);
+		} else if ('is_note' in $currentFile) {
+			documents.delete($currentFile.id);
+		} 
+		currentFile.set(null);
 		isDeleteOpen = false;
 	}
 

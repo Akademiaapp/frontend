@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Assignment } from '@/api/fileClasses';
+	import type { Tables } from '@/supabase.types';
 	import { Check } from 'lucide-svelte';
 
-	export let assingment: Assignment;
+	export let assingment: Tables<'assignment'>;
 	export let date: string | undefined = undefined;
 
 	let progressNumber = 5;
@@ -10,7 +10,7 @@
 </script>
 
 <a
-	href={'/workspace/editor?id=' + assingment.id + '&type=' + assingment.fileType}
+	href={'/workspace/editor?id=' + assingment.id + '&type=assignment'}
 	class="reset activeFile frontground"
 >
 	<div class="text">
