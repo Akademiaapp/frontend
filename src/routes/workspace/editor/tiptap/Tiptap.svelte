@@ -81,10 +81,10 @@
 						if ($currentFile != null) {
 							// Update the value for the specified key
 							documents.update(
+								$currentFile.id
 								{
 									name: title
 								},
-								$currentFile.id
 							);
 						}
 					}
