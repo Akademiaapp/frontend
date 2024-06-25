@@ -5,7 +5,7 @@
 	import QuickAction from './quickActions/QuickAction.svelte';
 	import SearchQ from './quickActions/SearchQ.svelte';
 	import AulaNotif from './AulaNotif.svelte';
-	import { newDocument } from '@/api/apiStore';
+	import { newDocument } from '@/api/helpers';
 
 	export let isExpanded;
 </script>
@@ -39,10 +39,10 @@
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="frontground br-2">
-			<QuickAction tooltip="New file" action={() => newDocument('Uden titel')}>
+			<QuickAction tooltip="New file" action={() => newDocument('Uden titel', false, true)}>
 				<File size="29"></File>
 			</QuickAction>
-			<QuickAction tooltip="New note" action={() => newDocument('Uden titel', null, true)}>
+			<QuickAction tooltip="New note" action={() => newDocument('Uden titel', true, true)}>
 				<Notebook size="29"></Notebook>
 			</QuickAction>
 		</div>

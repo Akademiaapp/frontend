@@ -1,10 +1,11 @@
 <script lang="ts">
 	import FileList from './FileList.svelte';
 	import { slide } from 'svelte/transition';
-	import { FileInfo, Folder } from '@/api/fileClasses';
+	import { Folder } from '@/api/fileClasses';
 	import { ChevronRight, Dot } from 'lucide-svelte';
 	import EmojiSelector from '../../../../emoji/EmojiSelector.svelte';
 	import { draggingFile, folders } from '../../sidebarStore';
+	import type { Tables } from '@/supabase.types';
 
 	export let open: boolean = false;
 
@@ -12,7 +13,7 @@
 
 	let blue = false;
 
-	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: FileInfo) {
+	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: Tables<'document' | 'assignment' | 'assignment_answer'>) {
 		for (const folder of folders) {
 			const index = folder.files.findIndex((f) => f.id == fileTobeRemoved.id);
 			if (index != -1) {

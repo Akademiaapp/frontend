@@ -2,6 +2,8 @@ import { tomorrow } from '@/utils/dateUtils';
 import type { Database, Tables } from '../supabase.types';
 
 import { createIndexedDB, svelteSupabase } from './supaStore';
+import { isOnline } from '../../routes/store';
+import { get } from 'svelte/store';
 export const supabase = new svelteSupabase<Database>(
 	'https://khpnlpgmzmocwqjkvemv.supabase.co',
 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtocG5scGdtem1vY3dxamt2ZW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NDIwNTIsImV4cCI6MjAzMzQxODA1Mn0.PfFI_eQ5qU6t9mlFUePdnVJHX6Xqt0UDAdUsTXWCPDI'
@@ -12,29 +14,51 @@ export const supabase = new svelteSupabase<Database>(
 // supabase.auth.onAuthStateChange((event, session) => {
 // 	console.log('auth change', event, session);
 // });
-export type fileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
+let online = get(isOnline);
+isOnline.subscribe((value) => {
+	if (value === online) return;
+	online = value;
+	documents.useServer = value;
+	assignments.useServer = value;
+	assignmentAnswers.useServer = value;
+	assignmentFeedbacks.useServer = value;
+	users.useServer = value;
+	groups.useServer = value;
+});
 
-export const documents = supabase.keyedStore('document', { useServer: true });
-export const assignments = supabase
-	.keyedStore('assignment', { useServer: true })
-	.setDeafults(() => {
-		const dueDate = tomorrow();
-		return {
-			name: 'Unavngivet',
-			due_date: new Date(
-				dueDate.getFullYear(),
-				dueDate.getMonth(),
-				dueDate.getDate(),
-				23,
-				45
-			).toISOString()
-		};
-	});
-export const assignmentAnswers = supabase.keyedStore('assignment_answer', { useServer: true });
+export type FileInfo = Tables<'assignment' | 'assignment_answer' | 'document'>;
 
-export const files = supabase.store('assignment');
+export const documents = supabase.keyedStore('document', { useServer: online });
 
-createIndexedDB([documents, files]);
+export const assignmentAnswers = supabase.store('assignment_answer', { useServer: online });
+export const assignmentFeedbacks = supabase.store('assignment_feedback', { useServer: online });
+export const users = supabase.store('user', { useServer: online });
+export const groups = supabase.store('group', { useServer: online });
+export const assignments = supabase.store('assignment', { useServer: online }).setDeafults(() => {
+	const dueDate = tomorrow();
+	return {
+		name: 'Unavngivet',
+		due_date: new Date(
+			dueDate.getFullYear(),
+			dueDate.getMonth(),
+			dueDate.getDate(),
+			23,
+			45
+		).toISOString()
+	};
+});
+
+export const filePermissions = supabase.store('file_permission', { useServer: online });
+
+createIndexedDB([
+	documents,
+	assignments,
+	assignmentAnswers,
+	assignmentFeedbacks,
+	users,
+	groups,
+	filePermissions
+]);
 
 documents.subscribe((data) => {
 	console.log('documents:', data);

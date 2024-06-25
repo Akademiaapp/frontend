@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.pcss';
-	import { themeVariant } from './store';
+	import { isOnline, themeVariant } from './store';
 	import { ServiceWorker } from "sveltekit-adapter-versioned-worker/svelte";
 
 	import './styles.css';
@@ -31,28 +31,34 @@
 	});
 
 	onMount(() => {
-		supabase.auth.getSession().then(({ data }) => {
-			$session = data.session;
-			if (data.session === null || data.session === undefined) {
-				goto('/onboarding/login');
-			} else {
-				supabase.from('user').select('*').eq('id', data.session.user.id).single().then(({ data }) => userInfo.set(data));
-			}
-		});
+		$isOnline = navigator.onLine;
+		window.ononline = () => ($isOnline = true);
+		window.onoffline = () => ($isOnline = false);
 
-		supabase.auth.onAuthStateChange((_event, _session) => {
-			$session = _session;
-			if (_session === null || _session === undefined) {
-				goto('/onboarding/login');
-			} else {
-				supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
-			}
-		});
+		if ($isOnline) {
+			supabase.auth.getSession().then(({ data }) => {
+				$session = data.session;
+				if (data.session === null || data.session === undefined) {
+					goto('/onboarding/login');
+				} else {
+					supabase.from('user').select('*').eq('id', data.session.user.id).single().then(({ data }) => userInfo.set(data));
+				}
+			});
+
+			supabase.auth.onAuthStateChange((_event, _session) => {
+				$session = _session;
+				if (_session === null || _session === undefined) {
+					goto('/onboarding/login');
+				} else {
+					supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
+				}
+			});
+		}
 	});
 
 	$: console.log('Session:', session);
 
-	$: if (!$session) {
+	$: if (!$session && $isOnline) {
 		goto('/onboarding/login');
 	}
 </script>
@@ -66,7 +72,7 @@
 	<!-- <meta name="color-scheme" content={$themeVariant} /> -->
 </svelte:head>
 
-{#if $session || $page.url.pathname.includes('/onboarding') || $userInfo}
+{#if ($session && $userInfo) || $page.url.pathname.includes('/onboarding') || !isOnline}
 	<div class="app">
 		<slot />
 	</div>

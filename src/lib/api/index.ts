@@ -36,13 +36,13 @@ class ApiHandler {
 		return this.callApi('/documents');
 	};
 
-	createDocument = (documentName: string, isNote: boolean = false) => {
+	createDocument = (documentName: string, is_note: boolean = false) => {
 		return this.callApi(
 			'/documents',
 			{
 				name: documentName,
 				user_id: get(session).user.id,
-				isNote: isNote
+				is_note: is_note
 			},
 			'POST'
 		);

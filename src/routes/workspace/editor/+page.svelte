@@ -2,9 +2,7 @@
 	import Toolbar from './Toolbar/Toolbar.svelte';
 	import FileEditor from './FileEditor.svelte';
 	import { goto } from '$app/navigation';
-	import {
-		currentFile
-	} from '@/api/apiStore';
+	import { currentFile } from '@/api/apiStore';
 	import AnswerSelector from './Toolbar/AnswerSelector.svelte';
 	import { sidebarWidth } from '../../store';
 	import 'https://unpkg.com/@cortex-js/compute-engine?module';
@@ -14,8 +12,8 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
-	let isNote: boolean = documentType === 'notes';
-	$: isNote = ($currentFile as Tables<'document'>).isNote || false;
+	let is_note: boolean = documentType === 'notes';
+	$: is_note = ($currentFile as Tables<'document'>).is_note || false;
 
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
@@ -45,27 +43,31 @@
 		}
 	}
 	let value;
+
+	$: status = 'status' in $currentFile ? $currentFile.status : null;
 </script>
 
 <svelte:head>
 	<title>{$currentFile?.id || 'Editor'} | Akademia</title>
 </svelte:head>
-<!-- TODO
 {#if $currentFile}
 	<div class="editor" style:width={'calc(100% - ' + $sidebarWidth + ')'}>
-		{#if $currentFile.status === 'SUBMITTED' }
+		{#if status === 'submitted'}
 			<p>Du har afleveret denne opgave. Afventer feedback fra din lærer.</p>
-		{:else if $currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED}
-			<p>Din lærer har givet feedback på denne opgave. Du har fået {$currentFile.grade}.</p>
-		{:else if $currentFile instanceof Assignment && $currentFile.isPublic}
+		{:else if status === 'graded'}
+			<p>
+				Din lærer har givet feedback på denne opgave. Du har fået {'grade' in $currentFile &&
+					$currentFile.grade}.
+			</p>
+		{:else if 'isPublic' in $currentFile && $currentFile.isPublic}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
 		{:else}
-			<Toolbar bind:isNote />
+			<Toolbar bind:is_note />
 		{/if}
-		<FileEditor bind:isNote />
+		<FileEditor bind:is_note />
 	</div>
-{/if} -->
+{/if}
 
 <style>
 	.editor {

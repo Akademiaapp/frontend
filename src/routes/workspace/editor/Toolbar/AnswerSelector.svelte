@@ -8,51 +8,21 @@
 	import { cn } from '$lib/utils.js';
 	import { ChevronLeft, ChevronRight, MessagesSquare } from 'lucide-svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment } from '@/api/fileClasses';
 	import { answer } from '../editorStore';
 	import { currentTab } from '../../sidebar/sidebarStore';
-	import { sidebarWidth } from '../../../store';
+	import { assignmentAnswers, users } from '@/supabase/supabaseClient';
+	import type { Tables } from '@/supabase.types';
 
-	let answers = [] as {
-		id: string;
-		assignment_id: string;
-		student_id: string;
-		status: string;
-		feedback: string;
-		grade: number;
-		student: {
-			id: string;
-			first_name: string;
-			last_name: string;
-			type: string;
-			email: string;
-		};
-	}[];
-
-	let inter;
+	let answers: Tables<'assignment_answer'>[] = [];
 
 	onMount(async () => {
-		if (!($currentFile instanceof Assignment)) return;
-		let new_answers = await $currentFile.getAnswers();
-		if (new_answers instanceof Array) answers = new_answers;
-
-		inter = setInterval(async () => {
-			if (!($currentFile instanceof Assignment)) return;
-			let new_answers = await $currentFile.getAnswers(); // TODO SUPABASE
-			if (new_answers instanceof Array) answers = new_answers;
-		}, 1000);
-	});
-
-	onDestroy(() => {
-		clearInterval(inter);
+		answers = $assignmentAnswers.filter((r) => r.assignment_id === $currentFile.id);
 	});
 
 	let open = false;
 
 	$: selectedValue = $answer
-		? answers.find((f) => f.id === $answer)?.student.first_name +
-			' ' +
-			answers.find((f) => f.id === $answer)?.student.last_name
+		? users.find(answers.find((f) => f.id === $answer)?.student_id).full_name
 		: 'Vælg en elev...';
 
 	// We want to refocus the trigger button when the user selects

@@ -3,24 +3,21 @@
 	import { UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
+	import { filePermissions, users, type FileInfo } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
 	import { currentFile } from '@/api/apiStore';
-	import { FileInfo } from '@/api/fileClasses';
 	import { page } from '$app/stores';
 
-	var urlParams = new URLSearchParams(window.location.search);
-	var type = urlParams.get('type');
-
-	const permissions = [
+	const permissionTypes = [
 		{
-			value: 'view',
+			value: 'read',
 			label: 'Kan se'
 		},
 		{
-			value: 'edit',
+			value: 'write',
 			label: 'Kan redigere'
 		},
 		{
@@ -31,7 +28,7 @@
 
 	interface Member {
 		name: string;
-		email: string;
+		username: string;
 		avatar: string;
 		permission: {
 			value: string;
@@ -39,54 +36,34 @@
 		};
 	}
 
-	interface User {
-		id: string;
-		email: string;
-		preferred_username: string;
-		email_verified: boolean;
-		signup_methods: string;
-		given_name?: string | null;
-		family_name?: string | null;
-		middle_name?: string | null;
-		nickname?: string | null;
-		picture?: string | null;
-		gender?: string | null;
-		birthdate?: string | null;
-		phone_number?: string | null;
-		phone_number_verified?: boolean | null;
-		roles?: string[];
-		created_at: number;
-		updated_at: number;
-		is_multi_factor_auth_enabled?: boolean;
-		app_data?: Record<string, any>;
-		permission: string;
-	}
-
 	let people: Member[] = [];
 
-	$: $currentFile instanceof FileInfo && findMembers($currentFile);
+	$: $currentFile && findMembers($currentFile);
 
 	async function findMembers(activeFile: FileInfo) {
 		people = [];
 
-		const members = await $currentFile.getMembers();
+		const permissions = filePermissions.findAll($currentFile.id, 'file_id');
 
-		members.forEach((member) => {
-			// Only add people who aren't already in the list
-			if (people.find((person) => person.email == member.email)) return;
-			people.push({
-				name:
-					member.given_name ||
-					member.preferred_username ||
-					member.nickname ||
-					member.family_name ||
-					member.middle_name ||
-					member.email.split('@')[0],
-				email: member.email,
-				avatar: member.picture || '',
-				permission: permissions[0]
-			});
+		
+
+		people = permissions.map((p) => {
+			const person = users.find(p.user_id)
+
+			// if i dont find a person this is likely due to not having access to that user
+			if (!person) return;
+			
+			const permission = permissions.find((p) => p.user_id === person.id).permission;
+			const permissionObject = permissionTypes.find((p) => p.value === permission);
+
+			return {
+				name: person.full_name,
+				username: person.username,
+				avatar: person.avatar_url || '',
+				permission: permissionObject,
+			};
 		});
+		
 		people = people;
 	}
 
@@ -99,10 +76,12 @@
 
 	function addUserToDocument() {
 		if (!$currentFile) return;
-		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		if ($currentFile instanceof FileInfo) {
-			$currentFile.addUser(email);
-		}
+		var username = (document.getElementById('invite-email') as HTMLInputElement).value;
+		inviteUserToDocument(username, $currentFile.id);
+	}
+
+	function inviteUserToDocument(username: string, document_id: string) {
+    
 	}
 
 	export let open = false;
@@ -147,7 +126,7 @@
 						<Select.Value placeholder="Vælg" />
 					</Select.Trigger>
 					<Select.Content>
-						{#each permissions as permission}
+						{#each permissionTypes as permission}
 							<Select.Item value={permission.value} label={permission.label}
 								>{permission.label}</Select.Item
 							>
@@ -173,7 +152,7 @@
 									{person.name}
 								</p>
 								<p class="text-sm text-muted-foreground">
-									{person.email}
+									{person.username}
 								</p>
 							</div>
 						</div>
@@ -182,7 +161,7 @@
 								<Select.Value placeholder="Select" />
 							</Select.Trigger>
 							<Select.Content class="w-8">
-								{#each permissions as permission}
+								{#each permissionTypes as permission}
 									<Select.Item value={permission.value} label={permission.label}
 										>{permission.label}</Select.Item
 									>

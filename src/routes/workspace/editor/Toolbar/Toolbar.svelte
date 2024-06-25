@@ -32,8 +32,6 @@
 	import MoreActions from './MoreActions.svelte';
 	import { editor } from '../editorStore';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer, DocumentInfo } from '@/api/fileClasses';
-	import * as Select from '$lib/components/ui/select/index.js';
 	import ToolbarButton from './ToolbarButton.svelte';
 	import Aflever from './Aflever.svelte';
 	import Input from '@/components/ui/input/input.svelte';
@@ -63,7 +61,7 @@
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
-	export let isNote = false;
+	export let is_note = false;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -458,13 +456,13 @@
 			</Popover.Root>
 		</div>
 		<div class="flex h-full flex-[100px] justify-end gap-2 pl-4">
-			{#if $currentFile instanceof Assignment}
+			{#if 'due_date' in $currentFile}
 				<Assign />
-			{:else if $currentFile instanceof AssignmentAnswer}
+			{:else if 'feedback_id' in $currentFile}
 				<Aflever />
 			{/if}
-			<ShareDocument bind:open={isShareOpen} showTrigger={$currentFile instanceof DocumentInfo} />
-			<MoreActions bind:isShareOpen bind:isNote></MoreActions>
+			<ShareDocument bind:open={isShareOpen} showTrigger={'content' in $currentFile} />
+			<MoreActions bind:isShareOpen bind:is_note></MoreActions>
 		</div>
 	</div>
 {/if}

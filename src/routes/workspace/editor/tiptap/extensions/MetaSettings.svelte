@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MemberSearch from './MemberSearch.svelte';
 	import { NodeViewWrapper } from 'svelte-tiptap';
-	import { CalendarClock, CalendarIcon, Users } from 'lucide-svelte';
+	import { CalendarClock, Users } from 'lucide-svelte';
 	import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 	import { Button } from '@/components/ui/button';
 	import { cn } from '@/utils';
@@ -13,15 +13,16 @@
 		CalendarDate
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
-	import { currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
+	import { canEditFile, currentFile } from '@/api/apiStore';
+	import type { Tables } from '@/supabase.types';
+	import { assignments } from '@/supabase/supabaseClient';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
 	// This will set the date to tomorrow
-	let jsDate = new Date(($currentFile as Assignment).due_date);
+	let jsDate = new Date(($currentFile as Tables<'assignment'>).due_date);
 	let [hours, minutes] = jsDate
 		.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
 		.split('.');
@@ -31,21 +32,17 @@
 		jsDate.getFullYear(),
 		jsDate.getMonth() + 1,
 		jsDate.getDate()
-	);
+	) as DateValue;
 
 	function getDateWithTime(date: DateValue, time: string) {
 		const [hours, minutes] = time.split(':').map(Number);
 		return new Date(date.toDate(getLocalTimeZone()).setHours(hours, minutes));
 	}
 
-	$: $currentFile.updateInfo({ due_date: getDateWithTime(date, time).toISOString() });
+	$: assignments.update($currentFile.id, { due_date: getDateWithTime(date, time).toISOString() });
 
 	let editable = true;
-	$: editable =
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic === false);
+	$: editable = canEditFile($currentFile);
 
 	// $: $currentFile.updateInfo({
 	// 	due_date: date.toDate(getLocalTimeZone()).setHours().toISOString()

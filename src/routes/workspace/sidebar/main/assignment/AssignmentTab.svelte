@@ -1,24 +1,21 @@
 <script lang="ts">
 	import getExtensions from '../../../editor/tiptap/getExtensions';
-	import api from '@/api';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 	import { TiptapTransformer } from '@hocuspocus/transformer';
 	import * as Y from 'yjs';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
+	import { assignments } from '@/supabase/supabaseClient';
 
 	let assignmentId: string;
-	$: assignmentId =
-		$currentFile instanceof AssignmentAnswer
+	$: assignmentId = $currentFile ?
+		'assignment_id' in $currentFile
 			? $currentFile.assignment_id
-			: $currentFile instanceof Assignment
+			: 'due_date' in $currentFile
 				? $currentFile.id
-				: '';
+				: '' : '';
 
 	async function getDescription() {
-		const res = await api.callApi(`/assignments/${assignmentId}`, null, 'GET');
-		const json = await res.json();
-		return json.data;
+		return assignments.find(assignmentId, 'id');
 	}
 
 	export let isAssignmentDescriptionOpen: boolean;
@@ -32,9 +29,9 @@
 		}
 
 		const data = await getDescription();
-		if (!data.data) return;
+		if (!data) return;
 		const ydoc = new Y.Doc();
-		Y.applyUpdate(ydoc, new Uint8Array(data.data));
+		Y.applyUpdate(ydoc, new Uint8Array(data.content)); // TODO: Check if this is the correct way to apply the update
 		const doc = TiptapTransformer.extensions(getExtensions(null, true)).fromYdoc(ydoc);
 		// Remove metaSettings node from ydoc
 		doc.default.content.splice(1, 1);

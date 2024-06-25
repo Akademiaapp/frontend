@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { scale } from 'svelte/transition';
-	import { AssignmentStatus } from '@/api/fileClasses';
 	import { Check } from 'lucide-svelte';
+	import type { Database } from '@/supabase.types';
 
 	export let name: string;
 	export let date: string | undefined = undefined;
-	export let progress: AssignmentStatus = null;
+	export let progress: Database['public']['Enums']['assignment_status'] = null;
 	export let id: string;
 	export let grade: number | null = null;
 
 	let progressNumber = 5;
 	let finished = false;
 
-	if (progress == AssignmentStatus.NOT_STARTED || progress == undefined) {
+	if (progress == 'not_started' || progress == undefined) {
 		progressNumber = 5;
-	} else if (progress == AssignmentStatus.IN_PROGRESS) {
+	} else if (progress == 'in_progress') {
 		progressNumber = 50;
-	} else if (progress == AssignmentStatus.SUBMITTED) {
+	} else if (progress == 'submitted') {
 		progressNumber = 100;
-	} else if (progress == AssignmentStatus.GRADED) {
+	} else if (progress == 'graded') {
 		finished = true;
 		progressNumber = 100;
 	}

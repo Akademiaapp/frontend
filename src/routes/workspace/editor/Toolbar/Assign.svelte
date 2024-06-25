@@ -5,20 +5,22 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment } from '@/api/fileClasses';
+	import { assignments } from '@/supabase/supabaseClient';
 	
 
 	let open = false;
 
 	async function assignCurrentFile() {
-		if ($currentFile instanceof Assignment) {
+		if ('due_date' in $currentFile) {
 			if (asignSelf)
-				await $currentFile.updateInfo({
-					asigned_users_ids: [$session.user.id]
+				assignments.update($currentFile.id, {
+					assigned_user_ids: [$session.user.id]
 				});
 
-			await $currentFile.assign();
-			$currentFile.isPublic = true;
+			assignments.update($currentFile.id, {
+				is_public: true
+			});
+			$currentFile = assignments.find($currentFile.id);
 		}
 		open = false;
 	}

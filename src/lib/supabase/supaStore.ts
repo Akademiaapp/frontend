@@ -54,6 +54,7 @@ type SupaStoreSettings = {
 	filter?: Compare;
 	useServer?: boolean;
 	useIndexedDB?: boolean;
+	realtime?: boolean;
 };
 
 export class SupaStore<
@@ -69,8 +70,10 @@ export class SupaStore<
 	// Settigns:
 	unique: keyof TRow & string;
 	filter?: Compare;
+
 	useServer: boolean;
 	useIndexedDB: boolean;
+	realtime: boolean;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -87,10 +90,11 @@ export class SupaStore<
 		IndexedDBName: string = 'supabase'
 	) {
 		this.tableName = table;
-		this.unique = settings.unique || 'id';
+		this.unique = settings.unique ?? 'id';
 		this.filter = settings.filter;
-		this.useServer = settings.useServer === undefined ? true : settings.useServer;
-		this.useIndexedDB = settings.useIndexedDB == undefined ? true : settings.useIndexedDB;
+		this.useServer = settings.useServer ?? true;
+		this.useIndexedDB = settings.useIndexedDB ?? true;
+		this.realtime = settings.realtime ?? true;
 
 		if (this.useIndexedDB) {
 			console.log('SupaStore created', this.useIndexedDB);
@@ -98,7 +102,8 @@ export class SupaStore<
 
 		if (this.useServer) {
 			this.supabase = supabase;
-			this.subscribeSupabase();
+			if (this.realtime) this.subscribeSupabase();
+
 			this.supabase.auth.onAuthStateChange(async (event) => {
 				if (event === 'SIGNED_IN') {
 					setTimeout(async () => {
@@ -112,7 +117,7 @@ export class SupaStore<
 	}
 
 	initIndexedDB(objectStore, dbName) {
-		console.log('creating indexedDB');
+		console.log('setting up indexededDB for ', this.tableName);
 		this.indexedDBHandler = new IndexedDBHandler(
 			this.tableName,
 			this.unique,
@@ -160,7 +165,7 @@ export class SupaStore<
 		return data;
 	}
 
-	async insert(d: TInsert, server = this.useServer) {
+	async insert(d: TInsert, server = this.useServer): Promise<TRow & { cid: number }> {
 		const cid = this.getData().length + 1;
 		const clientRow = {
 			...this.deafults(),
@@ -197,6 +202,8 @@ export class SupaStore<
 		if (this.useIndexedDB) {
 			this.indexedDBHandler.put(data[0]);
 		}
+
+		return { ...data[0], cid };
 	}
 
 	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
@@ -204,7 +211,12 @@ export class SupaStore<
 		return this._delete(new EQ(colomn, value), server);
 	}
 
-	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
+	async update(
+		value,
+		d: Partial<TRow>,
+		colomn: keyof TRow = 'id' as keyof TRow,
+		server = this.useServer
+	) {
 		this.indexedDBHandler.update(value, d);
 		return this._update(d, new EQ(colomn, value), server);
 	}
@@ -214,12 +226,31 @@ export class SupaStore<
 		this.store.update((prev) =>
 			prev.map((row) => (compare.checkRow(row) ? { ...row, ...changes } : row))
 		);
+
 		if (!server) return;
 
 		const { error } = (await compare
 			.query(this.supabase.from(this.tableName).update(changes))
 			// here we use the compare to find the correct row
 			.select()) as SelectResult<TRow>;
+	}
+
+	find(value, colomn: keyof TRow = 'id' as keyof TRow) {
+		return this._find(new EQ(colomn, value));
+	}
+
+	findAll(value, colomn: keyof TRow) {
+		return this._findAll(new EQ(colomn, value));
+	}
+
+	_find(compare: Compare) {
+		// find the first row that matches locally
+		return this.getData().find((row) => compare.checkRow(row));
+	}
+
+	_findAll(compare: Compare) {
+		// find all the rows that match locally
+		return this.getData().filter((row) => compare.checkRow(row));
 	}
 
 	async _delete(compare: Compare, server = this.useServer) {
@@ -436,7 +467,7 @@ class IndexedDBHandler {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createIndexedDB(supaStores: AnyStore[], version = 1) {
+export function createIndexedDB(supaStores: AnyStore[], version = 2) {
 	const storeName = 'supaStore';
 	const request = indexedDB.open(storeName, version);
 
@@ -452,23 +483,6 @@ export function createIndexedDB(supaStores: AnyStore[], version = 1) {
 			}
 		}
 
-		if (!db.objectStoreNames.contains('table')) {
-			const productStore = db.createObjectStore('table', {
-				keyPath: 'id',
-				autoIncrement: true
-			});
-			console.log('products store created');
-		}
-		setTimeout(() => {
-			const objectStore = db.transaction(['table'], 'readwrite').objectStore('table');
-			const request = objectStore.add({ name: 'John Doe', id: 1 });
-			request.onsuccess = (event) => {
-				console.log('Item added to the database');
-			};
-			request.onerror = (event) => {
-				console.error('Error adding item to the database:', (event.target as IDBRequest).error);
-			};
-		}, 100);
 		// Initial setup, no 'category' index yet
 	};
 	request.onerror = (event) => {

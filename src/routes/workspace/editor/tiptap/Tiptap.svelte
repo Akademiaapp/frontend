@@ -3,14 +3,7 @@
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
 	import { editor, answer } from '../editorStore';
-	import { currentFile, currentStatus } from '@/api/apiStore';
-	import {
-		FileInfo,
-		Assignment,
-		AssignmentAnswer,
-		AssignmentStatus,
-		DocumentInfo
-	} from '@/api/fileClasses';
+	import { canEditFile, currentFile, currentStatus } from '@/api/apiStore';
 	import getExtensions from './getExtensions';
 
 	import { SupabaseProvider } from '@/supabase/supabaseProvider';
@@ -31,14 +24,7 @@
 	export let connected = false;
 
 	let editable = true;
-	$: if (
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic) ||
-		$answer
-	)
-		editable = false;
+	$: editable = canEditFile($currentFile);
 
 	function initializeTiptap(
 		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
@@ -74,7 +60,7 @@
 
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, $currentFile instanceof Assignment && !$answer),
+				extensions: getExtensions(provider, 'isPublic' in $currentFile && !$answer),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
@@ -84,28 +70,22 @@
 				onUpdate: ({ transaction }) => {
 					if (!transaction.isGeneric) return;
 
-					if (
-						$currentFile instanceof AssignmentAnswer &&
-						$currentStatus !== AssignmentStatus.IN_PROGRESS
-					) {
-						currentStatus.set(AssignmentStatus.IN_PROGRESS);
+					if ('status' in $currentFile && $currentStatus !== 'in_progress') {
+						currentStatus.set('in_progress');
 					}
 
 					const title: string =
 						transaction.doc.content.content[0].content.content[0]?.text || 'Uden titel';
 					if (title && title !== currentFileName) {
-						$currentFile instanceof FileInfo && $currentFile.rename(title);
-
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key
-							documents
-								.update(
-									{
-										name: title
-									},
-									$currentFile.id
-								)
+							documents.update(
+								$currentFile.id,
+								{
+									name: title
+								},
+							);
 						}
 					}
 

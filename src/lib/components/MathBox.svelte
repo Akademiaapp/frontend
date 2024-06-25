@@ -4,9 +4,7 @@
 	import 'mathlive';
 	import { convertLatexToMarkup, MathfieldElement, convertLatexToAsciiMath } from 'mathlive';
 	import { editor } from '../../routes/workspace/editor/editorStore';
-	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
-	import { currentFile } from '@/api/apiStore';
-	import { cn } from '@/utils';
+	import { canEditFile, currentFile } from '@/api/apiStore';
 	export let value = '';
 
 	export let expression = '';
@@ -153,13 +151,7 @@
 	export let numResult = null;
 
 	let editable = true;
-	$: if (
-		($currentFile instanceof AssignmentAnswer &&
-			$currentFile.status === AssignmentStatus.SUBMITTED) ||
-		($currentFile instanceof AssignmentAnswer && $currentFile.status === AssignmentStatus.GRADED) ||
-		($currentFile instanceof Assignment && $currentFile.isPublic)
-	)
-		editable = false;
+	$: editable = canEditFile($currentFile);
 
 	let oldRes;
 

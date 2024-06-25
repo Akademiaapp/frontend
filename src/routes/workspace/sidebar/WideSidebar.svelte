@@ -8,7 +8,6 @@
 	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import Timer from './Timer.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer } from '@/api/fileClasses';
 	import { answer } from '../editor/editorStore';
 	import ChatTab from './main/chat/ChatTab.svelte';
 	export let isExpanded: boolean;
@@ -17,9 +16,9 @@
 
 	let hasAssignmentDescription = false;
 
-	$: hasAssignmentDescription =
-		$currentFile instanceof AssignmentAnswer ||
-		($currentFile instanceof Assignment && $answer !== null);
+	$: hasAssignmentDescription = $currentFile ? 
+		'feedback_id' in $currentFile ||
+		('due_date' in $currentFile && $answer !== null) : false;
 
 	export let currentTab;
 	$: currentTab = hasAssignmentDescription ? 'assignment' : 'files';
@@ -39,7 +38,7 @@
 	<AssignmentTab isAssignmentDescriptionOpen={currentTab == 'assignment'} />
 	{#if currentTab == 'files'}
 		<FileViewer />
-	{:else if currentTab == 'chat' && ($currentFile instanceof AssignmentAnswer || ($currentFile instanceof Assignment && $currentFile.isPublic))}
+	{:else if currentTab == 'chat' && ('feedback_id' in $currentFile || ('due_date' in $currentFile && $currentFile.is_public))}
 		<ChatTab />
 	{/if}
 </div>

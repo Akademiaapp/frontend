@@ -6,28 +6,13 @@
 	import AssignmentAnswer from './AssignmentAnswer.svelte';
 	import { userInfo } from '../../../store';
 	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
+	import { newAssignment, newDocument } from '@/api/helpers';
 
-	// let notes = $documentStore.filter((f) => f.isNote);
-	// let documents = $documentStore.filter((f) => !f.isNote);
+	let notes = $documents.filter((f) => f.is_note);
+	let documentsFiltered = $documents.filter((f) => !f.is_note);
 
-	// $: documents = $documentStore.filter((f) => !f.isNote);
-	// $: notes = $documentStore.filter((f) => f.isNote);
-
-	function newDocument(name: string = "Uden titel", isNote: boolean, open: boolean = false) {
-		documents.insert({
-			name: name,
-			isNote: isNote
-		});
-		if (open) {
-			// goto(`/workspace/editor?page?id=${id}&type=${isNote ? 'notes' : 'documents'}`);
-		}
-	}
-
-	function newAssignment() {
-		// goto('/workspace/editor?page?id=0&type=assignmentAnswers');
-	}
-
-
+	$: documentsFiltered = $documents.filter((f) => !f.is_note);
+	$: notes = $documents.filter((f) => f.is_note);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -84,17 +69,17 @@
 	</h2>
 	<div class="mb-7">
 		<div class="filelist">
-			{#each $documents as f}
+			{#each documentsFiltered as f}
 				<Document name={f.name} id={f.id} type="documents"></Document>
 			{/each}
-			{#if $documents.length == 0}
+			{#if documentsFiltered.length == 0}
 				<p class="">Der er ingen dokumenter</p>
 			{/if}
 		</div>
 		<Button
 			variant="outline"
 			class="mt-4 h-auto py-1.5"
-			on:click={() => newDocument('Uden titel', true, false)}
+			on:click={() => newDocument('Uden titel', false, true)}
 		>
 			<Plus size="19" />
 			Opret dokument
@@ -106,10 +91,10 @@
 	</h2>
 	<div class="mb-7">
 		<div class="filelist">
-			{#each $documents as f}
+			{#each notes as f}
 				<Document name={f.name} id={f.id} type="notes"></Document>
 			{/each}
-			{#if $documents.length == 0}
+			{#if notes.length == 0}
 				<p class="">Der er ingen noter</p>
 			{/if}
 		</div>
