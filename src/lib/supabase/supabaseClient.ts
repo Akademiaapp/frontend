@@ -16,6 +16,7 @@ export const supabase = new svelteSupabase<Database>(
 // });
 let online = get(isOnline);
 isOnline.subscribe((value) => {
+	if (value === online) return;
 	online = value;
 	documents.useServer = value;
 	assignments.useServer = value;
