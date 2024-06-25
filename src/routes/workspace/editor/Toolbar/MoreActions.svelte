@@ -15,7 +15,7 @@
 	import { printUsingWindow } from '@/utils/printer';
 	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
 	let isDeleteOpen = false;
-	export let isNote = false;
+	export let is_note = false;
 
 	function deleteActiveFile() {
 		if (!$currentFile) return;
@@ -26,7 +26,7 @@
 			assignmentAnswers.delete($currentFile.id);
 		} else if ('is_note' in $currentFile) {
 			documents.delete($currentFile.id);
-		} 
+		}
 		currentFile.set(null);
 		isDeleteOpen = false;
 	}
@@ -79,7 +79,7 @@
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 		<DropdownMenu.Group>
-			{#if isNote}
+			{#if is_note}
 				<DropdownMenu.Item>
 					<File size="15" stroke-width="1.5" />
 					Konvertér til dokument

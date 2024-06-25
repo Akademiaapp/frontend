@@ -8,12 +8,11 @@
 	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
 	import { newAssignment, newDocument } from '@/api/helpers';
 
-	let notes = $documents.filter((f) => f.isNote);
-	let documentsFiltered = $documents.filter((f) => !f.isNote);
+	let notes = $documents.filter((f) => f.is_note);
+	let documentsFiltered = $documents.filter((f) => !f.is_note);
 
-	$: documentsFiltered = $documents.filter((f) => !f.isNote);
-	$: notes = $documents.filter((f) => f.isNote);
-
+	$: documentsFiltered = $documents.filter((f) => !f.is_note);
+	$: notes = $documents.filter((f) => f.is_note);
 </script>
 
 <div class="cont br-2 frontground" id="overview">
@@ -80,7 +79,7 @@
 		<Button
 			variant="outline"
 			class="mt-4 h-auto py-1.5"
-			on:click={() => newDocument('Uden titel', true, false)}
+			on:click={() => newDocument('Uden titel', false, true)}
 		>
 			<Plus size="19" />
 			Opret dokument

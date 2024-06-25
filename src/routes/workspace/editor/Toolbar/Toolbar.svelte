@@ -61,7 +61,7 @@
 	});
 	$: $editor?.on('update', () => (selection = $editor));
 
-	export let isNote = false;
+	export let is_note = false;
 
 	function nodeOrSelected() {
 		// let focus = $editor.commands.focus();
@@ -462,7 +462,7 @@
 				<Aflever />
 			{/if}
 			<ShareDocument bind:open={isShareOpen} showTrigger={'content' in $currentFile} />
-			<MoreActions bind:isShareOpen bind:isNote></MoreActions>
+			<MoreActions bind:isShareOpen bind:is_note></MoreActions>
 		</div>
 	</div>
 {/if}
