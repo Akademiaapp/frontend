@@ -1,4 +1,8 @@
 <script lang="ts">
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { UserRoundPlus } from 'lucide-svelte';
+	import { buttonVariants } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/ui/button';
 	import { filePermissions, users, type FileInfo } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
@@ -6,10 +10,9 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { currentFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
-	import type { Tables } from '@/supabase.types';
-	import { getDocumentMembers, inviteUserToDocument } from '@/api/helpers';
+	import { inviteUserToDocument } from '@/api/helpers';
 
-	const permissions = [
+	const permissionTypes = [
 		{
 			value: 'view',
 			label: 'Kan se'
@@ -50,13 +53,17 @@
 
 			// if i dont find a person this is likely due to not having access to that user
 			if (!person) return;
-						
+			
+			const permission = permissions.find((p) => p.user_id === person.id).permission;
+			const permissionObject = permissionTypes.find((p) => p.value === permission);
+
 			return {
 				name: person.full_name,
 				username: person.username,
 				avatar: person.avatar_url || '',
-				permission: p.permission
-			});
+				permission: permissionObject,
+			};
+		});
 		
 		people = people;
 	}
@@ -116,7 +123,7 @@
 						<Select.Value placeholder="Vælg" />
 					</Select.Trigger>
 					<Select.Content>
-						{#each permissions as permission}
+						{#each permissionTypes as permission}
 							<Select.Item value={permission.value} label={permission.label}
 								>{permission.label}</Select.Item
 							>
@@ -151,7 +158,7 @@
 								<Select.Value placeholder="Select" />
 							</Select.Trigger>
 							<Select.Content class="w-8">
-								{#each permissions as permission}
+								{#each permissionTypes as permission}
 									<Select.Item value={permission.value} label={permission.label}
 										>{permission.label}</Select.Item
 									>
@@ -160,10 +167,6 @@
 						</Select.Root>
 					</div>
 				{/each}
-			</div>
-		</div>
-	</Dialog.Content>
-</Dialog.Root>
 			</div>
 		</div>
 	</Dialog.Content>
