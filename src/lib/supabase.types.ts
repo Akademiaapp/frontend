@@ -147,7 +147,7 @@ export type Database = {
           created_at: string
           creator: string | null
           id: string
-          isNote: boolean
+          is_note: boolean
           name: string | null
           path: string | null
           updated_at: string
@@ -157,7 +157,7 @@ export type Database = {
           created_at?: string
           creator?: string | null
           id?: string
-          isNote?: boolean
+          is_note?: boolean
           name?: string | null
           path?: string | null
           updated_at?: string
@@ -167,7 +167,7 @@ export type Database = {
           created_at?: string
           creator?: string | null
           id?: string
-          isNote?: boolean
+          is_note?: boolean
           name?: string | null
           path?: string | null
           updated_at?: string
