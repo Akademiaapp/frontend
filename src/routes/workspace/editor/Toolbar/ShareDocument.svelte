@@ -6,16 +6,14 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { currentFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
-	import type { Tables } from '@/supabase.types';
-	import { getDocumentMembers, inviteUserToDocument } from '@/api/helpers';
 
 	const permissions = [
 		{
-			value: 'view',
+			value: 'read',
 			label: 'Kan se'
 		},
 		{
-			value: 'edit',
+			value: 'write',
 			label: 'Kan redigere'
 		},
 		{
@@ -55,7 +53,7 @@
 				name: person.full_name,
 				username: person.username,
 				avatar: person.avatar_url || '',
-				permission: p.permission
+				permission: permissions.find((a) => a.value == p.permission)
 			});
 		
 		people = people;
@@ -72,6 +70,10 @@
 		if (!$currentFile) return;
 		var username = (document.getElementById('invite-email') as HTMLInputElement).value;
 		inviteUserToDocument(username, $currentFile.id);
+	}
+
+	function inviteUserToDocument(username: string, document_id: string) {
+    
 	}
 
 	export let open = false;
@@ -160,10 +162,6 @@
 						</Select.Root>
 					</div>
 				{/each}
-			</div>
-		</div>
-	</Dialog.Content>
-</Dialog.Root>
 			</div>
 		</div>
 	</Dialog.Content>
