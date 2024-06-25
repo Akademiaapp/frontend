@@ -1,5 +1,4 @@
 <script lang="ts">
-	import api from '@/api';
 	import { currentFile } from '@/api/apiStore';
 	import {
 		Command,
@@ -12,24 +11,18 @@
 	} from '@/components/ui/command';
 	import { X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { userInfo } from '../../../../store';
-	import { assignments } from '@/supabase/supabaseClient';
+	import { assignments, groups, users } from '@/supabase/supabaseClient';
 	import type { Tables } from '@/supabase.types';
 
 	let focused = false;
 
 	let value: string;
-
-	let groups = [];
-	let members = [];
 	let selectedGroups = [];
-	let selectedMembers = [];
+	let selectedMembers: Tables<'user'>[] = [];
 
 	onMount(async () => {
-		groups = await (await api.getSchoolClasses($userInfo.school_id)).json();
-		members = await (await api.getSchoolMembers($userInfo.school_id)).json();
-		selectedGroups = ($currentFile as Tables<'assignment'>).asigned_groups_ids.map((id) => {
-			let group = groups.find((group) => group.id == id);
+		selectedGroups = ($currentFile as Tables<'assignment'>).assigned_group_ids.map((id) => {
+			let group = groups.find(id);
 			if (group) return group;
 		});
 	});
@@ -44,8 +37,8 @@
 
 	function updateServerSideSelectedGroups(selected) {
 		if (
-			'asigned_groups_ids' in $currentFile &&
-			$currentFile.asigned_groups_ids.toString() != getIdList(selected).toString()
+			'assigned_group_ids' in $currentFile &&
+			$currentFile.assigned_group_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
@@ -93,9 +86,9 @@
 	}
 
 	$: memberList = [
-		['Elever', members.filter((m) => m.type == 'STUDENT')],
-		['Lærere', members.filter((m) => m.type == 'TEACHER')],
-		['Testere', members.filter((m) => m.type == 'TESTER')]
+		{ type: 'Elever', members: $users.filter((m) => m.type == 'student') },
+		{ type: 'Lærere', members: $users.filter((m) => m.type == 'teacher') },
+		{ type: 'Testere', members: $users.filter((m) => m.type == 'tester') }
 	];
 </script>
 
@@ -138,19 +131,18 @@
 			<CommandList>
 				<CommandEmpty>Ingen resultater fundet.</CommandEmpty>
 				<CommandGroup heading="Grupper">
-					{#each groups as group}
+					{#each $groups as group}
 						<CommandItem onSelect={() => addGroup(group)}>{group.name}</CommandItem>
 					{/each}
 				</CommandGroup>
-				{#each memberList as [type, members]}
+				{#each memberList as { type, members }}
 					<CommandSeparator />
 					<CommandGroup heading={type.toString()}>
 						{#each members as member}
 							<CommandItem
-								value={`${member.first_name} ${member.last_name} ${type} ${member.email}`}
-								onSelect={() =>
-									addMember({ name: `${member.first_name} ${member.last_name}`, id: member.id })}
-								>{member.first_name} {member.last_name}</CommandItem
+								value={`${member.full_name} ${type} ${member.username}`}
+								onSelect={() => addMember({ name: `${member.full_name}`, id: member.id })}
+								>{member.full_name}</CommandItem
 							>
 						{/each}
 					</CommandGroup>
