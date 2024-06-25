@@ -90,7 +90,7 @@ export class SupaStore<
 		IndexedDBName: string = 'supabase'
 	) {
 		this.tableName = table;
-		this.unique = settings.unique || 'id';
+		this.unique = settings.unique ?? 'id';
 		this.filter = settings.filter;
 		this.useServer = settings.useServer ?? true;
 		this.useIndexedDB = settings.useIndexedDB ?? true;
@@ -219,12 +219,33 @@ export class SupaStore<
 		this.store.update((prev) =>
 			prev.map((row) => (compare.checkRow(row) ? { ...row, ...changes } : row))
 		);
+
 		if (!server) return;
 
 		const { error } = (await compare
 			.query(this.supabase.from(this.tableName).update(changes))
 			// here we use the compare to find the correct row
 			.select()) as SelectResult<TRow>;
+	}
+
+	async find(d, value, colomn: keyof TRow = 'id' as keyof TRow) {
+		this.indexedDBHandler.update(value, d);
+		return this._update(d, new EQ(colomn, value));
+	}
+
+	async findAll(d, value, colomn: keyof TRow) {
+		this.indexedDBHandler.update(value, d);
+		return this._update(d, new EQ(colomn, value));
+	}
+
+	async _find(changes, compare: Compare) {
+		// find the first row that matches locally
+		this.getData().find((row) => compare.checkRow(row));
+	}
+
+	async _findAll(changes, compare: Compare) {
+		// find all the rows that match locally
+		this.getData().filter((row) => compare.checkRow(row));
 	}
 
 	async _delete(compare: Compare, server = this.useServer) {
