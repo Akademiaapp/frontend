@@ -1,4 +1,5 @@
 import { goto } from "$app/navigation";
+import type { Tables } from "@/supabase.types";
 import { documents } from "@/supabase/supabaseClient";
 
 
@@ -24,4 +25,18 @@ export function openFile(id: string, type: string) {
 export function getDocumentMembers(documentId: string) {
     // TODO
     throw new Error("Not implemented" + documentId);
+}
+
+export function getFileType(file: Tables<'document' | 'assignment' | 'assignment_answer'>) {
+    if ('due_date' in file) {
+        return 'assignment';
+    } else if ('feedback_id' in file) {
+        return 'assignment_answer';
+    } else if ('is_note' in file) {
+        if (file.is_note) {
+            return 'note';
+        } else {
+            return 'document';
+        }
+    }
 }

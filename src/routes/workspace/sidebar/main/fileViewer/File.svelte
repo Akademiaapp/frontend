@@ -3,6 +3,7 @@
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
 	import type { Tables } from '@/supabase.types';
+	import { getFileType } from '@/api/helpers';
 	export let file: Tables<'document' | 'assignment' | 'assignment_answer'>;
 	export let onClick = () => {
 		currentFile.set(file);
@@ -31,13 +32,13 @@
 >
 	<a
 		on:click={onClick}
-		href="editor?id={file.id}&type={file.fileType}"
+		href="editor?id={file.id}&type={getFileType(file)}"
 		class="reset"
 		class:active
 		draggable="false"
 	>
 		<div>
-			{#if file instanceof DocumentInfo && file.isNote}
+			{#if 'is_note' in file && file.is_note}
 				<Notebook size={20} />
 			{:else}
 				<File size={20} />
