@@ -2,7 +2,6 @@
 	import { ChevronLeft, ClipboardList, Folder, MessagesSquare } from 'lucide-svelte';
 	import QuickTab from './QuickTab.svelte';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, Assignment } from '@/api/fileClasses';
 	import { answer } from '../../editor/editorStore';
 
 	export let currentTab = 'files';
@@ -13,10 +12,8 @@
 
 	export let onClose = () => {};
 
-	// $: if (!($currentFile instanceof AssignmentAnswer)) answer.set(null);
-
 	let showAssignmentTabs = false;
-	$: showAssignmentTabs = $currentFile instanceof AssignmentAnswer || $answer !== null;
+	$: showAssignmentTabs = 'feedback_id' in $currentFile || $answer !== null;
 </script>
 
 <div class="flex items-center px-3 py-3 pb-2.5" class:gap-3={showAssignmentTabs}>
