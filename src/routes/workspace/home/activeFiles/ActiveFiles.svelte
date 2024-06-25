@@ -79,7 +79,7 @@
 		<Button
 			variant="outline"
 			class="mt-4 h-auto py-1.5"
-			on:click={() => newDocument('Uden titel', true, false)}
+			on:click={() => newDocument('Uden titel', false, true)}
 		>
 			<Plus size="19" />
 			Opret dokument
