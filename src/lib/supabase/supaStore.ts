@@ -54,6 +54,7 @@ type SupaStoreSettings = {
 	filter?: Compare;
 	useServer?: boolean;
 	useIndexedDB?: boolean;
+	realtime?: boolean;
 };
 
 export class SupaStore<
@@ -69,8 +70,10 @@ export class SupaStore<
 	// Settigns:
 	unique: keyof TRow & string;
 	filter?: Compare;
+
 	useServer: boolean;
 	useIndexedDB: boolean;
+	realtime: boolean;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -89,8 +92,9 @@ export class SupaStore<
 		this.tableName = table;
 		this.unique = settings.unique || 'id';
 		this.filter = settings.filter;
-		this.useServer = settings.useServer === undefined ? true : settings.useServer;
-		this.useIndexedDB = settings.useIndexedDB == undefined ? true : settings.useIndexedDB;
+		this.useServer = settings.useServer ?? true;
+		this.useIndexedDB = settings.useIndexedDB ?? true;
+		this.realtime = settings.realtime ?? true;
 
 		if (this.useIndexedDB) {
 			console.log('SupaStore created', this.useIndexedDB);
@@ -98,7 +102,8 @@ export class SupaStore<
 
 		if (this.useServer) {
 			this.supabase = supabase;
-			this.subscribeSupabase();
+			if (this.realtime) this.subscribeSupabase();
+
 			this.supabase.auth.onAuthStateChange(async (event) => {
 				if (event === 'SIGNED_IN') {
 					setTimeout(async () => {
