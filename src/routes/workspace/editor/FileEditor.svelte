@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Tiptap from './tiptap/Tiptap.svelte';
 	import Overview from './Overview.svelte';
-	export let isNote = false;
+	export let is_note = false;
 
 	var scale = 1;
 
 	function onScroll(e: WheelEvent) {
-		if (isNote) return;
+		if (is_note) return;
 		if (!e.ctrlKey) return;
 		e.preventDefault();
 		scale *= 1 + Math.sign(-e.deltaY) * 0.1;
@@ -21,19 +21,19 @@
 <div
 	class="editor_wrapper"
 	style:display={connected ? null : 'none'}
-	style:width={isNote ? '100%' : 'max-content'}
+	style:width={is_note ? '100%' : 'max-content'}
 	on:wheel={onScroll}
 >
-	<div id="pages" style:scale style:width={isNote ? '100%' : 'max-content'}>
-		<div class={'page' + (isNote ? ' w-full' : ' w-[750px]')}>
+	<div id="pages" style:scale style:width={is_note ? '100%' : 'max-content'}>
+		<div class={'page' + (is_note ? ' w-full' : ' w-[750px]')}>
 			<Tiptap bind:connected />
 		</div>
-		<div class="page" hidden={isNote} />
-		<div class="page" hidden={isNote} />
-		<div class="page" hidden={isNote} />
-		<div class="page" hidden={isNote} />
+		<div class="page" hidden={is_note} />
+		<div class="page" hidden={is_note} />
+		<div class="page" hidden={is_note} />
+		<div class="page" hidden={is_note} />
 	</div>
-	{#if !isNote}
+	{#if !is_note}
 		<Overview />
 	{/if}
 </div>

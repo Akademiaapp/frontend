@@ -12,8 +12,8 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var id = urlParams.get('id');
 	var documentType = urlParams.get('type');
-	let isNote: boolean = documentType === 'notes';
-	$: isNote = ($currentFile as Tables<'document'>).isNote || false;
+	let is_note: boolean = documentType === 'notes';
+	$: is_note = ($currentFile as Tables<'document'>).is_note || false;
 
 	var apiType = documentType === 'notes' ? 'documents' : documentType;
 
@@ -63,9 +63,9 @@
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
 		{:else}
-			<Toolbar bind:isNote />
+			<Toolbar bind:is_note />
 		{/if}
-		<FileEditor bind:isNote />
+		<FileEditor bind:is_note />
 	</div>
 {/if}
 

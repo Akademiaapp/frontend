@@ -8,12 +8,11 @@
 	import { assignmentAnswers, assignments, documents } from '@/supabase/supabaseClient';
 	import { newAssignment, newDocument } from '@/api/helpers';
 
-	let notes = $documents.filter((f) => f.isNote);
-	let documentsFiltered = $documents.filter((f) => !f.isNote);
+	let notes = $documents.filter((f) => f.is_note);
+	let documentsFiltered = $documents.filter((f) => !f.is_note);
 
-	$: documentsFiltered = $documents.filter((f) => !f.isNote);
-	$: notes = $documents.filter((f) => f.isNote);
-
+	$: documentsFiltered = $documents.filter((f) => !f.is_note);
+	$: notes = $documents.filter((f) => f.is_note);
 </script>
 
 <div class="cont br-2 frontground" id="overview">

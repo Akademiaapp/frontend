@@ -3,13 +3,13 @@ import type { Tables } from "@/supabase.types";
 import { documents } from "@/supabase/supabaseClient";
 
 
-export async function newDocument(name: string = "Uden titel", isNote: boolean, open: boolean = false) {
+export async function newDocument(name: string = "Uden titel", is_note: boolean, open: boolean = false) {
     const document = await documents.insert({
         name: name,
-        isNote: isNote
+        is_note: is_note
     });
     if (open) {
-        openFile(document.id, isNote ? "note" : "document");
+        openFile(document.id, is_note ? "note" : "document");
     }
 }
 
