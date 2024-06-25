@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { FileInfo } from '@/api/fileClasses';
+	import { type FileInfo } from './../../../../lib/supabase/supabaseClient.ts';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { UserRoundPlus } from 'lucide-svelte';
+	import { FileInput, UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
