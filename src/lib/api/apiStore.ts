@@ -12,7 +12,7 @@ export async function updateSessionInfo() {
 	session.set((await supabase.auth.getSession()).data.session);
 }
 
-const oldDocs = [];
+let oldDocs = [];
 documents.subscribe((data) => {
 	folders.update((prev) => {
 		const docs = data.filter((doc) => !oldDocs.find((f) => f.id === doc.id));
@@ -20,6 +20,8 @@ documents.subscribe((data) => {
 		prev.find((f) => f.name === 'Andet').files.push(...docs);
 		return prev;
 	});
+
+	oldDocs = data;
 });
 
 export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
