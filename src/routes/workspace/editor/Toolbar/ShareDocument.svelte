@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FileInfo } from './../../../../lib/supabase/supabaseClient';
+	import { filePermissions, users, type FileInfo } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
@@ -41,18 +41,23 @@
 	async function findMembers(activeFile: FileInfo) {
 		people = [];
 
-		const members = getDocumentMembers(activeFile.id);
+		const permissions = filePermissions.findAll($currentFile.id, 'file_id');
 
-		members.forEach((member) => {
-			// Only add people who aren't already in the list
-			if (people.find((person) => person.username == member.username)) return;
-			people.push({
-				name: member.full_name,
-				username: member.username,
-				avatar: member.avatar_url || '',
-				permission: permissions[0]
+		
+
+		people = permissions.map((p) => {
+			const person = users.find(p.user_id)
+
+			// if i dont find a person this is likely due to not having access to that user
+			if (!person) return;
+						
+			return {
+				name: person.full_name,
+				username: person.username,
+				avatar: person.avatar_url || '',
+				permission: p.permission
 			});
-		});
+		
 		people = people;
 	}
 

@@ -48,7 +48,17 @@ export const assignments = supabase.store('assignment', { useServer: online }).s
 	};
 });
 
-createIndexedDB([documents, assignments, assignmentAnswers, assignmentFeedbacks, users, groups]);
+export const filePermissions = supabase.store('file_permission', { useServer: online });
+
+createIndexedDB([
+	documents,
+	assignments,
+	assignmentAnswers,
+	assignmentFeedbacks,
+	users,
+	groups,
+	filePermissions
+]);
 
 documents.subscribe((data) => {
 	console.log('documents:', data);
