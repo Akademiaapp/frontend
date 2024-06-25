@@ -4,22 +4,16 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { currentFile } from '@/api/apiStore';
-	import { AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
-	import { get } from 'svelte/store';
+	import { assignmentAnswers } from '@/supabase/supabaseClient';
 
 	let open = false;
 
 	async function submit() {
 		// $currentFile.updateInfo({ status: 'SUBMITTED' });
-		if ($currentFile instanceof AssignmentAnswer) {
-			$currentFile.status = AssignmentStatus.SUBMITTED;
-			$currentFile.updateInfo({ status: 'SUBMITTED' });
+		if ('status' in $currentFile) {
+			$currentFile.status = 'submitted';
 
-			$currentFile.store.update((assignmentAnswers) =>
-				assignmentAnswers.map((a) =>
-					a.id === $currentFile.id ? ($currentFile as AssignmentAnswer) : a
-				)
-			);
+			assignmentAnswers.update($currentFile.id, { status: 'submitted' });
 		}
 		open = false;
 	}

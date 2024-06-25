@@ -209,7 +209,12 @@ export class SupaStore<
 		return this._delete(new EQ(colomn, value), server);
 	}
 
-	async update(d, value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
+	async update(
+		value,
+		d: Partial<TRow>,
+		colomn: keyof TRow = 'id' as keyof TRow,
+		server = this.useServer
+	) {
 		this.indexedDBHandler.update(value, d);
 		return this._update(d, new EQ(colomn, value), server);
 	}

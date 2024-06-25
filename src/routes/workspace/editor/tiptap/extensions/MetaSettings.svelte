@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MemberSearch from './MemberSearch.svelte';
 	import { NodeViewWrapper } from 'svelte-tiptap';
-	import { CalendarClock, CalendarIcon, Users } from 'lucide-svelte';
+	import { CalendarClock, Users } from 'lucide-svelte';
 	import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 	import { Button } from '@/components/ui/button';
 	import { cn } from '@/utils';
@@ -14,7 +14,7 @@
 	} from '@internationalized/date';
 	import { Input } from '@/components/ui/input';
 	import { canEditFile, currentFile } from '@/api/apiStore';
-	import { Assignment, AssignmentAnswer, AssignmentStatus } from '@/api/fileClasses';
+	import { Assignment } from '@/api/fileClasses';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
