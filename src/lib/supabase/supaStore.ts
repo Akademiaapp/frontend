@@ -117,7 +117,7 @@ export class SupaStore<
 	}
 
 	initIndexedDB(objectStore, dbName) {
-		console.log('creating indexedDB');
+		console.log('setting up indexededDB for ', this.tableName);
 		this.indexedDBHandler = new IndexedDBHandler(
 			this.tableName,
 			this.unique,
@@ -462,7 +462,7 @@ class IndexedDBHandler {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createIndexedDB(supaStores: AnyStore[], version = 1) {
+export function createIndexedDB(supaStores: AnyStore[], version = 2) {
 	const storeName = 'supaStore';
 	const request = indexedDB.open(storeName, version);
 
