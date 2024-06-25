@@ -11,6 +11,7 @@
 	import { page } from '$app/stores';
 	import ActiveFiles from '../../home/activeFiles/ActiveFiles.svelte';
 	import type { Tables } from '@/supabase.types';
+	import { getDocumentMembers, inviteUserToDocument } from '@/api/helpers';
 
 	var urlParams = new URLSearchParams(window.location.search);
 	var type = urlParams.get('type');
@@ -32,7 +33,7 @@
 
 	interface Member {
 		name: string;
-		email: string;
+		username: string;
 		avatar: string;
 		permission: {
 			value: string;
@@ -65,26 +66,20 @@
 
 	let people: Member[] = [];
 
-	$: $currentFile instanceof FileInfo && findMembers($currentFile);
+	$: $currentFile && findMembers($currentFile);
 
 	async function findMembers(activeFile: Tables<'document' | 'assignment' | 'assignment_answer'>) {
 		people = [];
 
-		const members = await $currentFile.getMembers();
+		const members = getDocumentMembers(activeFile.id);
 
 		members.forEach((member) => {
 			// Only add people who aren't already in the list
-			if (people.find((person) => person.email == member.email)) return;
+			if (people.find((person) => person.username == member.username)) return;
 			people.push({
-				name:
-					member.given_name ||
-					member.preferred_username ||
-					member.nickname ||
-					member.family_name ||
-					member.middle_name ||
-					member.email.split('@')[0],
-				email: member.email,
-				avatar: member.picture || '',
+				name: member.full_name,
+				username: member.username,
+				avatar: member.avatar_url || '',
 				permission: permissions[0]
 			});
 		});
@@ -100,8 +95,8 @@
 
 	function addUserToDocument() {
 		if (!$currentFile) return;
-		var email = (document.getElementById('invite-email') as HTMLInputElement).value;
-		$currentFile.addUser(email);
+		var username = (document.getElementById('invite-email') as HTMLInputElement).value;
+		inviteUserToDocument(username, $currentFile.id);
 	}
 
 	export let open = false;
@@ -172,7 +167,7 @@
 									{person.name}
 								</p>
 								<p class="text-sm text-muted-foreground">
-									{person.email}
+									{person.username}
 								</p>
 							</div>
 						</div>

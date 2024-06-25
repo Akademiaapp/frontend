@@ -22,7 +22,7 @@ export function openFile(id: string, type: string) {
     goto(`/workspace/editor?page?id=${id}&type=${type}`); // TODO: Fix this
 }
 
-export function getDocumentMembers(documentId: string) {
+export function getDocumentMembers(documentId: string): Tables<'user'>[] {
     // TODO
     throw new Error("Not implemented" + documentId);
 }
@@ -39,4 +39,9 @@ export function getFileType(file: Tables<'document' | 'assignment' | 'assignment
             return 'document';
         }
     }
+}
+
+export function inviteUserToDocument(username: string, document_id: string) {
+    // TODO
+    throw new Error("Not implemented" + username + document_id);
 }
