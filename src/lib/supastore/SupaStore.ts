@@ -9,7 +9,6 @@ import type {
 import { EQ, type Compare } from './compare';
 import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
-import { EventEmitter } from 'stream';
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -29,7 +28,7 @@ export class SupaStore<
 	useIndexedDB: boolean;
 	realtime: boolean;
 
-	eventEmitter: EventEmitter = new EventEmitter();
+	eventEmitter = new EventTarget();
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -71,7 +70,14 @@ export class SupaStore<
 		event: 'insert' | 'update' | 'delete' | 'insert-confirmation' | 'force-fetch',
 		callback: () => void
 	) {
-		this.eventEmitter.on(event, callback);
+		this.eventEmitter.addEventListener(event, callback);
+	}
+
+	emit(
+		event: 'insert' | 'update' | 'delete' | 'insert-confirmation' | 'force-fetch',
+		...args: unknown[]
+	) {
+		this.eventEmitter.dispatchEvent(new CustomEvent(event, { detail: args }));
 	}
 
 	initIndexedDB(objectStore, dbName) {
@@ -120,7 +126,7 @@ export class SupaStore<
 				this.indexedDBHandler.set(data);
 			}
 		}
-		this.eventEmitter.emit('force-fetch');
+		this.emit('force-fetch');
 		return data;
 	}
 
@@ -132,7 +138,7 @@ export class SupaStore<
 			cid
 		};
 		this.store.update((prev) => [...prev, clientRow]);
-		this.eventEmitter.emit('insert', clientRow);
+		this.emit('insert', clientRow);
 
 		if (!server && this.useIndexedDB) {
 			this.indexedDBHandler.put(clientRow);
@@ -165,7 +171,7 @@ export class SupaStore<
 			this.indexedDBHandler.put(data[0]);
 		}
 
-		this.eventEmitter.emit('insert-confirmation', serverConfirmedData);
+		this.emit('insert-confirmation', serverConfirmedData);
 
 		return serverConfirmedData;
 	}
@@ -182,7 +188,7 @@ export class SupaStore<
 		server = this.useServer
 	) {
 		this.indexedDBHandler.update(key, d);
-		this.eventEmitter.emit('update', key, d);
+		this.emit('update', key, d);
 		return this._update(d, new EQ(colomn, key), server);
 	}
 
