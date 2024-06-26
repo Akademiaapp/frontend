@@ -7,8 +7,9 @@ import type {
 	TableRow
 } from './types';
 import { EQ, type Compare } from './compare';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
+import type { EventEmitter } from 'stream';
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -27,6 +28,8 @@ export class SupaStore<
 	useServer: boolean;
 	useIndexedDB: boolean;
 	realtime: boolean;
+
+	eventEmitter: EventEmitter;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -67,6 +70,13 @@ export class SupaStore<
 				}
 			});
 		}
+	}
+
+	on(
+		event: 'insert' | 'update' | 'delete' | 'insert-confirmation' | 'force-fetch',
+		callback: () => void
+	) {
+		this.eventEmitter.on(event, callback);
 	}
 
 	initIndexedDB(objectStore, dbName) {
@@ -115,6 +125,7 @@ export class SupaStore<
 				this.indexedDBHandler.set(data);
 			}
 		}
+		this.eventEmitter.emit('force-fetch');
 		return data;
 	}
 
@@ -126,6 +137,7 @@ export class SupaStore<
 			cid
 		};
 		this.store.update((prev) => [...prev, clientRow]);
+		this.eventEmitter.emit('insert', clientRow);
 
 		if (!server && this.useIndexedDB) {
 			this.indexedDBHandler.put(clientRow);
@@ -144,10 +156,12 @@ export class SupaStore<
 			return;
 		}
 
+		const serverConfirmedData = { ...data[0], cid };
+
 		this.store.update((prev) => {
 			const index = prev.findIndex((row) => row.cid === cid);
 			if (index !== -1) {
-				prev[index] = { ...data[0], cid };
+				prev[index] = serverConfirmedData;
 			}
 			return prev;
 		});
@@ -156,10 +170,12 @@ export class SupaStore<
 			this.indexedDBHandler.put(data[0]);
 		}
 
-		return { ...data[0], cid };
+		this.eventEmitter.emit('insert-confirmation', serverConfirmedData);
+
+		return serverConfirmedData;
 	}
 
-	async delete(value, colomn: keyof TRow = 'id' as keyof TRow, server = this.useServer) {
+	async delete(value, colomn: keyof TRow = this.unique as keyof TRow, server = this.useServer) {
 		this.indexedDBHandler.delete(value);
 		return this._delete(new EQ(colomn, value), server);
 	}
@@ -167,10 +183,11 @@ export class SupaStore<
 	async update(
 		key,
 		d: Partial<TRow>,
-		colomn: keyof TRow = 'id' as keyof TRow,
+		colomn: keyof TRow = this.unique as keyof TRow,
 		server = this.useServer
 	) {
 		this.indexedDBHandler.update(key, d);
+		this.eventEmitter.emit('update', key, d);
 		return this._update(d, new EQ(colomn, key), server);
 	}
 
@@ -193,7 +210,7 @@ export class SupaStore<
 		}
 	}
 
-	find(value, colomn: keyof TRow = 'id' as keyof TRow) {
+	find(value, colomn: keyof TRow = this.unique as keyof TRow) {
 		return this._find(new EQ(colomn, value));
 	}
 
@@ -239,14 +256,11 @@ export class SupaStore<
 						this.delete((payload.old as TRow)[this.unique], undefined, false);
 					}
 					if (payload.eventType === 'UPDATE') {
-						// If the row is not in the local store, we insert it
-						if (
-							this.getData().findIndex(
-								(row) => row[this.unique] === (payload.old as TRow)[this.unique]
-							) === -1
-						) {
+						if (this.find((payload.old as TRow)[this.unique]) == null) {
+							// If the row is not in the local store, we Insert it
 							this.insert(payload.new as TInsert, false);
 						} else {
+							// If the row IS in the local store, we Update it
 							this.update(
 								(payload.old as TRow)[this.unique as keyof TRow],
 								payload.new as Partial<TRow>,
