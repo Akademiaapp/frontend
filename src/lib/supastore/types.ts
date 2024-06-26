@@ -10,11 +10,16 @@ export type GenericDatabase = {
 export type TableRow<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
-> = D['public']['Tables'][T]['Row'] & Record<string | number, string | number>;
+> = D['public']['Tables'][T]['Row'];
 export type TableInsert<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
 > = D['public']['Tables'][T]['Insert'];
+
+export type ClientRow<
+	D extends GenericDatabase,
+	T extends keyof D['public']['Tables'] & string
+> = TableRow<D, T> & { cid: number; table: SupaStore<D, T> };
 // type TableUpdate<T extends keyof Database['public']['Tables']> =
 // 	Database['public']['Tables'][T]['Row'];
 

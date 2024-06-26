@@ -3,7 +3,8 @@ import { get, writable } from 'svelte/store';
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
 import { Folder } from './fileClasses';
 import { documents, type FileInfo } from '@/supabase/supabaseClient';
-import type { Tables } from '@/supabase.types';
+import type { Database, Tables } from '@/supabase.types';
+import type { ClientRow, TableRow } from '@/supastore/types';
 
 export { Folder };
 
@@ -19,7 +20,8 @@ documents.subscribe((data) => {
 	oldDocs = data;
 });
 
-export const currentFile = writable<Tables<'assignment' | 'assignment_answer' | 'document'>>(null);
+export const currentFile =
+	writable<ClientRow<Database, 'assignment' | 'assignment_answer' | 'document'>>(null);
 export const currentStatus = writable<Tables<'assignment_answer'>['status']>(null);
 
 currentFile.subscribe((file) => {

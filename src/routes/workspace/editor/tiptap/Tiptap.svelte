@@ -7,7 +7,7 @@
 	import getExtensions from './getExtensions';
 
 	import { SupabaseProvider } from '@/supabase/supabaseProvider';
-	import { documents, supabase } from '@/supabase/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
 	import type { Tables } from '@/supabase.types';
@@ -25,6 +25,10 @@
 
 	let editable = true;
 	$: editable = canEditFile($currentFile);
+
+	onMount(() => {
+		console.log('mounted');
+	});
 
 	function initializeTiptap(
 		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
@@ -47,7 +51,7 @@
 			name: fileName,
 			databaseDetails: {
 				schema: 'public',
-				table: 'document',
+				table: $currentFile.table.tableName,
 				updateColumns: {
 					name: 'id',
 					content: 'content'
@@ -80,12 +84,9 @@
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key
-							documents.update(
-								$currentFile.id,
-								{
-									name: title
-								},
-							);
+							$currentFile.table.update($currentFile.id, {
+								name: title
+							});
 						}
 					}
 

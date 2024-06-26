@@ -33,7 +33,7 @@ export class SupaStore<
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
-	store = writable<(TRow & { cid: number | string; table: AnyStore })[]>([]);
+	store = writable<(TRow & { cid: number | string | unknown; table: AnyStore })[]>([]);
 	subscribe = this.store.subscribe;
 	set = this.store.set;
 
