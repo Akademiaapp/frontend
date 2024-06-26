@@ -10,17 +10,15 @@ export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D>
 	request;
 	store<T extends keyof D['public']['Tables'] & string>(
 		table: T,
-		settings: SupaStoreSettings = {},
-		IndexedDBName: string = 'supabase'
+		settings: SupaStoreSettings = {}
 	): SupaStore<D, T> {
-		return new SupaStore<D, T>(table, this, settings, IndexedDBName);
+		return new SupaStore<D, T>(table, this, settings);
 	}
 
 	keyedStore<T extends keyof D['public']['Tables'] & string>(
 		table: T,
-		settings: SupaStoreSettings = {},
-		IndexedDBName: string = 'supabase'
+		settings: SupaStoreSettings = {}
 	): KeyedSupaStore<D, T> {
-		return new KeyedSupaStore<D, T>(table, this, settings, IndexedDBName);
+		return new KeyedSupaStore<D, T>(table, this, settings);
 	}
 }
