@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
+	AnyStore,
 	GenericDatabase,
 	SelectResult,
 	SupaStoreSettings,
@@ -32,7 +33,7 @@ export class SupaStore<
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
-	store = writable<(TRow & { cid: number })[]>([]);
+	store = writable<(TRow & { cid: number | string; table: AnyStore })[]>([]);
 	subscribe = this.store.subscribe;
 	set = this.store.set;
 
@@ -120,7 +121,7 @@ export class SupaStore<
 		}
 
 		if (update) {
-			this.store.set(data.map((row) => ({ ...row, cid: row.id })) as (TRow & { cid: number })[]);
+			this.store.set(data.map((row: TRow) => ({ ...row, cid: row[this.unique], table: this })));
 
 			if (this.useIndexedDB) {
 				this.indexedDBHandler.set(data);
@@ -135,7 +136,8 @@ export class SupaStore<
 		const clientRow = {
 			...this.deafults(),
 			...(d as undefined as TRow),
-			cid
+			cid,
+			table: this
 		};
 		this.store.update((prev) => [...prev, clientRow]);
 		this.emit('insert', clientRow);
@@ -146,18 +148,18 @@ export class SupaStore<
 
 		if (!server) return clientRow;
 
-		const { data, error } = await this.supabase
+		const { data, error } = (await this.supabase
 			.from(this.tableName)
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.insert([d] as any)
-			.select();
+			.select()) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
 			return;
 		}
 
-		const serverConfirmedData = { ...data[0], cid };
+		const serverConfirmedData = { ...data[0], cid, table: this };
 
 		this.store.update((prev) => {
 			const index = prev.findIndex((row) => row.cid === cid);

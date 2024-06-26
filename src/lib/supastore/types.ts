@@ -10,7 +10,7 @@ export type GenericDatabase = {
 export type TableRow<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
-> = D['public']['Tables'][T]['Row'];
+> = D['public']['Tables'][T]['Row'] & Record<string | number, string | number>;
 export type TableInsert<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
