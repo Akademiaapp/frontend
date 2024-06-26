@@ -9,7 +9,7 @@ import type {
 import { EQ, type Compare } from './compare';
 import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
-import type { EventEmitter } from 'stream';
+import { EventEmitter } from 'stream';
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -29,7 +29,7 @@ export class SupaStore<
 	useIndexedDB: boolean;
 	realtime: boolean;
 
-	eventEmitter: EventEmitter;
+	eventEmitter: EventEmitter = new EventEmitter();
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -39,12 +39,7 @@ export class SupaStore<
 
 	indexedDBHandler: IndexedDBHandler;
 
-	constructor(
-		table: T,
-		supabase: SupabaseClient<D>,
-		settings: SupaStoreSettings = {},
-		IndexedDBName: string = 'supabase'
-	) {
+	constructor(table: T, supabase: SupabaseClient<D>, settings: SupaStoreSettings = {}) {
 		this.tableName = table;
 		this.unique = settings.unique ?? 'id';
 		this.filter = settings.filter;
