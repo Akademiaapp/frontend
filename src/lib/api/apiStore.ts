@@ -2,15 +2,10 @@ import { get, writable } from 'svelte/store';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
 import { Folder } from './fileClasses';
-import { documents, supabase, type FileInfo } from '@/supabase/supabaseClient';
-import { session } from '../../routes/store';
+import { documents, type FileInfo } from '@/supabase/supabaseClient';
 import type { Tables } from '@/supabase.types';
 
 export { Folder };
-
-export async function updateSessionInfo() {
-	session.set((await supabase.auth.getSession()).data.session);
-}
 
 let oldDocs = [];
 documents.subscribe((data) => {

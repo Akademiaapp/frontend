@@ -8,17 +8,18 @@ import { page } from '$app/stores';
 export async function redirect() {
 	// check if the user is correctly set up
 	console.log('AIOSHDIUHSIDUHUIAHSIDHOIAHSDUI');
-	const isUserSetupCurrecly = await isUserSetupCurrectly();
-
-	if (!isUserSetupCurrecly && get(isOnline)) {
-		// if not, redirect to the onboarding
-		goto('/onboarding');
-	} else {
-		if (!get(page).url.pathname.includes('onboarding')) return;
-		console.log('Redirecting!');
-		// else redirect to the workspace
-		goto('/workspace/home');
-	}
+	setTimeout(async () => {
+		const isUserSetupCurrecly = await isUserSetupCurrectly();
+		if (!isUserSetupCurrecly && get(isOnline)) {
+			// if not, redirect to the onboarding
+			goto('/onboarding');
+		} else {
+			if (!get(page).url.pathname.includes('onboarding')) return;
+			console.log('Redirecting!');
+			// if correct setup, redirect to the workspace
+			goto('/workspace/home');
+		}
+	}, 1000);
 }
 
 export async function isUserSetupCurrectly() {
