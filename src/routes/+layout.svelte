@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.pcss';
 	import { isOnline, themeVariant } from './store';
-	import { ServiceWorker } from "sveltekit-adapter-versioned-worker/svelte";
+	import { ServiceWorker } from 'sveltekit-adapter-versioned-worker/svelte';
 
 	import './styles.css';
 	import './tiptap-styles.scss';
@@ -41,16 +41,27 @@
 				if (data.session === null || data.session === undefined) {
 					goto('/onboarding/login');
 				} else {
-					supabase.from('user').select('*').eq('id', data.session.user.id).single().then(({ data }) => userInfo.set(data));
+					supabase
+						.from('user')
+						.select('*')
+						.eq('id', data.session.user.id)
+						.single()
+						.then(({ data }) => userInfo.set(data));
 				}
 			});
 
 			supabase.auth.onAuthStateChange((_event, _session) => {
 				$session = _session;
+				console.log('Session:', _session);
 				if (_session === null || _session === undefined) {
 					goto('/onboarding/login');
 				} else {
-					supabase.from('user').select('*').eq('id', _session.user.id).single().then(({ data }) => userInfo.set(data));
+					supabase
+						.from('user')
+						.select('*')
+						.eq('id', _session.user.id)
+						.single()
+						.then(({ data }) => userInfo.set(data));
 				}
 			});
 		}

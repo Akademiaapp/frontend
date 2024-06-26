@@ -8,22 +8,22 @@ import { page } from '$app/stores';
 export async function redirect() {
 	// check if the user is correctly set up
 	console.log('AIOSHDIUHSIDUHUIAHSIDHOIAHSDUI');
-	setTimeout(async () => {
-		const isUserSetupCurrecly = await isUserSetupCurrectly();
-		if (!isUserSetupCurrecly && get(isOnline)) {
-			// if not, redirect to the onboarding
-			goto('/onboarding');
-		} else {
-			if (!get(page).url.pathname.includes('onboarding')) return;
-			console.log('Redirecting!');
-			// if correct setup, redirect to the workspace
-			goto('/workspace/home');
-		}
-	}, 1000);
+
+	if (!get(session)) return;
+
+	const isUserSetupCurrecly = await isUserSetupCurrectly();
+	if (!isUserSetupCurrecly && get(isOnline)) {
+		// if not, redirect to the onboarding
+		goto('/onboarding');
+	} else {
+		if (!get(page).url.pathname.includes('onboarding')) return;
+		console.log('Redirecting!');
+		// if correct setup, redirect to the workspace
+		goto('/workspace/home');
+	}
 }
 
 export async function isUserSetupCurrectly() {
-	if (!get(session).user) return false;
 	const { data, error } = await supabase
 		.from('user')
 		.select('*')
