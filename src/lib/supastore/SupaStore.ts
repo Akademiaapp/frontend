@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
 	AnyStore,
+	ClientRow,
 	GenericDatabase,
 	SelectResult,
 	SupaStoreSettings,
@@ -33,7 +34,7 @@ export class SupaStore<
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
-	store = writable<(TRow & { cid: number | string | unknown; table: AnyStore })[]>([]);
+	store = writable<ClientRow<D, T>[]>([]);
 	subscribe = this.store.subscribe;
 	set = this.store.set;
 

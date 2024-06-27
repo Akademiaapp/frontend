@@ -27,13 +27,13 @@
 					currentFile.set(doc);
 				}
 			});
-		} else if (apiType === 'assignmentAnswers') {
+		} else if (apiType === 'assignmentanswer') {
 			$assignmentAnswers.map((doc) => {
 				if (doc.id === id) {
 					currentFile.set(doc);
 				}
 			});
-		} else if (apiType === 'assignments') {
+		} else if (apiType === 'assignment') {
 			$assignments.map((doc) => {
 				if (doc.id === id) {
 					currentFile.set(doc);

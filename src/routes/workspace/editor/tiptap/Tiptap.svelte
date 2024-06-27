@@ -14,7 +14,7 @@
 
 	let provider: SupabaseProvider;
 
-	$: if ($currentFile) initializeTiptap($currentFile);
+	$: if ($currentFile.id) initializeTiptap($currentFile.id);
 	$: if ($answer) initializeTiptap(null);
 
 	// this is needed
@@ -30,13 +30,11 @@
 		console.log('mounted');
 	});
 
-	function initializeTiptap(
-		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
-	) {
-		if (!initcurrentFile && !$answer) {
+	function initializeTiptap(fileID: string | null) {
+		if (!fileID && !$answer) {
 			return;
 		}
-		let fileName = $answer ? $answer : initcurrentFile.id;
+		let fileName = $answer ? $answer : fileID;
 		if (!fileName) {
 			return;
 		}
@@ -64,7 +62,7 @@
 
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, 'isPublic' in $currentFile && !$answer),
+				extensions: getExtensions(provider, 'isPublic' in $currentFile),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
@@ -87,6 +85,8 @@
 							$currentFile.table.update($currentFile.id, {
 								name: title
 							});
+
+							$currentFile.name = title;
 						}
 					}
 
