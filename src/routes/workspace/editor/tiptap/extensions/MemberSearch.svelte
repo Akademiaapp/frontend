@@ -38,6 +38,7 @@
 	function updateServerSideSelectedGroups(selected) {
 		if (
 			'assigned_group_ids' in $currentFile &&
+			$currentFile.assigned_group_ids != null &&
 			$currentFile.assigned_group_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);

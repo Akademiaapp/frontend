@@ -93,6 +93,8 @@ export class SupabaseProvider extends EventEmitter {
 
 		const dbDocument = fromUint8Array(Y.encodeStateAsUpdate(this.document));
 
+		console.log(this.configuration);
+
 		const res = await this.supabase
 			.from(this.configuration.databaseDetails.table)
 			.update({

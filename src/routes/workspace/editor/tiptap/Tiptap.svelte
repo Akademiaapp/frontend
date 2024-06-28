@@ -47,8 +47,13 @@
 
 		const document = new Y.Doc();
 
+		const stringFileName = fileName.toString();
+
+		console.log('fileName: ', stringFileName);
+		console.log('fileName: ', fileName);
+		console.log($currentFile.table.tableName);
 		provider = new SupabaseProvider(supabase, {
-			name: fileName,
+			name: stringFileName,
 			databaseDetails: {
 				schema: 'public',
 				table: $currentFile.table.tableName,
@@ -64,9 +69,11 @@
 
 		currentId = fileID;
 
+		console.log($currentFile);
+
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, 'isPublic' in $currentFile),
+				extensions: getExtensions(provider, 'is_public' in $currentFile),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
@@ -125,7 +132,7 @@
 	}
 
 	onMount(() => {
-		initializeTiptap($currentFile);
+		initializeTiptap($currentFile.id);
 	});
 
 	onDestroy(() => {
