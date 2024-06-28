@@ -14,8 +14,10 @@
 
 	let provider: SupabaseProvider;
 
-	$: if ($currentFile.id) initializeTiptap($currentFile.id);
+	$: if ($currentFile.id != currentId) initializeTiptap($currentFile.id);
 	$: if ($answer) initializeTiptap(null);
+
+	let currentId = '';
 
 	// this is needed
 	let currentFileName = '';
@@ -59,6 +61,8 @@
 			document: document
 		});
 		connected = true;
+
+		currentId = fileID;
 
 		editor.set(
 			new Editor({

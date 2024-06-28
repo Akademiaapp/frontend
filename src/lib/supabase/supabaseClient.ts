@@ -48,7 +48,7 @@ export const assignments = supabase.store('assignment', { useServer: online }).s
 			45
 		).toISOString()
 	};
-});
+}, true);
 
 export const filePermissions = supabase.store('file_permission', { useServer: online });
 
