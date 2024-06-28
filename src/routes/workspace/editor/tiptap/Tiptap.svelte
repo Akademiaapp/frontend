@@ -14,7 +14,7 @@
 
 	let provider: SupabaseProvider;
 
-	$: if ($currentFile.id != currentId) initializeTiptap($currentFile.id);
+	$: if ($currentFile && $currentFile.id != currentId) initializeTiptap($currentFile.id);
 	$: if ($answer) initializeTiptap(null);
 
 	let currentId = '';
@@ -46,14 +46,9 @@
 		provider?.destroy();
 
 		const document = new Y.Doc();
-
-		const stringFileName = fileName.toString();
-
-		console.log('fileName: ', stringFileName);
-		console.log('fileName: ', fileName);
 		console.log($currentFile.table.tableName);
 		provider = new SupabaseProvider(supabase, {
-			name: stringFileName,
+			name: fileName,
 			databaseDetails: {
 				schema: 'public',
 				table: $currentFile.table.tableName,
