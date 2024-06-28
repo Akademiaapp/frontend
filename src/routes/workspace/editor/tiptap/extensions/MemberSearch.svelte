@@ -21,7 +21,7 @@
 	let selectedMembers: Tables<'user'>[] = [];
 
 	onMount(async () => {
-		selectedGroups = ($currentFile as Tables<'assignment'>).assigned_group_ids.map((id) => {
+		selectedGroups = (($currentFile as Tables<'assignment'>).assigned_group_ids ?? []).map((id) => {
 			let group = groups.find(id);
 			if (group) return group;
 		});
