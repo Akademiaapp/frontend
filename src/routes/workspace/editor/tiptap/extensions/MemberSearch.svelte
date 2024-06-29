@@ -43,17 +43,17 @@
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			assignments.update($currentFile.id, { asigned_groups_ids: idList });
+			assignments.update($currentFile.id, { assigned_group_ids: idList });
 		}
 	}
 	function updateServerSideSelectedMembers(selected) {
 		if (
-			'asigned_users_ids' in $currentFile &&
-			$currentFile.asigned_users_ids.toString() != getIdList(selected).toString()
+			'assigned_user_ids' in $currentFile &&
+			$currentFile.assigned_user_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			assignments.update($currentFile.id, { asigned_users_ids: idList });
+			assignments.update($currentFile.id, { assigned_user_ids: idList });
 		}
 	}
 
