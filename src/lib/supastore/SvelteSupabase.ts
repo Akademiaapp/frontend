@@ -2,6 +2,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { KeyedSupaStore } from './KeyedSupastore';
 import { SupaStore } from './SupaStore';
 import type { GenericDatabase, SupaStoreSettings } from './types';
+import { ViewStore } from './ViewSupastore';
 
 export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D> {
 	isInited = false;

@@ -3,7 +3,6 @@ import { SupaStore } from './SupaStore';
 import type {
 	ClientRow,
 	GenericDatabase,
-	SelectResult,
 	SelectResultSingle,
 	SupaStoreSettings,
 	TableInsert,
