@@ -21,4 +21,12 @@ export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D>
 	): KeyedSupaStore<D, T> {
 		return new KeyedSupaStore<D, T>(table, this, settings);
 	}
+
+	viewStore<T extends keyof D['public']['Views'] & string>(
+		table: T,
+		baseTable: string,
+		settings: SupaStoreSettings = {}
+	) {
+		return new ViewStore<D, T>(table, baseTable, this, settings);
+	}
 }

@@ -12,7 +12,7 @@ import type {
 
 export class ViewStore<
 	D extends GenericDatabase,
-	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
+	T extends keyof D['public']['Views'] & string = keyof D['public']['Views'] & string,
 	// Using hack to create type alias
 	TRow extends TableRow<D, T> = TableRow<D, T>,
 	TInsert extends TableInsert<D, T> = TableInsert<D, T>
