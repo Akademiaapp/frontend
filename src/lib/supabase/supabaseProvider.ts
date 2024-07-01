@@ -1,234 +1,246 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { RealtimeChannel, SupabaseClient } from "@supabase/supabase-js";
+import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import debounce from 'debounce';
 import { EventEmitter } from 'events';
-import { fromUint8Array, toUint8Array } from "js-base64";
-import { Awareness, removeAwarenessStates, encodeAwarenessUpdate, applyAwarenessUpdate } from 'y-protocols/awareness'
-import * as Y from "yjs";
+import { fromUint8Array, toUint8Array } from 'js-base64';
+import {
+	Awareness,
+	removeAwarenessStates,
+	encodeAwarenessUpdate,
+	applyAwarenessUpdate
+} from 'y-protocols/awareness';
+import * as Y from 'yjs';
 
 export interface SupabaseProviderConfiguration {
-    /**
-    * The identifier/name of your document
-    */
-    name: string;
-    /**
-     * The actual Y.js document
-     */
-    document: Y.Doc;
-    /**
-     * The awareness instance
-     */
-    awareness?: Awareness;
-    /**
-     * Details about the database to connect to
-     */
-    databaseDetails: {
-        schema: string,
-        table: string,
-        updateColumns: { name: string, content: string },
-        conflictColumns: string
-    }
+	/**
+	 * The identifier/name of your document
+	 */
+	name: string;
+	/**
+	 * The actual Y.js document
+	 */
+	document: Y.Doc;
+	/**
+	 * The awareness instance
+	 */
+	awareness?: Awareness;
+	/**
+	 * Details about the database to connect to
+	 */
+	databaseDetails: {
+		schema: string;
+		table: string;
+		updateColumns: { name: string; content: string };
+		conflictColumns: string;
+	};
 }
 
 export class SupabaseProvider extends EventEmitter {
-    public configuration: SupabaseProviderConfiguration = {
-        name: '',
-        document: undefined,
-        awareness: undefined,
-        databaseDetails: {
-            schema: '',
-            table: '',
-            updateColumns: { name: '', content: '' },
-            conflictColumns: ''
-        }
-    }
+	public configuration: SupabaseProviderConfiguration = {
+		name: '',
+		document: undefined,
+		awareness: undefined,
+		databaseDetails: {
+			schema: '',
+			table: '',
+			updateColumns: { name: '', content: '' },
+			conflictColumns: ''
+		}
+	};
 
-    private supabase: SupabaseClient;
-    private channel: RealtimeChannel | null = null;
-    private awareness: Awareness | null = null;
-    private version: number = 0;
-    public callbacks: { [key: string]: Function[] } = {}
+	private supabase: SupabaseClient;
+	private channel: RealtimeChannel | null = null;
+	private awareness: Awareness | null = null;
+	private version: number = 0;
+	public callbacks: { [key: string]: Function[] } = {};
 
-    constructor(supabase: SupabaseClient, config: SupabaseProviderConfiguration) {
-        super();
-        this.setConfiguration(config);
-        this.configuration.document = config.document ? config.document : new Y.Doc();
-        this.awareness = config.awareness ? config.awareness : new Awareness(this.configuration.document);
-        this.supabase = supabase;
+	constructor(supabase: SupabaseClient, config: SupabaseProviderConfiguration) {
+		super();
+		this.setConfiguration(config);
+		this.configuration.document = config.document ? config.document : new Y.Doc();
+		this.awareness = config.awareness
+			? config.awareness
+			: new Awareness(this.configuration.document);
+		this.supabase = supabase;
 
-        this.on('connect', this.onConnect);
-        this.on('disconnect', this.onDisconnect);
-        this.document.on('update', debounce(this.documentUpdateHandler.bind(this), 1));
-        this.awareness?.on('update', debounce(this.onAwarenessUpdate.bind(this), 1))        
-        this.connect();
+		this.on('connect', this.onConnect);
+		this.on('disconnect', this.onDisconnect);
+		this.document.on('update', debounce(this.documentUpdateHandler.bind(this), 1));
+		this.awareness?.on('update', debounce(this.onAwarenessUpdate.bind(this), 1));
+		this.connect();
 
-        if (typeof window !== 'undefined') {
-            window.addEventListener('beforeunload', this.removeSelfFromAwarenessOnUnload);
-        } else if (typeof process !== 'undefined') {
-            process.on('exit', () => this.removeSelfFromAwarenessOnUnload);
-        }
-    }
+		if (typeof window !== 'undefined') {
+			window.addEventListener('beforeunload', this.removeSelfFromAwarenessOnUnload);
+		} else if (typeof process !== 'undefined') {
+			process.on('exit', () => this.removeSelfFromAwarenessOnUnload);
+		}
+	}
 
-    public setConfiguration(configuration: Partial<SupabaseProviderConfiguration> = {}): void {
-        this.configuration = { ...this.configuration, ...configuration }
-    }
+	public setConfiguration(configuration: Partial<SupabaseProviderConfiguration> = {}): void {
+		this.configuration = { ...this.configuration, ...configuration };
+	}
 
-    get document() {
-        return this.configuration.document;
-    }
+	get document() {
+		return this.configuration.document;
+	}
 
-    private async documentUpdateHandler(update: Uint8Array, origin?: any) {
-        if (origin === this) {
-            return;
-        }
+	private async documentUpdateHandler(update: Uint8Array, origin?: any) {
+		if (origin === this) {
+			return;
+		}
 
-        const dbDocument = fromUint8Array(Y.encodeStateAsUpdate(this.document));
+		const dbDocument = fromUint8Array(Y.encodeStateAsUpdate(this.document));
 
-        const res = await this.supabase
-            .from(this.configuration.databaseDetails.table)
-            .upsert({
-                [this.configuration.databaseDetails.updateColumns.name]: this.configuration.name,
-                [this.configuration.databaseDetails.updateColumns.content]: dbDocument,
-            }, this.configuration.databaseDetails.conflictColumns ? { onConflict: this.configuration.databaseDetails.conflictColumns } : {});
+		console.log(this.configuration);
 
-        if (res.status === 201 || res.status === 200) {
-            this.emit('save', this.version);
-            return this.channel!.send({
-                type: 'broadcast',
-                event: 'update',
-                payload: {dbDocument},
-            });
-        } else {
-            return Error(`Document not stored due to error: ${res.error}`);
-        }
-    }
+		const res = await this.supabase
+			.from(this.configuration.databaseDetails.table)
+			.update({
+				[this.configuration.databaseDetails.updateColumns.content]: dbDocument
+			})
+			.eq('id', this.configuration.name);
 
-    private onAwarenessUpdate({ added, updated, removed }: any, origin: any) {
-        const changedClients = added.concat(updated).concat(removed);
-        const awarenessUpdate = encodeAwarenessUpdate(this.awareness!, changedClients);        
+		if (res.status === 201 || res.status === 200) {
+			this.emit('save', this.version);
+			return this.channel!.send({
+				type: 'broadcast',
+				event: 'update',
+				payload: { dbDocument }
+			});
+		} else {
+			return Error(`Document not stored due to error: ${res.error}`);
+		}
+	}
 
-        if (this.channel) {
-            this.channel.send({
-                type: 'broadcast',
-                event: 'awareness',
-                payload: {awareness: fromUint8Array(awarenessUpdate)},
-            });
-        }
-    }
+	private onAwarenessUpdate({ added, updated, removed }: any, origin: any) {
+		const changedClients = added.concat(updated).concat(removed);
+		const awarenessUpdate = encodeAwarenessUpdate(this.awareness!, changedClients);
 
-    removeSelfFromAwarenessOnUnload() {
-        removeAwarenessStates(this.awareness!, [this.document.clientID], 'window unload');
-    }
+		if (this.channel) {
+			this.channel.send({
+				type: 'broadcast',
+				event: 'awareness',
+				payload: { awareness: fromUint8Array(awarenessUpdate) }
+			});
+		}
+	}
 
-    private async onConnect() {
-        const { data, error } = await this.supabase
-            .from(this.configuration.databaseDetails.table)
-            .select<string, { [key: string]: string }>(`${this.configuration.databaseDetails.updateColumns.content}`)
-            .eq(this.configuration.databaseDetails.updateColumns.name, this.configuration.name)
-            .single();
+	removeSelfFromAwarenessOnUnload() {
+		removeAwarenessStates(this.awareness!, [this.document.clientID], 'window unload');
+	}
 
-        if (error) {
-            console.error(error);            
-            return;
-        }
+	private async onConnect() {
+		const { data, error } = await this.supabase
+			.from(this.configuration.databaseDetails.table)
+			.select<
+				string,
+				{ [key: string]: string }
+			>(`${this.configuration.databaseDetails.updateColumns.content}`)
+			.eq(this.configuration.databaseDetails.updateColumns.name, this.configuration.name)
+			.single();
 
-        if (data && data[this.configuration.databaseDetails.updateColumns.content]) {
-            try {
-                const dbDocument = toUint8Array(data[this.configuration.databaseDetails.updateColumns.content]);
-                this.version++;
-                Y.applyUpdate(this.document, dbDocument);
-            } catch (error) {
-                console.error(error);
-            }
-        }
+		if (error) {
+			console.error(error);
+			return;
+		}
 
-        this.emit('status', [{ status: 'connected' }]);
+		if (data && data[this.configuration.databaseDetails.updateColumns.content]) {
+			try {
+				const dbDocument = toUint8Array(
+					data[this.configuration.databaseDetails.updateColumns.content]
+				);
+				this.version++;
+				Y.applyUpdate(this.document, dbDocument);
+			} catch (error) {
+				console.error(error);
+			}
+		}
 
-        if (this.awareness && this.awareness.getLocalState() !== null) {
-            const awarenessUpdate = encodeAwarenessUpdate(this.awareness, [this.document.clientID]);
-            this.emit('awareness', awarenessUpdate);
-        }
-    }
+		this.emit('status', [{ status: 'connected' }]);
 
-    private connect() {
-        this.channel = this.supabase.channel(this.configuration.name);
-        this.startSync();
-    }
+		if (this.awareness && this.awareness.getLocalState() !== null) {
+			const awarenessUpdate = encodeAwarenessUpdate(this.awareness, [this.document.clientID]);
+			this.emit('awareness', awarenessUpdate);
+		}
+	}
 
-    private startSync() {
-        this.channel!.on('broadcast',
-            { event: 'update' },
-            (event) => {
-                this.onReceiveUpdate(event);
-            })
-            .on('broadcast',
-                { event: 'awareness' },
-                ({ payload }) => {
-                    const update = toUint8Array(payload.awareness);
-                    applyAwarenessUpdate(this.awareness!, update, this);
-                })
-            .subscribe((status, err) => {
-                switch (status) {
-                    case 'SUBSCRIBED':
-                        this.emit('connect', this);
-                        break;
-                    case 'CHANNEL_ERROR':
-                        // this.emit('error', this);
-                        break;
-                    case 'TIMED_OUT':
-                        this.emit('disconnect', this);
-                        break;
-                    case 'CLOSED':
-                        this.emit('disconnect', this);
-                        break;
-                    default:
-                        break;
-                }
-            });
-    }
+	private connect() {
+		this.channel = this.supabase.channel(this.configuration.name);
+		this.startSync();
+	}
 
-    private onReceiveUpdate({ event, payload }: { event: string, [key: string]: any }) {
-        const update = toUint8Array(payload.dbDocument);
-        try {
-            this.version++;
-            Y.applyUpdate(this.document, update, this);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+	private startSync() {
+		this.channel!.on('broadcast', { event: 'update' }, (event) => {
+			this.onReceiveUpdate(event);
+		})
+			.on('broadcast', { event: 'awareness' }, ({ payload }) => {
+				const update = toUint8Array(payload.awareness);
+				applyAwarenessUpdate(this.awareness!, update, this);
+			})
+			.subscribe((status, err) => {
+				switch (status) {
+					case 'SUBSCRIBED':
+						this.emit('connect', this);
+						break;
+					case 'CHANNEL_ERROR':
+						// this.emit('error', this);
+						break;
+					case 'TIMED_OUT':
+						this.emit('disconnect', this);
+						break;
+					case 'CLOSED':
+						this.emit('disconnect', this);
+						break;
+					default:
+						break;
+				}
+			});
+	}
 
-    private disconnect() {
-        if (this.channel) {
-            this.supabase.removeChannel(this.channel);
-            this.channel = null;
-        }
-    }
+	private onReceiveUpdate({ event, payload }: { event: string; [key: string]: any }) {
+		const update = toUint8Array(payload.dbDocument);
+		try {
+			this.version++;
+			Y.applyUpdate(this.document, update, this);
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
-    public onDisconnect() {
-        this.emit('status', [{ status: 'disconnected' }]);
+	private disconnect() {
+		if (this.channel) {
+			this.supabase.removeChannel(this.channel);
+			this.channel = null;
+		}
+	}
 
-        if (this.awareness) {
-            const states = Array.from(this.awareness.getStates().keys()).filter((client) => client !== this.document.clientID);
-            removeAwarenessStates(this.awareness, states, this);
-        }
-    }
+	public onDisconnect() {
+		this.emit('status', [{ status: 'disconnected' }]);
 
-    public destroy() {
-        this.removeAllListeners();
-        this.disconnect();
-        this.document.off('update', this.documentUpdateHandler);
-        this.awareness?.off('update', this.onAwarenessUpdate);
+		if (this.awareness) {
+			const states = Array.from(this.awareness.getStates().keys()).filter(
+				(client) => client !== this.document.clientID
+			);
+			removeAwarenessStates(this.awareness, states, this);
+		}
+	}
 
-        if (typeof window !== 'undefined') {
-            window.removeEventListener('beforeunload', this.removeSelfFromAwarenessOnUnload);
-        } else if (typeof process !== 'undefined') {
-            process.off('exit', () => this.removeSelfFromAwarenessOnUnload);
-        }
+	public destroy() {
+		this.removeAllListeners();
+		this.disconnect();
+		this.document.off('update', this.documentUpdateHandler);
+		this.awareness?.off('update', this.onAwarenessUpdate);
 
-        if (this.channel) {
-            this.disconnect();
-        }
-    }
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('beforeunload', this.removeSelfFromAwarenessOnUnload);
+		} else if (typeof process !== 'undefined') {
+			process.off('exit', () => this.removeSelfFromAwarenessOnUnload);
+		}
+
+		if (this.channel) {
+			this.disconnect();
+		}
+	}
 }

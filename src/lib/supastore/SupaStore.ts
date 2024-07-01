@@ -1,6 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
-	AnyStore,
 	ClientRow,
 	GenericDatabase,
 	SelectResult,
@@ -102,9 +101,11 @@ export class SupaStore<
 	// This function should be set to generete the same deafult values as the server
 	// eg. things like created_at and updated_at
 	deafults: () => Partial<TRow> = () => ({});
+	sendDeafults: boolean = false;
 
-	setDeafults(deafults: typeof this.deafults) {
+	setDeafults(deafults: typeof this.deafults, server = false) {
 		this.deafults = deafults;
+		this.sendDeafults = server;
 		return this;
 	}
 
@@ -153,7 +154,7 @@ export class SupaStore<
 		const { data, error } = (await this.supabase
 			.from(this.tableName)
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			.insert([d] as any)
+			.insert([this.sendDeafults ? d : { ...this.deafults(), ...d }] as any)
 			.select()) as SelectResult<TRow>;
 
 		if (error) {

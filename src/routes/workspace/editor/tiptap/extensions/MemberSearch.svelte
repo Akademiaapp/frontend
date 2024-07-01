@@ -21,7 +21,7 @@
 	let selectedMembers: Tables<'user'>[] = [];
 
 	onMount(async () => {
-		selectedGroups = ($currentFile as Tables<'assignment'>).assigned_group_ids.map((id) => {
+		selectedGroups = (($currentFile as Tables<'assignment'>).assigned_group_ids ?? []).map((id) => {
 			let group = groups.find(id);
 			if (group) return group;
 		});
@@ -38,21 +38,22 @@
 	function updateServerSideSelectedGroups(selected) {
 		if (
 			'assigned_group_ids' in $currentFile &&
+			$currentFile.assigned_group_ids != null &&
 			$currentFile.assigned_group_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			assignments.update($currentFile.id, { asigned_groups_ids: idList });
+			assignments.update($currentFile.id, { assigned_group_ids: idList });
 		}
 	}
 	function updateServerSideSelectedMembers(selected) {
 		if (
-			'asigned_users_ids' in $currentFile &&
-			$currentFile.asigned_users_ids.toString() != getIdList(selected).toString()
+			'assigned_user_ids' in $currentFile &&
+			$currentFile.assigned_user_ids.toString() != getIdList(selected).toString()
 		) {
 			let idList = getIdList(selected);
 			if (idList.length === 0) return;
-			assignments.update($currentFile.id, { asigned_users_ids: idList });
+			assignments.update($currentFile.id, { assigned_user_ids: idList });
 		}
 	}
 

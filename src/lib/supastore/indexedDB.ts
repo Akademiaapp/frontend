@@ -53,7 +53,12 @@ export class IndexedDBHandler {
 
 	put(row) {
 		this.writeDB((objectStore) => {
-			objectStore.put(row);
+			const { table, ...data } = row;
+			try {
+				objectStore.put(data);
+			} catch (e) {
+				console.error('Error while putting data:', e, 'Row:', data);
+			}
 		});
 	}
 

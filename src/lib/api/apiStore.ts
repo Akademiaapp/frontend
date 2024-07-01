@@ -58,8 +58,9 @@ export function canEditFile(file: FileInfo) {
 		return file.status !== 'submitted' && file.status !== 'graded';
 	}
 
-	if ('isPublic' in file) {
+	if ('is_public' in file) {
 		// teachers should only be able to edit files that are NOT public
-		return !file.isPublic;
+		return !file.is_public;
 	}
+	return true;
 }
