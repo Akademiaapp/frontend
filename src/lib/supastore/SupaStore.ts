@@ -10,15 +10,19 @@ import type {
 import { EQ, type Compare } from './compare';
 import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
+import { EventHandler } from './EventHandler';
 
 export class SupaStore<
 	D extends GenericDatabase,
-	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string,
+	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string, // The main Table
 	// Using hack to create type alias
 	TRow extends TableRow<D, T> = TableRow<D, T>,
 	TInsert extends TableInsert<D, T> = TableInsert<D, T>
 > {
+	// Should ONLY be used for fetching data
 	tableName: T & string;
+	// Should ALWAYS be used for realtime, inserting, deleting and updating
+	baseTableName?: string;
 	supabase: SupabaseClient<D>;
 
 	// Settigns:
@@ -28,9 +32,6 @@ export class SupaStore<
 	useServer: boolean;
 	useIndexedDB: boolean;
 	realtime: boolean;
-	viewName?: string;
-
-	eventEmitter = new EventTarget();
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -38,20 +39,30 @@ export class SupaStore<
 	subscribe = this.store.subscribe;
 	set = this.store.set;
 
+	eventHandler = new EventHandler();
+
 	indexedDBHandler: IndexedDBHandler;
 
 	constructor(table: T, supabase: SupabaseClient<D>, settings: SupaStoreSettings = {}) {
+		// set needed things
 		this.tableName = table;
-		this.unique = settings.unique ?? 'id';
-		this.filter = settings.filter;
-		this.useServer = settings.useServer ?? true;
-		this.useIndexedDB = settings.useIndexedDB ?? true;
-		this.realtime = settings.realtime ?? true;
+		this.baseTableName = table;
 
-		if (this.useIndexedDB) {
-			console.log('SupaStore created', this.useIndexedDB);
-		}
+		this.setSettings(settings);
 
+		this.initSupabase(supabase);
+	}
+
+	setSettings(settings: SupaStoreSettings) {
+		this.unique = settings.unique ?? this.unique;
+		this.filter = settings.filter ?? this.filter;
+		this.useServer = settings.useServer ?? this.useServer;
+		this.useIndexedDB = settings.useIndexedDB ?? this.useIndexedDB;
+		this.realtime = settings.realtime ?? this.realtime;
+	}
+
+	initSupabase(supabase) {
+		// init supabase
 		if (this.useServer) {
 			this.supabase = supabase;
 			if (this.realtime) this.subscribeSupabase();
@@ -66,20 +77,6 @@ export class SupaStore<
 				}
 			});
 		}
-	}
-
-	on(
-		event: 'insert' | 'update' | 'delete' | 'insert-confirmation' | 'force-fetch',
-		callback: () => void
-	) {
-		this.eventEmitter.addEventListener(event, callback);
-	}
-
-	emit(
-		event: 'insert' | 'update' | 'delete' | 'insert-confirmation' | 'force-fetch',
-		...args: unknown[]
-	) {
-		this.eventEmitter.dispatchEvent(new CustomEvent(event, { detail: args }));
 	}
 
 	initIndexedDB(objectStore, dbName) {
@@ -97,7 +94,6 @@ export class SupaStore<
 		this.filter = filter;
 		return this;
 	}
-
 	// This function should be set to generete the same deafult values as the server
 	// eg. things like created_at and updated_at
 	deafults: () => Partial<TRow> = () => ({});
@@ -124,26 +120,28 @@ export class SupaStore<
 		}
 
 		if (update) {
-			this.store.set(data.map((row: TRow) => ({ ...row, cid: row[this.unique], table: this })));
+			this.store.set(
+				data.map((row: TRow) => ({ ...row, cid: String(row[this.unique]), table: this }))
+			);
 
 			if (this.useIndexedDB) {
 				this.indexedDBHandler.set(data);
 			}
 		}
-		this.emit('force-fetch');
+		this.eventHandler.emit('force-fetch');
 		return data;
 	}
 
-	async insert(d: TInsert, server = this.useServer): Promise<TRow & { cid: number }> {
+	async insert(d: TInsert, server = this.useServer): Promise<ClientRow<D, T>> {
 		const cid = this.getData().length + 1;
-		const clientRow = {
+		const clientRow: ClientRow<D, T> = {
 			...this.deafults(),
 			...(d as undefined as TRow),
 			cid,
 			table: this
 		};
 		this.store.update((prev) => [...prev, clientRow]);
-		this.emit('insert', clientRow);
+		this.eventHandler.emit('insert', clientRow);
 
 		if (!server && this.useIndexedDB) {
 			this.indexedDBHandler.put(clientRow);
@@ -152,7 +150,7 @@ export class SupaStore<
 		if (!server) return clientRow;
 
 		const { data, error } = (await this.supabase
-			.from(this.tableName)
+			.from(this.baseTableName)
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.insert([this.sendDeafults ? d : { ...this.deafults(), ...d }] as any)
 			.select()) as SelectResult<TRow>;
@@ -176,7 +174,7 @@ export class SupaStore<
 			this.indexedDBHandler.put(data[0]);
 		}
 
-		this.emit('insert-confirmation', serverConfirmedData);
+		this.eventHandler.emit('insert-confirmation', serverConfirmedData);
 
 		return serverConfirmedData;
 	}
@@ -193,7 +191,7 @@ export class SupaStore<
 		server = this.useServer
 	) {
 		this.indexedDBHandler.update(key, d);
-		this.emit('update', key, d);
+		this.eventHandler.emit('update', key, d);
 		return this._update(d, new EQ(colomn, key), server);
 	}
 
@@ -206,7 +204,7 @@ export class SupaStore<
 		if (!server) return;
 
 		const { error } = (await compare
-			.query(this.supabase.from(this.tableName).update(changes))
+			.query(this.supabase.from(this.baseTableName).update(changes))
 			// here we use the compare to find the correct row
 			.select()) as SelectResult<TRow>;
 
@@ -240,7 +238,7 @@ export class SupaStore<
 		if (!server) return;
 
 		const { error } = (await compare
-			.query(this.supabase.from(this.tableName).delete())
+			.query(this.supabase.from(this.baseTableName).delete())
 			.select()) as SelectResult<TRow>;
 
 		if (error) {
@@ -253,7 +251,7 @@ export class SupaStore<
 			.channel('custom-all-channel')
 			.on(
 				'postgres_changes',
-				{ event: '*', schema: 'public', table: this.tableName },
+				{ event: '*', schema: 'public', table: this.baseTableName },
 				(payload) => {
 					if (payload.eventType === 'INSERT') {
 						this.insert(payload.new as TInsert, false);

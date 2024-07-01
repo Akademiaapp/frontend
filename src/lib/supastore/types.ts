@@ -19,12 +19,16 @@ export type TableInsert<
 export type ClientRow<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables'] & string
-> = TableRow<D, T> & { cid: number; table: SupaStore<D, T> };
+> = TableRow<D, T> & { cid: number | string; table: SupaStore<D, T> };
 // type TableUpdate<T extends keyof Database['public']['Tables']> =
 // 	Database['public']['Tables'][T]['Row'];
 
 export type SelectResult<TableRow> = {
 	data: TableRow[];
+	error: PostgrestError;
+};
+export type SelectResultSingle<TableRow> = {
+	data: TableRow;
 	error: PostgrestError;
 };
 
