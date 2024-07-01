@@ -45,14 +45,12 @@
 
 		const permissions = filePermissions.findAll($currentFile.id, 'file_id');
 
-		
-
 		people = permissions.map((p) => {
-			const person = users.find(p.user_id)
+			const person = users.find(p.user_id);
 
 			// if i dont find a person this is likely due to not having access to that user
 			if (!person) return;
-			
+
 			const permission = permissions.find((p) => p.user_id === person.id).permission;
 			const permissionObject = permissionTypes.find((p) => p.value === permission);
 
@@ -60,10 +58,10 @@
 				name: person.full_name,
 				username: person.username,
 				avatar: person.avatar_url || '',
-				permission: permissionObject,
+				permission: permissionObject
 			};
 		});
-		
+
 		people = people;
 	}
 
@@ -80,9 +78,7 @@
 		inviteUserToDocument(username, $currentFile.id);
 	}
 
-	function inviteUserToDocument(username: string, document_id: string) {
-    
-	}
+	function inviteUserToDocument(username: string, document_id: string) {}
 
 	export let open = false;
 

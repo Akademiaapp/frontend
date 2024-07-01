@@ -29,6 +29,7 @@ export class SupaStore<
 	useServer: boolean;
 	useIndexedDB: boolean;
 	realtime: boolean;
+	viewName?: string;
 
 	eventEmitter = new EventTarget();
 

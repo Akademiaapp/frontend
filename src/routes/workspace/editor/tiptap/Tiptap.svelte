@@ -121,7 +121,7 @@
 	}
 
 	onMount(() => {
-		initializeTiptap($currentFile);
+		initializeTiptap($currentFile.id);
 	});
 
 	onDestroy(() => {
