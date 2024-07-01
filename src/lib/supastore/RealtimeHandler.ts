@@ -26,20 +26,27 @@ export class RealtimeHandler<
 		keyFetchTable: keyof TableRow<D, T> & string
 	) {
 		this.addAllListener(table, async (payload) => {
-			if (payload.eventType === 'INSERT') {
-				const { data, error } = (await this.supaStore.supabase
-					.from(this.supaStore.tableName)
-					.select('*')
-					.eq(keyFetchTable, payload.new[keyNewTable])
-					.single()) as SelectResultSingle<TRow>;
+			// This will trigger when a change happens in the new table
+			// If this happens we will refetch the affected row from the view/main table
 
-				if (error) {
-					console.error(error);
-					return;
-				}
+			// Get what row we should refetch
+			const value =
+				payload.eventType == 'DELETE' ? payload.old[keyNewTable] : payload.new[keyNewTable];
 
-				this.supaStore.upsert(payload.new[keyNewTable], data, keyFetchTable, false);
+			// Refetch the row from the view/main table
+			const { data, error } = (await this.supaStore.supabase
+				.from(this.supaStore.tableName)
+				.select('*')
+				.eq(keyFetchTable, value)
+				.single()) as SelectResultSingle<TRow>;
+
+			if (error) {
+				console.error(error);
+				return;
 			}
+
+			// Upsert the row, because it might not be in the local store yet
+			this.supaStore.upsert(value, data, keyFetchTable, false);
 		});
 	}
 
