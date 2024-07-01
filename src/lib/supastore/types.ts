@@ -14,7 +14,11 @@ export type TableRow<
 export type TableInsert<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables']
-> = D['public']['Tables'][T]['Insert'];
+> = D['public']['Tables'][T]['Insert'] & Partial<TableRow<D, T>>;
+
+const i = {} as TableInsert<GenericDatabase, 'users'>;
+
+const o = i as TableRow<GenericDatabase, 'users'>;
 
 export type ClientRow<
 	D extends GenericDatabase,
@@ -33,7 +37,7 @@ export type SelectResultSingle<TableRow> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyStore = SupaStore<any, string, any, any>;
+export type AnyStore = SupaStore<any, string>;
 
 export type SupaStoreSettings = {
 	unique?: string;

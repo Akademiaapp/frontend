@@ -11,6 +11,7 @@ import { EQ, type Compare } from './compare';
 import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
 import { EventHandler } from './EventHandler';
+import { RealtimeHandler } from './RealtimeHandler';
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -32,6 +33,8 @@ export class SupaStore<
 	useServer: boolean;
 	useIndexedDB: boolean;
 	realtime: boolean;
+
+	realtimeHandler: RealtimeHandler<D, T>;
 
 	// The cid should be used in svelte to identify the row. NOT the id
 	// We can't use the id because, when we insert a new row from this client, the id is not set by the server yet.
@@ -65,7 +68,9 @@ export class SupaStore<
 		// init supabase
 		if (this.useServer) {
 			this.supabase = supabase;
-			if (this.realtime) this.subscribeSupabase();
+			if (this.realtime) {
+				this.realtimeHandler = new RealtimeHandler(this.baseTableName, this);
+			}
 
 			this.supabase.auth.onAuthStateChange(async (event) => {
 				if (event === 'SIGNED_IN') {
@@ -194,6 +199,19 @@ export class SupaStore<
 		this.eventHandler.emit('update', key, d);
 		return this._update(d, new EQ(colomn, key), server);
 	}
+	async upsert(
+		key,
+		d: TInsert,
+		colomn: keyof TRow = this.unique as keyof TRow,
+		server = this.useServer,
+		oldKey = key
+	) {
+		if (this.find(oldKey, colomn)) {
+			return this.update(key, d as unknown as TRow, colomn, server);
+		} else {
+			return this.insert(d, server);
+		}
+	}
 
 	async _update(changes, compare: Compare, server = this.useServer) {
 		// apply the changes to the localy
@@ -244,37 +262,5 @@ export class SupaStore<
 		if (error) {
 			console.error(error);
 		}
-	}
-
-	async subscribeSupabase() {
-		this.supabase
-			.channel('custom-all-channel')
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: this.baseTableName },
-				(payload) => {
-					if (payload.eventType === 'INSERT') {
-						this.insert(payload.new as TInsert, false);
-					}
-					if (payload.eventType === 'DELETE') {
-						this.delete((payload.old as TRow)[this.unique], undefined, false);
-					}
-					if (payload.eventType === 'UPDATE') {
-						if (this.find((payload.old as TRow)[this.unique]) == null) {
-							// If the row is not in the local store, we Insert it
-							this.insert(payload.new as TInsert, false);
-						} else {
-							// If the row IS in the local store, we Update it
-							this.update(
-								(payload.old as TRow)[this.unique as keyof TRow],
-								payload.new as Partial<TRow>,
-								undefined,
-								false
-							);
-						}
-					}
-				}
-			)
-			.subscribe();
 	}
 }
