@@ -1,6 +1,6 @@
-import type { RealtimePostgresChangesPayload, SupabaseClient } from '@supabase/supabase-js';
+import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import type { SupaStore } from './SupaStore';
-import type { AnyStore, GenericDatabase, SelectResultSingle, TableInsert, TableRow } from './types';
+import type { GenericDatabase, SelectResultSingle, TableInsert, TableRow } from './types';
 
 export class RealtimeHandler<
 	D extends GenericDatabase,
@@ -20,6 +20,17 @@ export class RealtimeHandler<
 		this.subscribeSupabase(baseTableName);
 	}
 
+	/**
+	 * Listens to an extra table.
+	 *
+	 * Usefull if changes in other tables, affects the main/view table.
+	 *
+	 * @template Table - The name of the table to add.
+	 * @param {Table} table - The name of the table to add.
+	 * @param {keyof TableRow<D, Table>} keyNewTable - The key that should be used on the newly added table.
+	 * @param {keyof TableRow<D, T> & string} keyFetchTable - The key used on the main/view table
+	 * @returns {void}
+	 */
 	addTable<Table extends keyof D['public']['Tables']>(
 		table: Table,
 		keyNewTable: keyof TableRow<D, Table>,
@@ -50,6 +61,21 @@ export class RealtimeHandler<
 		});
 	}
 
+	/**
+	 * Adds a listener for all changes on a specific table.
+	 * @param {string} table - The name of the table to listen for changes on.
+	 * @param {function} callback - The callback function to be called when changes occur on the specified table.
+	 * @example
+	 * // Listen for changes on the "users" table
+	 * addAllListener('users', (payload) => {
+	 *   console.log('Changes occurred on the "users" table:', payload);
+	 * });
+	 */
+	/**
+	 * Adds a listener for all changes on a specific table.
+	 * @param table - The name of the table to listen for changes on.
+	 * @param callback - The callback function to be called when changes occur on the specified table.
+	 */
 	addAllListener(table, callback: (payload: RealtimePostgresChangesPayload<TRow>) => void) {
 		this.supaStore.supabase
 			.channel('custom-all-channel')
@@ -63,6 +89,11 @@ export class RealtimeHandler<
 			.subscribe();
 	}
 
+	/**
+	 * Subscribes to changes in a Supabase table and updates the SupaStore accordingly.
+	 *
+	 * @param table - The name of the table to subscribe to.
+	 */
 	async subscribeSupabase(table) {
 		this.addAllListener(table, (payload) => {
 			if (payload.eventType === 'INSERT') {
