@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { toUint8Array } from 'js-base64';
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
@@ -10,7 +11,6 @@
 	import { supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
-	import type { Tables } from '@/supabase.types';
 
 	let provider: SupabaseProvider;
 
@@ -46,6 +46,11 @@
 		provider?.destroy();
 
 		const document = new Y.Doc();
+
+		if ($currentFile.content) {
+			const dbDocument = toUint8Array($currentFile.content);
+			Y.applyUpdate(document, dbDocument);
+		}
 
 		provider = new SupabaseProvider(supabase, {
 			name: fileName,
