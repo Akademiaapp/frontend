@@ -21,24 +21,15 @@
 	}
 
 	if (!$currentFile) {
-		if (apiType === 'documents') {
-			$documents.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
-		} else if (apiType === 'assignmentanswer') {
-			$assignmentAnswers.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
+		if (apiType === 'document') {
+			const doc = documents.find(id);
+			currentFile.set(doc);
+		} else if (apiType === 'assignment_answer') {
+			const doc = assignmentAnswers.find(id);
+			currentFile.set(doc);
 		} else if (apiType === 'assignment') {
-			$assignments.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
+			const doc = assignments.find(id);
+			currentFile.set(doc);
 		}
 	}
 	let value;
