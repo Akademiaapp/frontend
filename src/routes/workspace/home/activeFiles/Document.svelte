@@ -1,10 +1,9 @@
 <script lang="ts">
 	export let name: string;
 	export let id: string = '26e29956-af96-4b22-b088-2a0d5d1474ad';
-	export let type: string = 'document';
 </script>
 
-<a href={'/workspace/editor?id=' + id + '&type=' + type} class="reset activeFile frontground">
+<a href={'/workspace/editor?id=' + id + '&type=document'} class="reset activeFile frontground">
 	<div class="text">
 		<p class="name">{name}</p>
 	</div>
