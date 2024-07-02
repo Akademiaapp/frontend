@@ -14,7 +14,9 @@
 
 	let provider: SupabaseProvider;
 
-	$: if ($currentFile.id) initializeTiptap($currentFile.id);
+	let currentFileId = '';
+
+	$: if ($currentFile.id && $currentFile.id != currentFileId) initializeTiptap($currentFile.id);
 	$: if ($answer) initializeTiptap(null);
 
 	// this is needed
@@ -60,6 +62,8 @@
 		});
 		connected = true;
 
+		currentFileId = fileName;
+
 		editor.set(
 			new Editor({
 				extensions: getExtensions(provider, 'isPublic' in $currentFile),
@@ -82,6 +86,7 @@
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key
+							console.log($currentFile.table);
 							$currentFile.table.update($currentFile.id, {
 								name: title
 							});
@@ -120,9 +125,11 @@
 		);
 	}
 
-	onMount(() => {
-		initializeTiptap($currentFile.id);
-	});
+	// onMount(() => {
+	// 	if ($currentFile.id) {
+	// 		initializeTiptap($currentFile.id);
+	// 	}
+	// });
 
 	onDestroy(() => {
 		$editor?.destroy();

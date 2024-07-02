@@ -57,11 +57,11 @@ export class SupaStore<
 	}
 
 	setSettings(settings: SupaStoreSettings) {
-		this.unique = settings.unique ?? this.unique;
-		this.filter = settings.filter ?? this.filter;
-		this.useServer = settings.useServer ?? this.useServer;
-		this.useIndexedDB = settings.useIndexedDB ?? this.useIndexedDB;
-		this.realtime = settings.realtime ?? this.realtime;
+		this.unique = settings.unique ?? 'id';
+		this.filter = settings.filter;
+		this.useServer = settings.useServer ?? true;
+		this.useIndexedDB = settings.useIndexedDB ?? true;
+		this.realtime = settings.realtime ?? true;
 	}
 
 	initSupabase(supabase) {
