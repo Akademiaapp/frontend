@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
+import { currentFile } from '@/api/apiStore';
 import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import debounce from 'debounce';
 import { EventEmitter } from 'events';
@@ -92,6 +93,11 @@ export class SupabaseProvider extends EventEmitter {
 		}
 
 		const dbDocument = fromUint8Array(Y.encodeStateAsUpdate(this.document));
+
+		currentFile.update((v) => {
+			v.content = dbDocument;
+			return v;
+		});
 
 		const res = await this.supabase
 			.from(this.configuration.databaseDetails.table)

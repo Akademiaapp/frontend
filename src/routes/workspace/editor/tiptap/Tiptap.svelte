@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toUint8Array } from 'js-base64';
+	import { fromUint8Array, toUint8Array } from 'js-base64';
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
@@ -48,6 +48,7 @@
 		const document = new Y.Doc();
 
 		if ($currentFile.content) {
+			console.log('Used cashed information');
 			const dbDocument = toUint8Array($currentFile.content);
 			Y.applyUpdate(document, dbDocument);
 		}
