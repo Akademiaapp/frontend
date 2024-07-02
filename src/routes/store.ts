@@ -14,16 +14,3 @@ export const sidebarWidth = writable('300px');
 export const session: Writable<AuthSession | null> = writable(null);
 export const userInfo: Writable<Tables<'user'>> = writable(null);
 export const isOnline: Writable<boolean> = writable(true);
-
-console.log('hu');
-
-const teststore = writable([{ test: 'test' }]);
-
-const test = writable(get(teststore)[0]);
-
-test.update((value) => {
-	value.test = 'test 3';
-	return value;
-});
-
-console.log(get(teststore));
