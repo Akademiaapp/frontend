@@ -2,11 +2,17 @@
 	import type { ClientFile, Folder } from '@/api/apiStore';
 	import File from './File.svelte';
 	import FolderItem from './FolderItem.svelte';
+	import { documents } from '@/supabase/supabaseClient';
 
 	export let folders: Folder[] = [];
-	export let files: ClientFile[] = [];
+	export let filePath: string;
 
-	console.log(files);
+	let files;
+
+	documents.keyedStore.subscribe((value) => {
+		files = value[filePath] ?? [];
+	});
+	console.log('path', filePath, 'files:', files);
 </script>
 
 <div class="files br-2">

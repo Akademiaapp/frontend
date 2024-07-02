@@ -7,8 +7,6 @@
 	import Category from './Category.svelte';
 	import { documents } from '@/supabase/supabaseClient';
 
-	$: files = $documents;
-
 	let atBottom = true;
 
 	function onscroll(event) {
@@ -23,12 +21,23 @@
 		await tick();
 		onscroll({ target: filesElem });
 	});
+
+	let files = { null: [] };
+
+	documents.keyedStore.subscribe((value) => {
+		if ('null' in value) {
+			files = value;
+		}
+		console.log('hdhd');
+	});
+
+	console.log($folders[0].subFolders);
 </script>
 
 <div class="cont">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
-		<Category name="Fag" folders={$folders[0].subFolders}></Category>
-		<Category name="Andet" files={$folders[1].files}></Category>
+		<Category name="Fag" folders={$folders[0].subFolders} filePath="Fag/"></Category>
+		<Category name="Andet" filePath={'null'}></Category>
 	</div>
 	<div class="splitter"></div>
 	<div class="z-10 p-1 shadow-black transition-shadow duration-500" class:shadow-2xl={!atBottom}>
