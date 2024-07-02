@@ -58,7 +58,7 @@
 				Din lærer har givet feedback på denne opgave. Du har fået {'grade' in $currentFile &&
 					$currentFile.grade}.
 			</p>
-		{:else if 'isPublic' in $currentFile && $currentFile.isPublic}
+		{:else if 'is_public' in $currentFile && $currentFile.is_public}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
 		{:else}

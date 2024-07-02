@@ -1,17 +1,19 @@
 <script lang="ts">
-	import { session } from '../../../store';
+	import { session, userInfo } from '../../../store';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { BookCopy } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
 	import { currentFile } from '@/api/apiStore';
 	import { assignments } from '@/supabase/supabaseClient';
-	
+	import { Switch } from '@/components/ui/switch';
+	import Label from '@/components/ui/label/label.svelte';
 
 	let open = false;
 
 	async function assignCurrentFile() {
 		if ('due_date' in $currentFile) {
+			console.log('Assigning assignment');
 			if (asignSelf)
 				assignments.update($currentFile.id, {
 					assigned_user_ids: [$session.user.id]
@@ -42,10 +44,12 @@
 			<Dialog.Description>
 				Dette vil gøre det muligt for de tildelte personer at se og besvare opgaven.
 			</Dialog.Description>
-			<!-- <div class="flex items-center gap-2 pt-3">
-				<Switch bind:checked={asignSelf}></Switch>
-				<Label for="airplane-mode">Tildel også til mig selv</Label>
-			</div> -->
+			{#if $userInfo.type == 'tester'}
+				<div class="flex items-center gap-2 pt-3">
+					<Switch bind:checked={asignSelf}></Switch>
+					<Label for="airplane-mode">Tildel også til mig selv</Label>
+				</div>
+			{/if}
 		</Dialog.Header>
 		<div class="flex w-full items-end gap-2">
 			<Button variant="outline" class="flex-1" on:click={() => (open = false)}>Nej</Button>

@@ -71,7 +71,7 @@
 
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, 'isPublic' in $currentFile),
+				extensions: getExtensions(provider, 'is_public' in $currentFile),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
