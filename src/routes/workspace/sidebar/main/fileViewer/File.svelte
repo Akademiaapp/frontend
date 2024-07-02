@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { type ClientFile } from './../../../../../lib/api/apiStore';
 	import { currentFile } from '@/api/apiStore';
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
-	import type { Tables } from '@/supabase.types';
 	import { getFileType } from '@/api/helpers';
-	export let file: Tables<'document' | 'assignment' | 'assignment_answer'>;
+	export let file: ClientFile;
 	export let onClick = () => {
 		currentFile.set(file);
 	};
