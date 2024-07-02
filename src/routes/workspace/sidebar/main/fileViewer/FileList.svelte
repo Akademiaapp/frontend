@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { Folder } from '@/api/apiStore';
+	import type { ClientFile, Folder } from '@/api/apiStore';
 	import File from './File.svelte';
 	import FolderItem from './FolderItem.svelte';
-	import type { Tables } from '@/supabase.types';
 
 	export let folders: Folder[] = [];
-	export let files: Tables<'document' | 'assignment' | 'assignment_answer'>[] = [];
+	export let files: ClientFile[] = [];
+
+	console.log(files);
 </script>
 
 <div class="files br-2">

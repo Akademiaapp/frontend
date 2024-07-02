@@ -21,11 +21,11 @@ documents.subscribe((data) => {
 	oldDocs = data;
 });
 
-export const currentFile = writable<
+export type ClientFile =
 	| ClientRow<Database, 'assignment'>
 	| ClientRow<Database, 'assignment_answer'>
-	| ClientRow<Database, 'document'>
->(null);
+	| ClientRow<Database, 'document'>;
+export const currentFile = writable<ClientFile>(null);
 export const currentStatus = writable<Tables<'assignment_answer'>['status']>(null);
 
 currentFile.subscribe((file) => {

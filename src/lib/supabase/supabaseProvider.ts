@@ -13,6 +13,8 @@ import {
 	applyAwarenessUpdate
 } from 'y-protocols/awareness';
 import * as Y from 'yjs';
+import { documents } from './supabaseClient';
+import { get } from 'svelte/store';
 
 export interface SupabaseProviderConfiguration {
 	/**
@@ -98,6 +100,8 @@ export class SupabaseProvider extends EventEmitter {
 			v.content = dbDocument;
 			return v;
 		});
+
+		console.log(documents.find(get(currentFile).id).content);
 
 		const res = await this.supabase
 			.from(this.configuration.databaseDetails.table)
