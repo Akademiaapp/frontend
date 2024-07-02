@@ -23,7 +23,7 @@ export class SupaStore<
 	// Should ONLY be used for fetching data
 	tableName: T & string;
 	// Should ALWAYS be used for realtime, inserting, deleting and updating
-	baseTableName?: string;
+	baseTableName?: T & string;
 	supabase: SupabaseClient<D>;
 
 	// Settigns:
@@ -137,14 +137,18 @@ export class SupaStore<
 		return data;
 	}
 
-	async insert(d: TInsert, server = this.useServer): Promise<ClientRow<D, T>> {
-		const cid = this.getData().length + 1;
-		const clientRow: ClientRow<D, T> = {
+	genClientRow(row: TInsert, cid = this.getData().length + 1): ClientRow<D, T> {
+		return {
 			...this.deafults(),
-			...(d as undefined as TRow),
+			...(row as undefined as TRow),
 			cid,
 			table: this
 		};
+	}
+
+	async insert(d: TInsert, server = this.useServer): Promise<ClientRow<D, T>> {
+		const clientRow = this.genClientRow(d);
+		const cid = clientRow.cid;
 		this.store.update((prev) => [...prev, clientRow]);
 		this.eventHandler.emit('insert', clientRow);
 
@@ -186,6 +190,7 @@ export class SupaStore<
 
 	async delete(value, colomn: keyof TRow = this.unique as keyof TRow, server = this.useServer) {
 		this.indexedDBHandler.delete(value);
+		this.eventHandler.emit('delete', value, colomn);
 		return this._delete(new EQ(colomn, value), server);
 	}
 
@@ -196,7 +201,7 @@ export class SupaStore<
 		server = this.useServer
 	) {
 		this.indexedDBHandler.update(key, d);
-		this.eventHandler.emit('update', key, d);
+		this.eventHandler.emit('update', key, d, colomn, server);
 		return this._update(d, new EQ(colomn, key), server);
 	}
 	async upsert(
@@ -221,7 +226,7 @@ export class SupaStore<
 
 		if (!server) return;
 
-		const { error } = (await compare
+		const { data, error } = (await compare
 			.query(this.supabase.from(this.baseTableName).update(changes))
 			// here we use the compare to find the correct row
 			.select()) as SelectResult<TRow>;
@@ -230,6 +235,7 @@ export class SupaStore<
 			console.error(error);
 			return;
 		}
+		return data;
 	}
 
 	find(value, colomn: keyof TRow = this.unique as keyof TRow) {
@@ -255,9 +261,7 @@ export class SupaStore<
 
 		if (!server) return;
 
-		const { error } = (await compare
-			.query(this.supabase.from(this.baseTableName).delete())
-			.select()) as SelectResult<TRow>;
+		const { error } = await compare.query(this.supabase.from(this.baseTableName).delete());
 
 		if (error) {
 			console.error(error);
