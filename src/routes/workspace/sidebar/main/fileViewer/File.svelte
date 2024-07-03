@@ -14,7 +14,7 @@
 		active = file.id == $currentFile.id;
 	}
 
-	window.onclick = (e) => {
+	window.onclick = () => {
 		draggingFile.set(null);
 	};
 </script>
@@ -24,8 +24,8 @@
 	draggable="true"
 	role="button"
 	tabindex="0"
-	on:dragstart={(e) => draggingFile.set(file)}
-	on:dragend={(e) => {
+	on:dragstart={() => draggingFile.set(file)}
+	on:dragend={() => {
 		draggingFile.set(null);
 	}}
 	class:active
