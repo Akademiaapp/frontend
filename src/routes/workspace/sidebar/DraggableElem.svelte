@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { isDragging } from './sidebarStore';
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = import('svelte/elements').HTMLAttributes<HTMLDivElement> & {
 		active?: boolean;
 		clickable?: boolean;
@@ -21,8 +22,8 @@
 	draggable="true"
 	role="button"
 	tabindex="0"
-	on:dragstart={(e) => isDragging.set(true)}
-	on:dragend={(e) => {
+	on:dragstart={() => isDragging.set(true)}
+	on:dragend={() => {
 		isDragging.set(false);
 		ondrop();
 	}}

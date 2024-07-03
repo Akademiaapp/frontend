@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ClientFile, Folder } from '@/api/apiStore';
+	import type { Folder } from '@/api/apiStore';
 	import File from './File.svelte';
 	import FolderItem from './FolderItem.svelte';
 	import { documents } from '@/supabase/supabaseClient';
