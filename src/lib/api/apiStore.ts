@@ -2,10 +2,9 @@ import { get, writable } from 'svelte/store';
 
 import { folders } from '../../routes/workspace/sidebar/sidebarStore';
 import { Folder } from './fileClasses';
-import { documents, type FileInfo } from '@/supabase/supabaseClient';
+import { documents } from '@/supabase/supabaseClient';
 import type { Database, Tables } from '@/supabase.types';
-import type { ClientRow, TableRow } from '@/supastore/types';
-import { Database } from 'lucide-svelte';
+import type { ClientRow } from '@/supastore/types';
 
 export { Folder };
 
@@ -44,14 +43,14 @@ currentStatus.subscribe((status) => {
 	const theCurrentFile = get(currentFile);
 	if (!theCurrentFile) return;
 	if ('status' in theCurrentFile) {
-		currentFile.update((file: Tables<'assignment_answer'>) => {
+		currentFile.update((file: ClientRow<Database, 'assignment_answer'>) => {
 			file.status = status;
 			return file;
 		});
 	}
 });
 
-export function canEditFile(file: FileInfo) {
+export function canEditFile(file: ClientFile) {
 	if (!file) return;
 	if ('status' in file) {
 		// students should only be able to edit files that are NOT submitted or graded

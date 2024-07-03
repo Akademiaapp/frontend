@@ -17,18 +17,9 @@
 
 	let filesElem;
 
-	documents.subscribe(async (value) => {
+	documents.subscribe(async () => {
 		await tick();
 		onscroll({ target: filesElem });
-	});
-
-	let files = { null: [] };
-
-	documents.keyedStore.subscribe((value) => {
-		if ('null' in value) {
-			files = value;
-		}
-		console.log('hdhd');
 	});
 
 	console.log($folders[0].subFolders);
@@ -36,7 +27,7 @@
 
 <div class="cont">
 	<div class="files sidebar-scroll p-1" on:scroll={onscroll} bind:this={filesElem}>
-		<Category name="Fag" folders={$folders[0].subFolders} filePath="Fag/"></Category>
+		<Category name="Fag" folders={$folders[0].subFolders} filePath="Fag"></Category>
 		<Category name="Andet" filePath={'null'}></Category>
 	</div>
 	<div class="splitter"></div>

@@ -3,12 +3,12 @@
 	import { UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { filePermissions, users, type FileInfo } from './../../../../lib/supabase/supabaseClient';
+	import { filePermissions, users } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
-	import { currentFile } from '@/api/apiStore';
+	import { currentFile, type ClientFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
 
 	const permissionTypes = [
@@ -40,7 +40,7 @@
 
 	$: $currentFile && findMembers($currentFile);
 
-	async function findMembers(activeFile: FileInfo) {
+	async function findMembers(activeFile: ClientFile) {
 		people = [];
 
 		const permissions = filePermissions.findAll($currentFile.id, 'file_id');
