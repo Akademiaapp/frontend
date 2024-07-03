@@ -1,12 +1,13 @@
 import type { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import type { SupaStore } from './SupaStore';
-import type { GenericDatabase, SelectResultSingle, TableInsert, TableRow } from './types';
+import type { GenericDatabase, TableInsert, TableRow } from './types';
+import type { Compare } from './compare';
 
 export class RealtimeHandler<
 	D extends GenericDatabase,
 	T extends keyof D['public']['Tables'] & string = keyof D['public']['Tables'] & string, // The main Table
 	// Using hack to create type alias
-	TRow extends TableRow<D, T> = TableRow<D, T>,
+	// TRow extends TableRow<D, T> = TableRow<D, T>,
 	TInsert extends TableInsert<D, T> = TableInsert<D, T>
 > {
 	supaStore: SupaStore<D, T>;
@@ -77,11 +78,12 @@ export class RealtimeHandler<
 	>(
 		channel: RealtimeChannel,
 		table: Table,
-		callback: (payload: RealtimePostgresChangesPayload<TableRow<D, Table>>) => void
+		callback: (payload: RealtimePostgresChangesPayload<TableRow<D, Table>>) => void,
+		filter?: Compare
 	) {
 		return channel.on(
 			'postgres_changes',
-			{ event: '*', schema: 'public', table: table },
+			{ event: '*', schema: 'public', table: table, filter: filter.realtime },
 			(payload) => {
 				callback(payload);
 			}
@@ -94,17 +96,22 @@ export class RealtimeHandler<
 	 * @param table - The name of the table to subscribe to.
 	 */
 	async subscribeSupabase(channel: RealtimeChannel) {
-		this.addAllListener(channel, this.baseTableName, (payload) => {
-			if (payload.eventType === 'INSERT') {
-				this.supaStore.insert(payload.new as unknown as TInsert, false);
-			}
-			if (payload.eventType === 'DELETE') {
-				this.supaStore.delete(payload.old[this.supaStore.unique], undefined, false);
-			}
-			if (payload.eventType === 'UPDATE') {
-				// We use upsert to insert the row if somehow it is not yet in the local
-				this.supaStore.upsert(payload.old[this.supaStore.unique], payload.new, undefined, false);
-			}
-		});
+		this.addAllListener(
+			channel,
+			this.baseTableName,
+			(payload) => {
+				if (payload.eventType === 'INSERT') {
+					this.supaStore.insert(payload.new as unknown as TInsert, false);
+				}
+				if (payload.eventType === 'DELETE') {
+					this.supaStore.delete(payload.old[this.supaStore.unique], undefined, false);
+				}
+				if (payload.eventType === 'UPDATE') {
+					// We use upsert to insert the row if somehow it is not yet in the local
+					this.supaStore.upsert(payload.old[this.supaStore.unique], payload.new, undefined, false);
+				}
+			},
+			this.supaStore.filter
+		);
 	}
 }
