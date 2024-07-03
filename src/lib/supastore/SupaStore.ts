@@ -7,7 +7,7 @@ import type {
 	TableInsert,
 	TableRow
 } from './types';
-import { EQ, type Compare } from './compare';
+import { Compare, EQ } from './compare';
 import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
 import { EventHandler } from './EventHandler';
@@ -82,9 +82,6 @@ export class SupaStore<
 				if (event === 'SIGNED_IN') {
 					setTimeout(async () => {
 						await this.forceFetch();
-						if (this.realtime && !this.realtimeHandler) {
-							console.log('hidii');
-						}
 					}, 1000);
 				} else if (event === 'SIGNED_OUT') {
 					this.store.set([]);
@@ -123,10 +120,17 @@ export class SupaStore<
 		return get(this.store);
 	}
 
+	applyFilter(q) {
+		if (this.filter) {
+			return this.filter.query(q);
+		}
+		return q;
+	}
+
 	async forceFetch(update = true): Promise<TRow[]> {
-		const { data, error } = (await this.supabase
-			.from(this.tableName)
-			.select('*')) as SelectResult<TRow>;
+		const { data, error } = (await this.applyFilter(this.supabase.from(this.tableName)).select(
+			'*'
+		)) as SelectResult<TRow>;
 
 		if (error) {
 			console.error(error);
