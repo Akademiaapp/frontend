@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import type {
 	ClientRow,
 	GenericDatabase,
@@ -46,14 +46,19 @@ export class SupaStore<
 
 	indexedDBHandler: IndexedDBHandler;
 
-	constructor(table: T, supabase: SupabaseClient<D>, settings: SupaStoreSettings = {}) {
+	constructor(
+		table: T,
+		supabase: SupabaseClient<D>,
+		settings: SupaStoreSettings = {},
+		realtimeChannel: RealtimeChannel
+	) {
 		// set needed things
 		this.tableName = table;
 		this.baseTableName = table;
 
 		this.setSettings(settings);
 
-		this.initSupabase(supabase);
+		this.initSupabase(supabase, realtimeChannel);
 	}
 
 	setSettings(settings: SupaStoreSettings) {
@@ -64,19 +69,23 @@ export class SupaStore<
 		this.realtime = settings.realtime ?? true;
 	}
 
-	initSupabase(supabase) {
+	initSupabase(supabase, realtimeChannel: RealtimeChannel) {
 		// init supabase
 		if (this.useServer) {
 			this.supabase = supabase;
+
 			if (this.realtime) {
-				this.realtimeHandler = new RealtimeHandler(this.baseTableName, this);
+				this.realtimeHandler = new RealtimeHandler(this.baseTableName, this, realtimeChannel);
 			}
 
 			this.supabase.auth.onAuthStateChange(async (event) => {
 				if (event === 'SIGNED_IN') {
 					setTimeout(async () => {
 						await this.forceFetch();
-					}, 0);
+						if (this.realtime && !this.realtimeHandler) {
+							console.log('hidii');
+						}
+					}, 1000);
 				} else if (event === 'SIGNED_OUT') {
 					this.store.set([]);
 				}

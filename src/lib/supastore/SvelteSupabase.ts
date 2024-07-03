@@ -9,18 +9,20 @@ export class svelteSupabase<D extends GenericDatabase> extends SupabaseClient<D>
 
 	db;
 	request;
+
+	realtimeChannel = this.channel('custom-all-channel');
 	store<T extends keyof D['public']['Tables'] & string>(
 		table: T,
 		settings: SupaStoreSettings = {}
 	): SupaStore<D, T> {
-		return new SupaStore<D, T>(table, this, settings);
+		return new SupaStore<D, T>(table, this, settings, this.realtimeChannel);
 	}
 
 	keyedStore<T extends keyof D['public']['Tables'] & string>(
 		table: T,
 		settings: SupaStoreSettings = {}
 	): KeyedSupaStore<D, T> {
-		return new KeyedSupaStore<D, T>(table, this, settings);
+		return new KeyedSupaStore<D, T>(table, this, settings, this.realtimeChannel);
 	}
 
 	viewStore<T extends keyof D['public']['Views'] & string>(

@@ -62,6 +62,8 @@ createIndexedDB([
 	filePermissions
 ]);
 
+supabase.realtimeChannel.subscribe();
+
 documents.subscribe((data) => {
 	console.log('documents:', data);
 });
