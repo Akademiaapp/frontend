@@ -101,7 +101,13 @@ export class SupabaseProvider extends EventEmitter {
 			return v;
 		});
 
-		console.log(documents.find(get(currentFile).id).content);
+		if (documents.find(get(currentFile).id).content !== dbDocument) {
+			console.error('Document content does not match the database content');
+			// return;
+			console.log('currentfile', get(currentFile));
+		}
+
+		console.log();
 
 		const res = await this.supabase
 			.from(this.configuration.databaseDetails.table)

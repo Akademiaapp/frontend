@@ -214,9 +214,20 @@ export class SupaStore<
 		server = this.useServer
 	) {
 		this.indexedDBHandler.update(key, d);
-		this.eventHandler.emit('update', key, d, colomn, server);
-		return this._update(d, new EQ(colomn, key), server);
+		this.eventHandler.emit('update', key, d, colomn, server, false);
+		return this._update(d, new EQ(colomn, key), server, false);
 	}
+	async updateAll(
+		key,
+		d: Partial<TRow>,
+		colomn: keyof TRow = this.unique as keyof TRow,
+		server = this.useServer
+	) {
+		this.indexedDBHandler.update(key, d);
+		this.eventHandler.emit('update', key, d, colomn, server, true);
+		return this._update(d, new EQ(colomn, key), server, true);
+	}
+
 	async upsert(
 		key,
 		d: TInsert,
@@ -231,11 +242,21 @@ export class SupaStore<
 		}
 	}
 
-	async _update(changes, compare: Compare, server = this.useServer) {
+	async _update(changes, compare: Compare, server = this.useServer, multiple = false) {
 		// apply the changes to the localy
-		this.store.update((prev) =>
-			prev.map((row) => (compare.checkRow(row) ? { ...row, ...changes } : row))
-		);
+
+		this.store.update((prev) => {
+			const rowsToUpdate = multiple
+				? prev.filter((row) => compare.checkRow(row))
+				: [prev.find((row) => compare.checkRow(row))];
+
+			for (const row of rowsToUpdate) {
+				// We use Object.assign to apply it directly to the row, instead of chaning it
+				// This makes it possible to change to keep a reference to the row
+				Object.assign(row, changes);
+			}
+			return prev;
+		});
 
 		if (!server) return;
 
