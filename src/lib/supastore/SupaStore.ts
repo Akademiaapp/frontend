@@ -12,6 +12,7 @@ import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
 import { EventHandler } from './EventHandler';
 import { RealtimeHandler } from './RealtimeHandler';
+import { Database } from '@/supabase.types';
 
 export class SupaStore<
 	D extends GenericDatabase,
@@ -302,3 +303,12 @@ export class SupaStore<
 		}
 	}
 }
+
+class Row<T> {
+	constructor(public data: T) {
+		Object.assign(this, data);
+	}
+}
+
+const row: ClientRow<Database, 'document'> = new Row<ClientRow<Database, 'document'>>({});
+row.table;
