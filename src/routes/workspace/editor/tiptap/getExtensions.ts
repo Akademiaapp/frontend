@@ -12,6 +12,7 @@ import { FontSize } from './extensions/FontSize';
 import { userInfo } from '../../../store';
 
 export default function getExtensions(provider = null, isAssignment = false) {
+	if (isAssignment) console.log('is assignment');
 	return [
 		...EditorExtensions,
 		...(provider ? getCollabExtensions(provider) : []),

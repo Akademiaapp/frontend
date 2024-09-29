@@ -39,7 +39,11 @@
 		return new Date(date.toDate(getLocalTimeZone()).setHours(hours, minutes));
 	}
 
-	$: assignments.update($currentFile.id, { due_date: getDateWithTime(date, time).toISOString() });
+	function updDueDate(date, time) {
+		assignments.update($currentFile.id, { due_date: getDateWithTime(date, time).toISOString() });
+	}
+
+	$: updDueDate(date, time);
 
 	let editable = true;
 	$: editable = canEditFile($currentFile);

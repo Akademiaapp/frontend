@@ -1,7 +1,7 @@
 import type { AuthSession } from '@supabase/supabase-js';
 import type { Tables } from '$lib/supabase.types';
 
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 
 export const themeVariant = writable(localStorage.getItem('themeVariant') || 'light');
 

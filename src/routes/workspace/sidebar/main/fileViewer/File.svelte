@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { type ClientFile } from './../../../../../lib/api/apiStore';
 	import { currentFile } from '@/api/apiStore';
 	import { File, Notebook } from 'lucide-svelte';
 	import { draggingFile } from '../../sidebarStore';
-	import type { Tables } from '@/supabase.types';
 	import { getFileType } from '@/api/helpers';
-	export let file: Tables<'document' | 'assignment' | 'assignment_answer'>;
+	export let file: ClientFile;
 	export let onClick = () => {
 		currentFile.set(file);
 	};
@@ -14,7 +14,7 @@
 		active = file.id == $currentFile.id;
 	}
 
-	window.onclick = (e) => {
+	window.onclick = () => {
 		draggingFile.set(null);
 	};
 </script>
@@ -24,8 +24,8 @@
 	draggable="true"
 	role="button"
 	tabindex="0"
-	on:dragstart={(e) => draggingFile.set(file)}
-	on:dragend={(e) => {
+	on:dragstart={() => draggingFile.set(file)}
+	on:dragend={() => {
 		draggingFile.set(null);
 	}}
 	class:active

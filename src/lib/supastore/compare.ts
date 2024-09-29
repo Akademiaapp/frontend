@@ -1,9 +1,17 @@
 export class Compare {
 	colomn;
 	value;
+
+	realtime: string;
 	constructor(colomn, value) {
 		this.colomn = colomn;
 		this.value = value;
+
+		this.realtime = `${this.colomn}=${this.name}.${this.value}`;
+	}
+
+	get name() {
+		return this.constructor.name.toLowerCase();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

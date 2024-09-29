@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fromUint8Array, toUint8Array } from 'js-base64';
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, EditorContent } from 'svelte-tiptap';
 
@@ -7,14 +8,15 @@
 	import getExtensions from './getExtensions';
 
 	import { SupabaseProvider } from '@/supabase/supabaseProvider';
-	import { documents, supabase } from '@/supabase/supabaseClient';
+	import { supabase } from '@/supabase/supabaseClient';
 
 	import * as Y from 'yjs';
-	import type { Tables } from '@/supabase.types';
 
 	let provider: SupabaseProvider;
 
-	$: if ($currentFile) initializeTiptap($currentFile);
+	let currentFileId = '';
+
+	$: if ($currentFile.id && $currentFile.id != currentFileId) initializeTiptap($currentFile.id);
 	$: if ($answer) initializeTiptap(null);
 
 	// this is needed
@@ -26,13 +28,15 @@
 	let editable = true;
 	$: editable = canEditFile($currentFile);
 
-	function initializeTiptap(
-		initcurrentFile: Tables<'assignment' | 'assignment_answer' | 'document'> | null
-	) {
-		if (!initcurrentFile && !$answer) {
+	onMount(() => {
+		console.log('mounted');
+	});
+
+	function initializeTiptap(fileID: string | null) {
+		if (!fileID && !$answer) {
 			return;
 		}
-		let fileName = $answer ? $answer : initcurrentFile.id;
+		let fileName = $answer ? $answer : fileID;
 		if (!fileName) {
 			return;
 		}
@@ -43,11 +47,17 @@
 
 		const document = new Y.Doc();
 
+		if ($currentFile.content) {
+			console.log('Used cashed information');
+			const dbDocument = toUint8Array($currentFile.content);
+			Y.applyUpdate(document, dbDocument);
+		}
+
 		provider = new SupabaseProvider(supabase, {
 			name: fileName,
 			databaseDetails: {
 				schema: 'public',
-				table: 'document',
+				table: $currentFile.table.tableName,
 				updateColumns: {
 					name: 'id',
 					content: 'content'
@@ -58,9 +68,11 @@
 		});
 		connected = true;
 
+		currentFileId = fileName;
+
 		editor.set(
 			new Editor({
-				extensions: getExtensions(provider, 'isPublic' in $currentFile && !$answer),
+				extensions: getExtensions(provider, 'is_public' in $currentFile),
 				editable: editable,
 				onCreate: ({ editor }) => {
 					editor.view.dom.setAttribute('spellcheck', 'false');
@@ -80,12 +92,12 @@
 						currentFileName = title;
 						if ($currentFile != null) {
 							// Update the value for the specified key
-							documents.update(
-								$currentFile.id,
-								{
-									name: title
-								},
-							);
+							console.log($currentFile.table);
+							$currentFile.table.update($currentFile.id, {
+								name: title
+							});
+
+							$currentFile.name = title;
 						}
 					}
 
@@ -119,9 +131,11 @@
 		);
 	}
 
-	onMount(() => {
-		initializeTiptap($currentFile);
-	});
+	// onMount(() => {
+	// 	if ($currentFile.id) {
+	// 		initializeTiptap($currentFile.id);
+	// 	}
+	// });
 
 	onDestroy(() => {
 		$editor?.destroy();

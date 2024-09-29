@@ -9,47 +9,45 @@
 </script>
 
 {#if $userInfo}
-<div class="cage">
-	<DropdownMenu.Root portal={null}>
-		<DropdownMenu.Trigger asChild let:builder>
-			<Button builders={[builder]} variant="link" class="p-0">
-				{#if $userInfo.avatar_url}
+	<div class="cage">
+		<DropdownMenu.Root portal={null}>
+			<DropdownMenu.Trigger asChild let:builder>
+				<Button builders={[builder]} variant="link" class="p-0">
+					{#if $userInfo.avatar_url}
 						<img
 							class="avatar br-2"
 							src={$userInfo.avatar_url}
 							alt="User avatar"
 							referrerpolicy="no-referrer"
 						/>
-				{:else}
-					<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
-						{#if $userInfo}
-							<h3 class="m-0 p-0 text-base">
-								{$userInfo?.full_name.split(' ')[0][0]+$userInfo?.full_name.split(' ')[1][0]}
-							</h3>
-						{:else}
-							<h3 class="m-0 p-0 text-base">
-								??
-							</h3>
-						{/if}
-					</div>
-				{/if}
-			</Button>
-		</DropdownMenu.Trigger>
-		<DropdownMenu.Content class="w-60">
-			<DropdownMenu.Label>My Account</DropdownMenu.Label>
-			<DropdownMenu.Separator />
-			<DropdownMenu.Group>
-				<DropdownMenu.Item on:click={() => goto('/settings')}>
-					<Settings class="h-4 w-4" />
-					<span>Settings</span>
-				</DropdownMenu.Item>
-				<DropdownMenu.Item on:click={() => goto('/settings/account')}>
-					<User class="h-4 w-4" />
-					<span>Profile</span>
-				</DropdownMenu.Item>
-			</DropdownMenu.Group>
-			<DropdownMenu.Separator />
-			<!-- <DropdownMenu.Item
+					{:else}
+						<div class="avatar br-2 grid place-items-center bg-primary text-primary-foreground">
+							{#if $userInfo}
+								<h3 class="m-0 p-0 text-base">
+									{$userInfo?.full_name.split(' ')[0][0] + $userInfo?.full_name.split(' ')[1][0]}
+								</h3>
+							{:else}
+								<h3 class="m-0 p-0 text-base">??</h3>
+							{/if}
+						</div>
+					{/if}
+				</Button>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content class="w-60">
+				<DropdownMenu.Label>My Account</DropdownMenu.Label>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Group>
+					<DropdownMenu.Item on:click={() => goto('/settings')}>
+						<Settings class="h-4 w-4" />
+						<span>Settings</span>
+					</DropdownMenu.Item>
+					<DropdownMenu.Item on:click={() => goto('/settings/account')}>
+						<User class="h-4 w-4" />
+						<span>Profile</span>
+					</DropdownMenu.Item>
+				</DropdownMenu.Group>
+				<DropdownMenu.Separator />
+				<!-- <DropdownMenu.Item
 				on:click={() => {
 					window.location.href = 'https://github.com/akademiaapp/';
 				}}
@@ -66,23 +64,22 @@
 				<span>API Status</span>
 			</DropdownMenu.Item>
 			<DropdownMenu.Separator /> -->
-			<DropdownMenu.Item
-				on:click={() => {
-					supabase.auth.signOut({ scope: 'local' });
-					goto('/onboarding/login');
-				}}
-			>
-				<LogOut class="h-4 w-4" />
-				<span>Log out</span>
-			</DropdownMenu.Item>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
-	{#if name && $userInfo}
-		<p>
-			{$userInfo.full_name.split(' ')[0]}
-		</p>
-	{/if}
-</div>
+				<DropdownMenu.Item
+					on:click={() => {
+						supabase.auth.signOut({ scope: 'local' });
+					}}
+				>
+					<LogOut class="h-4 w-4" />
+					<span>Log out</span>
+				</DropdownMenu.Item>
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+		{#if name && $userInfo}
+			<p>
+				{$userInfo.full_name.split(' ')[0]}
+			</p>
+		{/if}
+	</div>
 {/if}
 
 <style lang="scss">

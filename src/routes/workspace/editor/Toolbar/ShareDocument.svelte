@@ -3,12 +3,12 @@
 	import { UserRoundPlus } from 'lucide-svelte';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { Button } from '$lib/components/ui/button';
-	import { filePermissions, users, type FileInfo } from './../../../../lib/supabase/supabaseClient';
+	import { filePermissions, users } from './../../../../lib/supabase/supabaseClient';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Separator } from '$lib/components/ui/separator';
-	import { currentFile } from '@/api/apiStore';
+	import { currentFile, type ClientFile } from '@/api/apiStore';
 	import { page } from '$app/stores';
 
 	const permissionTypes = [
@@ -40,19 +40,17 @@
 
 	$: $currentFile && findMembers($currentFile);
 
-	async function findMembers(activeFile: FileInfo) {
+	async function findMembers(activeFile: ClientFile) {
 		people = [];
 
 		const permissions = filePermissions.findAll($currentFile.id, 'file_id');
 
-		
-
 		people = permissions.map((p) => {
-			const person = users.find(p.user_id)
+			const person = users.find(p.user_id);
 
 			// if i dont find a person this is likely due to not having access to that user
 			if (!person) return;
-			
+
 			const permission = permissions.find((p) => p.user_id === person.id).permission;
 			const permissionObject = permissionTypes.find((p) => p.value === permission);
 
@@ -60,10 +58,10 @@
 				name: person.full_name,
 				username: person.username,
 				avatar: person.avatar_url || '',
-				permission: permissionObject,
+				permission: permissionObject
 			};
 		});
-		
+
 		people = people;
 	}
 
@@ -80,9 +78,7 @@
 		inviteUserToDocument(username, $currentFile.id);
 	}
 
-	function inviteUserToDocument(username: string, document_id: string) {
-    
-	}
+	function inviteUserToDocument(username: string, document_id: string) {}
 
 	export let open = false;
 

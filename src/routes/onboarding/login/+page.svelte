@@ -10,7 +10,8 @@
 
 	supabase.auth.onAuthStateChange((event, session) => {
 		isLoading = true;
-		if (session && event === "INITIAL_SESSION") {
+		if (session && event === 'INITIAL_SESSION') {
+			console.log('initial session');
 			redirect().catch(console.error);
 		} else {
 			isLoading = false;

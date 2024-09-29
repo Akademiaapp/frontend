@@ -43,7 +43,7 @@
 	let minWidth = 275;
 
 	let slimSidebarWidth = 54.4;
-	function handleMouseDown(event) {
+	function handleMouseDown() {
 		window.addEventListener('mousemove', handleMouseMove);
 		window.addEventListener('mouseup', () => {
 			window.removeEventListener('mousemove', handleMouseMove);

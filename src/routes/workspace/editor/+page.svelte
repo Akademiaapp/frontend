@@ -21,24 +21,15 @@
 	}
 
 	if (!$currentFile) {
-		if (apiType === 'documents') {
-			$documents.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
-		} else if (apiType === 'assignmentAnswers') {
-			$assignmentAnswers.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
-		} else if (apiType === 'assignments') {
-			$assignments.map((doc) => {
-				if (doc.id === id) {
-					currentFile.set(doc);
-				}
-			});
+		if (apiType === 'document') {
+			const doc = documents.find(id);
+			currentFile.set(doc);
+		} else if (apiType === 'assignment_answer') {
+			const doc = assignmentAnswers.find(id);
+			currentFile.set(doc);
+		} else if (apiType === 'assignment') {
+			const doc = assignments.find(id);
+			currentFile.set(doc);
 		}
 	}
 	let value;
@@ -58,7 +49,7 @@
 				Din lærer har givet feedback på denne opgave. Du har fået {'grade' in $currentFile &&
 					$currentFile.grade}.
 			</p>
-		{:else if 'isPublic' in $currentFile && $currentFile.isPublic}
+		{:else if 'is_public' in $currentFile && $currentFile.is_public}
 			<p>Denne opgave er offentlig og kan ikke redigeres.</p>
 			<AnswerSelector />
 		{:else}

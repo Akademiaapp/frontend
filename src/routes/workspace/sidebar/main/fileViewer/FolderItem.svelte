@@ -13,7 +13,10 @@
 
 	let blue = false;
 
-	function findAndRemoveFile(folders: Folder[], fileTobeRemoved: Tables<'document' | 'assignment' | 'assignment_answer'>) {
+	function findAndRemoveFile(
+		folders: Folder[],
+		fileTobeRemoved: Tables<'document' | 'assignment' | 'assignment_answer'>
+	) {
 		for (const folder of folders) {
 			const index = folder.files.findIndex((f) => f.id == fileTobeRemoved.id);
 			if (index != -1) {
@@ -76,10 +79,10 @@
 	</div>
 
 	<div class="w-full pl-5">
-		{#if open}
+		{#if true}
 			<!-- content here -->
 			<div class="sub-files flex flex-col" transition:slide>
-				<FileList folders={folder.subFolders} files={folder.files}></FileList>
+				<FileList folders={folder.subFolders} filePath={folder.name}></FileList>
 			</div>
 		{/if}
 	</div>

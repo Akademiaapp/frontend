@@ -1,18 +1,12 @@
-import type { Tables } from '@/supabase.types';
-import type { FileInfo } from '@/supabase/supabaseClient';
+import type { ClientFile } from './apiStore';
 
 export class Folder {
 	name: string;
 	subFolders: Folder[];
-	files: FileInfo[];
+	files: ClientFile[];
 	emoji: string = '';
 
-	constructor(info: {
-		name: string;
-		subFolders: Folder[];
-		files: Tables<'document'>[];
-		emoji?: string;
-	}) {
+	constructor(info: { name: string; subFolders: Folder[]; files: ClientFile[]; emoji?: string }) {
 		this.name = info.name;
 		this.subFolders = info.subFolders;
 		this.files = info.files;

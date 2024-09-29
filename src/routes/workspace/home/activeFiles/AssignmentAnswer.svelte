@@ -25,7 +25,7 @@
 </script>
 
 <a
-	href={'/workspace/editor?id=' + id + '&type=assignmentAnswers'}
+	href={'/workspace/editor?id=' + id + '&type=assignment_answer'}
 	class="reset activeFile frontground"
 	transition:scale
 >

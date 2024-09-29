@@ -1,4 +1,5 @@
 <script lang="ts">
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = import('svelte/elements').HTMLAttributes<HTMLDivElement> & {
 		active?: boolean;
 		clickable?: boolean;

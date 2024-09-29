@@ -3,7 +3,7 @@
 
 	export let name;
 	export let folders = [];
-	export let files = [];
+	export let filePath;
 
 	export let open = true;
 </script>
@@ -15,5 +15,5 @@
 </button>
 
 {#if open}
-	<FileList {folders} {files}></FileList>
+	<FileList {folders} {filePath}></FileList>
 {/if}
