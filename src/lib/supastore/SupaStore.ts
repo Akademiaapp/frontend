@@ -12,7 +12,7 @@ import { get, writable } from 'svelte/store';
 import { IndexedDBHandler } from './indexedDB';
 import { EventHandler } from './EventHandler';
 import { RealtimeHandler } from './RealtimeHandler';
-import { Database } from '@/supabase.types';
+import type { Database } from '@/supabase.types';
 
 export class SupaStore<
 	D extends GenericDatabase,

@@ -89,6 +89,10 @@
 	</div>
 {/if}
 
+<div class="absolute -right-12 top-6 text-xl p-1 overflow-visible w-48 text-center bg-yellow-300 rotate-45">
+	<b>Beta!</b>
+</div>
+
 <!-- <ServiceWorker /> -->
 <Toaster />
 

@@ -1,5 +1,5 @@
 import { tomorrow } from '@/utils/dateUtils';
-import type { Database, Tables } from '../supabase.types';
+import type { Database } from '../supabase.types';
 
 import { isOnline } from '../../routes/store';
 import { get } from 'svelte/store';
