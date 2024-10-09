@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { session, userInfo } from './store';
+	import { Info, X } from 'lucide-svelte';
 
 	const themes = {
 		default: {
@@ -72,6 +73,8 @@
 	$: if (!$session && $isOnline) {
 		goto('/onboarding/login');
 	}
+
+	let bannerHeight = '3rem';
 </script>
 
 <svelte:head>
@@ -84,14 +87,31 @@
 </svelte:head>
 
 {#if ($session && $userInfo) || $page.url.pathname.includes('/onboarding') || !isOnline}
-	<div class="app">
-		<slot />
+	<div class="h-[100vh] overflow-auto pt-[--nb-h]" style:--nb-h={bannerHeight}>
+		{#if bannerHeight !== '0px'}
+			<div
+				class="sticky top-0 mx-2.5 -mb-[--nb-h] flex h-[--nb-h] -translate-y-[--nb-h] items-center gap-1 rounded-b-sm bg-blue-300 px-2.5"
+			>
+				<Info class="h-5"></Info>
+				<p>
+					<b>Beta Version:</b> Things might be a little rough around the edges. Thank you for your patience!
+				</p>
+				<div class="flex-1"></div>
+				<button
+					on:click={() => {
+						bannerHeight = '0px';
+					}}
+				>
+					<X class="h-5"></X>
+				</button>
+			</div>
+		{/if}
+
+		<div class="app">
+			<slot />
+		</div>
 	</div>
 {/if}
-
-<div class="absolute -right-12 top-6 text-xl p-1 overflow-visible w-48 text-center bg-yellow-300 rotate-45 z-50">
-	<b>Beta!</b>
-</div>
 
 <!-- <ServiceWorker /> -->
 <Toaster />
@@ -99,6 +119,6 @@
 <style>
 	.app {
 		flex-direction: column;
-		min-height: 100vh;
+		min-height: calc(100vh - var(--nb-h));
 	}
 </style>
