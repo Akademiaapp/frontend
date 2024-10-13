@@ -90,7 +90,7 @@
 	<div class="h-[100vh] overflow-auto pt-[--nb-h]" style:--nb-h={bannerHeight}>
 		{#if bannerHeight !== '0px'}
 			<div
-				class="sticky top-0 mx-2.5 -mb-[--nb-h] flex h-[--nb-h] -translate-y-[--nb-h] items-center gap-1 rounded-b-sm bg-blue-300 px-2.5"
+				class="sticky top-0 mx-[--pad] -mb-[--nb-h] flex h-[--nb-h] -translate-y-[--nb-h] items-center gap-1 rounded-b-sm bg-blue-300 px-2.5"
 			>
 				<Info class="h-5"></Info>
 				<p>
