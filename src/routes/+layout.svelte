@@ -94,7 +94,7 @@
 			>
 				<Info class="h-5"></Info>
 				<p>
-					<b>Head up!</b> This app is barely out of the oven - many things are still broken or missing.
+					<b>Early Beta:</b> Some features are not working yet – thanks for your patience!
 				</p>
 				<div class="flex-1"></div>
 				<button
